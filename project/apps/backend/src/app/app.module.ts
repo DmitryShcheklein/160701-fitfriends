@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AppConfigModule } from './config/app-config.module';
+import { getMongooseOptions } from './config/configurations/mongo/get-mongoose-options';
+import { SwaggerService } from './services/swagger.service';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [AppConfigModule, MongooseModule.forRootAsync(getMongooseOptions())],
+  controllers: [],
+  providers: [SwaggerService],
 })
 export class AppModule {}
