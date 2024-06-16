@@ -1,0 +1,9 @@
+{
+  "name": "backend-helpers",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backend/helpers/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project backend-helpers --web",
+  "targets": {}
+}

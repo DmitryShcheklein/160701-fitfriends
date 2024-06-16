@@ -1,6 +1,6 @@
 import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
-import { getMongoConnectionString } from '../../../helpers';
+import { getMongoConnectionString } from '@project/backend-helpers';
 
 export function getMongooseOptions(
   optionSpace = 'db'
