@@ -20,6 +20,9 @@
       "@project/config": ["libs/config/src/index.ts"],
       "@project/core": ["libs/core/src/index.ts"],
       "@project/dto": ["libs/dto/src/index.ts"],
+      "@project/file-uploader": [
+        "libs/backend/modules/file-uploader/src/index.ts"
+      ],
       "@project/hasher-module": ["libs/backend/modules/hasher/src/index.ts"],
       "@project/mail-module": ["libs/backend/modules/mail/src/index.ts"],
       "@project/rdo": ["libs/rdo/src/index.ts"],
