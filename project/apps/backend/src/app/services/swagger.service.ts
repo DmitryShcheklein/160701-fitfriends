@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { DocumentBuilder, SwaggerCustomOptions } from '@nestjs/swagger';
-import { appConfig } from '../config/configurations/app.config';
+import { AuthKeyName, appConfig } from '@project/config';
 
 @Injectable()
 export class SwaggerService {
@@ -37,5 +37,3 @@ export class SwaggerService {
     return { config, swaggerCustomOptions };
   }
 }
-
-export const AuthKeyName = 'token';
