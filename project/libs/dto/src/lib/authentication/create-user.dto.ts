@@ -31,4 +31,18 @@ export class CreateUserDto {
   @MaxLength(User.Password.Max)
   @IsString()
   public password!: string;
+
+  public avatarPath?: string;
+}
+
+export class CreateUserDtoWithAvatarFile extends CreateUserDto {
+  @ApiProperty({
+    required: false,
+    description: 'User profile picture PNG or JPG file',
+    type: 'string',
+    format: 'binary',
+    enum: ['image/png', 'image/jpeg', 'image/jpg'],
+    maxLength: 100,
+  })
+  public avatar?: Express.Multer.File;
 }

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@project/core';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class UserRdo implements User {
   @Expose()
@@ -31,4 +31,12 @@ export class UserRdo implements User {
     example: '2024-01-09T14:55:34.697Z',
   })
   public createdAt!: Date;
+
+  @Expose()
+  @ApiProperty({
+    description: 'User avatar path',
+    example: 'http://localhost:3333/static/avatar.png',
+  })
+  @Transform(({ value }) => (value === undefined ? null : value))
+  public avatarPath!: string | null;
 }

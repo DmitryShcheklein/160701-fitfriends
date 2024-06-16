@@ -5,6 +5,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public email!: string;
   public firstname!: string;
   public passwordHash!: string;
+  public avatarPath!: string;
 
   constructor(user?: AuthUser) {
     super();
@@ -22,6 +23,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     this.passwordHash = user.passwordHash;
     this.createdAt = user.createdAt;
     this.passwordHash = user.passwordHash;
+    this.avatarPath = user.avatarPath;
   }
 
   public toPOJO(): AuthUser {
@@ -31,6 +33,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       firstname: this.firstname,
       createdAt: this.createdAt,
       passwordHash: this.passwordHash,
+      avatarPath: this.avatarPath,
     };
   }
 

@@ -27,6 +27,11 @@ export class UserModel extends Document implements AuthUser {
     required: true,
   })
   public passwordHash!: string;
+
+  @Prop({
+    default: null,
+  })
+  public avatarPath!: string | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
