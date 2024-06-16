@@ -1,8 +1,8 @@
 import { Document, Model, UpdateQuery } from 'mongoose';
 import { NotFoundException } from '@nestjs/common';
-import { StorableEntity, EntityFactory } from '@project/core';
-import { Entity } from '@project/core';
 import { Repository } from './repository.interface';
+import { EntityFactory, StorableEntity } from '../interfaces';
+import { Entity } from '../base';
 
 export abstract class BaseMongoRepository<
   T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>,
