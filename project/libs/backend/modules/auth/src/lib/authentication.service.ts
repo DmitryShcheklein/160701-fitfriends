@@ -13,8 +13,8 @@ import { Hasher, HasherComponent } from '@project/hasher-module';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'node:crypto';
 import { UserRepository, UserEntity } from '@project/user-module';
-import { CreateUserDto, LoginUserDto } from '@project/dto';
-
+import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
+import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
 import { RefreshTokenService } from '@project/refresh-token';
 
@@ -28,11 +28,12 @@ export class AuthenticationService {
     private readonly jwtRefreshService: JwtService,
     @Inject(HasherComponent.Service)
     private readonly hasherService: Hasher,
-    private readonly refreshTokenService: RefreshTokenService
+    private readonly refreshTokenService: RefreshTokenService,
+    private readonly fileUploaderService: FileUploaderService
   ) {}
 
-  public async register(dto: CreateUserDto): Promise<UserEntity> {
-    const { email, firstname, password } = dto;
+  public async register(dto: CreateUserDtoWithAvatarFile): Promise<UserEntity> {
+    const { email, firstname, password, avatar } = dto;
     const existUser = await this.userRepository.findByEmail(email);
 
     if (existUser) {
@@ -42,11 +43,15 @@ export class AuthenticationService {
     const passwordHash = await this.hasherService.generatePasswordHash(
       password
     );
+    const avatarFile = (
+      await this.fileUploaderService.saveFile(avatar)
+    )?.toPOJO();
 
     const newUser: AuthUser = {
       email,
       firstname,
       passwordHash,
+      avatarPath: avatarFile.path,
     };
 
     const userEntity = new UserEntity(newUser);

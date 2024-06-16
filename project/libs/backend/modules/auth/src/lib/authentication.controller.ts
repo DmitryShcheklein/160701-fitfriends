@@ -6,7 +6,9 @@ import {
   HttpStatus,
   Post,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { fillDto, generateSchemeApiError } from '@project/backend-helpers';
 import {
@@ -18,6 +20,7 @@ import {
   ApiOkResponse,
   ApiUnauthorizedResponse,
   ApiOperation,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { ResponseMessage } from './authentication.constant';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -26,9 +29,12 @@ import { RequestWithUser } from './request-with-user.interface';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
-import { CreateUserDto, LoginUserDto } from '@project/dto';
+import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
 import { AuthenticationService } from './authentication.service';
 import { LoggedUserRdo, RefreshUserRdo, UserRdo } from '@project/rdo';
+import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
+import { FileValidationPipe } from '@project/pipes';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -39,6 +45,7 @@ export class AuthenticationController {
     type: UserRdo,
     description: ResponseMessage.UserCreated,
   })
+  @ApiConsumes('multipart/form-data')
   @ApiConflictResponse({
     description: ResponseMessage.UserExist,
     schema: generateSchemeApiError(
@@ -53,9 +60,23 @@ export class AuthenticationController {
   @ApiOperation({
     summary: 'Регистрация',
   })
+  @UseInterceptors(FileInterceptor('avatar'))
   @Post('register')
-  public async create(@Body() dto: CreateUserDto) {
-    const newUser = await this.userService.register(dto);
+  public async create(
+    @Body() dto: CreateUserDtoWithAvatarFile,
+    @UploadedFile(
+      new FileValidationPipe(
+        User.Avatar.FileMaxSize,
+        ALLOWED_IMG_MIMETYPES,
+        true
+      )
+    )
+    file: Express.Multer.File
+  ) {
+    const newUser = await this.userService.register({
+      ...dto,
+      avatar: file,
+    });
 
     return fillDto(UserRdo, newUser.toPOJO());
   }
