@@ -84,7 +84,7 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   public location: UserLocation;
 
   @ApiProperty({
-    description: 'User location',
+    description: 'User role',
     example: UserRole.User,
     enum: UserRole,
   })
@@ -98,7 +98,7 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
     example: true,
   })
   @IsBoolean()
-  @Transform(({ value} ) => value === 'true')
+  @Transform(({ value }) => value === 'true')
   @IsOptional()
   public trainingReadiness: boolean;
 }

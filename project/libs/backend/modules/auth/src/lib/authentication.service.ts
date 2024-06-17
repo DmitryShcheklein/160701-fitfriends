@@ -54,8 +54,6 @@ export class AuthenticationService {
     };
 
     const userEntity = new UserEntity(newUser);
-    console.log(userEntity.toPOJO());
-
     const newEntity = await this.userRepository.save(userEntity);
 
     return newEntity;
