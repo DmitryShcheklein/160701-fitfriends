@@ -13,9 +13,6 @@ export { StoredFile } from './file-vault/stored-file.interface';
 // Notify
 export { Subscriber } from './notify/subscriber.interface';
 
-// Products
-export { Product } from './product/product.interface';
-export { ProductsFilter } from './product/products-filter.interface';
 // Users
 export { User } from './users/user.interface';
 export { AuthUser } from './users/auth-user.interface';
