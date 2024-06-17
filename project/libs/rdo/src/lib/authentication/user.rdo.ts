@@ -2,7 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@project/core';
 import { Expose, Transform } from 'class-transformer';
 
-export class UserRdo implements User {
+export class UserRdo
+  implements
+    Pick<User, 'id' | 'email' | 'firstname' | 'createdAt' | 'avatarPath'>
+{
   @Expose()
   @ApiProperty({
     description: 'The uniq user ID',

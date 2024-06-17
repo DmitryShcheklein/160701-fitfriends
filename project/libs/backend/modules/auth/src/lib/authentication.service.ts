@@ -33,7 +33,7 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDtoWithAvatarFile): Promise<UserEntity> {
-    const { email, firstname, password, avatar } = dto;
+    const { email, password, avatar } = dto;
     const existUser = await this.userRepository.findByEmail(email);
 
     if (existUser) {
@@ -48,13 +48,14 @@ export class AuthenticationService {
     )?.toPOJO();
 
     const newUser: AuthUser = {
-      email,
-      firstname,
+      ...dto,
       passwordHash,
-      avatarPath: avatarFile.path,
+      avatarPath: avatarFile?.path,
     };
 
     const userEntity = new UserEntity(newUser);
+    console.log(userEntity.toPOJO());
+
     const newEntity = await this.userRepository.save(userEntity);
 
     return newEntity;

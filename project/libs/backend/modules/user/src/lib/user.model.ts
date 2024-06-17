@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { AuthUser } from '@project/core';
+import { AuthUser, UserGender, UserLocation, UserRole } from '@project/core';
 import { User } from '@project/validation';
 
 @Schema({
@@ -32,6 +32,46 @@ export class UserModel extends Document implements AuthUser {
     default: null,
   })
   public avatarPath!: string | null;
+
+  @Prop({
+    default: null,
+  })
+  public backgroundPath!: string | null;
+
+  @Prop({ type: Date })
+  public dateOfBirth?: Date;
+
+  @Prop({
+    type: String,
+    minlength: User.Description.Min,
+    maxlength: User.Description.Max,
+  })
+  public description: string;
+
+  @Prop({
+    required: true,
+    type: String,
+    enum: UserRole,
+    default: UserRole.User,
+  })
+  public role: UserRole;
+
+  @Prop({
+    required: true,
+    type: String,
+    enum: UserLocation,
+  })
+  public location: UserLocation;
+
+  @Prop({
+    required: true,
+    type: String,
+    enum: UserGender,
+  })
+  public gender: UserGender;
+
+  @Prop({ required: false, default: false })
+  public trainingReadiness!: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
