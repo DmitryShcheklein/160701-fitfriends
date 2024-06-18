@@ -20,6 +20,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "classnames": "^2.5.1",
     "compose-function": "^3.0.3",
     "dayjs": "^1.11.11",
     "form-data": "^4.0.0",
