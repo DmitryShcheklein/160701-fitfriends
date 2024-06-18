@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { PageTitles } from '../../shared/const';
+import ErrorScreen from '../../components/error-screen/error-screen';
 
 const Page404 = () => (
   <>
@@ -7,7 +8,7 @@ const Page404 = () => (
       <title>{PageTitles.Page404}</title>
     </Helmet>
 
-    <h1>Ошибка 404</h1>
+    <ErrorScreen />
   </>
 );
 

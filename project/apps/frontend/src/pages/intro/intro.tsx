@@ -1,7 +1,14 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../shared/const';
+import { Link, Navigate } from 'react-router-dom';
+import { AppRoute, AuthStatus } from '../../shared/const';
+import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 
 const IntroPage = () => {
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  if (authStatus === AuthStatus.Auth) {
+    return <Navigate to={AppRoute.Index} />;
+  }
+
   return (
     <div className="wrapper">
       <main>
