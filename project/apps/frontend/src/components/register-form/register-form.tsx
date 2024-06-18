@@ -229,9 +229,17 @@ const RegisterForm: React.FC = () => {
                     </span>
                   </label>
                 </div>
+
                 <button className="btn sign-up__button" type="submit">
                   Продолжить
                 </button>
+                <br></br>
+                <Link
+                  className="btn btn--small btn--outlined"
+                  to={AppRoute.Login}
+                >
+                  Уже зарегистрированы?
+                </Link>
               </div>
             </form>
           </div>

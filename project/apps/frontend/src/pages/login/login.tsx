@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus, PageTitles } from '../../shared/const';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../store/auth-process/auth-api';
@@ -98,6 +98,13 @@ const LoginPage = () => {
                   >
                     Продолжить
                   </button>
+                  <br />
+                  <Link
+                    className="btn btn--small btn--outlined"
+                    to={AppRoute.Register}
+                  >
+                    Зарегистрироваться?
+                  </Link>
                 </div>
               </form>
             </div>
