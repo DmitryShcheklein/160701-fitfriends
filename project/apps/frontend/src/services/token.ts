@@ -1,6 +1,6 @@
 export enum TOKEN_KEY_NAME {
-  Access = 'gitar-shop-access',
-  Refresh = 'gitar-shop-refresh',
+  Access = 'fitFriends-access',
+  Refresh = 'fitFriends-refresh',
 }
 
 export type Token = string;

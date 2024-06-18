@@ -1,8 +1,10 @@
 const AppRoute = {
-  Root: '/',
+  Intro: '/intro',
+  Index: '/',
   Login: '/login',
   Register: '/regiser',
-  Main: '/main',
+  Profile: '/profile',
+  Friends: '/friends',
   ErrorPage: '/page404',
 } as const;
 
@@ -13,7 +15,8 @@ enum AuthStatus {
 }
 
 enum PageTitles {
-  Root = 'Разводящая — FitFriends',
+  Intro = 'Разводящая — FitFriends',
+  Index = 'Главная — FitFriends',
   Login = 'Войти — FitFriends',
   Register = 'Регистрация — FitFriends',
   Page404 = 'Страница 404 — FitFriends',
