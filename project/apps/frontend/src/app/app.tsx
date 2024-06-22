@@ -29,9 +29,9 @@ export function App() {
           <Route
             path={AppRoute.Index}
             element={
-              <PrivateRoute>
-                <IndexPage />
-              </PrivateRoute>
+              // <PrivateRoute>
+              <IndexPage />
+              // </PrivateRoute>
             }
           />
           <Route
