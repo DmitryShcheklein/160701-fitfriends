@@ -31,7 +31,12 @@ import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
 import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
 import { AuthenticationService } from './authentication.service';
-import { LoggedUserRdo, RefreshUserRdo, UserRdo } from '@project/rdo';
+import {
+  LoggedUserRdo,
+  RefreshUserRdo,
+  RegisteredUserRdo,
+  UserRdo,
+} from '@project/rdo';
 import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -77,8 +82,9 @@ export class AuthenticationController {
       ...dto,
       avatar: file,
     });
+    const userToken = await this.userService.createUserToken(newUser);
 
-    return fillDto(UserRdo, newUser.toPOJO());
+    return fillDto(RegisteredUserRdo, { ...newUser.toPOJO(), ...userToken });
   }
 
   @ApiOkResponse({
