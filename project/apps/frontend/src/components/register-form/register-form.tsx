@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FormEventHandler } from 'react';
+import React, { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
@@ -12,6 +12,7 @@ import Input from '../ui/Input/Input';
 import RadioInput from '../ui/RadioInput/RadioInput';
 import RoleSelector from '../role-selector/role-selector';
 import CustomSelect from '../ui/Select/Select';
+import { roleOptions, locationOptions } from './register.data';
 
 enum FormFieldName {
   FirstName = 'firstname',
@@ -25,19 +26,6 @@ enum FormFieldName {
   isAgreements = 'isAgreements',
 }
 
-export enum UserLocation {
-  Pionerskaya = 'Пионерская',
-  Petrogradskaya = 'Петроградская',
-  Udelnaya = 'Удельная',
-  Zvezdnaya = 'Звёздная',
-  Sportivnaya = 'Спортивная',
-}
-
-const locationOptions = Object.entries(UserLocation).map(([value, label]) => ({
-  value,
-  label,
-}));
-
 const RegisterForm: React.FC = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
@@ -49,7 +37,7 @@ const RegisterForm: React.FC = () => {
     [FormFieldName.Password]: '12345678',
     [FormFieldName.DateOfBirth]: '2024-06-22',
     [FormFieldName.Gender]: 'Male',
-    [FormFieldName.Role]: 'user',
+    [FormFieldName.Role]: roleOptions[0].value,
     [FormFieldName.Location]: null,
     [FormFieldName.Avatar]: null,
     [FormFieldName.isAgreements]: true,
@@ -102,14 +90,6 @@ const RegisterForm: React.FC = () => {
       console.error('Failed to register: ', err);
     }
   };
-
-  const roleOptions = [
-    {
-      value: 'user',
-      label: 'Я хочу тренироваться',
-      icon: '#icon-weight',
-    },
-  ];
 
   if (authStatus === AuthStatus.Auth) {
     return <Navigate to={AppRoute.Index} />;

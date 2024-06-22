@@ -1,9 +1,11 @@
+import classNames from 'classnames';
 import React, { ChangeEventHandler } from 'react';
 
 interface RoleOption {
   value: string;
   label: string;
   icon: string;
+  isDisabled: boolean;
 }
 
 interface RoleSelectorProps {
@@ -26,7 +28,12 @@ const RoleSelector: React.FC<RoleSelectorProps> = ({
       <h2 className="sign-up__legend">{legend}</h2>
       <div className="role-selector sign-up__role-selector">
         {options.map((option) => (
-          <div className="role-btn" key={option.value}>
+          <div
+            className={classNames('role-btn', {
+              'is-disabled': option.isDisabled,
+            })}
+            key={option.value}
+          >
             <label>
               <input
                 className="visually-hidden"
@@ -35,6 +42,7 @@ const RoleSelector: React.FC<RoleSelectorProps> = ({
                 value={option.value}
                 checked={selectedValue === option.value}
                 onChange={onChange}
+                disabled={option.isDisabled}
               />
               <span className="role-btn__icon">
                 <svg width="12" height="13" aria-hidden="true">
