@@ -67,7 +67,12 @@ const RegisterForm: React.FC = () => {
     location,
   } = formData;
 
-  const isValid = Object.values(formData).every(Boolean);
+  const isValid = Object.entries(formData)
+    .filter(
+      ([key]) =>
+        key !== FormFieldName.Avatar && key !== FormFieldName.DateOfBirth
+    )
+    .every(([_, value]) => Boolean(value));
   const onChange: ChangeEventHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked, type, files } = evt.target;
     const isCheckbox = type === 'checkbox';

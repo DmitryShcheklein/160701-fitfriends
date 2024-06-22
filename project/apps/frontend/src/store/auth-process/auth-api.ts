@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import { TokenPayload } from '@project/core';
-import { LoggedUserRdo } from '@project/rdo';
+import { LoggedUserRdo, RegisteredUserRdo } from '@project/rdo';
 import { LoginUserDto } from '@project/dto';
 import { baseQueryWithReauth } from '../../services/api';
 
@@ -16,7 +16,7 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
-    register: builder.mutation({
+    register: builder.mutation<RegisteredUserRdo, FormData>({
       query: (user) => ({
         url: 'register',
         method: 'POST',
