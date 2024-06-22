@@ -1450,13 +1450,13 @@ input:active + .custom-textarea__text {
 }
 
 .custom-toggle-radio--big .custom-toggle-radio__icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .custom-toggle-radio--big input:checked + .custom-toggle-radio__icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .custom-toggle-radio__icon {
@@ -7550,12 +7550,23 @@ input:active + .custom-textarea__text {
 }
 
 .input-load-avatar {
+  display: block;
   width: 98px;
   height: 98px;
 }
 
 .input-load-avatar__avatar {
-  display: block;
+  width: inherit;
+  height: inherit;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   border-radius: 50%;
   cursor: pointer;
   -webkit-transition: -webkit-box-shadow 0.3s ease;
@@ -7563,6 +7574,13 @@ input:active + .custom-textarea__text {
   -o-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
+  border: 1px solid #333333;
+  overflow: hidden;
+}
+
+.input-load-avatar__avatar img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .input-load-avatar__btn {
