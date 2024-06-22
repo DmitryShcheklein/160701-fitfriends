@@ -5,7 +5,8 @@ interface RoleOption {
   value: string;
   label: string;
   icon: string;
-  isDisabled: boolean;
+  isDisabled?: boolean;
+  isReadonly?: boolean;
 }
 
 interface RoleSelectorProps {
@@ -30,7 +31,7 @@ const RoleSelector: React.FC<RoleSelectorProps> = ({
         {options.map((option) => (
           <div
             className={classNames('role-btn', {
-              'is-disabled': option.isDisabled,
+              'is-disabled': option.isDisabled || option.isReadonly,
             })}
             key={option.value}
           >
@@ -43,6 +44,7 @@ const RoleSelector: React.FC<RoleSelectorProps> = ({
                 checked={selectedValue === option.value}
                 onChange={onChange}
                 disabled={option.isDisabled}
+                readOnly={option.isReadonly}
               />
               <span className="role-btn__icon">
                 <svg width="12" height="13" aria-hidden="true">

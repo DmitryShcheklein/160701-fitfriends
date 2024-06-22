@@ -3,7 +3,7 @@ export const roleOptions = [
     value: 'user',
     label: 'Я хочу тренироваться',
     icon: '#icon-weight',
-    isDisabled: true,
+    isReadonly: true,
   },
 ];
 
