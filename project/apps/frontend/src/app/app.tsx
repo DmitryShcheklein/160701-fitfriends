@@ -10,6 +10,7 @@ import IntroLayout from '../layouts/intro';
 import MainLayout from '../layouts/main';
 import IndexPage from '../pages/index';
 import ProfilePage from '../pages/profile/profile';
+import PrivateRoute from '../components/private-route/private-route';
 
 export function App() {
   return (
@@ -25,8 +26,22 @@ export function App() {
         </Route>
 
         <Route element={<MainLayout />}>
-          <Route path={AppRoute.Index} element={<IndexPage />} />
-          <Route path={AppRoute.Profile} element={<ProfilePage />} />
+          <Route
+            path={AppRoute.Index}
+            element={
+              <PrivateRoute>
+                <IndexPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Profile}
+            element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            }
+          />
         </Route>
       </Routes>
     </>

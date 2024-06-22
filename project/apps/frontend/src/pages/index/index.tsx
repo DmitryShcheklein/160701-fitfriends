@@ -7,7 +7,9 @@ const IndexPage = () => (
       <title>{PageTitles.Index}</title>
     </Helmet>
 
-    <h1>Главная</h1>
+    <h1 className="visually-hidden">
+      FitFriends — Время находить тренировки, спортзалы и друзей спортсменов
+    </h1>
   </>
 );
 

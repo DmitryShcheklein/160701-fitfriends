@@ -33,6 +33,10 @@ const MainLayout = () => {
     }
   }, [user, error, dispatch, accessToken, refreshToken]);
 
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+
   return (
     <>
       <ScrollToTop />
