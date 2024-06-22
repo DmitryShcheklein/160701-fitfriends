@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
@@ -10,6 +10,8 @@ import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 import Popup from '../popup/popup';
 import Input from '../ui/Input/Input';
 import RadioInput from '../ui/RadioInput/RadioInput';
+import RoleSelector from '../role-selector/role-selector';
+import CustomSelect from '../ui/Select/Select';
 
 enum FormFieldName {
   FirstName = 'firstname',
@@ -23,26 +25,53 @@ enum FormFieldName {
   isAgreements = 'isAgreements',
 }
 
+export enum UserLocation {
+  Pionerskaya = 'Pionerskaya',
+  Petrogradskaya = 'Petrogradskaya',
+  Udelnaya = 'Udelnaya',
+  Zvezdnaya = 'Zvezdnaya',
+  Sportivnaya = 'Sportivnaya',
+}
+
+const locationOptions = Object.values(UserLocation).map((location) => ({
+  value: location,
+  label: location,
+}));
+
 const RegisterForm: React.FC = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
   const [register, { isLoading }] = useRegisterMutation();
+  const [selectedOption, setSelectedOption] = useState<{
+    value: string;
+    label: string;
+  } | null>({
+    value: 'Pionerskaya',
+    label: 'Pionerskaya',
+  });
   const [formData, setFormData] = useState({
-    [FormFieldName.FirstName]: '',
-    [FormFieldName.Email]: '',
-    [FormFieldName.Password]: '',
-    [FormFieldName.DateOfBirth]: '',
-    [FormFieldName.Gender]: '',
-    [FormFieldName.Location]: '',
+    [FormFieldName.FirstName]: 'test',
+    [FormFieldName.Email]: 'test@test.ru',
+    [FormFieldName.Password]: '12345678',
+    [FormFieldName.DateOfBirth]: '2024-06-22',
+    [FormFieldName.Gender]: 'Male',
     [FormFieldName.Role]: 'user',
     [FormFieldName.Avatar]: null as File | null,
     [FormFieldName.isAgreements]: true,
   });
+
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const { firstname, email, password, dateOfBirth, isAgreements, gender } =
-    formData;
+  const {
+    firstname,
+    email,
+    password,
+    dateOfBirth,
+    isAgreements,
+    gender,
+    role,
+  } = formData;
   const isValid = Object.values(formData).every(Boolean);
-  const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const onChange: ChangeEventHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked, type, files } = evt.target;
     const isCheckbox = type === 'checkbox';
     const isFile = type === 'file';
@@ -72,7 +101,7 @@ const RegisterForm: React.FC = () => {
         }
       }
     }
-
+    formDataToSend.append('location', String(selectedOption?.value));
     try {
       const userData = await register(formDataToSend).unwrap();
       dispatch(setCredentials(userData));
@@ -81,6 +110,14 @@ const RegisterForm: React.FC = () => {
     }
   };
 
+  const roleOptions = [
+    {
+      value: 'user',
+      label: 'Я хочу тренироваться',
+      icon: '#icon-weight',
+    },
+  ];
+
   if (authStatus === AuthStatus.Auth) {
     return <Navigate to={AppRoute.Index} />;
   }
@@ -88,7 +125,11 @@ const RegisterForm: React.FC = () => {
   return (
     <Popup isOpen title="Регистрация" className="popup-form--sign-up">
       <div className="popup-form__form">
-        <form onSubmit={handleFormSubmit} encType="multipart/form-data">
+        <form
+          onSubmit={handleFormSubmit}
+          encType="multipart/form-data"
+          autoComplete="off"
+        >
           <div className="sign-up">
             <div className="sign-up__load-photo">
               <label className="input-load-avatar">
@@ -143,22 +184,13 @@ const RegisterForm: React.FC = () => {
                 value={dateOfBirth}
                 onChange={onChange}
               />
-              <div className="custom-select custom-select--not-selected">
-                <span className="custom-select__label">Ваша локация</span>
-                <button
-                  className="custom-select__button"
-                  type="button"
-                  aria-label="Выберите одну из опций"
-                >
-                  <span className="custom-select__text"></span>
-                  <span className="custom-select__icon">
-                    <svg width="15" height="6" aria-hidden="true">
-                      <use xlinkHref="#arrow-down"></use>
-                    </svg>
-                  </span>
-                </button>
-                <ul className="custom-select__list" role="listbox"></ul>
-              </div>
+
+              <CustomSelect
+                options={locationOptions}
+                value={selectedOption}
+                onChange={setSelectedOption}
+                placeholder="Выберите одну из опций"
+              />
 
               <Input
                 type="password"
@@ -194,27 +226,13 @@ const RegisterForm: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="sign-up__role">
-              <h2 className="sign-up__legend">Выберите роль</h2>
-              <div className="role-selector sign-up__role-selector">
-                <div className="role-btn">
-                  <label>
-                    <input
-                      className="visually-hidden"
-                      type="radio"
-                      name="role"
-                      value="sportsman"
-                    />
-                    <span className="role-btn__icon">
-                      <svg width="12" height="13" aria-hidden="true">
-                        <use xlinkHref="#icon-weight"></use>
-                      </svg>
-                    </span>
-                    <span className="role-btn__btn">Я хочу тренироваться</span>
-                  </label>
-                </div>
-              </div>
-            </div>
+            <RoleSelector
+              name={FormFieldName.Role}
+              legend="Выберите роль"
+              options={roleOptions}
+              onChange={onChange}
+              selectedValue={role}
+            />
             <div className="sign-up__checkbox">
               <label>
                 <input
@@ -237,7 +255,7 @@ const RegisterForm: React.FC = () => {
             </div>
 
             <button
-              disabled={!isValid || isLoading}
+              // disabled={!isValid || isLoading}
               className="btn sign-up__button"
               type="submit"
             >
