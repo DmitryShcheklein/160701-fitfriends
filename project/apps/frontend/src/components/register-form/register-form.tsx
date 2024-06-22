@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, FormEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
@@ -26,29 +26,23 @@ enum FormFieldName {
 }
 
 export enum UserLocation {
-  Pionerskaya = 'Pionerskaya',
-  Petrogradskaya = 'Petrogradskaya',
-  Udelnaya = 'Udelnaya',
-  Zvezdnaya = 'Zvezdnaya',
-  Sportivnaya = 'Sportivnaya',
+  Pionerskaya = 'Пионерская',
+  Petrogradskaya = 'Петроградская',
+  Udelnaya = 'Удельная',
+  Zvezdnaya = 'Звёздная',
+  Sportivnaya = 'Спортивная',
 }
 
-const locationOptions = Object.values(UserLocation).map((location) => ({
-  value: location,
-  label: location,
+const locationOptions = Object.entries(UserLocation).map(([value, label]) => ({
+  value,
+  label,
 }));
 
 const RegisterForm: React.FC = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
   const [register, { isLoading }] = useRegisterMutation();
-  const [selectedOption, setSelectedOption] = useState<{
-    value: string;
-    label: string;
-  } | null>({
-    value: 'Pionerskaya',
-    label: 'Pionerskaya',
-  });
+
   const [formData, setFormData] = useState({
     [FormFieldName.FirstName]: 'test',
     [FormFieldName.Email]: 'test@test.ru',
@@ -56,7 +50,8 @@ const RegisterForm: React.FC = () => {
     [FormFieldName.DateOfBirth]: '2024-06-22',
     [FormFieldName.Gender]: 'Male',
     [FormFieldName.Role]: 'user',
-    [FormFieldName.Avatar]: null as File | null,
+    [FormFieldName.Location]: null,
+    [FormFieldName.Avatar]: null,
     [FormFieldName.isAgreements]: true,
   });
 
@@ -69,7 +64,9 @@ const RegisterForm: React.FC = () => {
     isAgreements,
     gender,
     role,
+    location,
   } = formData;
+
   const isValid = Object.values(formData).every(Boolean);
   const onChange: ChangeEventHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked, type, files } = evt.target;
@@ -88,20 +85,11 @@ const RegisterForm: React.FC = () => {
     }
   };
 
-  const handleFormSubmit = async (evt: FormEvent) => {
+  const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    const form = evt.target as HTMLFormElement;
+    const formDataToSend = new FormData(form);
 
-    const formDataToSend = new FormData();
-    for (const [key, value] of Object.entries(formData)) {
-      if (value !== null) {
-        if (typeof value === 'boolean') {
-          formDataToSend.append(key, value.toString());
-        } else {
-          formDataToSend.append(key, value);
-        }
-      }
-    }
-    formDataToSend.append('location', String(selectedOption?.value));
     try {
       const userData = await register(formDataToSend).unwrap();
       dispatch(setCredentials(userData));
@@ -186,10 +174,15 @@ const RegisterForm: React.FC = () => {
               />
 
               <CustomSelect
+                name={FormFieldName.Location}
                 options={locationOptions}
-                value={selectedOption}
-                onChange={setSelectedOption}
-                placeholder="Выберите одну из опций"
+                value={location}
+                onChange={(newValue: any) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    [FormFieldName.Location]: newValue,
+                  }));
+                }}
               />
 
               <Input
@@ -237,7 +230,7 @@ const RegisterForm: React.FC = () => {
               <label>
                 <input
                   type="checkbox"
-                  value="user-agreement"
+                  value={String(isAgreements)}
                   name={FormFieldName.isAgreements}
                   checked={isAgreements}
                   onChange={onChange}
@@ -255,7 +248,7 @@ const RegisterForm: React.FC = () => {
             </div>
 
             <button
-              // disabled={!isValid || isLoading}
+              disabled={!isValid || isLoading}
               className="btn sign-up__button"
               type="submit"
             >
