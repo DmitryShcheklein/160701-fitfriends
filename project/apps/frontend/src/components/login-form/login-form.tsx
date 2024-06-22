@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/const';
 import Popup from '../popup/popup';
+import Input from '../ui/Input/Input';
 
 enum FormFieldName {
   Email = 'email',
@@ -43,39 +44,25 @@ const LoginForm: FC = () => {
       <div className="popup-form__form">
         <form onSubmit={handleFormSubmit}>
           <div className="sign-in">
-            <div className="custom-input sign-in__input">
-              <label>
-                <span className="custom-input__label">E-mail</span>
-                <span className="custom-input__wrapper">
-                  <input
-                    type="email"
-                    name={FormFieldName.Email}
-                    id={FormFieldName.Email}
-                    onChange={onChange}
-                    value={email}
-                    autoComplete="autoComplete"
-                    required
-                  />
-                </span>
-              </label>
-            </div>
-            <div className="custom-input sign-in__input">
-              <label>
-                <span className="custom-input__label">Пароль</span>
-                <span className="custom-input__wrapper">
-                  <input
-                    type="password"
-                    placeholder=""
-                    name={FormFieldName.Password}
-                    id={FormFieldName.Password}
-                    onChange={onChange}
-                    value={password}
-                    autoComplete="autoComplete"
-                    required
-                  />
-                </span>
-              </label>
-            </div>
+            <Input
+              className="sign-in__input"
+              label="E-mail"
+              type="email"
+              name={FormFieldName.Email}
+              onChange={onChange}
+              value={email}
+            />
+            <Input
+              className="sign-in__input"
+              label="Пароль"
+              type="password"
+              placeholder=""
+              name={FormFieldName.Password}
+              id={FormFieldName.Password}
+              onChange={onChange}
+              value={password}
+            />
+
             <button
               className="btn sign-in__button"
               disabled={isLoading || !email || !password}
