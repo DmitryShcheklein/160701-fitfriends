@@ -8,11 +8,19 @@ import { setCredentials } from '../../store/auth-process/auth-process';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 import Popup from '../popup/popup';
+import Input from '../ui/Input/Input';
+import RadioInput from '../ui/RadioInput/RadioInput';
 
 enum FormFieldName {
   FirstName = 'firstname',
   Email = 'email',
   Password = 'password',
+  DateOfBirth = 'dateOfBirth',
+  Gender = 'gender',
+  Location = 'location',
+  Role = 'role',
+  Avatar = 'avatar',
+  isAgreements = 'isAgreements',
 }
 
 const RegisterForm: React.FC = () => {
@@ -23,21 +31,50 @@ const RegisterForm: React.FC = () => {
     [FormFieldName.FirstName]: '',
     [FormFieldName.Email]: '',
     [FormFieldName.Password]: '',
+    [FormFieldName.DateOfBirth]: '',
+    [FormFieldName.Gender]: '',
+    [FormFieldName.Location]: '',
+    [FormFieldName.Role]: 'user',
+    [FormFieldName.Avatar]: null as File | null,
+    [FormFieldName.isAgreements]: true,
   });
-  const { firstname, email, password } = formData;
-  const [showPassword, setShowPasword] = useState(true);
-
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const { firstname, email, password, dateOfBirth, isAgreements, gender } =
+    formData;
+  const isValid = Object.values(formData).every(Boolean);
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = evt.target;
+    const { value, name, checked, type, files } = evt.target;
+    const isCheckbox = type === 'checkbox';
+    const isFile = type === 'file';
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (isFile && files) {
+      const [file] = Array.from(files);
+      setFormData((prev) => ({ ...prev, [name]: file }));
+      setAvatarPreview(URL.createObjectURL(file));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: isCheckbox ? checked : value,
+      }));
+    }
   };
 
   const handleFormSubmit = async (evt: FormEvent) => {
     evt.preventDefault();
 
+    const formDataToSend = new FormData();
+    for (const [key, value] of Object.entries(formData)) {
+      if (value !== null) {
+        if (typeof value === 'boolean') {
+          formDataToSend.append(key, value.toString());
+        } else {
+          formDataToSend.append(key, value);
+        }
+      }
+    }
+
     try {
-      const userData = await register(formData).unwrap();
+      const userData = await register(formDataToSend).unwrap();
       dispatch(setCredentials(userData));
     } catch (err) {
       console.error('Failed to register: ', err);
@@ -51,23 +88,31 @@ const RegisterForm: React.FC = () => {
   return (
     <Popup isOpen title="Регистрация" className="popup-form--sign-up">
       <div className="popup-form__form">
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} encType="multipart/form-data">
           <div className="sign-up">
             <div className="sign-up__load-photo">
-              <div className="input-load-avatar">
-                <label>
-                  <input
-                    className="visually-hidden"
-                    type="file"
-                    accept="image/png, image/jpeg"
-                  />
+              <label className="input-load-avatar">
+                <input
+                  className="visually-hidden"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  name={FormFieldName.Avatar}
+                  onChange={onChange}
+                />
+
+                {avatarPreview ? (
+                  <div className="input-load-avatar__avatar">
+                    <img src={avatarPreview} alt="Avatar Preview" />
+                  </div>
+                ) : (
                   <span className="input-load-avatar__btn">
                     <svg width="20" height="20" aria-hidden="true">
                       <use xlinkHref="#icon-import"></use>
                     </svg>
                   </span>
-                </label>
-              </div>
+                )}
+              </label>
+
               <div className="sign-up__description">
                 <h2 className="sign-up__legend">Загрузите фото профиля</h2>
                 <span className="sign-up__text">
@@ -76,30 +121,28 @@ const RegisterForm: React.FC = () => {
               </div>
             </div>
             <div className="sign-up__data">
-              <div className="custom-input">
-                <label>
-                  <span className="custom-input__label">Имя</span>
-                  <span className="custom-input__wrapper">
-                    <input type="text" name="name" />
-                  </span>
-                </label>
-              </div>
-              <div className="custom-input">
-                <label>
-                  <span className="custom-input__label">E-mail</span>
-                  <span className="custom-input__wrapper">
-                    <input type="email" name="email" />
-                  </span>
-                </label>
-              </div>
-              <div className="custom-input">
-                <label>
-                  <span className="custom-input__label">Дата рождения</span>
-                  <span className="custom-input__wrapper">
-                    <input type="date" name="birthday" max="2099-12-31" />
-                  </span>
-                </label>
-              </div>
+              <Input
+                label="Имя"
+                name={FormFieldName.FirstName}
+                value={firstname}
+                onChange={onChange}
+              />
+              <Input
+                type="email"
+                label="E-mail"
+                name={FormFieldName.Email}
+                value={email}
+                onChange={onChange}
+                autoComplete="off"
+              />
+              <Input
+                type="date"
+                label="Дата рождения"
+                name={FormFieldName.DateOfBirth}
+                max="2099-12-31"
+                value={dateOfBirth}
+                onChange={onChange}
+              />
               <div className="custom-select custom-select--not-selected">
                 <span className="custom-select__label">Ваша локация</span>
                 <button
@@ -116,67 +159,44 @@ const RegisterForm: React.FC = () => {
                 </button>
                 <ul className="custom-select__list" role="listbox"></ul>
               </div>
-              <div className="custom-input">
-                <label>
-                  <span className="custom-input__label">Пароль</span>
-                  <span className="custom-input__wrapper">
-                    <input type="password" name="password" autoComplete="off" />
-                  </span>
-                </label>
-              </div>
+
+              <Input
+                type="password"
+                label="Пароль"
+                name={FormFieldName.Password}
+                value={password}
+                onChange={onChange}
+              />
               <div className="sign-up__radio">
                 <span className="sign-up__label">Пол</span>
                 <div className="custom-toggle-radio custom-toggle-radio--big">
-                  <div className="custom-toggle-radio__block">
-                    <label>
-                      <input type="radio" name="sex" />
-                      <span className="custom-toggle-radio__icon"></span>
-                      <span className="custom-toggle-radio__label">
-                        Мужской
-                      </span>
-                    </label>
-                  </div>
-                  <div className="custom-toggle-radio__block">
-                    <label>
-                      <input type="radio" name="sex" defaultChecked />
-                      <span className="custom-toggle-radio__icon"></span>
-                      <span className="custom-toggle-radio__label">
-                        Женский
-                      </span>
-                    </label>
-                  </div>
-                  <div className="custom-toggle-radio__block">
-                    <label>
-                      <input type="radio" name="sex" />
-                      <span className="custom-toggle-radio__icon"></span>
-                      <span className="custom-toggle-radio__label">
-                        Неважно
-                      </span>
-                    </label>
-                  </div>
+                  <RadioInput
+                    label="Мужской"
+                    name={FormFieldName.Gender}
+                    value="Male"
+                    onChange={onChange}
+                    checked={gender === 'Male'}
+                  />
+                  <RadioInput
+                    label="Женский"
+                    name={FormFieldName.Gender}
+                    value="Female"
+                    onChange={onChange}
+                    checked={gender === 'Female'}
+                  />
+                  <RadioInput
+                    label="Неважно"
+                    name={FormFieldName.Gender}
+                    value="Any"
+                    onChange={onChange}
+                    checked={gender === 'Any'}
+                  />
                 </div>
               </div>
             </div>
             <div className="sign-up__role">
               <h2 className="sign-up__legend">Выберите роль</h2>
               <div className="role-selector sign-up__role-selector">
-                <div className="role-btn">
-                  <label>
-                    <input
-                      className="visually-hidden"
-                      type="radio"
-                      name="role"
-                      value="coach"
-                      defaultChecked
-                    />
-                    <span className="role-btn__icon">
-                      <svg width="12" height="13" aria-hidden="true">
-                        <use xlinkHref="#icon-cup"></use>
-                      </svg>
-                    </span>
-                    <span className="role-btn__btn">Я хочу тренировать</span>
-                  </label>
-                </div>
                 <div className="role-btn">
                   <label>
                     <input
@@ -200,8 +220,9 @@ const RegisterForm: React.FC = () => {
                 <input
                   type="checkbox"
                   value="user-agreement"
-                  name="user-agreement"
-                  defaultChecked
+                  name={FormFieldName.isAgreements}
+                  checked={isAgreements}
+                  onChange={onChange}
                 />
                 <span className="sign-up__checkbox-icon">
                   <svg width="9" height="6" aria-hidden="true">
@@ -215,7 +236,11 @@ const RegisterForm: React.FC = () => {
               </label>
             </div>
 
-            <button className="btn sign-up__button" type="submit">
+            <button
+              disabled={!isValid || isLoading}
+              className="btn sign-up__button"
+              type="submit"
+            >
               Продолжить
             </button>
 
