@@ -44,7 +44,7 @@ const MainLayout = () => {
       <div className="wrapper">
         <Header />
         <main>
-          <section className="inner-page">
+          <section className="">
             <div className="container">
               {isLoading ? <>Loading...</> : <Outlet />}
             </div>
