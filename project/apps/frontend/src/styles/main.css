@@ -5468,8 +5468,8 @@ input:active + .custom-textarea__text {
   -o-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
-  -webkit-box-shadow: 0 10px 30px rgba(51, 51, 51, 0.33);
-  box-shadow: 0 10px 30px rgba(51, 51, 51, 0.33);
+  /* -webkit-box-shadow: 0 10px 30px rgba(51, 51, 51, 0.33); */
+  /* box-shadow: 0 10px 30px rgba(51, 51, 51, 0.33); */
 }
 
 .promo-slider:hover {
@@ -5599,6 +5599,7 @@ input:active + .custom-textarea__text {
 }
 
 .promo-slider__price-container {
+  margin-left: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
