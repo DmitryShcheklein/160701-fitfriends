@@ -7817,21 +7817,14 @@ input:active + .custom-textarea__text {
 
 .intro__wrapper {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-negative: 0;
+  justify-content: center;
   flex-shrink: 0;
   width: 100%;
   min-height: 100%;
-  padding: 211px 22px 22px;
+  padding: 22px 22px 22px;
 }
 
 .intro__icon {

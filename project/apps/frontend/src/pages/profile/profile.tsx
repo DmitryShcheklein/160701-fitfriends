@@ -1,10 +1,11 @@
 import React from 'react';
+import { Sidebar } from '../../components/sidebar/sidebar';
 
 const ProfilePage: React.FC = () => {
   return (
     <div className="inner-page__wrapper">
       <h1 className="visually-hidden">Личный кабинет</h1>
-      <section className="user-info">
+      <Sidebar>
         <div className="user-info__header">
           <div className="input-load-avatar">
             <label>
@@ -240,7 +241,7 @@ const ProfilePage: React.FC = () => {
             </ul>
           </div>
         </form>
-      </section>
+      </Sidebar>
     </div>
   );
 };

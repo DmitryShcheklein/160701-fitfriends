@@ -1,4 +1,5 @@
 import { AppRoute } from '../../shared/const';
+import { logOut } from '../../store/auth-process/auth-process';
 
 export const navItems = [
   {
@@ -12,5 +13,12 @@ export const navItems = [
     href: AppRoute.Profile,
     icon: '#icon-user',
     ariaLabel: 'Личный кабинет',
+  },
+  {
+    label: 'Выход',
+    href: AppRoute.Intro,
+    onClick: () => logOut(),
+    icon: '#icon-trash',
+    ariaLabel: 'Выход',
   },
 ];
