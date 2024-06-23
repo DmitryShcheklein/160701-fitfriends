@@ -50,7 +50,6 @@ const MainLayout = () => {
             </div>
           </section>
         </main>
-        {/* <Footer /> */}
       </div>
     </>
   );
