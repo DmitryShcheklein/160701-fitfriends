@@ -2,8 +2,9 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types';
+import classNames from 'classnames';
 import 'swiper/css';
-import './swiper-slider.css';
+import './carousel-slider.css';
 
 interface SliderProps {
   id: string;
@@ -11,21 +12,26 @@ interface SliderProps {
   slides: React.ReactNode[];
   extraButton?: React.ReactNode;
   options?: SwiperOptions;
+  classNamesMap?: {
+    wrapper?: string;
+  };
 }
 
-const SwiperSlider: React.FC<SliderProps> = ({
+const CarouselSlider = ({
   title,
   slides,
   extraButton,
   options = {},
   id,
-}) => {
+  classNamesMap = {},
+}: SliderProps) => {
   const prevButtonClass = `${id}-prev`;
   const nextButtonClass = `${id}-next`;
+  const { wrapper } = classNamesMap;
 
   return (
     <section className="slider-section">
-      <div className="slider-wrapper">
+      <div className={classNames('slider-wrapper', wrapper)}>
         <div className="slider-title-wrapper">
           <h2 className="slider-title">{title}</h2>
           {extraButton && extraButton}
@@ -68,4 +74,4 @@ const SwiperSlider: React.FC<SliderProps> = ({
   );
 };
 
-export default SwiperSlider;
+export default CarouselSlider;

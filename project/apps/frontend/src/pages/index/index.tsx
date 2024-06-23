@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { PageTitles } from '../../shared/const';
-import SwiperSlider from '../../components/ui/SwiperSlider/Swiper-slider';
-import { popularTrainingsSlides } from './index.data';
+import CarouselSlider from '../../components/ui/carousel-slider/carousel-slider';
+import { popularTrainingsSlides, specialForYouSlides } from './index.data';
 
 const IndexPage = () => (
   <>
@@ -13,17 +13,18 @@ const IndexPage = () => (
       FitFriends — Время находить тренировки, спортзалы и друзей спортсменов
     </h1>
 
-    <SwiperSlider
-      id="special"
+    <CarouselSlider
+      id="special-for-you"
+      options={{ slidesPerView: 3 }}
+      title="Специально подобрано для вас"
+      slides={specialForYouSlides}
+      classNamesMap={{ wrapper: 'special-for-you__wrapper' }}
+    />
+    <CarouselSlider
+      id="popular-trainings"
       options={{ slidesPerView: 4 }}
       title="Популярные тренировки"
-      slides={popularTrainingsSlides
-        .concat(popularTrainingsSlides)
-        .concat(popularTrainingsSlides)
-        .concat(popularTrainingsSlides)
-        .concat(popularTrainingsSlides)
-        .concat(popularTrainingsSlides)
-        .concat(popularTrainingsSlides)}
+      slides={popularTrainingsSlides}
       extraButton={
         <button className="btn-flat popular-trainings__button" type="button">
           <span>Смотреть все</span>
