@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { PageTitles } from '../../shared/const';
 import CarouselSlider from '../../components/ui/carousel-slider/carousel-slider';
 import { popularTrainingsSlides, specialForYouSlides } from './index.data';
+import SpecialOffers from '../../components/special-offers/special-offers';
 
 const IndexPage = () => (
   <>
@@ -20,6 +21,7 @@ const IndexPage = () => (
       slides={specialForYouSlides}
       classNamesMap={{ wrapper: 'special-for-you__wrapper' }}
     />
+    <SpecialOffers />
     <CarouselSlider
       id="popular-trainings"
       options={{ slidesPerView: 4 }}
