@@ -37,9 +37,9 @@ export function App() {
           <Route
             path={AppRoute.Profile}
             element={
-              <PrivateRoute>
-                <ProfilePage />
-              </PrivateRoute>
+              // <PrivateRoute>
+              <ProfilePage />
+              // </PrivateRoute>
             }
           />
         </Route>

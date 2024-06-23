@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 
 interface NavItem {
   label: string;
@@ -24,8 +25,10 @@ const MainNav: React.FC<MainNavProps> = ({ items }) => {
               notifications ? 'main-nav__item--notifications' : ''
             }`}
           >
-            <Link
-              className="main-nav__link"
+            <NavLink
+              className={({ isActive }) =>
+                classNames('main-nav__link', { 'is-active': isActive })
+              }
               to={href}
               aria-label={ariaLabel}
               title={ariaLabel}
@@ -33,7 +36,7 @@ const MainNav: React.FC<MainNavProps> = ({ items }) => {
               <svg width="18" height="18" aria-hidden="true">
                 <use xlinkHref={icon}></use>
               </svg>
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>

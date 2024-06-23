@@ -29,14 +29,16 @@ const IntroPage = () => {
             </picture>
           </div>
           <div className="intro__wrapper">
-            <svg
-              className="intro__icon"
-              width="60"
-              height="60"
-              aria-hidden="true"
-            >
-              <use xlinkHref="#icon-logotype"></use>
-            </svg>
+            <Link to={AppRoute.Index}>
+              <svg
+                className="intro__icon"
+                width="60"
+                height="60"
+                aria-hidden="true"
+              >
+                <use xlinkHref="#icon-logotype"></use>
+              </svg>
+            </Link>
             <div className="intro__title-logo">
               <picture>
                 <source
