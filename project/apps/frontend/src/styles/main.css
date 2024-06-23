@@ -5066,11 +5066,8 @@ input:active + .custom-textarea__text {
   -ms-grid-rows: 280px;
   grid-template-rows: 280px;
   row-gap: 25px;
-  min-width: 334px;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  height: 100%;
+  width: 100%;
+  height: inherit;
   padding: 20px 20px 30px 18px;
   background-color: #ffffff;
   color: #333333;
