@@ -1,5 +1,4 @@
 import withProviders from '../providers';
-import { ToastContainer } from 'react-toastify';
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../shared/const';
 import IntroPage from '../pages/intro/intro';
@@ -14,37 +13,34 @@ import PrivateRoute from '../components/private-route/private-route';
 
 export function App() {
   return (
-    <>
-      <ToastContainer />
-      <Routes>
-        <Route path={AppRoute.Intro} element={<IntroPage />} />
+    <Routes>
+      <Route path={AppRoute.Intro} element={<IntroPage />} />
 
-        <Route element={<IntroLayout />}>
-          <Route path={AppRoute.Login} element={<LoginPage />} />
-          <Route path={AppRoute.Register} element={<RegisterPage />} />
-          <Route path="*" element={<Page404 />} />
-        </Route>
+      <Route element={<IntroLayout />}>
+        <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route path={AppRoute.Register} element={<RegisterPage />} />
+        <Route path="*" element={<Page404 />} />
+      </Route>
 
-        <Route element={<MainLayout />}>
-          <Route
-            path={AppRoute.Index}
-            element={
-              <PrivateRoute>
-                <IndexPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Profile}
-            element={
-              <PrivateRoute>
-                <ProfilePage />
-              </PrivateRoute>
-            }
-          />
-        </Route>
-      </Routes>
-    </>
+      <Route element={<MainLayout />}>
+        <Route
+          path={AppRoute.Index}
+          element={
+            <PrivateRoute>
+              <IndexPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Profile}
+          element={
+            <PrivateRoute>
+              <ProfilePage />
+            </PrivateRoute>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 
