@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { useCheckAuthQuery } from '../store/auth-process/auth-api';
 import { useEffect } from 'react';
 import { logOut, setCredentials } from '../store/auth-process/auth-process';
+import { LoaderPage } from '../components/loaders/loader-page/loader-page';
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ const MainLayout = () => {
   }, [user, error, dispatch, accessToken, refreshToken]);
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <LoaderPage />;
   }
 
   return (
@@ -46,7 +47,7 @@ const MainLayout = () => {
         <main>
           <section className="">
             <div className="container">
-              {isLoading ? <>Loading...</> : <Outlet />}
+              <Outlet />
             </div>
           </section>
         </main>
