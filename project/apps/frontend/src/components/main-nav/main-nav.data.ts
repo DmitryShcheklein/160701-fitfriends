@@ -1,4 +1,5 @@
 import { AppRoute } from '../../shared/const';
+import { store } from '../../store';
 import { logOut } from '../../store/auth-process/auth-process';
 
 export const navItems = [
@@ -17,7 +18,7 @@ export const navItems = [
   {
     label: 'Выход',
     href: AppRoute.Intro,
-    onClick: () => logOut(),
+    onClick: () => store.dispatch(logOut()),
     icon: '#icon-trash',
     ariaLabel: 'Выход',
   },
