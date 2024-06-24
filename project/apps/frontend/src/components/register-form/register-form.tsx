@@ -159,6 +159,7 @@ const RegisterForm: React.FC = () => {
               />
 
               <CustomSelect
+                label="Ваша локация"
                 name={FormFieldName.Location}
                 options={locationOptions}
                 value={location}
