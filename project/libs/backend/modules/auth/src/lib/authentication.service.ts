@@ -13,10 +13,15 @@ import { Hasher, HasherComponent } from '@project/hasher-module';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'node:crypto';
 import { UserRepository, UserEntity } from '@project/user-module';
-import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
+import {
+  CreateUserDtoWithAvatarFile,
+  LoginUserDto,
+  UpdateUserDto,
+} from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
 import { RefreshTokenService } from '@project/refresh-token';
+import { UserFactory } from 'libs/backend/modules/user/src/lib/user.factory';
 
 @Injectable()
 export class AuthenticationService {
@@ -127,5 +132,34 @@ export class AuthenticationService {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  public async updateUser(id: string, dto: UpdateUserDto) {
+    const { avatar } = dto;
+    const existUser = await this.userRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException(`${ResponseMessage.UserNotFound}: ${id}`);
+    }
+    const avatarFile = (
+      await this.fileUploaderService.saveFile(avatar)
+    )?.toPOJO();
+    const user = existUser.toPOJO();
+    const updatedUser: AuthUser = {
+      ...user,
+      firstname: dto.firstname || user.firstname,
+      description: dto.description || user.description,
+      location: dto.location || user.location,
+      gender: dto.gender || user.gender,
+      dateOfBirth: dto.dateOfBirth || user.dateOfBirth,
+      trainingReadiness: dto.trainingReadiness || user.trainingReadiness,
+      avatarPath: avatarFile?.path || user.avatarPath,
+    };
+
+    const userEntity = new UserEntity(updatedUser);
+
+    const updatedEntity = await this.userRepository.update(userEntity);
+
+    return updatedEntity;
   }
 }

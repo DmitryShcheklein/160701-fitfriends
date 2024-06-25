@@ -18,6 +18,7 @@ export class SwaggerService {
       .setDescription(`Список ресурсов и маршрутов сервера «${PROJECT_NAME}»`)
       .setVersion('1.0')
       .addTag('auth', 'Аутентификация и Регистрация')
+      .addTag('user', 'Пользователь')
       .addBearerAuth(
         {
           name: 'Authorization',

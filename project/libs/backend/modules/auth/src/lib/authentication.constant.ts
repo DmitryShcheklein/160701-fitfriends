@@ -5,6 +5,7 @@ export const ResponseMessage = {
   UserNotFound: 'User not found',
   UserExist: 'User with the email already exists',
   UserCreated: 'The new user has been successfully created.',
+  UserUpdated: 'The user has been successfully updated.',
   RecoveryEmailSuccess: 'Recovery email sent successfully',
   PasswordChangeSuccess: 'Password changed successfully',
   OldPasswordNotCorrect: 'Old password is not correct',
