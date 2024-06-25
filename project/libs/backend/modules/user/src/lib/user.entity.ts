@@ -5,6 +5,7 @@ import {
   UserGender,
   UserLocation,
   UserRole,
+  UserTrainingConfig,
 } from '@project/core';
 
 export class UserEntity extends Entity implements StorableEntity<AuthUser> {
@@ -20,6 +21,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public location!: UserLocation;
   public gender!: UserGender;
   public trainingReadiness!: boolean;
+  public trainingConfig!: UserTrainingConfig;
 
   constructor(user?: AuthUser) {
     super();
@@ -44,6 +46,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     this.location = user.location;
     this.gender = user.gender;
     this.trainingReadiness = user.trainingReadiness;
+    this.trainingConfig = user.trainingConfig;
   }
 
   public toPOJO(): AuthUser {
@@ -61,6 +64,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       location: this.location,
       gender: this.gender,
       trainingReadiness: this.trainingReadiness,
+      trainingConfig: this.trainingConfig,
     };
   }
 

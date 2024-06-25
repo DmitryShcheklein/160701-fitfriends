@@ -7,7 +7,14 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthUser, Token, TokenPayload, User } from '@project/core';
+import {
+  AuthUser,
+  Token,
+  TokenPayload,
+  User,
+  UserGender,
+  UserTrainingConfig,
+} from '@project/core';
 import { ResponseMessage } from './authentication.constant';
 import { Hasher, HasherComponent } from '@project/hasher-module';
 import { JwtService } from '@nestjs/jwt';
@@ -22,6 +29,9 @@ import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
 import { RefreshTokenService } from '@project/refresh-token';
 import { UserFactory } from 'libs/backend/modules/user/src/lib/user.factory';
+import { FitnessLevel } from 'libs/core/src/enums/user/fitness-level.enum';
+import { WorkoutType } from 'libs/core/src/enums/user/workout-type.enum';
+import { WorkoutDuration } from 'libs/core/src/enums/user/workout-duration.enum';
 
 @Injectable()
 export class AuthenticationService {
@@ -51,11 +61,18 @@ export class AuthenticationService {
     const avatarFile = (
       await this.fileUploaderService.saveFile(avatar)
     )?.toPOJO();
-
+    const trainingConfig: UserTrainingConfig = {
+      level: FitnessLevel.Amateur,
+      specialisation: Object.keys(WorkoutType).map((key) => WorkoutType[key]),
+      duration: WorkoutDuration.Min10to30,
+      caloriesPerDay: dto.gender === UserGender.Female ? 2300 : 3300,
+      caloriesWantLost: 1000,
+    };
     const newUser: AuthUser = {
       ...dto,
       passwordHash,
       avatarPath: avatarFile?.path,
+      trainingConfig,
     };
 
     const userEntity = new UserEntity(newUser);

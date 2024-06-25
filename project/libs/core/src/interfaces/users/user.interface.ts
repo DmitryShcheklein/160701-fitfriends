@@ -1,6 +1,7 @@
 import { UserGender } from '../../enums/user/user-gender.enum';
 import { UserLocation } from '../../enums/user/user-location.enum';
 import { UserRole } from '../../enums/user/user-role.enum';
+import { UserTrainingConfig } from './user-training-config.interface';
 
 export interface User {
   id?: string;
@@ -15,4 +16,5 @@ export interface User {
   location: UserLocation;
   gender: UserGender;
   trainingReadiness: boolean;
+  trainingConfig?: UserTrainingConfig | null;
 }
