@@ -28,7 +28,6 @@ import {
 import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
 import { RefreshTokenService } from '@project/refresh-token';
-import { UserFactory } from 'libs/backend/modules/user/src/lib/user.factory';
 import { FitnessLevel } from 'libs/core/src/enums/user/fitness-level.enum';
 import { WorkoutType } from 'libs/core/src/enums/user/workout-type.enum';
 import { WorkoutDuration } from 'libs/core/src/enums/user/workout-duration.enum';
@@ -76,9 +75,8 @@ export class AuthenticationService {
     };
 
     const userEntity = new UserEntity(newUser);
-    const newEntity = await this.userRepository.save(userEntity);
 
-    return newEntity;
+    return this.userRepository.save(userEntity);
   }
 
   public async verifyUser(dto: LoginUserDto) {
@@ -153,30 +151,23 @@ export class AuthenticationService {
 
   public async updateUser(id: string, dto: UpdateUserDto) {
     const { avatar } = dto;
-    const existUser = await this.userRepository.findById(id);
+    const existUser = await this.getUserById(id);
 
-    if (!existUser) {
-      throw new NotFoundException(`${ResponseMessage.UserNotFound}: ${id}`);
+    let { avatarPath } = existUser;
+    if (avatar) {
+      avatarPath = (await this.fileUploaderService.saveFile(avatar))?.toPOJO()
+        ?.path;
     }
-    const avatarFile = (
-      await this.fileUploaderService.saveFile(avatar)
-    )?.toPOJO();
+
     const user = existUser.toPOJO();
     const updatedUser: AuthUser = {
       ...user,
-      firstname: dto.firstname || user.firstname,
-      description: dto.description || user.description,
-      location: dto.location || user.location,
-      gender: dto.gender || user.gender,
-      dateOfBirth: dto.dateOfBirth || user.dateOfBirth,
-      trainingReadiness: dto.trainingReadiness || user.trainingReadiness,
-      avatarPath: avatarFile?.path || user.avatarPath,
+      ...dto,
+      avatarPath,
     };
 
     const userEntity = new UserEntity(updatedUser);
 
-    const updatedEntity = await this.userRepository.update(userEntity);
-
-    return updatedEntity;
+    return this.userRepository.update(userEntity);
   }
 }
