@@ -43,7 +43,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthenticationController {
-  constructor(private readonly userService: AuthenticationService) {}
+  constructor(private readonly authService: AuthenticationService) {}
 
   @ApiCreatedResponse({
     type: UserRdo,
@@ -77,11 +77,11 @@ export class AuthenticationController {
     )
     file: Express.Multer.File
   ) {
-    const newUser = await this.userService.register({
+    const newUser = await this.authService.register({
       ...dto,
       avatar: file,
     });
-    const userToken = await this.userService.createUserToken(newUser);
+    const userToken = await this.authService.createUserToken(newUser);
 
     return fillDto(RegisteredUserRdo, { ...newUser.toPOJO(), ...userToken });
   }
@@ -107,7 +107,7 @@ export class AuthenticationController {
     @Req() { user }: RequestWithUser,
     @Body() _: LoginUserDto
   ) {
-    const userToken = await this.userService.createUserToken(user);
+    const userToken = await this.authService.createUserToken(user);
 
     return fillDto(LoggedUserRdo, { ...user.toPOJO(), ...userToken });
   }
@@ -124,7 +124,7 @@ export class AuthenticationController {
   })
   @Post('refresh')
   public async refreshToken(@Req() { user }: RequestWithUser) {
-    return this.userService.createUserToken(user);
+    return this.authService.createUserToken(user);
   }
 
   @ApiOperation({

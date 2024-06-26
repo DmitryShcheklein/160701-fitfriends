@@ -4,26 +4,18 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import {
-  AuthUser,
-  FitnessLevel,
-  Token,
-  TokenPayload,
-  User,
-  UserGender,
-  UserTrainingConfig,
-  WorkoutDuration,
-  WorkoutType,
-} from '@project/core';
+import { Token, TokenPayload, User } from '@project/core';
 import { ResponseMessage } from './authentication.constant';
-import { ResponseMessage as UserResponseMessage } from '@project/user-module';
+import {
+  ResponseMessage as UserResponseMessage,
+  UserService,
+} from '@project/user-module';
 import { Hasher, HasherComponent } from '@project/hasher-module';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'node:crypto';
-import { UserRepository, UserEntity } from '@project/user-module';
+import { UserEntity } from '@project/user-module';
 import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
@@ -32,7 +24,7 @@ import { RefreshTokenService } from '@project/refresh-token';
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly userService: UserService,
     @Inject(Jwt.ACCESS_KEY)
     private readonly jwtAccessService: JwtService,
     @Inject(Jwt.REFRESH_KEY)
@@ -45,7 +37,7 @@ export class AuthenticationService {
 
   public async register(dto: CreateUserDtoWithAvatarFile): Promise<UserEntity> {
     const { email, password, avatar } = dto;
-    const existUser = await this.userRepository.findByEmail(email);
+    const existUser = await this.userService.existUserByEmail(email);
 
     if (existUser) {
       throw new ConflictException(`${UserResponseMessage.UserExist}: ${email}`);
@@ -54,31 +46,23 @@ export class AuthenticationService {
     const passwordHash = await this.hasherService.generatePasswordHash(
       password
     );
+
     const avatarFile = (
       await this.fileUploaderService.saveFile(avatar)
     )?.toPOJO();
-    const trainingConfig: UserTrainingConfig = {
-      level: FitnessLevel.Amateur,
-      specialisation: Object.keys(WorkoutType).map((key) => WorkoutType[key]),
-      duration: WorkoutDuration.Min10to30,
-      caloriesPerDay: dto.gender === UserGender.Female ? 2300 : 3300,
-      caloriesWantLost: 1000,
-    };
-    const newUser: AuthUser = {
+
+    const newUser = await this.userService.create({
       ...dto,
       passwordHash,
       avatarPath: avatarFile?.path,
-      trainingConfig,
-    };
+    });
 
-    const userEntity = new UserEntity(newUser);
-
-    return this.userRepository.save(userEntity);
+    return newUser;
   }
 
   public async verifyUser(dto: LoginUserDto) {
     const { email, password } = dto;
-    const existUser = await this.userRepository.findByEmail(email);
+    const existUser = await this.userService.existUserByEmail(email);
 
     if (!existUser) {
       throw new UnauthorizedException(ResponseMessage.LoggedError);
@@ -91,26 +75,6 @@ export class AuthenticationService {
 
     if (!isEqualPassword) {
       throw new UnauthorizedException(ResponseMessage.LoggedError);
-    }
-
-    return existUser;
-  }
-
-  public async getUserById(id: string) {
-    const existUser = await this.userRepository.findById(id);
-
-    if (!existUser) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-
-    return existUser;
-  }
-
-  public async getUserByEmail(email: string) {
-    const existUser = await this.userRepository.findByEmail(email);
-
-    if (!existUser) {
-      throw new NotFoundException(`User with email: ${email} not found`);
     }
 
     return existUser;

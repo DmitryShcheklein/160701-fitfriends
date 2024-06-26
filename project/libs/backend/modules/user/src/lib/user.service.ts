@@ -1,5 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AuthUser } from '@project/core';
+import {
+  AuthUser,
+  FitnessLevel,
+  UserGender,
+  UserTrainingConfig,
+  WorkoutDuration,
+  WorkoutType,
+} from '@project/core';
 import { UpdateUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { UserRepository } from './user.repository';
@@ -12,11 +19,43 @@ export class UserService {
     private readonly fileUploaderService: FileUploaderService
   ) {}
 
+  public async create(user: AuthUser) {
+    const trainingConfig: UserTrainingConfig = {
+      level: FitnessLevel.Amateur,
+      specialisation: Object.keys(WorkoutType).map((key) => WorkoutType[key]),
+      duration: WorkoutDuration.Min10to30,
+      caloriesPerDay: user.gender === UserGender.Female ? 2300 : 3300,
+      caloriesWantLost: 1000,
+    };
+    const newUser: AuthUser = {
+      ...user,
+      trainingConfig,
+    };
+
+    const userEntity = new UserEntity(newUser);
+
+    return this.userRepository.save(userEntity);
+  }
+
+  public async existUserByEmail(email: string) {
+    return this.userRepository.findByEmail(email);
+  }
+
   public async getUserById(id: string) {
     const existUser = await this.userRepository.findById(id);
 
     if (!existUser) {
       throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    return existUser;
+  }
+
+  public async getUserByEmail(email: string) {
+    const existUser = await this.userRepository.findByEmail(email);
+
+    if (!existUser) {
+      throw new NotFoundException(`User with email: ${email} not found`);
     }
 
     return existUser;
