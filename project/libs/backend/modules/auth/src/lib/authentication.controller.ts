@@ -4,7 +4,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Patch,
   Post,
   Req,
   UploadedFile,
@@ -24,10 +23,9 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { ResponseMessage } from './authentication.constant';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { ResponseMessage as UserResponseMessage } from '@project/user-module';
 import { RequestWithUser } from './request-with-user.interface';
-import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+import { JwtRefreshGuard, LocalAuthGuard, JwtAuthGuard } from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
 import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
@@ -49,13 +47,13 @@ export class AuthenticationController {
 
   @ApiCreatedResponse({
     type: UserRdo,
-    description: ResponseMessage.UserCreated,
+    description: UserResponseMessage.UserCreated,
   })
   @ApiConsumes('multipart/form-data')
   @ApiConflictResponse({
-    description: ResponseMessage.UserExist,
+    description: UserResponseMessage.UserExist,
     schema: generateSchemeApiError(
-      ResponseMessage.UserExist,
+      UserResponseMessage.UserExist,
       HttpStatus.CONFLICT
     ),
   })

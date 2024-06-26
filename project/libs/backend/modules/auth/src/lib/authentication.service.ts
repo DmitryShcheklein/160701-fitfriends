@@ -9,28 +9,25 @@ import {
 } from '@nestjs/common';
 import {
   AuthUser,
+  FitnessLevel,
   Token,
   TokenPayload,
   User,
   UserGender,
   UserTrainingConfig,
+  WorkoutDuration,
+  WorkoutType,
 } from '@project/core';
 import { ResponseMessage } from './authentication.constant';
+import { ResponseMessage as UserResponseMessage } from '@project/user-module';
 import { Hasher, HasherComponent } from '@project/hasher-module';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'node:crypto';
 import { UserRepository, UserEntity } from '@project/user-module';
-import {
-  CreateUserDtoWithAvatarFile,
-  LoginUserDto,
-  UpdateUserDto,
-} from '@project/dto';
+import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
 import { RefreshTokenService } from '@project/refresh-token';
-import { FitnessLevel } from 'libs/core/src/enums/user/fitness-level.enum';
-import { WorkoutType } from 'libs/core/src/enums/user/workout-type.enum';
-import { WorkoutDuration } from 'libs/core/src/enums/user/workout-duration.enum';
 
 @Injectable()
 export class AuthenticationService {
@@ -51,7 +48,7 @@ export class AuthenticationService {
     const existUser = await this.userRepository.findByEmail(email);
 
     if (existUser) {
-      throw new ConflictException(`${ResponseMessage.UserExist}: ${email}`);
+      throw new ConflictException(`${UserResponseMessage.UserExist}: ${email}`);
     }
 
     const passwordHash = await this.hasherService.generatePasswordHash(
@@ -147,27 +144,5 @@ export class AuthenticationService {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
-  }
-
-  public async updateUser(id: string, dto: UpdateUserDto) {
-    const { avatar } = dto;
-    const existUser = await this.getUserById(id);
-
-    let { avatarPath } = existUser;
-    if (avatar) {
-      avatarPath = (await this.fileUploaderService.saveFile(avatar))?.toPOJO()
-        ?.path;
-    }
-
-    const user = existUser.toPOJO();
-    const updatedUser: AuthUser = {
-      ...user,
-      ...dto,
-      avatarPath,
-    };
-
-    const userEntity = new UserEntity(updatedUser);
-
-    return this.userRepository.update(userEntity);
   }
 }

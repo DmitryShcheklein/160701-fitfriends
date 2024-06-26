@@ -9,7 +9,6 @@ import { JwtConfigModule } from '@project/config';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { UserController } from './authentication-user.controller';
 
 @Module({
   imports: [
@@ -19,7 +18,7 @@ import { UserController } from './authentication-user.controller';
     HasherModule,
     JwtConfigModule.register(),
   ],
-  controllers: [AuthenticationController, UserController],
+  controllers: [AuthenticationController],
   providers: [
     AuthenticationService,
     JwtAccessStrategy,
