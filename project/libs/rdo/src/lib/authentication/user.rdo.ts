@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User, UserGender, UserLocation } from '@project/core';
+import {
+  User,
+  UserGender,
+  UserLocation,
+  UserTrainingConfig,
+} from '@project/core';
 import { Expose, Transform } from 'class-transformer';
 
 export class UserRdo implements Omit<User, 'email' | 'role'> {
@@ -79,4 +84,11 @@ export class UserRdo implements Omit<User, 'email' | 'role'> {
   })
   @Expose()
   public trainingReadiness: boolean;
+
+  @ApiProperty({
+    required: false,
+    description: 'User training config',
+  })
+  @Expose()
+  public trainingConfig?: UserTrainingConfig;
 }
