@@ -30,12 +30,7 @@ import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
 import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
 import { AuthenticationService } from './authentication.service';
-import {
-  LoggedUserRdo,
-  RefreshUserRdo,
-  RegisteredUserRdo,
-  UserRdo,
-} from '@project/rdo';
+import { LoggedUserRdo, RefreshUserRdo, RegisteredUserRdo } from '@project/rdo';
 import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -46,7 +41,7 @@ export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
 
   @ApiCreatedResponse({
-    type: UserRdo,
+    type: RegisteredUserRdo,
     description: UserResponseMessage.UserCreated,
   })
   @ApiConsumes('multipart/form-data')

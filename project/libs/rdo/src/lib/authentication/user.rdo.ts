@@ -1,11 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '@project/core';
+import { User, UserGender, UserLocation } from '@project/core';
 import { Expose, Transform } from 'class-transformer';
 
-export class UserRdo
-  implements
-    Pick<User, 'id' | 'email' | 'firstname' | 'createdAt' | 'avatarPath'>
-{
+export class UserRdo implements Omit<User, 'email' | 'role'> {
   @Expose()
   @ApiProperty({
     description: 'The uniq user ID',
@@ -42,4 +39,44 @@ export class UserRdo
   })
   @Transform(({ value }) => (value === undefined ? null : value))
   public avatarPath!: string | null;
+
+  @ApiProperty({
+    required: false,
+    description: 'User description',
+    example: 'Lorem ipsum',
+  })
+  @Expose()
+  public description!: string;
+
+  @ApiProperty({
+    required: false,
+    description: 'User birth date',
+    example: '2024-01-11T14:19:59.298Z',
+  })
+  @Expose()
+  public dateOfBirth: Date;
+
+  @ApiProperty({
+    description: 'User gender',
+    example: UserGender.Male,
+    enum: UserGender,
+  })
+  @Expose()
+  public gender: UserGender;
+
+  @ApiProperty({
+    description: 'User location',
+    example: UserLocation.Petrogradskaya,
+    enum: UserLocation,
+  })
+  @Expose()
+  public location: UserLocation;
+
+  @ApiProperty({
+    required: false,
+    description: 'User training readines',
+    example: true,
+  })
+  @Expose()
+  public trainingReadiness: boolean;
 }

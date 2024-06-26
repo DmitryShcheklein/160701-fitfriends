@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Patch,
   Req,
@@ -17,6 +18,7 @@ import {
   ApiOperation,
   ApiConsumes,
   ApiNotFoundResponse,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
 import { UpdateUserDto } from '@project/dto';
@@ -33,6 +35,20 @@ import { ResponseMessage } from './user.constant';
 @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @ApiOperation({
+    summary: 'Получить пользователя',
+  })
+  @ApiOkResponse({
+    type: UserRdo,
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @Get()
+  public async getUser(@Req() { user }: RequestWithTokenPayload) {
+    const findedUser = await this.userService.getUserById(user.sub);
+
+    return fillDto(UserRdo, findedUser);
+  }
 
   @ApiCreatedResponse({
     type: UserRdo,
@@ -51,7 +67,7 @@ export class UserController {
   })
   @UseInterceptors(FileInterceptor('avatar'))
   @ApiBearerAuth(AuthKeyName)
-  @Patch('')
+  @Patch()
   public async updateUser(
     @Req() { user }: RequestWithTokenPayload,
     @Body() dto: UpdateUserDto,
