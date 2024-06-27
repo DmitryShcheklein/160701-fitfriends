@@ -7,7 +7,7 @@ import {
   WorkoutDuration,
   WorkoutType,
 } from '@project/core';
-import { UpdateUserDto } from '@project/dto';
+import { CreateUserConfigDto, UpdateUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
@@ -78,6 +78,18 @@ export class UserService {
       avatarPath,
     };
 
+    const userEntity = new UserEntity(updatedUser);
+
+    return this.userRepository.update(userEntity);
+  }
+
+  public async createUserConfig(id: string, dto: CreateUserConfigDto) {
+    const existUser = await this.getUserById(id);
+    const user = existUser.toPOJO();
+    const updatedUser: AuthUser = {
+      ...user,
+      trainingConfig: dto,
+    };
     const userEntity = new UserEntity(updatedUser);
 
     return this.userRepository.update(userEntity);
