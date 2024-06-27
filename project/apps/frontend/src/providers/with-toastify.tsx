@@ -8,7 +8,7 @@ const withToastify =
     return (
       <>
         <ToastContainer />
-        {component()};
+        {component()}
       </>
     );
   };
