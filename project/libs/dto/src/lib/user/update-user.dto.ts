@@ -1,9 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User, UserGender, UserLocation } from '@project/core';
 import { User as UserValidation } from '@project/validation';
-import { Transform } from 'class-transformer';
 import {
-  IsBoolean,
   IsEnum,
   IsISO8601,
   IsOptional,
@@ -13,7 +11,7 @@ import {
 } from 'class-validator';
 
 export class UpdateUserDto
-  implements Omit<User, 'avatarPath' | 'email' | 'password' | 'role'>
+  implements Partial<Omit<User, 'avatarPath' | 'email' | 'password' | 'role'>>
 {
   @ApiProperty({
     required: false,
@@ -26,7 +24,7 @@ export class UpdateUserDto
   @MaxLength(UserValidation.Firstname.Max)
   @IsString()
   @IsOptional()
-  public firstname: string;
+  public firstname?: string;
 
   @ApiProperty({
     required: false,
@@ -39,7 +37,7 @@ export class UpdateUserDto
   @MaxLength(UserValidation.Description.Max)
   @IsString()
   @IsOptional()
-  public description: string;
+  public description?: string;
 
   @ApiProperty({
     required: false,
@@ -48,7 +46,7 @@ export class UpdateUserDto
   })
   @IsEnum(UserGender)
   @IsOptional()
-  public gender: UserGender;
+  public gender?: UserGender;
 
   @ApiProperty({
     required: false,
@@ -56,7 +54,7 @@ export class UpdateUserDto
   })
   @IsISO8601()
   @IsOptional()
-  public dateOfBirth: Date;
+  public dateOfBirth?: Date;
 
   @ApiProperty({
     required: false,
@@ -66,16 +64,7 @@ export class UpdateUserDto
   })
   @IsEnum(UserLocation)
   @IsOptional()
-  public location: UserLocation;
-
-  @ApiProperty({
-    required: false,
-    description: 'User training readines',
-  })
-  @IsBoolean()
-  @Transform(({ value }) => value === 'true')
-  @IsOptional()
-  public trainingReadiness: boolean;
+  public location?: UserLocation;
 
   @ApiProperty({
     required: false,
@@ -86,5 +75,5 @@ export class UpdateUserDto
     maxLength: 100,
   })
   @IsOptional()
-  public avatar?: Express.Multer.File;
+  public avatar?: Express.Multer.File | null | string;
 }

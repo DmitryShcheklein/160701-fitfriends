@@ -6,6 +6,7 @@ import {
   WorkoutType,
 } from '@project/core';
 import { User as UserValidation } from '@project/validation';
+import { Expose } from 'class-transformer';
 
 export class UserConfigRdo implements UserTrainingConfig {
   @ApiProperty({
@@ -13,6 +14,7 @@ export class UserConfigRdo implements UserTrainingConfig {
     enum: FitnessLevel,
     example: FitnessLevel.Amateur,
   })
+  @Expose()
   public level: FitnessLevel;
 
   @ApiProperty({
@@ -20,6 +22,7 @@ export class UserConfigRdo implements UserTrainingConfig {
     example: WorkoutDuration.Min10to30,
     enum: WorkoutDuration,
   })
+  @Expose()
   public duration: WorkoutDuration;
 
   @ApiProperty({
@@ -28,6 +31,7 @@ export class UserConfigRdo implements UserTrainingConfig {
     enum: WorkoutType,
     example: [WorkoutType.Aerobics, WorkoutType.Boxing],
   })
+  @Expose()
   public specialisation: WorkoutType[];
 
   @ApiProperty({
@@ -36,6 +40,7 @@ export class UserConfigRdo implements UserTrainingConfig {
     minLength: UserValidation.CaloriesPerDay.Min,
     maxLength: UserValidation.CaloriesPerDay.Max,
   })
+  @Expose()
   public caloriesPerDay: number;
 
   @ApiProperty({
@@ -44,12 +49,13 @@ export class UserConfigRdo implements UserTrainingConfig {
     minLength: UserValidation.CaloriesWantLost.Min,
     maxLength: UserValidation.CaloriesWantLost.Max,
   })
+  @Expose()
   public caloriesWantLost: number;
 
   @ApiProperty({
-    required: false,
     description: 'User training readines',
     example: true,
   })
+  @Expose()
   public trainingReadiness: boolean;
 }

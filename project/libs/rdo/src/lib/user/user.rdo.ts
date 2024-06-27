@@ -74,6 +74,7 @@ export class UserRdo implements Omit<User, 'email' | 'role'> {
   public location: UserLocation;
 
   @ApiProperty({
+    type: UserConfigRdo,
     required: false,
     description: 'User training config',
   })
