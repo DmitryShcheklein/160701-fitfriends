@@ -1,83 +1,79 @@
-import React, { ChangeEvent, useState } from 'react';
-import { useGetUserQuery } from '../../store/user-process/user-api';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import {
+  useGetUserQuery,
+  useUpdateUserMutation,
+} from '../../store/user-process/user-api';
 import CustomSelect from '../ui/Select/Select';
 import Tag from '../ui/tag/tag';
 import Input from '../ui/Input/Input';
 import Textarea from '../ui/textarea/textarea';
 import Toggle from '../ui/toggle/toggle';
+import { useAppDispatch } from '../../hooks';
+import {
+  specializationOptions,
+  locationOptions,
+  genderOptions,
+  fitnessLevelOptions,
+} from './user-info.data';
+import { UserLocation } from '../../enums';
 
-const specializationOptions = [
-  { value: 'Yoga', label: 'Йога' },
-  { value: 'Running', label: 'Бег' },
-  { value: 'Aerobics', label: 'Аэробика' },
-  { value: 'Boxing', label: 'Бокс' },
-  { value: 'Power', label: 'Силовые' },
-  { value: 'Pilates', label: 'Пилатес' },
-  { value: 'Stretching', label: 'Стрейчинг' },
-  { value: 'CrossFit', label: 'Кроссфит' },
-];
-
-const locationOptions = [
-  { value: 'Pionerskaya', label: 'Пионерская' },
-  { value: 'Petrogradskaya', label: 'Петроградская' },
-  { value: 'Udelnaya', label: 'Удельная' },
-  { value: 'Zvezdnaya', label: 'Звёздная' },
-  { value: 'Sportivnaya', label: 'Спортивная' },
-];
-
-const genderOptions = [
-  { value: 'Female', label: 'Женский' },
-  { value: 'Male', label: 'Мужской' },
-  { value: 'Any', label: 'Неважно' },
-];
-
-const fitnessLevelOptions = [
-  { value: 'Beginner', label: 'Новичок' },
-  { value: 'Amateur', label: 'Любитель' },
-  { value: 'Professional', label: 'Профессионал' },
-];
-
+enum UserFormFieldName {
+  FirstName = 'firstname',
+  Description = 'description',
+  Gender = 'gender',
+  Location = 'location',
+  Role = 'role',
+  AvatarPath = 'avatar',
+}
+enum TrainingConfigFieldName {
+  Level = 'level',
+  Specialisation = 'specialisation',
+}
 const UserProfileInfo: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [updateUser, { isLoading: isLoadingUserMutation }] =
+    useUpdateUserMutation();
   const [isEditable, setIsEditable] = useState(false);
-  const { data, isLoading } = useGetUserQuery();
-  const {
-    firstname,
-    description,
-    trainingConfig,
-    location,
-    gender,
-    avatarPath,
-  } = data || {};
-
-  const { specialisation, level, trainingReadiness } = trainingConfig || {};
-  const [specialization, setSpecialization] = useState(specialisation || []);
-
-  const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked, readOnly } = evt.target;
-    if (!readOnly) {
-      setSpecialization((prev) =>
-        checked ? [...prev, value] : prev.filter((item) => item !== value)
-      );
-    }
-  };
-
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(
-    avatarPath || ''
-  );
-  const [formData, setFormData] = useState({
-    avatarPath,
-    firstname,
-    description,
-    trainingReadiness,
-    location,
-    gender,
+  const { data: userData, isLoading } = useGetUserQuery();
+  const [trainingConfigData, setTrainingConfigData] = useState({
+    [TrainingConfigFieldName.Level]: userData?.trainingConfig?.level,
+    [TrainingConfigFieldName.Specialisation]:
+      userData?.trainingConfig?.specialisation,
   });
-  const handleStatusChange = () => {
-    setFormData((prev) => ({
-      ...prev,
-      trainingReadiness: !prev.trainingReadiness,
-    }));
-  };
+
+  const [formUserData, setFormUserData] = useState({
+    [UserFormFieldName.FirstName]: userData?.firstname,
+    [UserFormFieldName.Description]: userData?.description,
+    [UserFormFieldName.Location]: userData?.location,
+    [UserFormFieldName.Gender]: userData?.gender,
+    [UserFormFieldName.AvatarPath]: userData?.avatarPath,
+  });
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(
+    formUserData?.avatar || ''
+  );
+
+  useEffect(() => {
+    if (userData) {
+      const {
+        firstname,
+        description,
+        avatarPath,
+        location,
+        gender,
+        trainingConfig,
+      } = userData;
+      setFormUserData({
+        firstname,
+        description,
+        avatar: avatarPath,
+        location,
+        gender,
+      });
+      setTrainingConfigData(trainingConfig);
+      setAvatarPreview(avatarPath);
+    }
+  }, [userData]);
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -85,20 +81,47 @@ const UserProfileInfo: React.FC = () => {
     }
   };
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: checked,
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+  // const handleInputChange = (
+  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value, type, checked } = e.target;
+  //   if (type === 'checkbox') {
+  //     setFormUserData((prev) => ({
+  //       ...prev,
+  //       [name]: checked,
+  //     }));
+  //   } else {
+  //     setFormUserData((prev) => ({
+  //       ...prev,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
+
+  // const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  //   const { value, checked, readOnly } = evt.target;
+  //   if (!readOnly) {
+  //     setSpecialization((prev) =>
+  //       checked ? [...prev, value] : prev.filter((item) => item !== value)
+  //     );
+  //   }
+  // };
+
+  const handleEditBtn = () => {
+    setIsEditable(!isEditable);
+  };
+
+  const handleSaveBtn = async () => {
+    setIsEditable(!isEditable);
+
+    try {
+      if (formUserData) {
+        console.log(formUserData);
+        const userData = await updateUser(formUserData).unwrap();
+        // dispatch(setCredentials(userData));
+      }
+    } catch (err) {
+      console.error('Failed to register: ', err);
     }
   };
 
@@ -114,18 +137,12 @@ const UserProfileInfo: React.FC = () => {
             <input
               className="visually-hidden"
               type="file"
-              name="user-photo-1"
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
             />
             {avatarPreview ? (
               <div className="input-load-avatar__avatar">
-                <img
-                  src={avatarPreview}
-                  alt="Avatar Preview"
-                  width="98px"
-                  height="98px"
-                />
+                <img src={avatarPreview} alt="Avatar Preview" />
               </div>
             ) : (
               <span className="input-load-avatar__btn">
@@ -137,30 +154,49 @@ const UserProfileInfo: React.FC = () => {
           </label>
         </div>
       </div>
-      <form className="user-info__form">
-        <button
-          className="btn-flat btn-flat--underlined user-info__edit-button"
-          type="button"
-          aria-label="Редактировать"
-        >
-          <svg width="12" height="12" aria-hidden="true">
-            <use xlinkHref="#icon-edit"></use>
-          </svg>
-          <span>Редактировать</span>
-        </button>
+      <div className="user-info__form">
+        {!isEditable ? (
+          <button
+            onClick={handleEditBtn}
+            className="btn-flat btn-flat--underlined user-info__edit-button"
+            type="button"
+            aria-label="Редактировать"
+          >
+            <svg width="12" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-edit"></use>
+            </svg>
+            <span>Редактировать</span>
+          </button>
+        ) : (
+          <button
+            onClick={handleSaveBtn}
+            className="btn-flat btn-flat--underlined user-info__edit-button"
+            type="submit"
+            aria-label="Сохранить"
+            disabled={isLoadingUserMutation}
+          >
+            <svg width="12" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-edit"></use>
+            </svg>
+            <span>Сохранить</span>
+          </button>
+        )}
+
         <div className="user-info__section">
           <h2 className="user-info__title">Обо мне</h2>
           <Input
             className="user-info__input"
             label="Имя"
-            value={formData.firstname}
+            value={formUserData?.firstname}
             readOnly={!isEditable}
+            name="firstname"
           />
 
           <Textarea
             className="user-info__textarea"
             label="Описание"
-            value={formData.description}
+            name="description"
+            value={formUserData?.description}
             readOnly={!isEditable}
           />
         </div>
@@ -169,8 +205,15 @@ const UserProfileInfo: React.FC = () => {
           <Toggle
             label="Готов тренироваться"
             className="user-info__toggle"
-            checked={formData.trainingReadiness}
-            onChange={handleStatusChange}
+            checked={trainingConfigData?.trainingReadiness}
+            disabled
+            onChange={(evt) => {
+              setTrainingConfigData({
+                ...trainingConfigData,
+                trainingReadiness: evt.target.checked,
+              });
+            }}
+            // onChange={handleStatusChange}
           />
         </div>
         <div className="user-info__section">
@@ -184,8 +227,10 @@ const UserProfileInfo: React.FC = () => {
                 name="specialization"
                 value={option.value}
                 label={option.label}
-                checked={specialization.includes(option.value)}
-                onChange={handleSpecializationChange}
+                checked={trainingConfigData?.specialisation?.includes(
+                  option.value
+                )}
+                // onChange={handleSpecializationChange}
                 readOnly={true}
                 size="small"
               />
@@ -196,15 +241,23 @@ const UserProfileInfo: React.FC = () => {
           className="user-info__select"
           name="location"
           label="Локация"
-          value={locationOptions.find((el) => el.value === formData.location)}
+          value={locationOptions.find(
+            (el) => el.value === formUserData?.location
+          )}
           options={locationOptions}
+          onChange={(newValue: { name: string; value: UserLocation }) => {
+            setFormUserData({
+              ...formUserData,
+              location: newValue.value,
+            });
+          }}
           isDisabled={!isEditable}
         />
         <CustomSelect
           className="user-info__select"
           name="gender"
           label="Пол"
-          value={genderOptions.find((el) => el.value === formData.gender)}
+          value={genderOptions.find((el) => el.value === formUserData?.gender)}
           options={genderOptions}
           isDisabled={!isEditable}
         />
@@ -212,11 +265,13 @@ const UserProfileInfo: React.FC = () => {
           className="user-info__select"
           name="level"
           label="Уровень"
-          value={fitnessLevelOptions.find((el) => el.value === level)}
+          value={fitnessLevelOptions.find(
+            (el) => el.value === trainingConfigData?.level
+          )}
           options={fitnessLevelOptions}
-          isDisabled={!isEditable}
+          isDisabled
         />
-      </form>
+      </div>
     </>
   );
 };

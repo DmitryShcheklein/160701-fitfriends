@@ -2,10 +2,9 @@ import React, { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
-import { useDispatch } from 'react-redux';
 import { useRegisterMutation } from '../../store/auth-process/auth-api';
 import { setCredentials } from '../../store/auth-process/auth-process';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 import Popup from '../popup/popup';
 import Input from '../ui/Input/Input';
@@ -13,6 +12,7 @@ import RadioInput from '../ui/RadioInput/RadioInput';
 import RoleSelector from '../role-selector/role-selector';
 import CustomSelect from '../ui/Select/Select';
 import { roleOptions, locationOptions } from './register.data';
+import { UserLocation, UserRole, UserGender } from '../../enums';
 
 enum FormFieldName {
   FirstName = 'firstname',
@@ -28,22 +28,22 @@ enum FormFieldName {
 
 const RegisterForm: React.FC = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
   const [formData, setFormData] = useState({
-    [FormFieldName.FirstName]: 'test',
-    [FormFieldName.Email]: 'test@test.ru',
-    [FormFieldName.Password]: '12345678',
-    [FormFieldName.DateOfBirth]: '2024-06-22',
-    [FormFieldName.Gender]: 'Male',
-    [FormFieldName.Role]: roleOptions[0].value,
-    [FormFieldName.Location]: null,
-    [FormFieldName.Avatar]: null,
+    [FormFieldName.FirstName]: 'Admin',
+    [FormFieldName.Email]: 'admin@admin.ru',
+    [FormFieldName.Password]: 'adminnew',
+    [FormFieldName.DateOfBirth]: new Date('2024-06-22'),
+    [FormFieldName.Gender]: UserGender.Male,
+    [FormFieldName.Role]: UserRole.User,
+    [FormFieldName.Location]: UserLocation.Sportivnaya,
+    [FormFieldName.Avatar]: undefined,
     [FormFieldName.isAgreements]: true,
   });
 
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string>();
   const {
     firstname,
     email,
@@ -80,11 +80,9 @@ const RegisterForm: React.FC = () => {
 
   const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const form = evt.target as HTMLFormElement;
-    const formDataToSend = new FormData(form);
-
     try {
-      const userData = await register(formDataToSend).unwrap();
+      const { isAgreements, ...data } = formData;
+      const userData = await register(data).unwrap();
       dispatch(setCredentials(userData));
     } catch (err) {
       console.error('Failed to register: ', err);
@@ -98,11 +96,7 @@ const RegisterForm: React.FC = () => {
   return (
     <Popup isOpen title="Регистрация" className="popup-form--sign-up">
       <div className="popup-form__form">
-        <form
-          onSubmit={handleFormSubmit}
-          encType="multipart/form-data"
-          autoComplete="off"
-        >
+        <form onSubmit={handleFormSubmit} autoComplete="off">
           <div className="sign-up">
             <div className="sign-up__load-photo">
               <label className="input-load-avatar">
@@ -154,7 +148,7 @@ const RegisterForm: React.FC = () => {
                 label="Дата рождения"
                 name={FormFieldName.DateOfBirth}
                 max="2099-12-31"
-                value={dateOfBirth}
+                value={String(dateOfBirth)}
                 onChange={onChange}
               />
 
@@ -162,11 +156,11 @@ const RegisterForm: React.FC = () => {
                 label="Ваша локация"
                 name={FormFieldName.Location}
                 options={locationOptions}
-                value={location}
+                value={locationOptions.find((el) => el.value === location)}
                 onChange={(newValue: any) => {
                   setFormData((prev) => ({
                     ...prev,
-                    [FormFieldName.Location]: newValue,
+                    [FormFieldName.Location]: newValue.value,
                   }));
                 }}
               />
