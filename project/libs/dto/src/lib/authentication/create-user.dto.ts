@@ -54,7 +54,7 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   @MaxLength(UserValidation.Description.Max)
   @IsString()
   @IsOptional()
-  public description!: string;
+  public description?: string;
 
   @ApiProperty({
     required: false,
@@ -63,7 +63,7 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   })
   @IsISO8601()
   @IsOptional()
-  public dateOfBirth: Date;
+  public dateOfBirth?: Date;
 
   @ApiProperty({
     description: 'User gender',
@@ -100,7 +100,7 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   @IsBoolean()
   @Transform(({ value }) => value === 'true')
   @IsOptional()
-  public trainingReadiness: boolean;
+  public trainingReadiness?: boolean;
 }
 
 export class CreateUserDtoWithAvatarFile extends CreateUserDto {

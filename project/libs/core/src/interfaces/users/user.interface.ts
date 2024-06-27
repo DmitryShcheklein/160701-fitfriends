@@ -15,6 +15,6 @@ export interface User {
   role: UserRole;
   location: UserLocation;
   gender: UserGender;
-  trainingReadiness: boolean;
+  trainingReadiness?: boolean;
   trainingConfig?: UserTrainingConfig | null;
 }
