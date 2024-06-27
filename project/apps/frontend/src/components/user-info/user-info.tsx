@@ -15,7 +15,7 @@ import {
   genderOptions,
   fitnessLevelOptions,
 } from './user-info.data';
-import { UserLocation } from '../../enums';
+import { UserLocation, UserGender } from '../../enums';
 
 enum UserFormFieldName {
   FirstName = 'firstname',
@@ -28,7 +28,9 @@ enum UserFormFieldName {
 enum TrainingConfigFieldName {
   Level = 'level',
   Specialisation = 'specialisation',
+  TrainingReadiness = 'trainingReadiness',
 }
+
 const UserProfileInfo: React.FC = () => {
   const dispatch = useAppDispatch();
   const [updateUser, { isLoading: isLoadingUserMutation }] =
@@ -39,6 +41,8 @@ const UserProfileInfo: React.FC = () => {
     [TrainingConfigFieldName.Level]: userData?.trainingConfig?.level,
     [TrainingConfigFieldName.Specialisation]:
       userData?.trainingConfig?.specialisation,
+    [TrainingConfigFieldName.TrainingReadiness]:
+      userData?.trainingConfig?.trainingReadiness,
   });
 
   const [formUserData, setFormUserData] = useState({
@@ -69,7 +73,12 @@ const UserProfileInfo: React.FC = () => {
         location,
         gender,
       });
-      setTrainingConfigData(trainingConfig);
+
+      setTrainingConfigData({
+        level: trainingConfig?.level,
+        specialisation: trainingConfig?.specialisation,
+        trainingReadiness: trainingConfig?.trainingReadiness,
+      });
       setAvatarPreview(avatarPath);
     }
   }, [userData]);
@@ -81,31 +90,34 @@ const UserProfileInfo: React.FC = () => {
     }
   };
 
-  // const handleInputChange = (
-  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value, type, checked } = e.target;
-  //   if (type === 'checkbox') {
-  //     setFormUserData((prev) => ({
-  //       ...prev,
-  //       [name]: checked,
-  //     }));
-  //   } else {
-  //     setFormUserData((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
 
-  // const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
-  //   const { value, checked, readOnly } = evt.target;
-  //   if (!readOnly) {
-  //     setSpecialization((prev) =>
-  //       checked ? [...prev, value] : prev.filter((item) => item !== value)
-  //     );
-  //   }
-  // };
+    setFormUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked, readOnly } = evt.target;
+    if (!readOnly) {
+      setTrainingConfigData((prev) => {
+        const currentSpecialisation = prev.specialisation;
+
+        const updatedSpecialisations = checked
+          ? [...currentSpecialisation, value]
+          : currentSpecialisation.filter((item) => item !== value);
+
+        return {
+          ...prev,
+          specialisation: updatedSpecialisations,
+        };
+      });
+    }
+  };
 
   const handleEditBtn = () => {
     setIsEditable(!isEditable);
@@ -116,7 +128,6 @@ const UserProfileInfo: React.FC = () => {
 
     try {
       if (formUserData) {
-        console.log(formUserData);
         const userData = await updateUser(formUserData).unwrap();
         // dispatch(setCredentials(userData));
       }
@@ -189,15 +200,17 @@ const UserProfileInfo: React.FC = () => {
             label="Имя"
             value={formUserData?.firstname}
             readOnly={!isEditable}
-            name="firstname"
+            name={UserFormFieldName.FirstName}
+            onChange={handleInputChange}
           />
 
           <Textarea
             className="user-info__textarea"
             label="Описание"
-            name="description"
+            name={UserFormFieldName.Description}
             value={formUserData?.description}
             readOnly={!isEditable}
+            onChange={handleInputChange}
           />
         </div>
         <div className="user-info__section user-info__section--status">
@@ -239,7 +252,7 @@ const UserProfileInfo: React.FC = () => {
         </div>
         <CustomSelect
           className="user-info__select"
-          name="location"
+          name={UserFormFieldName.Location}
           label="Локация"
           value={locationOptions.find(
             (el) => el.value === formUserData?.location
@@ -255,9 +268,15 @@ const UserProfileInfo: React.FC = () => {
         />
         <CustomSelect
           className="user-info__select"
-          name="gender"
+          name={UserFormFieldName.Gender}
           label="Пол"
           value={genderOptions.find((el) => el.value === formUserData?.gender)}
+          onChange={(newValue: { name: string; value: UserGender }) => {
+            setFormUserData({
+              ...formUserData,
+              gender: newValue.value,
+            });
+          }}
           options={genderOptions}
           isDisabled={!isEditable}
         />
