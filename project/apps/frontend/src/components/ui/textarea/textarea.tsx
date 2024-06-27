@@ -24,9 +24,12 @@ const Textarea: React.FC<TextareaProps> = ({
     >
       <label>
         <span className="custom-textarea__label">{label}</span>
-        <textarea readOnly={readOnly} disabled={disabled} {...props}>
-          {value}
-        </textarea>
+        <textarea
+          readOnly={readOnly}
+          disabled={disabled}
+          value={value}
+          {...props}
+        />
       </label>
     </div>
   );
