@@ -21,12 +21,12 @@ export const User = {
     Type: ALLOWED_IMG_MIMETYPES,
     FileMaxSize: 1 * MB,
   },
-  CaloriesToReset: {
+  CaloriesWantLost: {
     Min: 1000,
     Max: 5000,
   },
   CaloriesPerDay: {
     Min: 1000,
     Max: 5000,
-  }
+  },
 };

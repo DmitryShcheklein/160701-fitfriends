@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { UserRdo } from './user.rdo';
+import { UserRdo } from '../user/user.rdo';
 
 export class RegisteredUserRdo extends UserRdo {
   @Expose()
