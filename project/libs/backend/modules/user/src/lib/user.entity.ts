@@ -20,7 +20,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public role!: UserRole;
   public location!: UserLocation;
   public gender!: UserGender;
-  public trainingReadiness!: boolean;
   public trainingConfig!: UserTrainingConfig;
 
   constructor(user?: AuthUser) {
@@ -45,7 +44,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     this.role = user.role;
     this.location = user.location;
     this.gender = user.gender;
-    this.trainingReadiness = user.trainingReadiness;
     this.trainingConfig = user.trainingConfig;
   }
 
@@ -63,7 +61,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       role: this.role,
       location: this.location,
       gender: this.gender,
-      trainingReadiness: this.trainingReadiness,
       trainingConfig: this.trainingConfig,
     };
   }

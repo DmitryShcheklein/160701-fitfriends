@@ -45,4 +45,11 @@ export class UserConfigRdo implements UserTrainingConfig {
     maxLength: UserValidation.CaloriesWantLost.Max,
   })
   public caloriesWantLost: number;
+
+  @ApiProperty({
+    required: false,
+    description: 'User training readines',
+    example: true,
+  })
+  public trainingReadiness: boolean;
 }

@@ -75,14 +75,6 @@ export class UserRdo implements Omit<User, 'email' | 'role'> {
 
   @ApiProperty({
     required: false,
-    description: 'User training readines',
-    example: true,
-  })
-  @Expose()
-  public trainingReadiness: boolean;
-
-  @ApiProperty({
-    required: false,
     description: 'User training config',
   })
   @Expose()

@@ -26,6 +26,7 @@ export class UserService {
       duration: WorkoutDuration.Min10to30,
       caloriesPerDay: user.gender === UserGender.Female ? 2300 : 3300,
       caloriesWantLost: 1000,
+      trainingReadiness: false,
     };
     const newUser: AuthUser = {
       ...user,

@@ -91,16 +91,6 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   @IsEnum(UserRole)
   @IsNotEmpty()
   public role: UserRole;
-
-  @ApiProperty({
-    required: false,
-    description: 'User training readines',
-    example: true,
-  })
-  @IsBoolean()
-  @Transform(({ value }) => value === 'true')
-  @IsOptional()
-  public trainingReadiness?: boolean;
 }
 
 export class CreateUserDtoWithAvatarFile extends CreateUserDto {

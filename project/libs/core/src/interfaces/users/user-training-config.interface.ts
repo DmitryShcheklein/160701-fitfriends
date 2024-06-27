@@ -1,6 +1,6 @@
-import { FitnessLevel } from "../../enums/user/fitness-level.enum";
-import { WorkoutDuration } from "../../enums/user/workout-duration.enum";
-import { WorkoutType } from "../../enums/user/workout-type.enum";
+import { FitnessLevel } from '../../enums/user/fitness-level.enum';
+import { WorkoutDuration } from '../../enums/user/workout-duration.enum';
+import { WorkoutType } from '../../enums/user/workout-type.enum';
 
 export interface UserTrainingConfig {
   level: FitnessLevel;
@@ -8,4 +8,5 @@ export interface UserTrainingConfig {
   duration: WorkoutDuration;
   caloriesPerDay: number;
   caloriesWantLost: number;
+  trainingReadiness: boolean;
 }

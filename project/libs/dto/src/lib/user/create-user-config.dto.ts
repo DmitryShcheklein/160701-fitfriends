@@ -6,7 +6,8 @@ import {
 } from '@project/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { User as UserValidation } from '@project/validation';
-import { IsEnum, IsNumber, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsOptional, MaxLength, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateUserConfigDto implements UserTrainingConfig {
   @ApiProperty({
@@ -55,4 +56,14 @@ export class CreateUserConfigDto implements UserTrainingConfig {
   @MaxLength(UserValidation.CaloriesWantLost.Max)
   @IsNumber()
   public caloriesWantLost: number;
+
+  @ApiProperty({
+    required: false,
+    description: 'User training readines',
+    example: true,
+  })
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true')
+  @IsOptional()
+  public trainingReadiness: boolean;
 }
