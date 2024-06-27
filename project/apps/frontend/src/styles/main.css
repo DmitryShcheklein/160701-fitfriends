@@ -754,6 +754,10 @@ button,
   transition: color 0.3s ease, background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
 }
 
+input:read-only + .btn-checkbox__btn {
+  pointer-events: none;
+}
+
 input:checked + .btn-checkbox__btn {
   color: #c5ec2a;
   background-color: #333333;
@@ -1047,6 +1051,20 @@ input:disabled ~ .role-btn__btn,
   box-shadow: 0 0 0 2px #c5ec2a;
 }
 
+/* .custom-input label input:read-only,
+.is-read-only .custom-input label input,
+.custom-input label textarea:read-only,
+.is-read-only .custom-input label textarea,
+.custom-textarea label input:read-only,
+.is-read-only .custom-textarea label input,
+.custom-textarea label textarea:read-only,
+.is-read-only .custom-textarea label textarea {
+  border: 1px solid transparent;
+  background-color: transparent;
+  pointer-events: none;
+  
+} */
+
 .custom-input label input:disabled,
 .is-disabled .custom-input label input,
 .custom-input label textarea:disabled,
@@ -1068,10 +1086,10 @@ input:disabled ~ .role-btn__btn,
   line-height: 1.2;
 }
 
-.custom-input--readonly label input:disabled,
-.custom-input--readonly label textarea:disabled,
-.custom-textarea--readonly label input:disabled,
-.custom-textarea--readonly label textarea:disabled {
+.custom-input--readonly label input:read-only,
+.custom-input--readonly label textarea:read-only,
+.custom-textarea--readonly label input:read-only,
+.custom-textarea--readonly label textarea:read-only {
   color: #333333;
   -webkit-text-fill-color: #333333;
   border: none;

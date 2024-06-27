@@ -13,18 +13,20 @@ const Textarea: React.FC<TextareaProps> = ({
   className,
   ...props
 }) => {
-  const textareaClass = classNames(
-    'custom-textarea',
-    { 'custom-textarea--readonly': readOnly },
-    { 'custom-textarea--disabled': disabled },
-    className
-  );
-
   return (
-    <div className={textareaClass}>
+    <div
+      className={classNames(
+        'custom-textarea',
+        { 'custom-textarea--readonly': readOnly },
+        { 'custom-textarea--disabled': disabled },
+        className
+      )}
+    >
       <label>
         <span className="custom-textarea__label">{label}</span>
-        <textarea {...props}>{value}</textarea>
+        <textarea readOnly={readOnly} disabled={disabled} {...props}>
+          {value}
+        </textarea>
       </label>
     </div>
   );

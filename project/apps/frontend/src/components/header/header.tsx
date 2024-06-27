@@ -17,7 +17,7 @@ const Header: React.FC = () => {
 
         <MainNav items={navItems} />
 
-        <div className="search">
+        <div className="search" style={{ visibility: 'hidden' }}>
           <form action="#" method="get">
             <label>
               <span className="search__label">Поиск</span>

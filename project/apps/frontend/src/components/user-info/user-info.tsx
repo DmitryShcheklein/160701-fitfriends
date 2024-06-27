@@ -18,36 +18,38 @@ const specializationOptions = [
 ];
 
 const locationOptions = [
-  { value: 'Pionerskaya', label: 'Pionerskaya' },
-  { value: 'Petrogradskaya', label: 'Petrogradskaya' },
-  { value: 'Udelnaya', label: 'Udelnaya' },
+  { value: 'Pionerskaya', label: 'Пионерская' },
+  { value: 'Petrogradskaya', label: 'Петроградская' },
+  { value: 'Udelnaya', label: 'Удельная' },
+  { value: 'Zvezdnaya', label: 'Звёздная' },
+  { value: 'Sportivnaya', label: 'Спортивная' },
 ];
 
 const genderOptions = [
-  { value: 'Female', label: 'Female' },
-  { value: 'Male', label: 'Male' },
-  { value: 'Any', label: 'Any' },
+  { value: 'Female', label: 'Женский' },
+  { value: 'Male', label: 'Мужской' },
+  { value: 'Any', label: 'Неважно' },
 ];
 
 const fitnessLevelOptions = [
-  { value: 'Beginner', label: 'Beginner' },
-  { value: 'Amateur', label: 'Amateur' },
-  { value: 'Professional', label: 'Professional' },
+  { value: 'Beginner', label: 'Новичок' },
+  { value: 'Amateur', label: 'Любитель' },
+  { value: 'Professional', label: 'Профессионал' },
 ];
 
 const UserProfileInfo: React.FC = () => {
+  const [isEditable, setIsEditable] = useState(false);
   const { data, isLoading } = useGetUserQuery();
   const {
     firstname,
     description,
-    trainingReadiness,
     trainingConfig,
     location,
     gender,
     avatarPath,
   } = data || {};
 
-  const { specialisation, level } = trainingConfig || {};
+  const { specialisation, level, trainingReadiness } = trainingConfig || {};
   const [specialization, setSpecialization] = useState(specialisation || []);
 
   const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -66,14 +68,14 @@ const UserProfileInfo: React.FC = () => {
     avatarPath,
     firstname,
     description,
-    readyForTraining: trainingReadiness,
+    trainingReadiness,
     location,
     gender,
   });
   const handleStatusChange = () => {
     setFormData((prev) => ({
       ...prev,
-      readyForTraining: !prev.readyForTraining,
+      trainingReadiness: !prev.trainingReadiness,
     }));
   };
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -152,13 +154,14 @@ const UserProfileInfo: React.FC = () => {
             className="user-info__input"
             label="Имя"
             value={formData.firstname}
+            readOnly={!isEditable}
           />
 
           <Textarea
             className="user-info__textarea"
             label="Описание"
-            readOnly
             value={formData.description}
+            readOnly={!isEditable}
           />
         </div>
         <div className="user-info__section user-info__section--status">
@@ -166,7 +169,7 @@ const UserProfileInfo: React.FC = () => {
           <Toggle
             label="Готов тренироваться"
             className="user-info__toggle"
-            checked={formData.readyForTraining}
+            checked={formData.trainingReadiness}
             onChange={handleStatusChange}
           />
         </div>
@@ -190,25 +193,28 @@ const UserProfileInfo: React.FC = () => {
           </div>
         </div>
         <CustomSelect
+          className="user-info__select"
           name="location"
           label="Локация"
           value={locationOptions.find((el) => el.value === formData.location)}
           options={locationOptions}
-          isDisabled={true}
+          isDisabled={!isEditable}
         />
         <CustomSelect
+          className="user-info__select"
           name="gender"
           label="Пол"
           value={genderOptions.find((el) => el.value === formData.gender)}
           options={genderOptions}
-          isDisabled={true}
+          isDisabled={!isEditable}
         />
         <CustomSelect
+          className="user-info__select"
           name="level"
           label="Уровень"
           value={fitnessLevelOptions.find((el) => el.value === level)}
           options={fitnessLevelOptions}
-          isDisabled={true}
+          isDisabled={!isEditable}
         />
       </form>
     </>
