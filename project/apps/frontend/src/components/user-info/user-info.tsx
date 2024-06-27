@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-
+import React, { ChangeEvent, useState } from 'react';
+import { useGetUserQuery } from '../../store/user-process/user-api';
 import CustomSelect from '../ui/Select/Select';
 import Tag from '../ui/tag/tag';
 import Input from '../ui/Input/Input';
@@ -7,58 +7,75 @@ import Textarea from '../ui/textarea/textarea';
 import Toggle from '../ui/toggle/toggle';
 
 const specializationOptions = [
-  { value: 'yoga', label: 'Йога' },
-  { value: 'running', label: 'Бег' },
-  { value: 'aerobics', label: 'Аэробика' },
-  { value: 'boxing', label: 'Бокс' },
-  { value: 'power', label: 'Силовые' },
-  { value: 'pilates', label: 'Пилатес' },
-  { value: 'stretching', label: 'Стрейчинг' },
-  { value: 'crossfit', label: 'Кроссфит' },
+  { value: 'Yoga', label: 'Йога' },
+  { value: 'Running', label: 'Бег' },
+  { value: 'Aerobics', label: 'Аэробика' },
+  { value: 'Boxing', label: 'Бокс' },
+  { value: 'Power', label: 'Силовые' },
+  { value: 'Pilates', label: 'Пилатес' },
+  { value: 'Stretching', label: 'Стрейчинг' },
+  { value: 'CrossFit', label: 'Кроссфит' },
+];
+
+const locationOptions = [
+  { value: 'Pionerskaya', label: 'Pionerskaya' },
+  { value: 'Petrogradskaya', label: 'Petrogradskaya' },
+  { value: 'Udelnaya', label: 'Udelnaya' },
+];
+
+const genderOptions = [
+  { value: 'Female', label: 'Female' },
+  { value: 'Male', label: 'Male' },
+  { value: 'Any', label: 'Any' },
+];
+
+const fitnessLevelOptions = [
+  { value: 'Beginner', label: 'Beginner' },
+  { value: 'Amateur', label: 'Amateur' },
+  { value: 'Professional', label: 'Professional' },
 ];
 
 const UserProfileInfo: React.FC = () => {
-  const [specialization, setSpecialization] = useState<string[]>([
-    'yoga',
-    'aerobics',
-    'pilates',
-    'stretching',
-  ]);
-  const [isReadyForTraining, setIsReadyForTraining] = useState(true);
+  const { data, isLoading } = useGetUserQuery();
+  const {
+    firstname,
+    description,
+    trainingReadiness,
+    trainingConfig,
+    location,
+    gender,
+    avatarPath,
+  } = data || {};
+
+  const { specialisation, level } = trainingConfig || {};
+  const [specialization, setSpecialization] = useState(specialisation || []);
 
   const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = evt.target;
-    setSpecialization((prev) =>
-      checked ? [...prev, value] : prev.filter((item) => item !== value)
-    );
+    const { value, checked, readOnly } = evt.target;
+    if (!readOnly) {
+      setSpecialization((prev) =>
+        checked ? [...prev, value] : prev.filter((item) => item !== value)
+      );
+    }
   };
 
-  const handleStatusChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setIsReadyForTraining(evt.target.checked);
-  };
-  const [avatarPreview, setAvatarPreview] = useState<string>(
-    'img/content/user-photo-1.png'
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(
+    avatarPath || ''
   );
   const [formData, setFormData] = useState({
-    name: 'Валерия',
-    description:
-      'Персональный тренер и инструктор групповых программ с опытом более 4х лет. Специализация: коррекция фигуры и осанки, снижение веса, восстановление после травм, пилатес.',
-    readyForTraining: true,
-    specialization: {
-      yoga: true,
-      running: false,
-      aerobics: true,
-      boxing: false,
-      power: false,
-      pilates: true,
-      stretching: true,
-      crossfit: false,
-    },
-    location: 'ст. м. Адмиралтейская',
-    gender: 'Женский',
-    level: 'Профессионал',
+    avatarPath,
+    firstname,
+    description,
+    readyForTraining: trainingReadiness,
+    location,
+    gender,
   });
-
+  const handleStatusChange = () => {
+    setFormData((prev) => ({
+      ...prev,
+      readyForTraining: !prev.readyForTraining,
+    }));
+  };
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -83,6 +100,10 @@ const UserProfileInfo: React.FC = () => {
     }
   };
 
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <>
       <div className="user-info__header">
@@ -93,10 +114,24 @@ const UserProfileInfo: React.FC = () => {
               type="file"
               name="user-photo-1"
               accept="image/png, image/jpeg"
+              onChange={handleFileChange}
             />
-            <span className="input-load-avatar__avatar">
-              <img src={avatarPreview} width="98" height="98" alt="user" />
-            </span>
+            {avatarPreview ? (
+              <div className="input-load-avatar__avatar">
+                <img
+                  src={avatarPreview}
+                  alt="Avatar Preview"
+                  width="98px"
+                  height="98px"
+                />
+              </div>
+            ) : (
+              <span className="input-load-avatar__btn">
+                <svg width="20" height="20" aria-hidden="true">
+                  <use xlinkHref="#icon-import"></use>
+                </svg>
+              </span>
+            )}
           </label>
         </div>
       </div>
@@ -113,16 +148,25 @@ const UserProfileInfo: React.FC = () => {
         </button>
         <div className="user-info__section">
           <h2 className="user-info__title">Обо мне</h2>
-          <Input className="user-info__input" label="Имя" />
+          <Input
+            className="user-info__input"
+            label="Имя"
+            value={formData.firstname}
+          />
 
-          <Textarea className="user-info__textarea" label="Описание" readOnly />
+          <Textarea
+            className="user-info__textarea"
+            label="Описание"
+            readOnly
+            value={formData.description}
+          />
         </div>
         <div className="user-info__section user-info__section--status">
           <h2 className="user-info__title user-info__title--status">Статус</h2>
           <Toggle
             label="Готов тренироваться"
             className="user-info__toggle"
-            checked={isReadyForTraining}
+            checked={formData.readyForTraining}
             onChange={handleStatusChange}
           />
         </div>
@@ -139,6 +183,7 @@ const UserProfileInfo: React.FC = () => {
                 label={option.label}
                 checked={specialization.includes(option.value)}
                 onChange={handleSpecializationChange}
+                readOnly={true}
                 size="small"
               />
             ))}
@@ -147,22 +192,22 @@ const UserProfileInfo: React.FC = () => {
         <CustomSelect
           name="location"
           label="Локация"
-          value="ст. м. Адмиралтейская"
-          options={[]}
+          value={locationOptions.find((el) => el.value === formData.location)}
+          options={locationOptions}
           isDisabled={true}
         />
         <CustomSelect
           name="gender"
           label="Пол"
-          value="Женский"
-          options={[]}
+          value={genderOptions.find((el) => el.value === formData.gender)}
+          options={genderOptions}
           isDisabled={true}
         />
         <CustomSelect
           name="level"
           label="Уровень"
-          value="Профессионал"
-          options={[]}
+          value={fitnessLevelOptions.find((el) => el.value === level)}
+          options={fitnessLevelOptions}
           isDisabled={true}
         />
       </form>

@@ -1,6 +1,14 @@
 import React from 'react';
+import { useGetUserQuery } from '../../../store/user-process/user-api';
 
 const PersonalAccountUser: React.FC = () => {
+  const { data } = useGetUserQuery();
+
+  if (!data?.trainingConfig) {
+    return null;
+  }
+  const { caloriesPerDay } = data.trainingConfig;
+
   return (
     <div className="inner-page__content">
       <div className="personal-account-user">
@@ -15,7 +23,7 @@ const PersonalAccountUser: React.FC = () => {
                   <input
                     type="text"
                     name="schedule-for-the-day"
-                    defaultValue="3 300"
+                    defaultValue={caloriesPerDay}
                   />
                 </label>
               </div>
@@ -27,7 +35,7 @@ const PersonalAccountUser: React.FC = () => {
                   <input
                     type="text"
                     name="schedule-for-the-week"
-                    defaultValue="23 100"
+                    defaultValue={caloriesPerDay * 7}
                   />
                 </label>
               </div>
@@ -69,14 +77,14 @@ const PersonalAccountUser: React.FC = () => {
               </h3>
             </div>
           </div>
-          <a className="thumbnail-link thumbnail-link--theme-light" href="#">
+          {/* <a className="thumbnail-link thumbnail-link--theme-light" href="#">
             <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
               <svg width="30" height="26" aria-hidden="true">
                 <use xlinkHref="#icon-shopping-cart" />
               </svg>
             </div>
             <span className="thumbnail-link__text">Мои покупки</span>
-          </a>
+          </a> */}
         </div>
       </div>
     </div>
