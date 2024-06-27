@@ -19,6 +19,13 @@
           "buildTarget": "backend:build:production"
         }
       }
+    },
+    "db:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ts-node-esm ./seed.ts",
+        "cwd": "apps/backend/src/seed"
+      }
     }
   }
 }
