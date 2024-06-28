@@ -8,14 +8,14 @@ import Tag from '../ui/tag/tag';
 import Input from '../ui/Input/Input';
 import Textarea from '../ui/textarea/textarea';
 import Toggle from '../ui/toggle/toggle';
-import { useAppDispatch } from '../../hooks';
 import {
   specializationOptions,
   locationOptions,
   genderOptions,
   fitnessLevelOptions,
 } from './user-info.data';
-import { UserLocation, UserGender } from '../../enums';
+import { UserLocation, UserGender } from '@project/enums';
+import { UpdateUserDto } from '@project/dto';
 
 enum UserFormFieldName {
   FirstName = 'firstname',
@@ -25,14 +25,22 @@ enum UserFormFieldName {
   Role = 'role',
   AvatarPath = 'avatar',
 }
+
 enum TrainingConfigFieldName {
   Level = 'level',
   Specialisation = 'specialisation',
   TrainingReadiness = 'trainingReadiness',
 }
 
+type FormUserDataState = {
+  [UserFormFieldName.FirstName]: UpdateUserDto['firstname'];
+  [UserFormFieldName.Description]: UpdateUserDto['description'];
+  [UserFormFieldName.Location]: UpdateUserDto['location'];
+  [UserFormFieldName.Gender]: UpdateUserDto['gender'];
+  [UserFormFieldName.AvatarPath]: UpdateUserDto['avatar'] | string;
+};
+
 const UserProfileInfo: React.FC = () => {
-  const dispatch = useAppDispatch();
   const [updateUser, { isLoading: isLoadingUserMutation }] =
     useUpdateUserMutation();
   const [isEditable, setIsEditable] = useState(false);
@@ -45,16 +53,14 @@ const UserProfileInfo: React.FC = () => {
       userData?.trainingConfig?.trainingReadiness,
   });
 
-  const [formUserData, setFormUserData] = useState({
+  const [formUserData, setFormUserData] = useState<FormUserDataState>({
     [UserFormFieldName.FirstName]: userData?.firstname,
     [UserFormFieldName.Description]: userData?.description,
     [UserFormFieldName.Location]: userData?.location,
     [UserFormFieldName.Gender]: userData?.gender,
     [UserFormFieldName.AvatarPath]: userData?.avatarPath,
   });
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(
-    formUserData?.avatar || ''
-  );
+  const [avatarPreview, setAvatarPreview] = useState<string | null>('');
 
   useEffect(() => {
     if (userData) {
@@ -79,13 +85,13 @@ const UserProfileInfo: React.FC = () => {
         specialisation: trainingConfig?.specialisation,
         trainingReadiness: trainingConfig?.trainingReadiness,
       });
-      setAvatarPreview(avatarPath);
     }
   }, [userData]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      setFormUserData({ ...formUserData, avatar: file });
       setAvatarPreview(URL.createObjectURL(file));
     }
   };
@@ -126,11 +132,15 @@ const UserProfileInfo: React.FC = () => {
   const handleSaveBtn = async () => {
     setIsEditable(!isEditable);
 
+    const sendData: UpdateUserDto = {
+      ...formUserData,
+      avatar:
+        typeof formUserData.avatar === 'string'
+          ? undefined
+          : formUserData.avatar,
+    };
     try {
-      if (formUserData) {
-        const userData = await updateUser(formUserData).unwrap();
-        // dispatch(setCredentials(userData));
-      }
+      await updateUser(sendData).unwrap();
     } catch (err) {
       console.error('Failed to register: ', err);
     }
@@ -151,9 +161,12 @@ const UserProfileInfo: React.FC = () => {
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
             />
-            {avatarPreview ? (
+            {avatarPreview || formUserData.avatar ? (
               <div className="input-load-avatar__avatar">
-                <img src={avatarPreview} alt="Avatar Preview" />
+                <img
+                  src={avatarPreview || formUserData.avatar || undefined}
+                  alt="Avatar Preview"
+                />
               </div>
             ) : (
               <span className="input-load-avatar__btn">
