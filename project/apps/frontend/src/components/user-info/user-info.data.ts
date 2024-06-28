@@ -3,7 +3,7 @@ import {
   WorkoutType,
   FitnessLevel,
   UserLocation,
-} from '../../enums';
+} from '@project/enums';
 
 export const specializationOptions = [
   { value: WorkoutType.Yoga, label: 'Йога' },

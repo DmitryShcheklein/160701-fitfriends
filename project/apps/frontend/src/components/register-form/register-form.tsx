@@ -12,7 +12,7 @@ import RadioInput from '../ui/RadioInput/RadioInput';
 import RoleSelector from '../role-selector/role-selector';
 import CustomSelect from '../ui/Select/Select';
 import { roleOptions, locationOptions } from './register.data';
-import { UserLocation, UserRole, UserGender } from '../../enums';
+import { UserLocation, UserRole, UserGender } from '@project/enums';
 
 enum FormFieldName {
   FirstName = 'firstname',

@@ -75,5 +75,5 @@ export class UpdateUserDto
     maxLength: 100,
   })
   @IsOptional()
-  public avatar?: Express.Multer.File | null | string;
+  public avatar?: Express.Multer.File | null;
 }
