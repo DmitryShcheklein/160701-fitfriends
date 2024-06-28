@@ -1,7 +1,7 @@
 // src/seed/seed.service.ts
 import { Injectable } from '@nestjs/common';
 import { AuthenticationService } from '@project/auth-module';
-import { UserGender, UserLocation, UserRole } from '@project/core';
+import { UserGender, UserLocation, UserRole } from '@project/enums';
 
 @Injectable()
 export class SeedService {

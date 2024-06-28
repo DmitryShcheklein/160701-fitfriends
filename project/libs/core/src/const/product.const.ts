@@ -1,4 +1,4 @@
-import { SortBy, SortDirection } from '../enums';
+import { SortBy, SortDirection } from '@project/enums';
 
 export const DEFAULT_PAGE_COUNT = 1;
 

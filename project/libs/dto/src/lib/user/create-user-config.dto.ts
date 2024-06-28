@@ -1,13 +1,16 @@
-import {
-  FitnessLevel,
-  UserTrainingConfig,
-  WorkoutDuration,
-  WorkoutType,
-} from '@project/core';
+import { UserTrainingConfig } from '@project/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { User as UserValidation } from '@project/validation';
-import { IsBoolean, IsEnum, IsNumber, IsOptional, MaxLength, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
+import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
 
 export class CreateUserConfigDto implements UserTrainingConfig {
   @ApiProperty({

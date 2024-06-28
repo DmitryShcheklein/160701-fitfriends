@@ -1,13 +1,8 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import {
-  AuthUser,
-  UserGender,
-  UserLocation,
-  UserRole,
-  UserTrainingConfig,
-} from '@project/core';
+import { AuthUser, UserTrainingConfig } from '@project/core';
 import { User } from '@project/validation';
+import { UserRole, UserLocation, UserGender } from '@project/enums';
 
 @Schema({
   collection: 'users',

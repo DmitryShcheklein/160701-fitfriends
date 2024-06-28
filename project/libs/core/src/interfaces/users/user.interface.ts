@@ -1,6 +1,4 @@
-import { UserGender } from '../../enums/user/user-gender.enum';
-import { UserLocation } from '../../enums/user/user-location.enum';
-import { UserRole } from '../../enums/user/user-role.enum';
+import { UserRole, UserLocation, UserGender } from '@project/enums';
 import { UserTrainingConfig } from './user-training-config.interface';
 
 export interface User {

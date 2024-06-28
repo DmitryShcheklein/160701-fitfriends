@@ -1,6 +1,5 @@
-import { FitnessLevel } from '../../enums/user/fitness-level.enum';
-import { WorkoutDuration } from '../../enums/user/workout-duration.enum';
-import { WorkoutType } from '../../enums/user/workout-type.enum';
+import { FitnessLevel, WorkoutType, WorkoutDuration } from "@project/enums";
+
 
 export interface UserTrainingConfig {
   level: FitnessLevel;

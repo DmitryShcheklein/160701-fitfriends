@@ -3,8 +3,6 @@ export { StorableEntity } from './base/storable-entity.interface';
 export { EntityFactory } from './base/entity-factory.interface';
 
 export { PaginationResult } from './base/pagination.interface';
-export { SortDirection } from '../enums/sort-direction';
-export { SortBy } from '../enums/sort-by';
 export { PriceAggregationResult } from './base/price-aggregation-result.interface';
 // FileVault
 export { File } from './file-vault/file.interface';

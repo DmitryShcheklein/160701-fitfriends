@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User, UserGender, UserLocation } from '@project/core';
+import { User } from '@project/core';
 import { Expose, Transform } from 'class-transformer';
 import { UserConfigRdo } from './user-config.rdo';
+import { UserGender, UserLocation } from '@project/enums';
 
 export class UserRdo implements Omit<User, 'email' | 'role'> {
   @Expose()

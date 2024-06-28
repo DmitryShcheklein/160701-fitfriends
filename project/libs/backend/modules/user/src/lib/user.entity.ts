@@ -2,11 +2,9 @@ import {
   AuthUser,
   Entity,
   StorableEntity,
-  UserGender,
-  UserLocation,
-  UserRole,
   UserTrainingConfig,
 } from '@project/core';
+import { UserRole, UserLocation, UserGender } from '@project/enums';
 
 export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public createdAt?: Date;

@@ -1,16 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  AuthUser,
-  FitnessLevel,
-  UserGender,
-  UserTrainingConfig,
-  WorkoutDuration,
-  WorkoutType,
-} from '@project/core';
+import { AuthUser, UserTrainingConfig } from '@project/core';
 import { CreateUserConfigDto, UpdateUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
+import { FitnessLevel, WorkoutType, WorkoutDuration, UserGender } from '@project/enums';
 
 @Injectable()
 export class UserService {
