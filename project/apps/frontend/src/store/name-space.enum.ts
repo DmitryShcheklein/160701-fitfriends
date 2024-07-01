@@ -1,4 +1,5 @@
 export enum NameSpace {
   Auth = 'auth',
-  Products = 'products',
+  AuthApi = 'authApi',
+  UserApi = 'userApi',
 }
