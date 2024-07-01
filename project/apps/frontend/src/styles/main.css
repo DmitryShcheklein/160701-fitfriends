@@ -2020,16 +2020,20 @@ input:active + .custom-textarea__text {
   position: relative;
 }
 
-.user-info__edit-button {
+.user-info__button {
   position: absolute;
+  z-index: 2;
   top: 2px;
   right: 0;
+  transition: .3s ease;
+  visibility: hidden;
+  opacity: 0;
 }
 
-.user-info__save-button {
-  position: absolute;
-  top: 2px;
-  right: 31px;
+.user-info__button--visible {
+  opacity: 1;
+  visibility: visible;
+
 }
 
 .user-info__section {
