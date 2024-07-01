@@ -16,6 +16,7 @@ import {
 } from './user-info.data';
 import { UserLocation, UserGender, WorkoutType } from '@project/enums';
 import { UpdateUserDto } from '@project/dto';
+import { UserRdo } from '@project/rdo';
 
 enum UserFormFieldName {
   FirstName = 'firstname',
@@ -39,7 +40,7 @@ type FormUserDataState = {
   [UserFormFieldName.Location]: UpdateUserDto['location'];
   [UserFormFieldName.Gender]: UpdateUserDto['gender'];
   [UserFormFieldName.AvatarPath]?: string | null;
-  [UserFormFieldName.Avatar]?: UpdateUserDto['avatar'];
+  [UserFormFieldName.Avatar]?: Blob;
 };
 
 const UserProfileInfo: React.FC = () => {
@@ -61,8 +62,9 @@ const UserProfileInfo: React.FC = () => {
     [UserFormFieldName.Location]: userData?.location,
     [UserFormFieldName.Gender]: userData?.gender,
     [UserFormFieldName.AvatarPath]: userData?.avatarPath,
+    [UserFormFieldName.Avatar]: undefined,
   });
-  const [avatarPreview, setAvatarPreview] = useState<string | null>('');
+  const [avatarPreview, setAvatarPreview] = useState<UserRdo['avatarPath']>('');
 
   useEffect(() => {
     if (userData) {
@@ -91,8 +93,10 @@ const UserProfileInfo: React.FC = () => {
   }, [userData]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
+    const files = e.target.files;
+
+    if (files?.length) {
+      const [file] = Array.from(files);
       setFormUserData({ ...formUserData, avatar: file });
       setAvatarPreview(URL.createObjectURL(file));
     }
@@ -130,17 +134,17 @@ const UserProfileInfo: React.FC = () => {
   };
 
   const handleSaveBtn = async () => {
-    setIsEditable(!isEditable);
+    const form = new FormData();
 
-    const sendData: UpdateUserDto = {
-      ...formUserData,
-      avatar:
-        typeof formUserData.avatar === 'string'
-          ? undefined
-          : formUserData.avatar,
-    };
+    Object.entries(formUserData).forEach(([key, value]) => {
+      if (value) {
+        form.append(key, value);
+      }
+    });
+
     try {
-      await updateUser(sendData).unwrap();
+      await updateUser(form).unwrap();
+      setIsEditable(!isEditable);
     } catch (err) {
       console.error('Failed to register: ', err);
     }
@@ -160,6 +164,7 @@ const UserProfileInfo: React.FC = () => {
               type="file"
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
+              disabled={!isEditable}
             />
             {avatarPreview || formUserData.avatarPath ? (
               <div className="input-load-avatar__avatar">

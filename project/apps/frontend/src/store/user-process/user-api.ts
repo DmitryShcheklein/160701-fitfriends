@@ -1,13 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { UserRdo } from '@project/rdo';
-import { UpdateUserDto } from '@project/dto';
 import { baseQueryWithReauth } from '../../services/api';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: baseQueryWithReauth({ baseUrl: 'user' }),
   endpoints: (builder) => ({
-    updateUser: builder.mutation<UserRdo, UpdateUserDto>({
+    updateUser: builder.mutation<UserRdo, FormData>({
       query: (credentials) => ({
         url: '',
         method: 'PATCH',
