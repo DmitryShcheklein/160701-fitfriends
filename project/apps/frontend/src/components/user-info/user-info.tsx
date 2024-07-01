@@ -14,7 +14,7 @@ import {
   genderOptions,
   fitnessLevelOptions,
 } from './user-info.data';
-import { UserLocation, UserGender } from '@project/enums';
+import { UserLocation, UserGender, WorkoutType } from '@project/enums';
 import { UpdateUserDto } from '@project/dto';
 
 enum UserFormFieldName {
@@ -23,7 +23,8 @@ enum UserFormFieldName {
   Gender = 'gender',
   Location = 'location',
   Role = 'role',
-  AvatarPath = 'avatar',
+  Avatar = 'avatar',
+  AvatarPath = 'avatarPath',
 }
 
 enum TrainingConfigFieldName {
@@ -37,7 +38,8 @@ type FormUserDataState = {
   [UserFormFieldName.Description]: UpdateUserDto['description'];
   [UserFormFieldName.Location]: UpdateUserDto['location'];
   [UserFormFieldName.Gender]: UpdateUserDto['gender'];
-  [UserFormFieldName.AvatarPath]: UpdateUserDto['avatar'] | string;
+  [UserFormFieldName.AvatarPath]?: string | null;
+  [UserFormFieldName.Avatar]?: UpdateUserDto['avatar'];
 };
 
 const UserProfileInfo: React.FC = () => {
@@ -75,7 +77,7 @@ const UserProfileInfo: React.FC = () => {
       setFormUserData({
         firstname,
         description,
-        avatar: avatarPath,
+        avatarPath,
         location,
         gender,
       });
@@ -109,17 +111,15 @@ const UserProfileInfo: React.FC = () => {
 
   const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value, checked, readOnly } = evt.target;
-    if (!readOnly) {
+    if (!readOnly && trainingConfigData?.specialisation?.length) {
       setTrainingConfigData((prev) => {
         const currentSpecialisation = prev.specialisation;
 
-        const updatedSpecialisations = checked
-          ? [...currentSpecialisation, value]
-          : currentSpecialisation.filter((item) => item !== value);
-
         return {
           ...prev,
-          specialisation: updatedSpecialisations,
+          specialisation: checked
+            ? currentSpecialisation?.concat([value] as WorkoutType[])
+            : currentSpecialisation?.filter((item) => item !== value),
         };
       });
     }
@@ -161,10 +161,10 @@ const UserProfileInfo: React.FC = () => {
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
             />
-            {avatarPreview || formUserData.avatar ? (
+            {avatarPreview || formUserData.avatarPath ? (
               <div className="input-load-avatar__avatar">
                 <img
-                  src={avatarPreview || formUserData.avatar || undefined}
+                  src={avatarPreview || formUserData.avatarPath || undefined}
                   alt="Avatar Preview"
                 />
               </div>
@@ -256,7 +256,7 @@ const UserProfileInfo: React.FC = () => {
                 checked={trainingConfigData?.specialisation?.includes(
                   option.value
                 )}
-                // onChange={handleSpecializationChange}
+                onChange={handleSpecializationChange}
                 readOnly={true}
                 size="small"
               />
