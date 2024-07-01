@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import {
   useGetUserQuery,
   useUpdateUserMutation,
@@ -17,6 +23,8 @@ import {
 import { UserLocation, UserGender, WorkoutType } from '@project/enums';
 import { UpdateUserDto } from '@project/dto';
 import { UserRdo } from '@project/rdo';
+import { toast } from 'react-toastify';
+import classNames from 'classnames';
 
 enum UserFormFieldName {
   FirstName = 'firstname',
@@ -133,7 +141,8 @@ const UserProfileInfo: React.FC = () => {
     setIsEditable(!isEditable);
   };
 
-  const handleSaveBtn = async () => {
+  const handleSubmitForm = async (evt: FormEvent) => {
+    evt.preventDefault();
     const form = new FormData();
 
     Object.entries(formUserData).forEach(([key, value]) => {
@@ -145,6 +154,7 @@ const UserProfileInfo: React.FC = () => {
     try {
       await updateUser(form).unwrap();
       setIsEditable(!isEditable);
+      toast.success('Данные успешно сохранены!');
     } catch (err) {
       console.error('Failed to register: ', err);
     }
@@ -155,7 +165,7 @@ const UserProfileInfo: React.FC = () => {
   }
 
   return (
-    <>
+    <form onSubmit={handleSubmitForm}>
       <div className="user-info__header">
         <div className="input-load-avatar">
           <label>
@@ -184,32 +194,39 @@ const UserProfileInfo: React.FC = () => {
         </div>
       </div>
       <div className="user-info__form">
-        {!isEditable ? (
-          <button
-            onClick={handleEditBtn}
-            className="btn-flat btn-flat--underlined user-info__edit-button"
-            type="button"
-            aria-label="Редактировать"
-          >
-            <svg width="12" height="12" aria-hidden="true">
-              <use xlinkHref="#icon-edit"></use>
-            </svg>
-            <span>Редактировать</span>
-          </button>
-        ) : (
-          <button
-            onClick={handleSaveBtn}
-            className="btn-flat btn-flat--underlined user-info__edit-button"
-            type="submit"
-            aria-label="Сохранить"
-            disabled={isLoadingUserMutation}
-          >
-            <svg width="12" height="12" aria-hidden="true">
-              <use xlinkHref="#icon-edit"></use>
-            </svg>
-            <span>Сохранить</span>
-          </button>
-        )}
+        <button
+          onClick={handleEditBtn}
+          className={classNames(
+            'btn-flat btn-flat--underlined user-info__button',
+            {
+              'user-info__button--visible': !isEditable,
+            }
+          )}
+          type="button"
+          aria-label="Редактировать"
+        >
+          <svg width="12" height="12" aria-hidden="true">
+            <use xlinkHref="#icon-edit"></use>
+          </svg>
+          <span>Редактировать</span>
+        </button>
+
+        <button
+          className={classNames(
+            'btn-flat btn-flat--underlined user-info__button',
+            {
+              'user-info__button--visible': isEditable,
+            }
+          )}
+          type="submit"
+          aria-label="Сохранить"
+          disabled={isLoadingUserMutation}
+        >
+          <svg width="12" height="12" aria-hidden="true">
+            <use xlinkHref="#icon-edit"></use>
+          </svg>
+          <span>Сохранить</span>
+        </button>
 
         <div className="user-info__section">
           <h2 className="user-info__title">Обо мне</h2>
@@ -309,7 +326,7 @@ const UserProfileInfo: React.FC = () => {
           isDisabled
         />
       </div>
-    </>
+    </form>
   );
 };
 
