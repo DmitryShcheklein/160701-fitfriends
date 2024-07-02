@@ -13,6 +13,7 @@ import RoleSelector from '../role-selector/role-selector';
 import CustomSelect from '../ui/Select/Select';
 import { roleOptions, locationOptions } from './register.data';
 import { UserLocation, UserRole, UserGender } from '@project/enums';
+import { toast } from 'react-toastify';
 
 enum FormFieldName {
   FirstName = 'firstname',
@@ -92,6 +93,7 @@ const RegisterForm: React.FC = () => {
       dispatch(setCredentials(userData));
     } catch (err) {
       console.error('Failed to register: ', err);
+      toast.error(err.data.message.toString());
     }
   };
 
