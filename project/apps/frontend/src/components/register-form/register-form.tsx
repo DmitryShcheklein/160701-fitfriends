@@ -81,8 +81,14 @@ const RegisterForm: React.FC = () => {
   const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     try {
-      const { isAgreements, ...data } = formData;
-      const userData = await register(data).unwrap();
+      const { isAgreements, ...sendData } = formData;
+      const form = new FormData();
+
+      Object.entries(sendData).forEach(([key, value]) => {
+        form.append(key, value);
+      });
+
+      const userData = await register(form).unwrap();
       dispatch(setCredentials(userData));
     } catch (err) {
       console.error('Failed to register: ', err);
