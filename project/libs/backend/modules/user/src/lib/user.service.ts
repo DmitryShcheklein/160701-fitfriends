@@ -1,10 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuthUser, UserTrainingConfig } from '@project/core';
-import { CreateUserConfigDto, UpdateUserDto } from '@project/dto';
+import { UpdateUserConfigDto, UpdateUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
-import { FitnessLevel, WorkoutType, WorkoutDuration, UserGender } from '@project/enums';
+import {
+  FitnessLevel,
+  WorkoutType,
+  WorkoutDuration,
+  UserGender,
+} from '@project/enums';
 
 @Injectable()
 export class UserService {
@@ -78,7 +83,7 @@ export class UserService {
     return this.userRepository.update(userEntity);
   }
 
-  public async createUserConfig(id: string, dto: CreateUserConfigDto) {
+  public async updateUserConfig(id: string, dto: UpdateUserConfigDto) {
     const existUser = await this.getUserById(id);
     const user = existUser.toPOJO();
     const updatedUser: AuthUser = {

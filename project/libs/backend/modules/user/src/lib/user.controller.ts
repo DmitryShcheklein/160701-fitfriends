@@ -4,7 +4,6 @@ import {
   Get,
   HttpStatus,
   Patch,
-  Post,
   Req,
   UploadedFile,
   UseGuards,
@@ -22,15 +21,14 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
-import { CreateUserConfigDto, UpdateUserDto } from '@project/dto';
-import { UserRdo } from '@project/rdo';
+import { UpdateUserConfigDto, UpdateUserDto } from '@project/dto';
+import { UserConfigRdo, UserRdo } from '@project/rdo';
 import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { UserService } from './user.service';
 import { ResponseMessage } from './user.constant';
-import { UserConfigRdo } from 'libs/rdo/src/lib/user/user-config.rdo';
 
 @ApiTags('user')
 @Controller('user')
@@ -105,12 +103,12 @@ export class UserController {
     schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
   })
   @ApiBearerAuth(AuthKeyName)
-  @Post('/questionnaire-user')
+  @Patch('/questionnaire-user')
   public async questionnaireUser(
     @Req() { user }: RequestWithTokenPayload,
-    @Body() dto: CreateUserConfigDto
+    @Body() dto: UpdateUserConfigDto
   ) {
-    const newConfig = await this.userService.createUserConfig(user.sub, dto);
+    const newConfig = await this.userService.updateUserConfig(user.sub, dto);
 
     return fillDto(UserConfigRdo, newConfig);
   }

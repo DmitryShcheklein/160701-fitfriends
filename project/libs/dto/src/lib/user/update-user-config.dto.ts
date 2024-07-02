@@ -12,7 +12,7 @@ import {
 import { Transform } from 'class-transformer';
 import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
 
-export class CreateUserConfigDto implements UserTrainingConfig {
+export class UpdateUserConfigDto implements UserTrainingConfig {
   @ApiProperty({
     description: 'User fitness level',
     enum: FitnessLevel,
