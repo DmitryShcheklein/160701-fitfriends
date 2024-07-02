@@ -153,7 +153,12 @@ const UserProfileInfo: React.FC = () => {
     const form = new FormData();
 
     Object.entries(formUserData).forEach(([key, value]) => {
-      form.append(key, value);
+      if (value) {
+        form.append(key, value);
+      }
+      if (!value && key === UserFormFieldName.Avatar) {
+        form.append(key, value);
+      }
     });
 
     try {
