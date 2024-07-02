@@ -18,6 +18,7 @@ import { useCheckAuthQuery } from '../store/auth-process/auth-api';
 import { useEffect } from 'react';
 import { logOut, setCredentials } from '../store/auth-process/auth-process';
 import { AppRoute } from '../shared/const';
+import QuestionnairePage from '../pages/questionnaire/questionnaire';
 
 export function App() {
   const dispatch = useAppDispatch();
@@ -49,6 +50,14 @@ export function App() {
       </Route>
 
       <Route element={<MainLayout />}>
+        <Route
+          path={AppRoute.Questionnaire}
+          element={
+            <PrivateRoute>
+              <QuestionnairePage />
+            </PrivateRoute>
+          }
+        />
         <Route
           path={AppRoute.Index}
           element={

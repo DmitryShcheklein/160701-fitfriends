@@ -5,6 +5,7 @@ const AppRoute = {
   Register: '/regiser',
   Profile: '/profile',
   Friends: '/friends',
+  Questionnaire: '/questionnaire',
   ErrorPage: '/page404',
 } as const;
 
@@ -21,6 +22,7 @@ enum PageTitles {
   Register = 'Регистрация — FitFriends',
   Page404 = 'Страница 404 — FitFriends',
   Profile = 'Личный кабинет — FitFriends',
+  Questionnaire = 'Опросник — FitFriends',
 }
 
 export { AppRoute, AuthStatus, PageTitles };

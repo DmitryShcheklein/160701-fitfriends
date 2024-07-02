@@ -3,6 +3,7 @@ import {
   WorkoutType,
   FitnessLevel,
   UserLocation,
+  WorkoutDuration,
 } from '@project/enums';
 
 export const specializationOptions = [
@@ -34,4 +35,11 @@ export const fitnessLevelOptions = [
   { value: FitnessLevel.Beginner, label: 'Новичок' },
   { value: FitnessLevel.Amateur, label: 'Любитель' },
   { value: FitnessLevel.Professional, label: 'Профессионал' },
+];
+
+export const workoutDurationOptions = [
+  { value: WorkoutDuration.Min10to30, label: '10-30 мин' },
+  { value: WorkoutDuration.Min30to50, label: '30-50 мин' },
+  { value: WorkoutDuration.Min50to80, label: '50-80 мин' },
+  { value: WorkoutDuration.Min80to100, label: '80-100 мин' },
 ];

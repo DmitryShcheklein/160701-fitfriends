@@ -1,9 +1,9 @@
-import React, { HTMLAttributes, FC } from 'react';
+import { HTMLAttributes, FC } from 'react';
 import classNames from 'classnames';
 
 interface PopupProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
-  title: string;
+  title?: string;
   showCloseButton?: boolean;
   showHead?: boolean;
   onClose?: () => void;

@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, redirect } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
 import { useRegisterMutation } from '../../store/auth-process/auth-api';
 import { setCredentials } from '../../store/auth-process/auth-process';
@@ -91,6 +91,7 @@ const RegisterForm: React.FC = () => {
 
       const userData = await register(form).unwrap();
       dispatch(setCredentials(userData));
+      toast.success('Вы успешно зарегистрированы!');
     } catch (err) {
       console.error('Failed to register: ', err);
       toast.error(err.data.message.toString());

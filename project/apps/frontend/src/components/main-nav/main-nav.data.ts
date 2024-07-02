@@ -16,6 +16,12 @@ export const navItems = [
     ariaLabel: 'Личный кабинет',
   },
   {
+    label: 'Q',
+    href: AppRoute.Questionnaire,
+    icon: '#icon-book',
+    ariaLabel: 'Опросник',
+  },
+  {
     label: 'Выход',
     href: AppRoute.Intro,
     onClick: () => store.dispatch(logOut()),
