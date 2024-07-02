@@ -160,8 +160,9 @@ const UserProfileInfo: React.FC = () => {
       await updateUser(form).unwrap();
       setIsEditable(!isEditable);
       toast.success('Данные успешно сохранены!');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to register: ', err);
+      toast.error(err.data.message.join(''));
     }
   };
 
