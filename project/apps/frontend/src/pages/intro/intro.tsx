@@ -5,6 +5,7 @@ import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 
 const IntroPage = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
+
   if (authStatus === AuthStatus.Auth) {
     return <Navigate to={AppRoute.Index} />;
   }
