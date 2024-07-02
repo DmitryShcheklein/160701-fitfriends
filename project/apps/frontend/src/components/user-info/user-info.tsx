@@ -65,7 +65,7 @@ const UserProfileInfo: React.FC = () => {
   });
 
   const [formUserData, setFormUserData] = useState<FormUserDataState>({
-    [UserFormFieldName.FirstName]: userData?.firstname,
+    [UserFormFieldName.FirstName]: userData?.firstname || '',
     [UserFormFieldName.Description]: userData?.description,
     [UserFormFieldName.Location]: userData?.location,
     [UserFormFieldName.Gender]: userData?.gender,
@@ -268,7 +268,7 @@ const UserProfileInfo: React.FC = () => {
           <Input
             className="user-info__input"
             label="Имя"
-            value={formUserData?.firstname}
+            value={formUserData.firstname}
             readOnly={!isEditable}
             name={UserFormFieldName.FirstName}
             onChange={handleInputChange}
@@ -288,7 +288,7 @@ const UserProfileInfo: React.FC = () => {
           <Toggle
             label="Готов тренироваться"
             className="user-info__toggle"
-            checked={trainingConfigData?.trainingReadiness}
+            checked={Boolean(trainingConfigData?.trainingReadiness)}
             disabled
             onChange={(evt) => {
               setTrainingConfigData({
@@ -296,7 +296,6 @@ const UserProfileInfo: React.FC = () => {
                 trainingReadiness: evt.target.checked,
               });
             }}
-            // onChange={handleStatusChange}
           />
         </div>
         <div className="user-info__section">
@@ -310,8 +309,8 @@ const UserProfileInfo: React.FC = () => {
                 name="specialization"
                 value={option.value}
                 label={option.label}
-                checked={trainingConfigData?.specialisation?.includes(
-                  option.value
+                checked={Boolean(
+                  trainingConfigData.specialisation?.includes(option.value)
                 )}
                 onChange={handleSpecializationChange}
                 readOnly={true}

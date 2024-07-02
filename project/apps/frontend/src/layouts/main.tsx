@@ -1,22 +1,24 @@
-import { Outlet } from 'react-router-dom';
-
+import { Navigate, Outlet } from 'react-router-dom';
 import Header from '../components/header/header';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
 import {
   getAccessToken,
+  getAuthorizationStatus,
   getRefreshToken,
 } from '../store/auth-process/selectors';
 import { useAppDispatch, useAppSelector } from '../hooks';
-
 import { useCheckAuthQuery } from '../store/auth-process/auth-api';
 import { useEffect } from 'react';
 import { logOut, setCredentials } from '../store/auth-process/auth-process';
 import { LoaderPage } from '../components/loaders/loader-page/loader-page';
+import { AppRoute, AuthStatus } from '../shared/const';
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(getAccessToken);
   const refreshToken = useAppSelector(getRefreshToken);
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const isUnknown = authStatus === AuthStatus.Unknown;
 
   const {
     data: user,
@@ -34,7 +36,11 @@ const MainLayout = () => {
     }
   }, [user, error, dispatch, accessToken, refreshToken]);
 
-  if (isLoading) {
+  if (!accessToken) {
+    return <Navigate to={AppRoute.Intro} />;
+  }
+
+  if (isLoading || isUnknown) {
     return <LoaderPage />;
   }
 
