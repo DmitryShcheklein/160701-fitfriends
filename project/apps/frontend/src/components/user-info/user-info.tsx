@@ -70,7 +70,7 @@ const UserProfileInfo: React.FC = () => {
     [UserFormFieldName.Location]: userData?.location,
     [UserFormFieldName.Gender]: userData?.gender,
     [UserFormFieldName.AvatarPath]: userData?.avatarPath,
-    [UserFormFieldName.Avatar]: null,
+    [UserFormFieldName.Avatar]: undefined,
   });
   const [avatarPreview, setAvatarPreview] = useState<UserRdo['avatarPath']>('');
 

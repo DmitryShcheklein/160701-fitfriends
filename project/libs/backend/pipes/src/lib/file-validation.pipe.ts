@@ -10,7 +10,7 @@ export class FileValidationPipe implements PipeTransform {
     private readonly isOptional = false
   ) {}
 
-  transform(file: Express.Multer.File) {
+  transform(file: Express.Multer.File | null) {
     if (!this.isOptional && !file) {
       throw new BadRequestException('File is not send.');
     }
@@ -26,10 +26,10 @@ export class FileValidationPipe implements PipeTransform {
       if (size > this.maxSize) {
         throw new BadRequestException('File size exceeds the allowed limit.');
       }
-
       return file;
     }
-
-    return null;
+    if (file === null) {
+      return file;
+    }
   }
 }
