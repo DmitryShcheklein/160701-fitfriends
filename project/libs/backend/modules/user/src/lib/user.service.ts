@@ -71,6 +71,10 @@ export class UserService {
         ?.path;
     }
 
+    if (avatar === null) {
+      avatarPath = null;
+    }
+
     const user = existUser.toPOJO();
     const updatedUser: AuthUser = {
       ...user,

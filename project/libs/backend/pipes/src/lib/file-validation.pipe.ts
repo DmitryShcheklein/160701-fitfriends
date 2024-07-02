@@ -29,5 +29,7 @@ export class FileValidationPipe implements PipeTransform {
 
       return file;
     }
+
+    return null;
   }
 }

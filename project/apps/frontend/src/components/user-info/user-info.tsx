@@ -48,7 +48,7 @@ type FormUserDataState = {
   [UserFormFieldName.Location]: UpdateUserDto['location'];
   [UserFormFieldName.Gender]: UpdateUserDto['gender'];
   [UserFormFieldName.AvatarPath]?: string | null;
-  [UserFormFieldName.Avatar]?: Blob;
+  [UserFormFieldName.Avatar]?: Blob | null;
 };
 
 const UserProfileInfo: React.FC = () => {
@@ -70,7 +70,7 @@ const UserProfileInfo: React.FC = () => {
     [UserFormFieldName.Location]: userData?.location,
     [UserFormFieldName.Gender]: userData?.gender,
     [UserFormFieldName.AvatarPath]: userData?.avatarPath,
-    [UserFormFieldName.Avatar]: undefined,
+    [UserFormFieldName.Avatar]: null,
   });
   const [avatarPreview, setAvatarPreview] = useState<UserRdo['avatarPath']>('');
 
@@ -140,15 +140,20 @@ const UserProfileInfo: React.FC = () => {
   const handleEditBtn = () => {
     setIsEditable(!isEditable);
   };
-
+  const handleResetBtnAvatar = () => {
+    setAvatarPreview('');
+    setFormUserData((prev) => ({
+      ...prev,
+      [UserFormFieldName.Avatar]: null,
+      [UserFormFieldName.AvatarPath]: null,
+    }));
+  };
   const handleSubmitForm = async (evt: FormEvent) => {
     evt.preventDefault();
     const form = new FormData();
 
     Object.entries(formUserData).forEach(([key, value]) => {
-      if (value) {
-        form.append(key, value);
-      }
+      form.append(key, value);
     });
 
     try {
@@ -168,30 +173,54 @@ const UserProfileInfo: React.FC = () => {
     <form onSubmit={handleSubmitForm}>
       <div className="user-info__header">
         <div className="input-load-avatar">
-          <label>
-            <input
-              className="visually-hidden"
-              type="file"
-              accept="image/png, image/jpeg"
-              onChange={handleFileChange}
-              disabled={!isEditable}
-            />
-            {avatarPreview || formUserData.avatarPath ? (
-              <div className="input-load-avatar__avatar">
-                <img
-                  src={avatarPreview || formUserData.avatarPath || undefined}
-                  alt="Avatar Preview"
-                />
-              </div>
-            ) : (
-              <span className="input-load-avatar__btn">
-                <svg width="20" height="20" aria-hidden="true">
-                  <use xlinkHref="#icon-import"></use>
-                </svg>
-              </span>
-            )}
-          </label>
+          <input
+            id="avatar"
+            className="visually-hidden"
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={handleFileChange}
+            disabled={!isEditable}
+          />
+          {avatarPreview || formUserData.avatarPath ? (
+            <div className="input-load-avatar__avatar">
+              <img
+                src={avatarPreview || formUserData.avatarPath || undefined}
+                alt="Avatar Preview"
+              />
+            </div>
+          ) : (
+            <span className="input-load-avatar__btn">
+              <svg width="20" height="20" aria-hidden="true">
+                <use xlinkHref="#icon-import"></use>
+              </svg>
+            </span>
+          )}
         </div>
+        {isEditable ? (
+          <div className="user-info-edit__controls">
+            <label
+              className="user-info-edit__control-btn"
+              title="Обновить аватар"
+              aria-label="Обновить аватар"
+              htmlFor="avatar"
+            >
+              <svg width="16" height="16" aria-hidden="true">
+                <use xlinkHref="#icon-change" />
+              </svg>
+            </label>
+            <button
+              className="user-info-edit__control-btn"
+              title="Удалить аватар"
+              aria-label="Удалить аватар"
+              onClick={handleResetBtnAvatar}
+              type="button"
+            >
+              <svg width="14" height="16" aria-hidden="true">
+                <use xlinkHref="#icon-trash" />
+              </svg>
+            </button>
+          </div>
+        ) : null}
       </div>
       <div className="user-info__form">
         <button

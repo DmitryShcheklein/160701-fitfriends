@@ -78,7 +78,7 @@ export class UserController {
         true
       )
     )
-    file: Express.Multer.File
+    file: Express.Multer.File | null
   ) {
     const updatedUser = await this.userService.updateUser(user.sub, {
       ...dto,
