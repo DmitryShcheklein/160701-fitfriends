@@ -20,6 +20,7 @@ enum PageTitles {
   Login = 'Войти — FitFriends',
   Register = 'Регистрация — FitFriends',
   Page404 = 'Страница 404 — FitFriends',
+  Profile = 'Личный кабинет — FitFriends',
 }
 
 export { AppRoute, AuthStatus, PageTitles };

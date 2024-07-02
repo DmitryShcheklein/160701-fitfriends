@@ -6,7 +6,7 @@ import { NameSpace } from '../name-space.enum';
 export const userApi = createApi({
   reducerPath: NameSpace.UserApi,
   baseQuery: baseQueryWithReauth({ baseUrl: 'user' }),
-  tagTypes: [NameSpace.UserApi], // Добавьте tagTypes
+  tagTypes: [NameSpace.UserApi],
   endpoints: (builder) => ({
     updateUser: builder.mutation<UserRdo, FormData>({
       query: (credentials) => ({
@@ -14,14 +14,14 @@ export const userApi = createApi({
         method: 'PATCH',
         body: credentials,
       }),
-      invalidatesTags: [NameSpace.UserApi], // Инвалидация тегов
+      invalidatesTags: [NameSpace.UserApi],
     }),
     getUser: builder.query<UserRdo, void>({
       query: () => ({
         url: '',
         method: 'GET',
       }),
-      providesTags: [NameSpace.UserApi], // Предоставление тегов
+      providesTags: [NameSpace.UserApi],
     }),
   }),
 });
