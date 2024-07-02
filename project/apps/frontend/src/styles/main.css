@@ -7587,7 +7587,7 @@ input:active + .custom-textarea__text {
   width: 98px;
   height: 98px;
 }
-
+input:disabled + .input-load-avatar__avatar {pointer-events: none;}
 .input-load-avatar__btn {
   position: relative;
   display: -webkit-box;

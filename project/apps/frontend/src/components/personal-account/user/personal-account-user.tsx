@@ -24,6 +24,7 @@ const PersonalAccountUser: React.FC = () => {
                     type="text"
                     name="schedule-for-the-day"
                     defaultValue={caloriesPerDay}
+                    disabled
                   />
                 </label>
               </div>
@@ -36,6 +37,7 @@ const PersonalAccountUser: React.FC = () => {
                     type="text"
                     name="schedule-for-the-week"
                     defaultValue={caloriesPerDay * 7}
+                    disabled
                   />
                 </label>
               </div>
