@@ -16,7 +16,7 @@ import { Hasher, HasherComponent } from '@project/hasher-module';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'node:crypto';
 import { UserEntity } from '@project/user-module';
-import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
+import { CreateUserDto, LoginUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { Jwt } from '@project/config';
 import { RefreshTokenService } from '@project/refresh-token';
@@ -35,7 +35,7 @@ export class AuthenticationService {
     private readonly fileUploaderService: FileUploaderService
   ) {}
 
-  public async register(dto: CreateUserDtoWithAvatarFile): Promise<UserEntity> {
+  public async register(dto: CreateUserDto): Promise<UserEntity> {
     const { email, password, avatar } = dto;
     const existUser = await this.userService.existUserByEmail(email);
 

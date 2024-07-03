@@ -13,5 +13,5 @@ export interface User {
   role: UserRole;
   location: UserLocation;
   gender: UserGender;
-  trainingConfig?: Partial<UserTrainingConfig> | null;
+  trainingConfig?: UserTrainingConfig | null;
 }

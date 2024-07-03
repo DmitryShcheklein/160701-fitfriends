@@ -12,6 +12,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+
 export class CreateUserDto implements Omit<User, 'avatarPath'> {
   @ApiProperty({
     description: 'User unique email address',
@@ -90,9 +91,7 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   @IsEnum(UserRole)
   @IsNotEmpty()
   public role: UserRole;
-}
 
-export class CreateUserDtoWithAvatarFile extends CreateUserDto {
   @ApiProperty({
     required: false,
     description: 'User profile picture PNG or JPG file',

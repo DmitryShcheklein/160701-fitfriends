@@ -28,7 +28,7 @@ import { RequestWithUser } from './request-with-user.interface';
 import { JwtRefreshGuard, LocalAuthGuard, JwtAuthGuard } from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
-import { CreateUserDtoWithAvatarFile, LoginUserDto } from '@project/dto';
+import { CreateUserDto, LoginUserDto } from '@project/dto';
 import { AuthenticationService } from './authentication.service';
 import { LoggedUserRdo, RefreshUserRdo, RegisteredUserRdo } from '@project/rdo';
 import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
@@ -62,7 +62,7 @@ export class AuthenticationController {
   @UseInterceptors(FileInterceptor('avatar'))
   @Post('register')
   public async create(
-    @Body() dto: CreateUserDtoWithAvatarFile,
+    @Body() dto: CreateUserDto,
     @UploadedFile(
       new FileValidationPipe(
         User.Avatar.FileMaxSize,

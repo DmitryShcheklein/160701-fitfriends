@@ -71,7 +71,7 @@ export class UserModel extends Document implements AuthUser {
   })
   public gender: UserGender;
 
-  @Prop({ required: true, type: Object })
+  @Prop({ required: false, type: Object, default: {} })
   public trainingConfig!: UserTrainingConfig;
 }
 

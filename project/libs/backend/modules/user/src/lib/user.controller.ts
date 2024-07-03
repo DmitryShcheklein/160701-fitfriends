@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   Patch,
+  Post,
   Req,
   UploadedFile,
   UseGuards,
@@ -21,7 +22,11 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
-import { UpdateUserConfigDto, UpdateUserDto } from '@project/dto';
+import {
+  CreateUserConfigDto,
+  UpdateUserConfigDto,
+  UpdateUserDto,
+} from '@project/dto';
 import { UserConfigRdo, UserRdo } from '@project/rdo';
 import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
@@ -89,7 +94,32 @@ export class UserController {
   }
 
   @ApiOperation({
-    summary: 'Опросник для пользователя',
+    summary: 'Создать опросник для пользователя',
+  })
+  @ApiCreatedResponse({
+    type: UserConfigRdo,
+    description: ResponseMessage.UserConfigCreated,
+  })
+  @ApiNotFoundResponse({
+    description: ResponseMessage.UserNotFound,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request data',
+    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @Post('/questionnaire-user')
+  public async createQuestionnaireUser(
+    @Req() { user }: RequestWithTokenPayload,
+    @Body() dto: CreateUserConfigDto
+  ) {
+    const newConfig = await this.userService.updateUserConfig(user.sub, dto);
+
+    return fillDto(UserConfigRdo, newConfig);
+  }
+
+  @ApiOperation({
+    summary: 'Обновить опросник для пользователя',
   })
   @ApiCreatedResponse({
     type: UserConfigRdo,
@@ -104,7 +134,7 @@ export class UserController {
   })
   @ApiBearerAuth(AuthKeyName)
   @Patch('/questionnaire-user')
-  public async questionnaireUser(
+  public async updateQuestionnaireUser(
     @Req() { user }: RequestWithTokenPayload,
     @Body() dto: UpdateUserConfigDto
   ) {

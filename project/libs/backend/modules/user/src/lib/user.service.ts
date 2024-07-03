@@ -19,17 +19,8 @@ export class UserService {
   ) {}
 
   public async create(user: AuthUser) {
-    const trainingConfig: UserTrainingConfig = {
-      level: FitnessLevel.Amateur,
-      specialisation: Object.keys(WorkoutType).map((key) => WorkoutType[key]),
-      duration: WorkoutDuration.Min10to30,
-      caloriesPerDay: user.gender === UserGender.Female ? 2300 : 3300,
-      caloriesWantLost: 1000,
-      trainingReadiness: false,
-    };
     const newUser: AuthUser = {
       ...user,
-      trainingConfig,
     };
 
     const userEntity = new UserEntity(newUser);
@@ -92,7 +83,7 @@ export class UserService {
     const user = existUser.toPOJO();
     const updatedUser: AuthUser = {
       ...user,
-      trainingConfig: dto,
+      trainingConfig: { ...user.trainingConfig, ...dto },
     };
     const userEntity = new UserEntity(updatedUser);
 
