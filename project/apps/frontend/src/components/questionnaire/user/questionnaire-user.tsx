@@ -7,11 +7,12 @@ import {
 import Tag from '../../ui/tag/tag';
 import RadioInput from '../../ui/RadioInput/RadioInput';
 import {
+  useCreateQestionnaireMutation,
   useGetQestionnaireQuery,
-  useUpdateQestionnaireMutation,
 } from '../../../store/user-process/user-api';
 import { toast } from 'react-toastify';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
 
 enum TrainingConfigFieldName {
   Level = 'level',
@@ -26,17 +27,24 @@ export const QuestionnaireUser = () => {
   const { data: trainingConfig, isLoading } = useGetQestionnaireQuery();
   console.log(trainingConfig);
 
-  const [updateConfig, { isLoading: isLoadingConfigMutation }] =
-    useUpdateQestionnaireMutation();
+  const [createConfig, { isLoading: isLoadingConfigMutation }] =
+    useCreateQestionnaireMutation();
   const [trainingConfigData, setTrainingConfigData] = useState({
-    [TrainingConfigFieldName.Level]: trainingConfig?.level,
-    [TrainingConfigFieldName.Specialisation]: trainingConfig?.specialisation,
-    [TrainingConfigFieldName.Duration]: trainingConfig?.duration,
-    [TrainingConfigFieldName.CaloriesPerDay]: trainingConfig?.caloriesPerDay,
-    [TrainingConfigFieldName.CaloriesWantLost]:
-      trainingConfig?.caloriesWantLost,
-    [TrainingConfigFieldName.TrainingReadiness]:
-      trainingConfig?.trainingReadiness,
+    [TrainingConfigFieldName.Level]:
+      trainingConfig?.level || ('' as FitnessLevel),
+    [TrainingConfigFieldName.Specialisation]:
+      trainingConfig?.specialisation || ([] as WorkoutType[]),
+    [TrainingConfigFieldName.Duration]:
+      trainingConfig?.duration || ('' as WorkoutDuration),
+    [TrainingConfigFieldName.CaloriesPerDay]: Number(
+      trainingConfig?.caloriesPerDay
+    ),
+    [TrainingConfigFieldName.CaloriesWantLost]: Number(
+      trainingConfig?.caloriesWantLost
+    ),
+    [TrainingConfigFieldName.TrainingReadiness]: Boolean(
+      trainingConfig?.trainingReadiness
+    ),
   });
 
   useEffect(() => {
@@ -48,18 +56,19 @@ export const QuestionnaireUser = () => {
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const typeNumber = type === 'number';
 
     setTrainingConfigData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: typeNumber ? Number(value) : value,
     }));
   };
   const handleSubmitForm = async (evt: FormEvent) => {
     evt.preventDefault();
 
     try {
-      await updateConfig(trainingConfigData).unwrap();
+      await createConfig(trainingConfigData).unwrap();
 
       toast.success('Данные успешно сохранены!');
     } catch (err: any) {
@@ -110,6 +119,7 @@ export const QuestionnaireUser = () => {
                       key={option.value}
                       label={option.label}
                       name={TrainingConfigFieldName.Duration}
+                      value={option.value}
                       checked={
                         option.value ===
                         trainingConfigData[TrainingConfigFieldName.Duration]

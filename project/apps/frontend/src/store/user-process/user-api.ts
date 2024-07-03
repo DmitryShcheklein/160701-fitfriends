@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { UserConfigRdo, UserRdo } from '@project/rdo';
 import { baseQueryWithReauth } from '../../services/api';
 import { NameSpace } from '../name-space.enum';
-import { UpdateUserConfigDto } from '@project/dto';
+import { CreateUserConfigDto, UpdateUserConfigDto } from '@project/dto';
 
 export const userApi = createApi({
   reducerPath: NameSpace.UserApi,
@@ -31,6 +31,14 @@ export const userApi = createApi({
       }),
       providesTags: [NameSpace.UserApi],
     }),
+    createQestionnaire: builder.mutation<UserConfigRdo, CreateUserConfigDto>({
+      query: (credentials) => ({
+        url: '/questionnaire-user',
+        method: 'POST',
+        body: credentials,
+      }),
+      invalidatesTags: [NameSpace.UserApi],
+    }),
     updateQestionnaire: builder.mutation<UserConfigRdo, UpdateUserConfigDto>({
       query: (credentials) => ({
         url: '/questionnaire-user',
@@ -42,4 +50,10 @@ export const userApi = createApi({
   }),
 });
 
-export const { useGetUserQuery, useUpdateUserMutation, useGetQestionnaireQuery, useUpdateQestionnaireMutation} = userApi;
+export const {
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useGetQestionnaireQuery,
+  useUpdateQestionnaireMutation,
+  useCreateQestionnaireMutation
+} = userApi;
