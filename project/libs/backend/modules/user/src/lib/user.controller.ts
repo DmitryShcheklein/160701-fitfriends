@@ -112,4 +112,25 @@ export class UserController {
 
     return fillDto(UserConfigRdo, newConfig);
   }
+
+  @ApiOperation({
+    summary: 'Получить опросник для пользователя',
+  })
+  @ApiOkResponse({
+    type: UserConfigRdo,
+  })
+  @ApiNotFoundResponse({
+    description: ResponseMessage.UserNotFound,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request data',
+    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @Get('/questionnaire-user')
+  public async getQestionnaireUser(@Req() { user }: RequestWithTokenPayload) {
+    const findedUser = await this.userService.getUserById(user.sub);
+
+    return fillDto(UserConfigRdo, findedUser.trainingConfig);
+  }
 }
