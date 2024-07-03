@@ -7,12 +7,10 @@ interface TagProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
 
 const Tag: React.FC<TagProps> = ({ label, size = 'small', ...props }) => {
   return (
-    <div className={`btn-checkbox btn-checkbox--${size}`}>
-      <label>
-        <input className="visually-hidden" type="checkbox" {...props} />
-        <span className="btn-checkbox__btn">{label}</span>
-      </label>
-    </div>
+    <label className={`btn-checkbox btn-checkbox--${size}`}>
+      <input className="visually-hidden" type="checkbox" {...props} />
+      <span className="btn-checkbox__btn">{label}</span>
+    </label>
   );
 };
 

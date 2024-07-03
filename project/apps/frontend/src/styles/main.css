@@ -760,9 +760,9 @@ button,
   transition: color 0.3s ease, background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
 }
 
-input:read-only + .btn-checkbox__btn {
+/* .btn-checkbox input:read-only + .btn-checkbox__btn {
   pointer-events: none;
-}
+} */
 
 input:checked + .btn-checkbox__btn {
   color: #c5ec2a;
