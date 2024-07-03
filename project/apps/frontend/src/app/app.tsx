@@ -46,33 +46,18 @@ export function App() {
       <Route element={<IntroLayout />}>
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Register} element={<RegisterPage />} />
+        <Route
+          path={AppRoute.Questionnaire}
+          element={PrivateRoute(<QuestionnairePage />)}
+        />
         <Route path="*" element={<Page404 />} />
       </Route>
 
       <Route element={<MainLayout />}>
-        <Route
-          path={AppRoute.Questionnaire}
-          element={
-            <PrivateRoute>
-              <QuestionnairePage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Index}
-          element={
-            <PrivateRoute>
-              <IndexPage />
-            </PrivateRoute>
-          }
-        />
+        <Route path={AppRoute.Index} element={PrivateRoute(<IndexPage />)} />
         <Route
           path={AppRoute.Profile}
-          element={
-            <PrivateRoute>
-              <ProfilePage />
-            </PrivateRoute>
-          }
+          element={PrivateRoute(<ProfilePage />)}
         />
       </Route>
     </Routes>

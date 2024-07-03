@@ -2,16 +2,30 @@ import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppRoute, AuthStatus } from '../../shared/const';
 import { useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/auth-process/selectors';
+import {
+  getAccessToken,
+  getAuthorizationStatus,
+} from '../../store/auth-process/selectors';
+import { LoaderPage } from '../loaders/loader-page/loader-page';
+import { useCheckAuthQuery } from '../../store/auth-process/auth-api';
 
-type TPrivateRoute = {
-  children: JSX.Element;
-};
+type TPrivateRoute = JSX.Element;
 
-const PrivateRoute = ({ children }: TPrivateRoute) => {
+const PrivateRoute = (children: TPrivateRoute) => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const isAuth = authStatus === AuthStatus.Auth;
   const isUnknown = authStatus === AuthStatus.Unknown;
+  const accessToken = useAppSelector(getAccessToken);
+  const { isLoading } = useCheckAuthQuery(undefined, {
+    skip: !accessToken,
+  });
+
+  if (!accessToken) {
+    return <Navigate to={AppRoute.Intro} />;
+  }
+  if (isLoading || isUnknown) {
+    return <LoaderPage />;
+  }
 
   if (!isAuth && !isUnknown) {
     toast.warn(
@@ -19,7 +33,7 @@ const PrivateRoute = ({ children }: TPrivateRoute) => {
     );
   }
 
-  return isAuth ? children : <Navigate to={AppRoute.Intro} />;
+  return isAuth ? children : null;
 };
 
 export default PrivateRoute;
