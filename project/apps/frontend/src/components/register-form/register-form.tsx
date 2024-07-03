@@ -26,22 +26,33 @@ enum FormFieldName {
   Avatar = 'avatar',
   isAgreements = 'isAgreements',
 }
-
+const MOCK = {
+  [FormFieldName.FirstName]: 'Admin',
+  [FormFieldName.Email]: 'admin@admin.ru',
+  [FormFieldName.Password]: 'adminnew',
+  [FormFieldName.DateOfBirth]: new Date('2024-06-22'),
+  [FormFieldName.Gender]: UserGender.Male,
+  [FormFieldName.Role]: UserRole.User,
+  [FormFieldName.Location]: UserLocation.Sportivnaya,
+  [FormFieldName.Avatar]: undefined,
+  [FormFieldName.isAgreements]: true,
+};
 const RegisterForm: React.FC = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
   const [formData, setFormData] = useState({
-    [FormFieldName.FirstName]: 'Admin',
-    [FormFieldName.Email]: 'admin@admin.ru',
-    [FormFieldName.Password]: 'adminnew',
-    [FormFieldName.DateOfBirth]: new Date('2024-06-22'),
-    [FormFieldName.Gender]: UserGender.Male,
-    [FormFieldName.Role]: UserRole.User,
-    [FormFieldName.Location]: UserLocation.Sportivnaya,
+    [FormFieldName.FirstName]: '',
+    [FormFieldName.Email]: '',
+    [FormFieldName.Password]: '',
+    [FormFieldName.DateOfBirth]: '',
+    [FormFieldName.Gender]: '',
+    [FormFieldName.Role]: '',
+    [FormFieldName.Location]: '',
     [FormFieldName.Avatar]: undefined,
-    [FormFieldName.isAgreements]: true,
+    [FormFieldName.isAgreements]: false,
+    // ...MOCK,
   });
 
   const [avatarPreview, setAvatarPreview] = useState<string>();
