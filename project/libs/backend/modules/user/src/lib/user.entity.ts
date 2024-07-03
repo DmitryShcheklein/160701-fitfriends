@@ -18,7 +18,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public role!: UserRole;
   public location!: UserLocation;
   public gender!: UserGender;
-  public trainingConfig!: UserTrainingConfig;
+  public trainingConfig!: Partial<UserTrainingConfig>;
 
   constructor(user?: AuthUser) {
     super();

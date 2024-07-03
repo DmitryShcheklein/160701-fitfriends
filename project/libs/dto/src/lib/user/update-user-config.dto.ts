@@ -12,14 +12,14 @@ import {
 import { Transform } from 'class-transformer';
 import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
 
-export class UpdateUserConfigDto implements UserTrainingConfig {
+export class UpdateUserConfigDto implements Partial<UserTrainingConfig> {
   @ApiProperty({
     description: 'User fitness level',
     enum: FitnessLevel,
     example: FitnessLevel.Amateur,
   })
   @IsEnum(FitnessLevel)
-  public level: FitnessLevel;
+  public level?: FitnessLevel;
 
   @ApiProperty({
     description: 'User workout duration',
@@ -27,7 +27,7 @@ export class UpdateUserConfigDto implements UserTrainingConfig {
     example: WorkoutDuration.Min10to30,
   })
   @IsEnum(WorkoutDuration)
-  public duration: WorkoutDuration;
+  public duration?: WorkoutDuration;
 
   @ApiProperty({
     isArray: true,
@@ -36,7 +36,7 @@ export class UpdateUserConfigDto implements UserTrainingConfig {
     example: [WorkoutType.Aerobics, WorkoutType.Boxing],
   })
   @IsEnum(WorkoutType)
-  public specialisation: WorkoutType[];
+  public specialisation?: WorkoutType[];
 
   @ApiProperty({
     description: 'User caloriesPerDay',
@@ -47,7 +47,7 @@ export class UpdateUserConfigDto implements UserTrainingConfig {
   @MinLength(UserValidation.CaloriesPerDay.Min)
   @MaxLength(UserValidation.CaloriesPerDay.Max)
   @IsNumber()
-  public caloriesPerDay: number;
+  public caloriesPerDay?: number;
 
   @ApiProperty({
     description: 'User CaloriesWantLost',
@@ -58,7 +58,7 @@ export class UpdateUserConfigDto implements UserTrainingConfig {
   @MinLength(UserValidation.CaloriesWantLost.Min)
   @MaxLength(UserValidation.CaloriesWantLost.Max)
   @IsNumber()
-  public caloriesWantLost: number;
+  public caloriesWantLost?: number;
 
   @ApiProperty({
     required: false,
@@ -68,5 +68,5 @@ export class UpdateUserConfigDto implements UserTrainingConfig {
   @IsBoolean()
   @Transform(({ value }) => value === 'true')
   @IsOptional()
-  public trainingReadiness: boolean;
+  public trainingReadiness?: boolean;
 }
