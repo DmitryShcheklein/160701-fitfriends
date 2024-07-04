@@ -3,5 +3,5 @@ export { LoginUserDto } from './lib/authentication/login-user.dto';
 export { CreateUserDto } from './lib/user/create-user.dto';
 export { UpdateUserDto } from './lib/user/update-user.dto';
 
-export { CreateUserConfigDto } from './lib/user/create-user-config.dto';
-export { UpdateUserConfigDto } from './lib/user/update-user-config.dto';
+export { CreateUserConfigDto } from './lib/user/config/create-user-config.dto';
+export { UpdateUserConfigDto } from './lib/user/config/update-user-config.dto';
