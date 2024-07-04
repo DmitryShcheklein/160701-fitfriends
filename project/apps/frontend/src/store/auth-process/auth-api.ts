@@ -1,5 +1,4 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-
 import { TokenPayload } from '@project/core';
 import { LoggedUserRdo, RegisteredUserRdo } from '@project/rdo';
 import { LoginUserDto } from '@project/dto';

@@ -8,17 +8,19 @@ import { AppRoute } from '../../shared/const';
 import Popup from '../popup/popup';
 import Input from '../ui/Input/Input';
 
-enum FormFieldName {
-  Email = 'email',
-  Password = 'password',
-}
+const FormFieldName = {
+  Email: 'email',
+  Password: 'password',
+} as const;
+
+type FormFieldName = (typeof FormFieldName)[keyof typeof FormFieldName];
 
 const LoginForm: FC = () => {
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
-  const [formData, setFormData] = useState({
-    [FormFieldName.Email]: 'admin@admin.ru',
-    [FormFieldName.Password]: 'adminnew',
+  const [formData, setFormData] = useState<Record<FormFieldName, string>>({
+    email: 'admin@admin.ru',
+    password: 'adminnew',
   });
   const { email, password } = formData;
 

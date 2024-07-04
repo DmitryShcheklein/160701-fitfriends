@@ -15,43 +15,48 @@ import { roleOptions, locationOptions } from './register.data';
 import { UserLocation, UserRole, UserGender } from '@project/enums';
 import { toast } from 'react-toastify';
 
-enum FormFieldName {
-  FirstName = 'firstname',
-  Email = 'email',
-  Password = 'password',
-  DateOfBirth = 'dateOfBirth',
-  Gender = 'gender',
-  Location = 'location',
-  Role = 'role',
-  Avatar = 'avatar',
-  isAgreements = 'isAgreements',
-}
-const MOCK = {
-  [FormFieldName.FirstName]: 'Admin',
-  [FormFieldName.Email]: 'admin@admin.ru',
-  [FormFieldName.Password]: 'adminnew',
-  [FormFieldName.DateOfBirth]: new Date('2024-06-22'),
-  [FormFieldName.Gender]: UserGender.Male,
-  [FormFieldName.Role]: UserRole.User,
-  [FormFieldName.Location]: UserLocation.Sportivnaya,
-  [FormFieldName.Avatar]: undefined,
-  [FormFieldName.isAgreements]: true,
+const FormFieldName = {
+  FirstName: 'firstname',
+  Email: 'email',
+  Password: 'password',
+  DateOfBirth: 'dateOfBirth',
+  Gender: 'gender',
+  Location: 'location',
+  Role: 'role',
+  Avatar: 'avatar',
+  isAgreements: 'isAgreements',
+} as const;
+
+type FieldName = (typeof FormFieldName)[keyof typeof FormFieldName];
+type TState = Record<FieldName, any>;
+
+const MOCK: TState = {
+  firstname: 'Admin',
+  email: 'admin@admin.ru',
+  password: 'adminnew',
+  dateOfBirth: new Date('2024-06-22'),
+  gender: UserGender.Male,
+  role: UserRole.User,
+  location: UserLocation.Sportivnaya,
+  avatar: undefined,
+  isAgreements: true,
 };
+
 const RegisterForm: React.FC = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
-  const [formData, setFormData] = useState({
-    [FormFieldName.FirstName]: '',
-    [FormFieldName.Email]: '',
-    [FormFieldName.Password]: '',
-    [FormFieldName.DateOfBirth]: '',
-    [FormFieldName.Gender]: '',
-    [FormFieldName.Role]: '',
-    [FormFieldName.Location]: '',
-    [FormFieldName.Avatar]: undefined,
-    [FormFieldName.isAgreements]: false,
+  const [formData, setFormData] = useState<TState>({
+    firstname: '',
+    email: '',
+    password: '',
+    dateOfBirth: undefined,
+    gender: undefined,
+    role: undefined,
+    location: undefined,
+    avatar: undefined,
+    isAgreements: false,
     // ...MOCK,
   });
 
@@ -198,23 +203,23 @@ const RegisterForm: React.FC = () => {
                   <RadioInput
                     label="Мужской"
                     name={FormFieldName.Gender}
-                    value="Male"
+                    value={UserGender.Male}
                     onChange={onChange}
-                    checked={gender === 'Male'}
+                    checked={gender === UserGender.Male}
                   />
                   <RadioInput
                     label="Женский"
                     name={FormFieldName.Gender}
-                    value="Female"
+                    value={UserGender.Female}
                     onChange={onChange}
-                    checked={gender === 'Female'}
+                    checked={gender === UserGender.Female}
                   />
                   <RadioInput
                     label="Неважно"
                     name={FormFieldName.Gender}
-                    value="Any"
+                    value={UserGender.Any}
                     onChange={onChange}
-                    checked={gender === 'Any'}
+                    checked={gender === UserGender.Any}
                   />
                 </div>
               </div>
