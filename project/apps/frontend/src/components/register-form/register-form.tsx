@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link, Navigate, redirect } from 'react-router-dom';
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
 import { useRegisterMutation } from '../../store/auth-process/auth-api';
 import { setCredentials } from '../../store/auth-process/auth-process';
@@ -30,11 +30,12 @@ const FormFieldName = {
 type FieldName = (typeof FormFieldName)[keyof typeof FormFieldName];
 type TState = Record<FieldName, any>;
 
+const randNumber = Math.random().toFixed(3);
 const MOCK: TState = {
-  firstname: 'Admin',
-  email: 'admin@admin.ru',
+  firstname: `Admin${randNumber}`,
+  email: `admin${randNumber}@admin.ru`,
   password: 'adminnew',
-  dateOfBirth: new Date('2024-06-22'),
+  // dateOfBirth: '2024-01-11T14:19:59.298Z',
   gender: UserGender.Male,
   role: UserRole.User,
   location: UserLocation.Sportivnaya,
@@ -42,8 +43,8 @@ const MOCK: TState = {
   isAgreements: true,
 };
 
-const RegisterForm: React.FC = () => {
-  const authStatus = useAppSelector(getAuthorizationStatus);
+const RegisterForm = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
@@ -57,7 +58,7 @@ const RegisterForm: React.FC = () => {
     location: undefined,
     avatar: undefined,
     isAgreements: false,
-    // ...MOCK,
+    ...MOCK,
   });
 
   const [avatarPreview, setAvatarPreview] = useState<string>();
@@ -82,11 +83,17 @@ const RegisterForm: React.FC = () => {
     const { value, name, checked, type, files } = evt.target;
     const isCheckbox = type === 'checkbox';
     const isFile = type === 'file';
+    const isDate = type === 'date';
 
     if (isFile && files) {
       const [file] = Array.from(files);
       setFormData((prev) => ({ ...prev, [name]: file }));
       setAvatarPreview(URL.createObjectURL(file));
+    } else if (isDate) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: new Date(value).toISOString().split('T')[0],
+      }));
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -102,21 +109,20 @@ const RegisterForm: React.FC = () => {
       const form = new FormData();
 
       Object.entries(sendData).forEach(([key, value]) => {
-        form.append(key, value);
+        if (value) {
+          form.append(key, value);
+        }
       });
 
       const userData = await register(form).unwrap();
       dispatch(setCredentials(userData));
       toast.success('Вы успешно зарегистрированы!');
+      navigate(AppRoute.Questionnaire);
     } catch (err) {
       console.error('Failed to register: ', err);
       toast.error(err.data.message.toString());
     }
   };
-
-  if (authStatus === AuthStatus.Auth) {
-    return <Navigate to={AppRoute.Index} />;
-  }
 
   return (
     <Popup isOpen title="Регистрация" className="popup-form--sign-up">
@@ -173,7 +179,7 @@ const RegisterForm: React.FC = () => {
                 label="Дата рождения"
                 name={FormFieldName.DateOfBirth}
                 max="2099-12-31"
-                value={String(dateOfBirth)}
+                value={dateOfBirth || ''}
                 onChange={onChange}
               />
 

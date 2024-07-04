@@ -12,39 +12,32 @@ import {
 } from '../../../store/user-process/user-api';
 import { toast } from 'react-toastify';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../../shared/const';
+import { groupErrors } from '../../../shared/helpers/groupErrors';
 
-enum TrainingConfigFieldName {
-  Level = 'level',
-  Specialisation = 'specialisation',
-  TrainingReadiness = 'trainingReadiness',
-  Duration = 'duration',
-  CaloriesPerDay = 'caloriesPerDay',
-  CaloriesWantLost = 'caloriesWantLost',
-}
+const FieldName = {
+  Level: 'level',
+  Specialisation: 'specialisation',
+  Duration: 'duration',
+  CaloriesPerDay: 'caloriesPerDay',
+  CaloriesWantLost: 'caloriesWantLost',
+} as const;
+
+type FieldName = (typeof FieldName)[keyof typeof FieldName];
+type TState = Record<FieldName, any>;
 
 export const QuestionnaireUser = () => {
+  const navigate = useNavigate();
   const { data: trainingConfig, isLoading } = useGetQestionnaireQuery();
-  console.log(trainingConfig);
-
   const [createConfig, { isLoading: isLoadingConfigMutation }] =
     useCreateQestionnaireMutation();
-  const [trainingConfigData, setTrainingConfigData] = useState({
-    [TrainingConfigFieldName.Level]:
-      trainingConfig?.level || ('' as FitnessLevel),
-    [TrainingConfigFieldName.Specialisation]:
-      trainingConfig?.specialisation || ([] as WorkoutType[]),
-    [TrainingConfigFieldName.Duration]:
-      trainingConfig?.duration || ('' as WorkoutDuration),
-    [TrainingConfigFieldName.CaloriesPerDay]: Number(
-      trainingConfig?.caloriesPerDay
-    ),
-    [TrainingConfigFieldName.CaloriesWantLost]: Number(
-      trainingConfig?.caloriesWantLost
-    ),
-    [TrainingConfigFieldName.TrainingReadiness]: Boolean(
-      trainingConfig?.trainingReadiness
-    ),
+  const [trainingConfigData, setTrainingConfigData] = useState<TState>({
+    level: trainingConfig?.level || '',
+    specialisation: trainingConfig?.specialisation || [],
+    duration: trainingConfig?.duration || '',
+    caloriesPerDay: Number(trainingConfig?.caloriesPerDay),
+    caloriesWantLost: Number(trainingConfig?.caloriesWantLost),
   });
 
   useEffect(() => {
@@ -71,9 +64,18 @@ export const QuestionnaireUser = () => {
       await createConfig(trainingConfigData).unwrap();
 
       toast.success('Данные успешно сохранены!');
+      navigate(AppRoute.Index);
     } catch (err: any) {
       console.error('Failed to register: ', err);
-      toast.error(err.data.message.join(''));
+
+      const groupedErrors = groupErrors(err.data.message);
+      Object.keys(groupedErrors).forEach((key) => {
+        const errorMessage = groupedErrors[key].join('\n');
+        toast.error(errorMessage, {
+          style: { whiteSpace: 'pre-line' },
+          autoClose: 10_000,
+        });
+      });
     }
   };
 
@@ -97,12 +99,12 @@ export const QuestionnaireUser = () => {
                       size="big"
                       key={option.value}
                       label={option.label}
-                      name={TrainingConfigFieldName.Specialisation}
+                      name={FieldName.Specialisation}
                       value={option.value}
                       checked={Boolean(
-                        trainingConfigData[
-                          TrainingConfigFieldName.Specialisation
-                        ]?.includes(option.value)
+                        trainingConfigData[FieldName.Specialisation]?.includes(
+                          option.value
+                        )
                       )}
                       onChange={handleInputChange}
                     />
@@ -118,11 +120,10 @@ export const QuestionnaireUser = () => {
                     <RadioInput
                       key={option.value}
                       label={option.label}
-                      name={TrainingConfigFieldName.Duration}
+                      name={FieldName.Duration}
                       value={option.value}
                       checked={
-                        option.value ===
-                        trainingConfigData[TrainingConfigFieldName.Duration]
+                        option.value === trainingConfigData[FieldName.Duration]
                       }
                       onChange={handleInputChange}
                     />
@@ -136,11 +137,10 @@ export const QuestionnaireUser = () => {
                     <RadioInput
                       key={option.value}
                       label={option.label}
-                      name={TrainingConfigFieldName.Level}
+                      name={FieldName.Level}
                       value={option.value}
                       checked={
-                        option.value ===
-                        trainingConfigData[TrainingConfigFieldName.Level]
+                        option.value === trainingConfigData[FieldName.Level]
                       }
                       onChange={handleInputChange}
                     />
@@ -157,12 +157,10 @@ export const QuestionnaireUser = () => {
                       <span className="custom-input__wrapper">
                         <input
                           type="number"
-                          name={TrainingConfigFieldName.CaloriesWantLost}
+                          name={FieldName.CaloriesWantLost}
                           onChange={handleInputChange}
                           value={String(
-                            trainingConfigData[
-                              TrainingConfigFieldName.CaloriesWantLost
-                            ]
+                            trainingConfigData[FieldName.CaloriesWantLost]
                           )}
                         />
                         <span className="custom-input__text">ккал</span>
@@ -179,12 +177,10 @@ export const QuestionnaireUser = () => {
                       <span className="custom-input__wrapper">
                         <input
                           type="number"
-                          name={TrainingConfigFieldName.CaloriesPerDay}
+                          name={FieldName.CaloriesPerDay}
                           onChange={handleInputChange}
                           value={String(
-                            trainingConfigData[
-                              TrainingConfigFieldName.CaloriesPerDay
-                            ]
+                            trainingConfigData[FieldName.CaloriesPerDay]
                           )}
                         />
                         <span className="custom-input__text">ккал</span>

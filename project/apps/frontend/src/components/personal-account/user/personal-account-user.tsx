@@ -1,19 +1,67 @@
-import React from 'react';
-import { useGetUserQuery } from '../../../store/user-process/user-api';
+import { toast } from 'react-toastify';
+import {
+  useGetQestionnaireQuery,
+  useUpdateQestionnaireMutation,
+} from './../../../store/user-process/user-api';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+
+const FieldName = {
+  CaloriesPerDay: 'caloriesPerDay',
+} as const;
+type FieldName = (typeof FieldName)[keyof typeof FieldName];
+type TState = Record<FieldName, any>;
 
 const PersonalAccountUser: React.FC = () => {
-  const { data } = useGetUserQuery();
+  const [updateConfig] = useUpdateQestionnaireMutation();
+  const { data: trainingConfig } = useGetQestionnaireQuery();
 
-  if (!data?.trainingConfig) {
-    return null;
-  }
-  const { caloriesPerDay } = data.trainingConfig;
+  const [configData, setConfigData] = useState<TState>({
+    caloriesPerDay: Number(trainingConfig?.caloriesPerDay) || '',
+  });
+
+  useEffect(() => {
+    if (trainingConfig) {
+      setConfigData(trainingConfig);
+    }
+  }, [trainingConfig]);
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    const typeNumber = type === 'number';
+
+    setConfigData((prev) => ({
+      ...prev,
+      [name]: typeNumber ? Number(value) : value,
+    }));
+  };
+
+  const handleSubmitForm = async (evt: FormEvent) => {
+    evt.preventDefault();
+
+    try {
+      await updateConfig(configData).unwrap();
+
+      toast.success('Данные успешно сохранены!');
+    } catch (err: any) {
+      console.error('Failed to register: ', err);
+      toast.error(err.data.message.join(''));
+    }
+  };
+
+  const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key === 'Enter') {
+      evt.preventDefault();
+      (evt.target as HTMLInputElement).form?.requestSubmit();
+    }
+  };
 
   return (
     <div className="inner-page__content">
       <div className="personal-account-user">
         <div className="personal-account-user__schedule">
-          <form action="#" method="get">
+          <form onSubmit={handleSubmitForm}>
             <div className="personal-account-user__form">
               <div className="personal-account-user__input">
                 <label>
@@ -21,10 +69,11 @@ const PersonalAccountUser: React.FC = () => {
                     План на день, ккал
                   </span>
                   <input
-                    type="text"
-                    name="schedule-for-the-day"
-                    defaultValue={caloriesPerDay}
-                    disabled
+                    type="number"
+                    name={FieldName.CaloriesPerDay}
+                    value={configData.caloriesPerDay}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
                   />
                 </label>
               </div>
@@ -35,8 +84,7 @@ const PersonalAccountUser: React.FC = () => {
                   </span>
                   <input
                     type="text"
-                    name="schedule-for-the-week"
-                    defaultValue={caloriesPerDay * 7}
+                    value={configData.caloriesPerDay * 7 || ''}
                     disabled
                   />
                 </label>
