@@ -15,6 +15,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
 import { groupErrors } from '../../../shared/helpers/groupErrors';
+import { WorkoutType } from '@project/enums';
 
 const FieldName = {
   Level: 'level',
@@ -52,11 +53,34 @@ export const QuestionnaireUser = () => {
     const { name, value, type } = e.target;
     const typeNumber = type === 'number';
 
+    if (typeNumber) {
+      setTrainingConfigData((prev) => ({
+        ...prev,
+        [name]: Number(value) || '',
+      }));
+      return;
+    }
     setTrainingConfigData((prev) => ({
       ...prev,
-      [name]: typeNumber ? Number(value) : value,
+      [name]: value,
     }));
   };
+  const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { checked, readOnly } = evt.target;
+    if (!readOnly) {
+      setTrainingConfigData((prev) => {
+        const currentSpecialisation = prev.specialisation;
+        const value = evt.target.value as WorkoutType;
+        return {
+          ...prev,
+          specialisation: checked
+            ? currentSpecialisation?.concat([value])
+            : currentSpecialisation?.filter((item) => item !== value),
+        };
+      });
+    }
+  };
+
   const handleSubmitForm = async (evt: FormEvent) => {
     evt.preventDefault();
 
@@ -106,7 +130,7 @@ export const QuestionnaireUser = () => {
                           option.value
                         )
                       )}
-                      onChange={handleInputChange}
+                      onChange={handleSpecializationChange}
                     />
                   ))}
                 </div>
@@ -179,9 +203,7 @@ export const QuestionnaireUser = () => {
                           type="number"
                           name={FieldName.CaloriesPerDay}
                           onChange={handleInputChange}
-                          value={String(
-                            trainingConfigData[FieldName.CaloriesPerDay]
-                          )}
+                          value={trainingConfigData[FieldName.CaloriesPerDay]}
                         />
                         <span className="custom-input__text">ккал</span>
                       </span>
