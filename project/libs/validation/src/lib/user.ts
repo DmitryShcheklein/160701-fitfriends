@@ -21,12 +21,17 @@ export const User = {
     Type: ALLOWED_IMG_MIMETYPES,
     FileMaxSize: 1 * MB,
   },
-  CaloriesWantLost: {
-    Min: 1000,
-    Max: 5000,
-  },
-  CaloriesPerDay: {
-    Min: 1000,
-    Max: 5000,
+  TrainingConfig: {
+    Specialisation: {
+      MaxLength: 3
+    },
+    CaloriesWantLost: {
+      Min: 1000,
+      Max: 5000,
+    },
+    CaloriesPerDay: {
+      Min: 1000,
+      Max: 5000,
+    },
   },
 };

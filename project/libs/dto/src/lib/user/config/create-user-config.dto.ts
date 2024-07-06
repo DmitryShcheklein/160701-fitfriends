@@ -1,7 +1,7 @@
 import { UserTrainingConfig } from '@project/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { User as UserValidation } from '@project/validation';
-import { IsEnum, IsNumber, Max, Min } from 'class-validator';
+import { ArrayMaxSize, IsEnum, IsNumber, Max, Min } from 'class-validator';
 import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
 
 export class CreateUserConfigDto
@@ -29,28 +29,29 @@ export class CreateUserConfigDto
     enum: WorkoutType,
     example: [WorkoutType.Aerobics, WorkoutType.Boxing],
   })
-  @IsEnum(WorkoutType)
+  @IsEnum(WorkoutType, { each: true })
+  @ArrayMaxSize(UserValidation.TrainingConfig.Specialisation.MaxLength)
   public specialisation: WorkoutType[];
 
   @ApiProperty({
     description: 'User caloriesPerDay',
-    example: UserValidation.CaloriesPerDay.Min,
-    minLength: UserValidation.CaloriesPerDay.Min,
-    maxLength: UserValidation.CaloriesPerDay.Max,
+    example: UserValidation.TrainingConfig.CaloriesPerDay.Min,
+    minLength: UserValidation.TrainingConfig.CaloriesPerDay.Min,
+    maxLength: UserValidation.TrainingConfig.CaloriesPerDay.Max,
   })
-  @Min(UserValidation.CaloriesPerDay.Min)
-  @Max(UserValidation.CaloriesPerDay.Max)
+  @Min(UserValidation.TrainingConfig.CaloriesPerDay.Min)
+  @Max(UserValidation.TrainingConfig.CaloriesPerDay.Max)
   @IsNumber()
   public caloriesPerDay: number;
 
   @ApiProperty({
     description: 'User CaloriesWantLost',
-    example: UserValidation.CaloriesWantLost.Min,
-    minLength: UserValidation.CaloriesWantLost.Min,
-    maxLength: UserValidation.CaloriesWantLost.Max,
+    example: UserValidation.TrainingConfig.CaloriesWantLost.Min,
+    minLength: UserValidation.TrainingConfig.CaloriesWantLost.Min,
+    maxLength: UserValidation.TrainingConfig.CaloriesWantLost.Max,
   })
-  @Min(UserValidation.CaloriesWantLost.Min)
-  @Max(UserValidation.CaloriesWantLost.Max)
+  @Min(UserValidation.TrainingConfig.CaloriesWantLost.Min)
+  @Max(UserValidation.TrainingConfig.CaloriesWantLost.Max)
   @IsNumber()
   public caloriesWantLost: number;
 }

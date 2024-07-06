@@ -36,18 +36,18 @@ export class UserConfigRdo implements UserTrainingConfig {
 
   @ApiProperty({
     description: 'User caloriesPerDay',
-    example: UserValidation.CaloriesPerDay.Min,
-    minLength: UserValidation.CaloriesPerDay.Min,
-    maxLength: UserValidation.CaloriesPerDay.Max,
+    example: UserValidation.TrainingConfig.CaloriesPerDay.Min,
+    minLength: UserValidation.TrainingConfig.CaloriesPerDay.Min,
+    maxLength: UserValidation.TrainingConfig.CaloriesPerDay.Max,
   })
   @Expose()
   public caloriesPerDay: number;
 
   @ApiProperty({
     description: 'User CaloriesWantLost',
-    example: UserValidation.CaloriesWantLost.Min,
-    minLength: UserValidation.CaloriesWantLost.Min,
-    maxLength: UserValidation.CaloriesWantLost.Max,
+    example: UserValidation.TrainingConfig.CaloriesWantLost.Min,
+    minLength: UserValidation.TrainingConfig.CaloriesWantLost.Min,
+    maxLength: UserValidation.TrainingConfig.CaloriesWantLost.Max,
   })
   @Expose()
   public caloriesWantLost: number;
