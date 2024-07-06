@@ -7,8 +7,8 @@ import {
 import Tag from '../../ui/tag/tag';
 import RadioInput from '../../ui/RadioInput/RadioInput';
 import {
-  useCreateQestionnaireMutation,
-  useGetQestionnaireQuery,
+  useCreateTrainingConfigMutation,
+  useTrainingConfigQuery,
 } from '../../../store/user-process/user-api';
 import { toast } from 'react-toastify';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
@@ -30,9 +30,9 @@ type TState = Record<FieldName, any>;
 
 export const QuestionnaireUser = () => {
   const navigate = useNavigate();
-  const { data: trainingConfig, isLoading } = useGetQestionnaireQuery();
+  const { data: trainingConfig, isLoading } = useTrainingConfigQuery();
   const [createConfig, { isLoading: isLoadingConfigMutation }] =
-    useCreateQestionnaireMutation();
+    useCreateTrainingConfigMutation();
   const [trainingConfigData, setTrainingConfigData] = useState<TState>({
     level: trainingConfig?.level || '',
     specialisation: trainingConfig?.specialisation || [],

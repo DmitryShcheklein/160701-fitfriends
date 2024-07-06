@@ -17,21 +17,21 @@ export const userApi = createApi({
       }),
       invalidatesTags: [NameSpace.UserApi],
     }),
-    getUser: builder.query<UserRdo, void>({
+    User: builder.query<UserRdo, void>({
       query: () => ({
         url: '',
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
-    getQestionnaire: builder.query<UserConfigRdo, void>({
+    TrainingConfig: builder.query<UserConfigRdo, void>({
       query: () => ({
         url: '/questionnaire-user',
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
-    createQestionnaire: builder.mutation<UserConfigRdo, CreateUserConfigDto>({
+    createTrainingConfig: builder.mutation<UserConfigRdo, CreateUserConfigDto>({
       query: (credentials) => ({
         url: '/questionnaire-user',
         method: 'POST',
@@ -39,7 +39,7 @@ export const userApi = createApi({
       }),
       invalidatesTags: [NameSpace.UserApi],
     }),
-    updateQestionnaire: builder.mutation<UserConfigRdo, UpdateUserConfigDto>({
+    updateTrainingConfig: builder.mutation<UserConfigRdo, UpdateUserConfigDto>({
       query: (credentials) => ({
         url: '/questionnaire-user',
         method: 'PATCH',
@@ -51,9 +51,9 @@ export const userApi = createApi({
 });
 
 export const {
-  useGetUserQuery,
+  useUserQuery,
   useUpdateUserMutation,
-  useGetQestionnaireQuery,
-  useUpdateQestionnaireMutation,
-  useCreateQestionnaireMutation
+  useCreateTrainingConfigMutation,
+  useUpdateTrainingConfigMutation,
+  useTrainingConfigQuery,
 } = userApi;

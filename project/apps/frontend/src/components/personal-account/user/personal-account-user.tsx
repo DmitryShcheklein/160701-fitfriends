@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import {
-  useGetQestionnaireQuery,
-  useUpdateQestionnaireMutation,
+  useTrainingConfigQuery,
+  useUpdateTrainingConfigMutation,
 } from './../../../store/user-process/user-api';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
@@ -12,8 +12,8 @@ type FieldName = (typeof FieldName)[keyof typeof FieldName];
 type TState = Record<FieldName, any>;
 
 const PersonalAccountUser: React.FC = () => {
-  const [updateConfig] = useUpdateQestionnaireMutation();
-  const { data: trainingConfig } = useGetQestionnaireQuery();
+  const [updateConfig] = useUpdateTrainingConfigMutation();
+  const { data: trainingConfig } = useTrainingConfigQuery();
 
   const [configData, setConfigData] = useState<TState>({
     caloriesPerDay: Number(trainingConfig?.caloriesPerDay) || '',
