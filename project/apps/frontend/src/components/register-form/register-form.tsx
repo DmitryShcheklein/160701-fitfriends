@@ -1,18 +1,17 @@
-import React, { ChangeEventHandler } from 'react';
+import { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthStatus } from '../../shared/const';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../shared/const';
 import { useRegisterMutation } from '../../store/auth-process/auth-api';
 import { setCredentials } from '../../store/auth-process/auth-process';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/auth-process/selectors';
+import { useAppDispatch } from '../../hooks';
 import Popup from '../popup/popup';
 import Input from '../ui/input/input';
 import RadioInput from '../ui/radio-input/radio-input';
 import RoleSelector from '../role-selector/role-selector';
 import CustomSelect from '../ui/select/select';
 import { roleOptions, locationOptions } from './register.data';
-import { UserLocation, UserRole, UserGender } from '@project/enums';
+import { UserGender } from '@project/enums';
 import { toast } from 'react-toastify';
 
 const FormFieldName = {
@@ -30,19 +29,6 @@ const FormFieldName = {
 type FieldName = (typeof FormFieldName)[keyof typeof FormFieldName];
 type TState = Record<FieldName, any>;
 
-const randNumber = Math.random().toFixed(3);
-const MOCK: TState = {
-  firstname: `Admin${randNumber}`,
-  email: `admin${randNumber}@admin.ru`,
-  password: 'adminnew',
-  // dateOfBirth: '2024-01-11T14:19:59.298Z',
-  gender: UserGender.Male,
-  role: UserRole.User,
-  location: UserLocation.Sportivnaya,
-  avatar: undefined,
-  isAgreements: true,
-};
-
 const RegisterForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -58,7 +44,6 @@ const RegisterForm = () => {
     location: undefined,
     avatar: undefined,
     isAgreements: false,
-    ...MOCK,
   });
 
   const [avatarPreview, setAvatarPreview] = useState<string>();
