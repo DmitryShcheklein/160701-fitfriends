@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Nouislider from 'nouislider-react';
+import Nouislider, { NouisliderProps } from 'nouislider-react';
 import 'nouislider/distribute/nouislider.css';
 import './slider-filter.css';
 
-interface FilterProps {
+interface FilterProps extends Omit<NouisliderProps, 'start' | 'onChange'> {
   label: string;
-  className?: string;
+  start: string[] | number[];
+  onChange?: (values: [string, string]) => void;
   withInputs?: boolean;
   range: { min: number; max: number };
-  startValues: [number, number];
-  onChange?: (values: [string, string]) => void;
 }
 
 const InputFieldName = {
@@ -21,14 +20,14 @@ const Filter: React.FC<FilterProps> = ({
   className = '',
   withInputs = true,
   range,
-  startValues,
-  onChange,
+  start,
   label,
+  onChange,
 }) => {
-  const values = startValues.map(String);
-  const [inputValues, setInputValues] = useState<string[]>(values);
+  const startValues = start.map(String);
+  const [inputValues, setInputValues] = useState<string[]>(startValues);
   const [inputMin, inputMax] = inputValues;
-  const [sliderValues, setSliderValues] = useState<string[]>(values);
+  const [sliderValues, setSliderValues] = useState<string[]>(startValues);
 
   useEffect(() => {
     onChange?.([inputMin, inputMax]);
@@ -88,13 +87,17 @@ const Filter: React.FC<FilterProps> = ({
       </div>
 
       <Nouislider
+        className="filter__slider"
+        padding={1}
         range={{ min: range.min, max: range.max }}
         start={sliderValues}
-        connect
         step={1}
         onSlide={handleSliderUpdate}
-        className="filter__slider"
-        padding={4}
+        format={{
+          from: (value) => Number(value),
+          to: (value) => Number(value),
+        }}
+        connect
       />
     </div>
   );

@@ -1,3 +1,9 @@
+// import Nouislider from 'nouislider-react';
+// import 'nouislider/distribute/nouislider.css';
+// import Input from '../ui/input/input';
+// import './range-slider.css';
+import Filter from '../ui/slider-filter/slider-filter';
+
 export const CatalogSidebar = () => {
   return (
     <div>
@@ -16,7 +22,55 @@ export const CatalogSidebar = () => {
           </button>
           <h3 className="my-training-form__title">фильтры</h3>
           <form className="my-training-form__form">
-            <div className="my-training-form__block my-training-form__block--price">
+            {/* <div className="my-training-form__block my-training-form__block--price">
+              <h4 className="my-training-form__block-title">Цена, ₽</h4>
+
+              <div className="filter-price">
+                <div className="filter-price__input-text filter-price__input-text--min">
+                  <input
+                    type="number"
+                    id="text-min"
+                    name="text-min"
+                    defaultValue="0"
+                  />
+                  <label htmlFor="text-min">от</label>
+                </div>
+                <div className="filter-price__input-text filter-price__input-text--max">
+                  <input
+                    type="number"
+                    id="text-max"
+                    name="text-max"
+                    defaultValue="3200"
+                  />
+                  <label htmlFor="text-max">до</label>
+                </div>
+              </div>
+
+              <Nouislider
+                range={{ min: 0, max: 100 }}
+                start={[10, 80]}
+                connect
+                className=""
+              />
+            </div> */}
+
+            <Filter
+              label="Цена, ₽"
+              start={[0, 100]}
+              range={{ min: 0, max: 100 }}
+              className="my-training-form__block--price"
+              onChange={(values) => {
+                console.log(values);
+              }}
+            />
+            <Filter
+              label="Рейтинг"
+              className="my-training-form__block--raiting"
+              start={[0, 5]}
+              range={{ min: 0, max: 5 }}
+              withInputs={false}
+            />
+            {/* <div className="my-training-form__block my-training-form__block--price">
               <h4 className="my-training-form__block-title">Цена, ₽</h4>
               <div className="filter-price">
                 <div className="filter-price__input-text filter-price__input-text--min">
@@ -89,7 +143,7 @@ export const CatalogSidebar = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="my-training-form__block my-training-form__block--raiting">
               <h4 className="my-training-form__block-title">Рейтинг</h4>
               <div className="filter-raiting">
