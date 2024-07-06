@@ -1,0 +1,57 @@
+.noUi-target {
+  --color-default: #aeaeae;
+  --color-active:#333333;
+  --handle-size: 16px;
+  --line-height: 1px; 
+
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  background-color: var(--color-default);
+}
+.noUi-horizontal {
+  height: var(--line-height);
+}
+.noUi-connects {
+  border-radius: 0;
+}
+
+.noUi-connect {
+  background-color: var(--color-active);
+}
+
+.noUi-horizontal .noUi-handle {
+  width: var(--handle-size);
+  height: var(--handle-size);
+  top: calc(-1 * var(--handle-size) / 2);
+  cursor: pointer;
+}
+
+.noUi-handle.noUi-handle-lower {
+  right: 0;
+}
+
+.noUi-handle.noUi-handle-upper {
+  right: calc(-1 * var(--handle-size));
+}
+
+.noUi-handle {
+  background-color: var(--color-active);
+  border-radius: 50%;
+  border-color: transparent;
+  box-shadow: none;
+  transition: 0.3s ease;
+}
+
+.noUi-handle:hover:not(.focus-visible) {
+  background-color: #adadad;
+}
+
+.noUi-handle.noUi-active {
+  box-shadow: 0 0 2px 2px #c5ec2a;
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+  content: none;
+}
