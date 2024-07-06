@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { logOut, setCredentials } from '../store/auth-process/auth-process';
 import { AppRoute } from '../shared/const';
 import QuestionnairePage from '../pages/questionnaire/questionnaire';
+import CatalogPage from '../pages/catalog/catalog';
 
 export function App() {
   const dispatch = useAppDispatch();
@@ -58,6 +59,10 @@ export function App() {
         <Route
           path={AppRoute.Profile}
           element={PrivateRoute(<ProfilePage />)}
+        />
+        <Route
+          path={AppRoute.Catalog}
+          element={PrivateRoute(<CatalogPage />)}
         />
       </Route>
     </Routes>

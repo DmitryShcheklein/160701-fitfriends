@@ -17,7 +17,7 @@ export const navItems = [
   },
   {
     label: 'Q',
-    href: AppRoute.Questionnaire,
+    href: AppRoute.Catalog,
     icon: '#icon-book',
     ariaLabel: 'Опросник',
   },

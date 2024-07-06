@@ -6,6 +6,7 @@ const AppRoute = {
   Profile: '/profile',
   Friends: '/friends',
   Questionnaire: '/questionnaire',
+  Catalog: '/catalog',
   ErrorPage: '/page404',
 } as const;
 
@@ -23,6 +24,7 @@ enum PageTitles {
   Page404 = 'Страница 404 — FitFriends',
   Profile = 'Личный кабинет — FitFriends',
   Questionnaire = 'Опросник — FitFriends',
+  Catalog = 'Мои тренировки — FitFriends',
 }
 
 export { AppRoute, AuthStatus, PageTitles };
