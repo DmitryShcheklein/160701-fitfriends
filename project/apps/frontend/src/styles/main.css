@@ -760,14 +760,14 @@ button,
   transition: color 0.3s ease, background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
 }
 
-/* .btn-checkbox input:read-only + .btn-checkbox__btn {
-  pointer-events: none;
-} */
-
 input:checked + .btn-checkbox__btn {
   color: #c5ec2a;
   background-color: #333333;
   border: 1px solid #333333;
+}
+
+input[readonly] + .btn-checkbox__btn {
+  pointer-events: none;
 }
 
 .btn-checkbox input.focus-visible:focus + .btn-checkbox__btn {
