@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import {
-  useGetUserQuery,
+  useUserQuery,
+  useUpdateTrainingConfigMutation,
   useUpdateUserMutation,
 } from '../../store/user-process/user-api';
 import CustomSelect from '../ui/Select/Select';
@@ -20,23 +21,20 @@ import { UserRdo } from '@project/rdo';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
 
-enum UserFormFieldName {
-  FirstName = 'firstname',
-  Description = 'description',
-  Gender = 'gender',
-  Location = 'location',
-  Role = 'role',
-  Avatar = 'avatar',
-  AvatarPath = 'avatarPath',
-}
+export const UserFormFieldName = {
+  FirstName: 'firstname',
+  Description: 'description',
+  Gender: 'gender',
+  Location: 'location',
+  Role: 'role',
+  Avatar: 'avatar',
+  AvatarPath: 'avatarPath',
+} as const;
 
-enum TrainingConfigFieldName {
-  Level = 'level',
-  Specialisation = 'specialisation',
-  TrainingReadiness = 'trainingReadiness',
-}
+export type UserFormFieldName =
+  (typeof UserFormFieldName)[keyof typeof UserFormFieldName];
 
-type FormUserDataState = {
+type TFormUserDataState = {
   [UserFormFieldName.FirstName]: UpdateUserDto['firstname'];
   [UserFormFieldName.Description]: UpdateUserDto['description'];
   [UserFormFieldName.Location]: UpdateUserDto['location'];
@@ -45,20 +43,32 @@ type FormUserDataState = {
   [UserFormFieldName.Avatar]?: Blob | null;
 };
 
+export const TrainingConfigFieldName = {
+  Level: 'level',
+  Specialisation: 'specialisation',
+  TrainingReadiness: 'trainingReadiness',
+} as const;
+
+export type TrainingConfigFieldName =
+  (typeof TrainingConfigFieldName)[keyof typeof TrainingConfigFieldName];
+type TConfigState = Record<TrainingConfigFieldName, any>;
+
 const UserProfileInfo: React.FC = () => {
   const [updateUser, { isLoading: isLoadingUserMutation }] =
     useUpdateUserMutation();
+
+  const [updateConfig, { isLoading: isLoadingConfigMutation }] =
+    useUpdateTrainingConfigMutation();
+
   const [isEditable, setIsEditable] = useState(false);
-  const { data: userData, isLoading } = useGetUserQuery();
-  const [trainingConfigData, setTrainingConfigData] = useState({
-    [TrainingConfigFieldName.Level]: userData?.trainingConfig?.level,
-    [TrainingConfigFieldName.Specialisation]:
-      userData?.trainingConfig?.specialisation,
-    [TrainingConfigFieldName.TrainingReadiness]:
-      userData?.trainingConfig?.trainingReadiness,
+  const { data: userData, isLoading } = useUserQuery();
+  const [trainingConfigData, setTrainingConfigData] = useState<TConfigState>({
+    level: userData?.trainingConfig?.level,
+    specialisation: userData?.trainingConfig?.specialisation,
+    trainingReadiness: userData?.trainingConfig?.trainingReadiness,
   });
 
-  const [formUserData, setFormUserData] = useState<FormUserDataState>({
+  const [formUserData, setFormUserData] = useState<TFormUserDataState>({
     [UserFormFieldName.FirstName]: userData?.firstname || '',
     [UserFormFieldName.Description]: userData?.description,
     [UserFormFieldName.Location]: userData?.location,
@@ -117,7 +127,7 @@ const UserProfileInfo: React.FC = () => {
 
   const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value, checked, readOnly } = evt.target;
-    if (!readOnly && trainingConfigData?.specialisation?.length) {
+    if (!readOnly) {
       setTrainingConfigData((prev) => {
         const currentSpecialisation = prev.specialisation;
 
@@ -144,19 +154,20 @@ const UserProfileInfo: React.FC = () => {
   };
   const handleSubmitForm = async (evt: FormEvent) => {
     evt.preventDefault();
-    const form = new FormData();
+    const userForm = new FormData();
 
-    Object.entries(formUserData).forEach(([key, value]) => {
+    Object.entries(Object.assign(formUserData)).forEach(([key, value]) => {
       if (value) {
-        form.append(key, value);
+        userForm.append(key, value);
       }
       if (!value && key === UserFormFieldName.Avatar) {
-        form.append(key, value);
+        userForm.append(key, value);
       }
     });
 
     try {
-      await updateUser(form).unwrap();
+      await updateUser(userForm).unwrap();
+      await updateConfig(trainingConfigData).unwrap();
       setIsEditable(!isEditable);
       toast.success('Данные успешно сохранены!');
     } catch (err: any) {
@@ -249,7 +260,7 @@ const UserProfileInfo: React.FC = () => {
           )}
           type="submit"
           aria-label="Сохранить"
-          disabled={isLoadingUserMutation}
+          disabled={isLoadingUserMutation || isLoadingConfigMutation}
         >
           <svg width="12" height="12" aria-hidden="true">
             <use xlinkHref="#icon-edit"></use>
@@ -307,7 +318,7 @@ const UserProfileInfo: React.FC = () => {
                   trainingConfigData.specialisation?.includes(option.value)
                 )}
                 onChange={handleSpecializationChange}
-                readOnly={true}
+                readOnly={!isEditable}
                 size="small"
               />
             ))}
