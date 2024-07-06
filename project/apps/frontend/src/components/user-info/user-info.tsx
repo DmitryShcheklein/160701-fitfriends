@@ -4,9 +4,9 @@ import {
   useUpdateTrainingConfigMutation,
   useUpdateUserMutation,
 } from '../../store/user-process/user-api';
-import CustomSelect from '../ui/Select/Select';
+import CustomSelect from '../ui/select/select';
 import Tag from '../ui/tag/tag';
-import Input from '../ui/Input/Input';
+import Input from '../ui/input/input';
 import Textarea from '../ui/textarea/textarea';
 import Toggle from '../ui/toggle/toggle';
 import {

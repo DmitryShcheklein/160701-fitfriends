@@ -5,7 +5,7 @@ import {
   workoutDurationOptions,
 } from '../../user-info/user-info.data';
 import Tag from '../../ui/tag/tag';
-import RadioInput from '../../ui/RadioInput/RadioInput';
+import RadioInput from '../../ui/radio-input/radio-input';
 import {
   useCreateTrainingConfigMutation,
   useTrainingConfigQuery,

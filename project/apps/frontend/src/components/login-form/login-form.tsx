@@ -6,7 +6,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/const';
 import Popup from '../popup/popup';
-import Input from '../ui/Input/Input';
+import Input from '../ui/input/input';
 
 const FormFieldName = {
   Email: 'email',
