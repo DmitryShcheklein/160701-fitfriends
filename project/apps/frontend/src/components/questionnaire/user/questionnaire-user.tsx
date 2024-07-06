@@ -12,7 +12,7 @@ import {
 } from '../../../store/user-process/user-api';
 import { toast } from 'react-toastify';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
 import { groupErrors } from '../../../shared/helpers/groupErrors';
 import { WorkoutType } from '@project/enums';
@@ -219,6 +219,12 @@ export const QuestionnaireUser = () => {
             >
               Продолжить
             </button>
+            <Link
+              className="btn btn--small btn--outlined sign-in__button"
+              to={AppRoute.Index}
+            >
+              Продолжить без сохранения
+            </Link>
           </div>
         </form>
       </div>
