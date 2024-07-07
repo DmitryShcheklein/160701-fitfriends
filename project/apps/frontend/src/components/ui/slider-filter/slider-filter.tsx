@@ -59,7 +59,7 @@ const SliderFilter = ({
   );
 
   return (
-    <div className={`filter ${className}`}>
+    <div className={classNames(className)}>
       <h4 className="my-training-form__block-title">{label}</h4>
 
       {withInputs && (
