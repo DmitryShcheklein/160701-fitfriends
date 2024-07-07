@@ -138,9 +138,9 @@ export class UserController {
     @Req() { user }: RequestWithTokenPayload,
     @Body() dto: UpdateUserConfigDto
   ) {
-    const newConfig = await this.userService.updateUserConfig(user.sub, dto);
+    const updatedUser = await this.userService.updateUserConfig(user.sub, dto);
 
-    return fillDto(UserConfigRdo, newConfig);
+    return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);
   }
 
   @ApiOperation({
@@ -159,8 +159,8 @@ export class UserController {
   @ApiBearerAuth(AuthKeyName)
   @Get('/questionnaire-user')
   public async getQestionnaireUser(@Req() { user }: RequestWithTokenPayload) {
-    const findedUser = await this.userService.getUserById(user.sub);
+    const updatedUser = await this.userService.getUserById(user.sub);
 
-    return fillDto(UserConfigRdo, findedUser.trainingConfig);
+    return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);
   }
 }

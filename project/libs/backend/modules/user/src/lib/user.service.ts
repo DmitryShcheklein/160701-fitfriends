@@ -85,6 +85,7 @@ export class UserService {
       ...user,
       trainingConfig: { ...user.trainingConfig, ...dto },
     };
+
     const userEntity = new UserEntity(updatedUser);
 
     return this.userRepository.update(userEntity);

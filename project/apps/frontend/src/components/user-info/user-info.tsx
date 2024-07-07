@@ -140,6 +140,18 @@ const UserProfileInfo: React.FC = () => {
       });
     }
   };
+  const handleTrainingReadinessChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = async (evt) => {
+    const value = evt.target.checked;
+
+    setTrainingConfigData({
+      ...trainingConfigData,
+      trainingReadiness: value,
+    });
+
+    await updateConfig({ trainingReadiness: value }).unwrap();
+  };
 
   const handleEditBtn = () => {
     setIsEditable(!isEditable);
@@ -294,13 +306,8 @@ const UserProfileInfo: React.FC = () => {
             label="Готов тренироваться"
             className="user-info__toggle"
             checked={Boolean(trainingConfigData?.trainingReadiness)}
-            disabled
-            onChange={(evt) => {
-              setTrainingConfigData({
-                ...trainingConfigData,
-                trainingReadiness: evt.target.checked,
-              });
-            }}
+            onChange={handleTrainingReadinessChange}
+            disabled={isLoadingConfigMutation}
           />
         </div>
         <div className="user-info__section">
