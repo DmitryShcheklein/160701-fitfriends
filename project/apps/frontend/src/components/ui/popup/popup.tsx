@@ -1,8 +1,11 @@
-import { HTMLAttributes, FC } from 'react';
+import { HTMLAttributes, FC, useEffect } from 'react';
 import classNames from 'classnames';
+import ReactDOM from 'react-dom';
+import PopupOverlay from './popup-overlay';
 
 interface PopupProps extends HTMLAttributes<HTMLDivElement> {
-  isOpen: boolean;
+  isStatic?: boolean;
+  isOpen?: boolean;
   title?: string;
   showCloseButton?: boolean;
   showHead?: boolean;
@@ -10,7 +13,8 @@ interface PopupProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Popup: FC<PopupProps> = ({
-  isOpen,
+  isStatic,
+  isOpen = isStatic,
   title,
   children,
   onClose,
@@ -18,12 +22,28 @@ const Popup: FC<PopupProps> = ({
   showHead = true,
   className,
 }) => {
-  if (!isOpen) {
+  const handleEscClose = (evt: KeyboardEvent) => {
+    if (evt.key === 'Escape') {
+      onClose?.();
+    }
+  };
+
+  useEffect(() => {
+    if (isStatic) return;
+    document.addEventListener('keyup', handleEscClose);
+
+    return () => {
+      document.removeEventListener('keyup', handleEscClose);
+    };
+  });
+
+  if (!isStatic && !isOpen) {
     return null;
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div className={classNames('popup-form', className)}>
+      {!isStatic ? <PopupOverlay onClick={onClose} /> : null}
       <div className="popup-form__wrapper">
         <div className="popup-form__content">
           {showHead && (
@@ -46,7 +66,8 @@ const Popup: FC<PopupProps> = ({
           <div className="popup-form__body">{children}</div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

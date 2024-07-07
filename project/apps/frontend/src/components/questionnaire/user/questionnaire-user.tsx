@@ -1,4 +1,4 @@
-import Popup from '../../popup/popup';
+import Popup from '../../ui/popup/popup';
 import {
   fitnessLevelOptions,
   specializationOptions,
@@ -107,7 +107,7 @@ export const QuestionnaireUser = () => {
     return null;
   }
   return (
-    <Popup isOpen showHead={false} className="popup-form--questionnaire-user">
+    <Popup isStatic showHead={false} className="popup-form--questionnaire-user">
       <div className="popup-form__form">
         <form onSubmit={handleSubmitForm}>
           <div className="questionnaire-user">

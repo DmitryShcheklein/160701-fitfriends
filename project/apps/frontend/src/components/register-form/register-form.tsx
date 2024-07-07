@@ -5,7 +5,7 @@ import { AppRoute } from '../../shared/const';
 import { useRegisterMutation } from '../../store/auth-process/auth-api';
 import { setCredentials } from '../../store/auth-process/auth-process';
 import { useAppDispatch } from '../../hooks';
-import Popup from '../popup/popup';
+import Popup from '../ui/popup/popup';
 import Input from '../ui/input/input';
 import RadioInput from '../ui/radio-input/radio-input';
 import RoleSelector from '../role-selector/role-selector';
@@ -110,7 +110,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Popup isOpen title="Регистрация" className="popup-form--sign-up">
+    <Popup isStatic title="Регистрация" className="popup-form--sign-up">
       <div className="popup-form__form">
         <form onSubmit={handleFormSubmit} autoComplete="off">
           <div className="sign-up">

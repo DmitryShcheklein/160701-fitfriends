@@ -5,7 +5,7 @@ import { setCredentials } from '../../store/auth-process/auth-process';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/const';
-import Popup from '../popup/popup';
+import Popup from '../ui/popup/popup';
 import Input from '../ui/input/input';
 
 const FormFieldName = {
@@ -42,7 +42,7 @@ const LoginForm: FC = () => {
   };
 
   return (
-    <Popup isOpen className="popup-form--sign-in" title={'Вход'}>
+    <Popup isStatic className="popup-form--sign-in" title="Вход">
       <div className="popup-form__form">
         <form onSubmit={handleFormSubmit}>
           <div className="sign-in">
