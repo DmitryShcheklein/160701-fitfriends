@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
 import classNames from 'classnames';
 
 export const UserFormFieldName = {
-  FirstName: 'firstname',
+  firstName: 'firstName',
   Description: 'description',
   Gender: 'gender',
   Location: 'location',
@@ -35,7 +35,7 @@ export type UserFormFieldName =
   (typeof UserFormFieldName)[keyof typeof UserFormFieldName];
 
 type TFormUserDataState = {
-  [UserFormFieldName.FirstName]: UpdateUserDto['firstname'];
+  [UserFormFieldName.firstName]: UpdateUserDto['firstName'];
   [UserFormFieldName.Description]: UpdateUserDto['description'];
   [UserFormFieldName.Location]: UpdateUserDto['location'];
   [UserFormFieldName.Gender]: UpdateUserDto['gender'];
@@ -69,7 +69,7 @@ const UserProfileInfo: React.FC = () => {
   });
 
   const [formUserData, setFormUserData] = useState<TFormUserDataState>({
-    [UserFormFieldName.FirstName]: userData?.firstname || '',
+    [UserFormFieldName.firstName]: userData?.firstName || '',
     [UserFormFieldName.Description]: userData?.description,
     [UserFormFieldName.Location]: userData?.location,
     [UserFormFieldName.Gender]: userData?.gender,
@@ -81,7 +81,7 @@ const UserProfileInfo: React.FC = () => {
   useEffect(() => {
     if (userData) {
       const {
-        firstname,
+        firstName,
         description,
         avatarPath,
         location,
@@ -89,7 +89,7 @@ const UserProfileInfo: React.FC = () => {
         trainingConfig,
       } = userData;
       setFormUserData({
-        firstname,
+        firstName,
         description,
         avatarPath,
         location,
@@ -273,9 +273,9 @@ const UserProfileInfo: React.FC = () => {
           <Input
             className="user-info__input"
             label="Имя"
-            value={formUserData.firstname}
+            value={formUserData.firstName}
             readOnly={!isEditable}
-            name={UserFormFieldName.FirstName}
+            name={UserFormFieldName.firstName}
             onChange={handleInputChange}
           />
 

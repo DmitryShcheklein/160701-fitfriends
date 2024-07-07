@@ -10,7 +10,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public createdAt?: Date;
   public dateOfBirth?: Date;
   public email!: string;
-  public firstname!: string;
+  public firstName!: string;
   public description!: string;
   public passwordHash!: string;
   public avatarPath!: string;
@@ -32,7 +32,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
 
     this.id = user.id ?? '';
     this.email = user.email;
-    this.firstname = user.firstName;
+    this.firstName = user.firstName;
     this.description = user.description;
     this.passwordHash = user.passwordHash;
     this.createdAt = user.createdAt;
@@ -49,7 +49,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     return {
       id: this.id,
       email: this.email,
-      firstName: this.firstname,
+      firstName: this.firstName,
       description: this.description,
       createdAt: this.createdAt,
       dateOfBirth: this.dateOfBirth,
