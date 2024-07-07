@@ -28,9 +28,9 @@ const SliderFilter = ({
   onChange,
 }: FilterProps) => {
   const startValues = start.map(String);
-  const [inputValues, setInputValues] = useState<string[]>(startValues);
+  const [inputValues, setInputValues] = useState(startValues);
   const [inputMin, inputMax] = inputValues;
-  const [sliderValues, setSliderValues] = useState<string[]>(startValues);
+  const [sliderValues, setSliderValues] = useState(startValues);
 
   useEffect(() => {
     onChange?.([Number(inputMin), Number(inputMax)]);
