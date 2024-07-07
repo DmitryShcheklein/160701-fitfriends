@@ -10,7 +10,9 @@ export { StoredFile } from './file-vault/stored-file.interface';
 
 // Notify
 export { Subscriber } from './notify/subscriber.interface';
-
+// Training
+export { Training } from './trainings/training.interface';
+export { TrainingsFilter } from './trainings/training-filter.interface';
 // Users
 export { User } from './users/user.interface';
 export { AuthUser } from './users/auth-user.interface';

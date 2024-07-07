@@ -32,6 +32,9 @@
       "@project/refresh-token": [
         "libs/backend/modules/refresh-token/src/index.ts"
       ],
+      "@project/trainings-module": [
+        "libs/backend/modules/trainings/src/index.ts"
+      ],
       "@project/user-module": ["libs/backend/modules/user/src/index.ts"],
       "@project/validation": ["libs/validation/src/index.ts"]
     }

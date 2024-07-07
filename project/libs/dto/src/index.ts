@@ -5,3 +5,7 @@ export { UpdateUserDto } from './lib/user/update-user.dto';
 
 export { CreateUserConfigDto } from './lib/user/config/create-user-config.dto';
 export { UpdateUserConfigDto } from './lib/user/config/update-user-config.dto';
+
+export { CreateTrainingDto } from './lib/training/create-training.dto';
+export { UpdateTrainingDto } from './lib/training/update-training.dto';
+export { PriceQueryDto } from './lib/training/price.query.dto';
