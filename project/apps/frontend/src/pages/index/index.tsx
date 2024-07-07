@@ -1,8 +1,9 @@
 import { Helmet } from 'react-helmet-async';
-import { PageTitles } from '../../shared/const';
+import { AppRoute, PageTitles } from '../../shared/const';
 import CarouselSlider from '../../components/ui/carousel-slider/carousel-slider';
 import { popularTrainingsSlides, specialForYouSlides } from './index.data';
 import SpecialOffers from '../../components/special-offers/special-offers';
+import { Link } from 'react-router-dom';
 
 const IndexPage = () => (
   <>
@@ -28,12 +29,15 @@ const IndexPage = () => (
       title="Популярные тренировки"
       slides={popularTrainingsSlides}
       extraButton={
-        <button className="btn-flat popular-trainings__button" type="button">
+        <Link
+          to={AppRoute.Catalog}
+          className="btn-flat popular-trainings__button"
+        >
           <span>Смотреть все</span>
           <svg width="14" height="10" aria-hidden="true">
             <use xlinkHref="#arrow-right"></use>
           </svg>
-        </button>
+        </Link>
       }
     />
   </>
