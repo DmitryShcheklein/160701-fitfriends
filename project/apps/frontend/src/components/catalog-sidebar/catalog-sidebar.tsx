@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
 import SliderFilter from '../ui/slider-filter/slider-filter';
+import { AppRoute } from '../../shared/const';
+import CheckboxInput from '../ui/checkbox-input/checkbox-input';
 
 export const CatalogSidebar = () => {
   return (
@@ -7,15 +10,15 @@ export const CatalogSidebar = () => {
       <div className="my-training-form">
         <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
         <div className="">
-          <button
+          <Link
+            to={AppRoute.Index}
             className="btn-flat btn-flat--underlined my-training-form__btnback"
-            type="button"
           >
             <svg width="14" height="10" aria-hidden="true">
               <use xlinkHref="#arrow-left" />
             </svg>
             <span>Назад</span>
-          </button>
+          </Link>
           <h3 className="my-training-form__title">фильтры</h3>
           <form className="my-training-form__form">
             <SliderFilter
@@ -51,83 +54,10 @@ export const CatalogSidebar = () => {
             <div className="my-training-form__block my-training-form__block--duration">
               <h4 className="my-training-form__block-title">Длительность</h4>
               <ul className="my-training-form__check-list">
-                <li className="my-training-form__check-list-item">
-                  <div className="custom-toggle custom-toggle--checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="duration-1"
-                        name="duration"
-                      />
-                      <span className="custom-toggle__icon">
-                        <svg width="9" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-check" />
-                        </svg>
-                      </span>
-                      <span className="custom-toggle__label">
-                        10 мин - 30 мин
-                      </span>
-                    </label>
-                  </div>
-                </li>
-                <li className="my-training-form__check-list-item">
-                  <div className="custom-toggle custom-toggle--checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="duration-2"
-                        name="duration"
-                        defaultChecked
-                      />
-                      <span className="custom-toggle__icon">
-                        <svg width="9" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-check" />
-                        </svg>
-                      </span>
-                      <span className="custom-toggle__label">
-                        30 мин - 50 мин
-                      </span>
-                    </label>
-                  </div>
-                </li>
-                <li className="my-training-form__check-list-item">
-                  <div className="custom-toggle custom-toggle--checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="duration-3"
-                        name="duration"
-                      />
-                      <span className="custom-toggle__icon">
-                        <svg width="9" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-check" />
-                        </svg>
-                      </span>
-                      <span className="custom-toggle__label">
-                        50 мин - 80 мин
-                      </span>
-                    </label>
-                  </div>
-                </li>
-                <li className="my-training-form__check-list-item">
-                  <div className="custom-toggle custom-toggle--checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="duration-4"
-                        name="duration"
-                      />
-                      <span className="custom-toggle__icon">
-                        <svg width="9" height="6" aria-hidden="true">
-                          <use xlinkHref="#arrow-check" />
-                        </svg>
-                      </span>
-                      <span className="custom-toggle__label">
-                        80 мин - 100 мин
-                      </span>
-                    </label>
-                  </div>
-                </li>
+                <CheckboxInput
+                  className="my-training-form__check-list-item"
+                  label="10 мин - 30 мин"
+                />
               </ul>
             </div>
           </form>
