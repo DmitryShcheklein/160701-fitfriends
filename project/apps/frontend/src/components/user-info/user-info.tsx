@@ -15,7 +15,12 @@ import {
   genderOptions,
   fitnessLevelOptions,
 } from './user-info.data';
-import { UserLocation, UserGender, WorkoutType } from '@project/enums';
+import {
+  UserLocation,
+  UserGender,
+  WorkoutType,
+  FitnessLevel,
+} from '@project/enums';
 import { UpdateUserDto } from '@project/dto';
 import { UserRdo } from '@project/rdo';
 import { toast } from 'react-toastify';
@@ -54,13 +59,14 @@ export type TrainingConfigFieldName =
 type TConfigState = Record<TrainingConfigFieldName, any>;
 
 const UserProfileInfo: React.FC = () => {
+  const [isEditable, setIsEditable] = useState(false);
+
   const [updateUser, { isLoading: isLoadingUserMutation }] =
     useUpdateUserMutation();
 
   const [updateConfig, { isLoading: isLoadingConfigMutation }] =
     useUpdateTrainingConfigMutation();
 
-  const [isEditable, setIsEditable] = useState(false);
   const { data: userData, isLoading } = useUserQuery();
   const [trainingConfigData, setTrainingConfigData] = useState<TConfigState>({
     level: userData?.trainingConfig?.level,
@@ -368,8 +374,15 @@ const UserProfileInfo: React.FC = () => {
           value={fitnessLevelOptions.find(
             (el) => el.value === trainingConfigData?.level
           )}
+          onChange={(newValue: { name: string; value: FitnessLevel }) => {
+            setTrainingConfigData({
+              ...trainingConfigData,
+              level: newValue.value,
+            });
+          }}
           options={fitnessLevelOptions}
-          isDisabled
+          isDisabled={!isEditable}
+          menuPlacement="auto"
         />
       </div>
     </form>
