@@ -1,19 +1,28 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 
+const NxAppWebpackPluginConfig = {
+  target: 'node',
+  compiler: 'tsc',
+  tsConfig: './tsconfig.app.json',
+  assets: ['./src/assets'],
+  optimization: false,
+  outputHashing: 'none',
+};
+
 module.exports = {
   output: {
     path: join(__dirname, '../../dist/apps/backend'),
   },
   plugins: [
     new NxAppWebpackPlugin({
-      target: 'node',
-      compiler: 'tsc',
+      ...NxAppWebpackPluginConfig,
       main: './src/main.ts',
-      tsConfig: './tsconfig.app.json',
-      assets: ['./src/assets'],
-      optimization: false,
-      outputHashing: 'none',
+    }),
+    new NxAppWebpackPlugin({
+      ...NxAppWebpackPluginConfig,
+      main: './src/seeder.ts',
+      outputFileName: 'seeder.js',
     }),
   ],
 };

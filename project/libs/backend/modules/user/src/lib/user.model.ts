@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuthUser, UserTrainingConfig } from '@project/core';
 import { User } from '@project/validation';
 import { UserRole, UserLocation, UserGender } from '@project/enums';
+import { Factory } from 'nestjs-seeder';
 
 @Schema({
   collection: 'users',
@@ -11,12 +12,14 @@ import { UserRole, UserLocation, UserGender } from '@project/enums';
   toObject: { virtuals: true },
 })
 export class UserModel extends Document implements AuthUser {
+  @Factory((faker, ctx) => ctx.email || faker.internet.email())
   @Prop({
     required: true,
     unique: true,
   })
   public email!: string;
 
+  @Factory((faker, ctx) => ctx.firstName ||  faker.person.firstName())
   @Prop({
     required: true,
     minlength: User.Firstname.Min,
@@ -24,6 +27,7 @@ export class UserModel extends Document implements AuthUser {
   })
   public firstname!: string;
 
+  @Factory((faker, ctx) => ctx.passwordHash || faker.person.firstName())
   @Prop({
     required: true,
   })
@@ -49,6 +53,7 @@ export class UserModel extends Document implements AuthUser {
   })
   public description: string;
 
+  @Factory((faker) => faker.helpers.enumValue(UserRole))
   @Prop({
     required: true,
     type: String,
@@ -57,6 +62,7 @@ export class UserModel extends Document implements AuthUser {
   })
   public role: UserRole;
 
+  @Factory((faker) => faker.helpers.enumValue(UserLocation))
   @Prop({
     required: true,
     type: String,
@@ -64,6 +70,7 @@ export class UserModel extends Document implements AuthUser {
   })
   public location: UserLocation;
 
+  @Factory((faker) => faker.helpers.enumValue(UserGender))
   @Prop({
     required: true,
     type: String,
