@@ -9,14 +9,14 @@ const FieldName = {
   CaloriesPerDay: 'caloriesPerDay',
 } as const;
 type FieldName = (typeof FieldName)[keyof typeof FieldName];
-type TState = Record<FieldName, any>;
+type TState = Record<FieldName, number>;
 
 const PersonalAccountUser: React.FC = () => {
   const [updateConfig] = useUpdateTrainingConfigMutation();
   const { data: trainingConfig } = useTrainingConfigQuery();
 
   const [configData, setConfigData] = useState<TState>({
-    caloriesPerDay: Number(trainingConfig?.caloriesPerDay) || '',
+    caloriesPerDay: Number(trainingConfig?.caloriesPerDay),
   });
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const PersonalAccountUser: React.FC = () => {
                   <input
                     type="number"
                     name={FieldName.CaloriesPerDay}
-                    value={configData.caloriesPerDay}
+                    value={configData.caloriesPerDay || ''}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                   />
