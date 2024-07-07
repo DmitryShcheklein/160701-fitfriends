@@ -8,6 +8,8 @@ import { appConfig } from '@project/config';
 import { ConfigType } from '@nestjs/config';
 import { AuthUser } from '@project/core';
 
+type MockUser = Partial<AuthUser>;
+
 @Injectable()
 export class UsersSeeder implements Seeder {
   constructor(
@@ -19,10 +21,7 @@ export class UsersSeeder implements Seeder {
   ) {}
 
   async seed() {
-    const adminUserData: Pick<
-      AuthUser,
-      'email' | 'firstName' | 'passwordHash' | 'avatarPath'
-    > = {
+    const adminUserData: MockUser = {
       email: 'admin@admin.ru',
       firstName: 'Admin',
       passwordHash: await this.hasherService.generatePasswordHash('adminnew'),
@@ -33,9 +32,10 @@ export class UsersSeeder implements Seeder {
       adminUserData
     );
 
-    const MOCK_USER_COUNT = 10;
+    const MOCK_USERS_COUNT = 10;
+
     const users = DataFactory.createForClass(UserModel).generate(
-      MOCK_USER_COUNT,
+      MOCK_USERS_COUNT,
       {
         passwordHash: await this.hasherService.generatePasswordHash('123456'),
       }

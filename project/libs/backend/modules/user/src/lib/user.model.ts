@@ -4,6 +4,7 @@ import { AuthUser, UserTrainingConfig } from '@project/core';
 import { User } from '@project/validation';
 import { UserRole, UserLocation, UserGender } from '@project/enums';
 import { Factory } from 'nestjs-seeder';
+import { fakerRU } from '@faker-js/faker';
 
 @Schema({
   collection: 'users',
@@ -12,14 +13,14 @@ import { Factory } from 'nestjs-seeder';
   toObject: { virtuals: true },
 })
 export class UserModel extends Document implements AuthUser {
-  @Factory((faker, ctx) => ctx.email || faker.internet.email())
+  @Factory((_, ctx) => ctx.email || fakerRU.internet.email())
   @Prop({
     required: true,
     unique: true,
   })
   public email!: string;
 
-  @Factory((faker, ctx) => ctx.firstName || faker.person.firstName())
+  @Factory((_, ctx) => ctx.firstName || fakerRU.person.firstName())
   @Prop({
     required: true,
     minlength: User.FirstName.Min,
@@ -27,13 +28,13 @@ export class UserModel extends Document implements AuthUser {
   })
   public firstName!: string;
 
-  @Factory((faker, ctx) => ctx.passwordHash)
+  @Factory((_, ctx) => ctx.passwordHash)
   @Prop({
     required: true,
   })
   public passwordHash!: string;
 
-  @Factory((faker, ctx) => ctx.avatarPath || null)
+  @Factory((_, ctx) => ctx.avatarPath || null)
   @Prop({
     default: null,
   })
