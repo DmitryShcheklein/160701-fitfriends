@@ -27,12 +27,13 @@ export class UserModel extends Document implements AuthUser {
   })
   public firstName!: string;
 
-  @Factory((faker, ctx) => ctx.passwordHash || faker.person.firstName())
+  @Factory((faker, ctx) => ctx.passwordHash)
   @Prop({
     required: true,
   })
   public passwordHash!: string;
 
+  @Factory((faker, ctx) => ctx.avatarPath || null)
   @Prop({
     default: null,
   })
