@@ -43,15 +43,16 @@ const SliderFilter = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    const [sliderMin, sliderMax] = sliderValues;
 
     if (name === InputFieldName.Min) {
-      setInputValues([value, inputMax]);
-      setSliderValues([value, sliderMax]);
+      const values = [value, inputMax];
+      setInputValues(values);
+      setSliderValues(values);
     }
     if (name === InputFieldName.Max) {
-      setInputValues([inputMin, value]);
-      setSliderValues([sliderMin, value]);
+      const values = [inputMin, value];
+      setInputValues(values);
+      setSliderValues(values);
     }
   };
   const [inputMinId, inputMaxId] = Object.values(InputFieldName).map(
