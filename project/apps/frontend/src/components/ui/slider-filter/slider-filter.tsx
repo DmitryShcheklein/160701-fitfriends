@@ -55,7 +55,7 @@ const SliderFilter = ({
     }
   };
   const [inputMinId, inputMaxId] = Object.values(InputFieldName).map(
-    (fieldName) => `${label}${fieldName}`
+    (fieldName) => `${label}-${fieldName}`
   );
 
   return (
