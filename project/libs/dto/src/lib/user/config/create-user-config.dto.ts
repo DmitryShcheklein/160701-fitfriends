@@ -1,12 +1,18 @@
 import { UserTrainingConfig } from '@project/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { User as UserValidation } from '@project/validation';
-import { ArrayMaxSize, IsEnum, IsNumber, Max, Min } from 'class-validator';
+import {
+  ArrayMaxSize,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  Max,
+  Min,
+} from 'class-validator';
 import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
+import { Transform } from 'class-transformer';
 
-export class CreateUserConfigDto
-  implements Omit<UserTrainingConfig, 'trainingReadiness'>
-{
+export class CreateUserConfigDto implements UserTrainingConfig {
   @ApiProperty({
     description: 'User fitness level',
     enum: FitnessLevel,
@@ -54,4 +60,12 @@ export class CreateUserConfigDto
   @Max(UserValidation.TrainingConfig.CaloriesWantLost.Max)
   @IsNumber()
   public caloriesWantLost: number;
+
+  @ApiProperty({
+    description: 'User training readines',
+    example: true,
+  })
+  @IsBoolean()
+  @Transform(({ value }) => value === true)
+  public trainingReadiness: boolean;
 }

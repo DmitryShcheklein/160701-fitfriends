@@ -1,9 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-
-  UserTrainingConfig,
-
-} from '@project/core';
+import { UserTrainingConfig } from '@project/core';
 import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
 import { User as UserValidation } from '@project/validation';
 import { Expose } from 'class-transformer';
