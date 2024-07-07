@@ -1,8 +1,8 @@
 .noUi-target {
   --color-default: #aeaeae;
-  --color-active:#333333;
+  --color-active: #333333;
   --handle-size: 16px;
-  --line-height: 1px; 
+  --line-height: 1px;
 
   box-shadow: none;
   border: none;
@@ -28,11 +28,11 @@
 }
 
 .noUi-handle.noUi-handle-lower {
-  right: 0;
+  right: calc(-1 * var(--handle-size));
 }
 
 .noUi-handle.noUi-handle-upper {
-  right: calc(-1 * var(--handle-size));
+  right: 0;
 }
 
 .noUi-handle {
@@ -54,4 +54,23 @@
 .noUi-handle:before,
 .noUi-handle:after {
   content: none;
+}
+
+.noUi-tooltips {
+  margin-bottom: 33px;
+}
+.noUi-horizontal .noUi-tooltip {
+  bottom: auto;
+  top: 23px;
+  padding: 0;
+  border: none;
+  transform: none;
+}
+.noUi-horizontal .noUi-handle.noUi-handle-lower .noUi-tooltip {
+  left: 0;
+  right: auto;
+}
+.noUi-horizontal .noUi-handle.noUi-handle-upper .noUi-tooltip {
+  left: auto;
+  right: 0;
 }

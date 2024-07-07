@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Nouislider, { NouisliderProps } from 'nouislider-react';
 import 'nouislider/distribute/nouislider.css';
 import './slider-filter.css';
+import classNames from 'classnames';
 
 interface FilterProps extends Omit<NouisliderProps, 'start' | 'onChange'> {
   label: string;
   start: string[] | number[];
-  onChange?: (values: [string, string]) => void;
+  onChange?: (values: [number, number]) => void;
   withInputs?: boolean;
   range: { min: number; max: number };
 }
@@ -16,21 +17,23 @@ const InputFieldName = {
   Max: 'max',
 } as const;
 
-const Filter: React.FC<FilterProps> = ({
-  className = '',
+const SliderFilter = ({
+  className,
   withInputs = true,
   range,
   start,
   label,
+  step = 1,
+  tooltips = false,
   onChange,
-}) => {
+}: FilterProps) => {
   const startValues = start.map(String);
   const [inputValues, setInputValues] = useState<string[]>(startValues);
   const [inputMin, inputMax] = inputValues;
   const [sliderValues, setSliderValues] = useState<string[]>(startValues);
 
   useEffect(() => {
-    onChange?.([inputMin, inputMax]);
+    onChange?.([Number(inputMin), Number(inputMax)]);
   }, [inputMin, inputMax, onChange]);
 
   const handleSliderUpdate = (values: string[]) => {
@@ -59,48 +62,48 @@ const Filter: React.FC<FilterProps> = ({
     <div className={`filter ${className}`}>
       <h4 className="my-training-form__block-title">{label}</h4>
 
-      <div className="filter-price">
-        {withInputs && (
-          <>
-            <div className="filter-price__input-text filter-price__input-text--min">
-              <input
-                type="number"
-                id={inputMinId}
-                name={InputFieldName.Min}
-                value={inputMin}
-                onChange={handleInputChange}
-              />
-              <label htmlFor={inputMinId}>от</label>
-            </div>
-            <div className="filter-price__input-text filter-price__input-text--max">
-              <input
-                type="number"
-                id={inputMaxId}
-                name={InputFieldName.Max}
-                value={inputMax}
-                onChange={handleInputChange}
-              />
-              <label htmlFor={inputMaxId}>до</label>
-            </div>
-          </>
-        )}
-      </div>
+      {withInputs && (
+        <div className="filter-price">
+          <div className="filter-price__input-text filter-price__input-text--min">
+            <input
+              type="number"
+              id={inputMinId}
+              name={InputFieldName.Min}
+              value={inputMin}
+              onChange={handleInputChange}
+            />
+            <label htmlFor={inputMinId}>от</label>
+          </div>
+          <div className="filter-price__input-text filter-price__input-text--max">
+            <input
+              type="number"
+              id={inputMaxId}
+              name={InputFieldName.Max}
+              value={inputMax}
+              onChange={handleInputChange}
+            />
+            <label htmlFor={inputMaxId}>до</label>
+          </div>
+        </div>
+      )}
 
       <Nouislider
-        className="filter__slider"
-        padding={1}
+        className={classNames({
+          'noUi-tooltips': tooltips,
+        })}
         range={{ min: range.min, max: range.max }}
         start={sliderValues}
-        step={1}
+        step={step}
         onSlide={handleSliderUpdate}
         format={{
           from: (value) => Number(value),
           to: (value) => Number(value),
         }}
+        tooltips={tooltips}
         connect
       />
     </div>
   );
 };
 
-export default Filter;
+export default SliderFilter;
