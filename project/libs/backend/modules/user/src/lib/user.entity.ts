@@ -32,7 +32,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
 
     this.id = user.id ?? '';
     this.email = user.email;
-    this.firstname = user.firstname;
+    this.firstname = user.firstName;
     this.description = user.description;
     this.passwordHash = user.passwordHash;
     this.createdAt = user.createdAt;
@@ -49,7 +49,7 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     return {
       id: this.id,
       email: this.email,
-      firstname: this.firstname,
+      firstName: this.firstname,
       description: this.description,
       createdAt: this.createdAt,
       dateOfBirth: this.dateOfBirth,

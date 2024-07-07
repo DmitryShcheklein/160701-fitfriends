@@ -80,11 +80,15 @@ export class AuthenticationService {
     return existUser;
   }
 
-  public async createUserToken({ id, email, firstname }: User): Promise<Token> {
+  public async createUserToken({
+    id,
+    email,
+    firstName,
+  }: User): Promise<Token> {
     const accessTokenPayload: TokenPayload = {
       sub: String(id),
       email,
-      firstname,
+      firstName,
     };
     const refreshTokenPayload = {
       ...accessTokenPayload,

@@ -1,7 +1,7 @@
 import { ALLOWED_IMG_MIMETYPES, MB } from './const';
 
 export const User = {
-  Firstname: {
+  FirstName: {
     Min: 1,
     Max: 15,
   },
@@ -23,7 +23,7 @@ export const User = {
   },
   TrainingConfig: {
     Specialisation: {
-      MaxLength: 3
+      MaxLength: 3,
     },
     CaloriesWantLost: {
       Min: 1000,

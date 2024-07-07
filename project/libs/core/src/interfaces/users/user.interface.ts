@@ -6,7 +6,7 @@ export interface User {
   createdAt?: Date;
   dateOfBirth?: Date;
   email: string;
-  firstname: string;
+  firstName: string;
   description?: string;
   avatarPath: string | null;
   backgroundPath?: string | null;

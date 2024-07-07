@@ -24,13 +24,13 @@ export class CreateUserDto implements Omit<User, 'avatarPath'> {
   @ApiProperty({
     description: 'User first name',
     example: 'Admin',
-    minLength: UserValidation.Firstname.Min,
-    maxLength: UserValidation.Firstname.Max,
+    minLength: UserValidation.FirstName.Min,
+    maxLength: UserValidation.FirstName.Max,
   })
-  @MinLength(UserValidation.Firstname.Min)
-  @MaxLength(UserValidation.Firstname.Max)
+  @MinLength(UserValidation.FirstName.Min)
+  @MaxLength(UserValidation.FirstName.Max)
   @IsString()
-  public firstname!: string;
+  public firstName!: string;
 
   @ApiProperty({
     description: 'User password',

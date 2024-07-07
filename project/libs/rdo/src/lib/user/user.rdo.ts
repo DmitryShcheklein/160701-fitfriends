@@ -24,7 +24,7 @@ export class UserRdo implements Omit<User, 'email' | 'role'> {
     description: 'User first name',
     example: 'Keks',
   })
-  public firstname!: string;
+  public firstName!: string;
 
   @Expose()
   @ApiProperty({

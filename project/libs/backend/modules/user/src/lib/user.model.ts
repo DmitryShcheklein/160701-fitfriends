@@ -19,13 +19,13 @@ export class UserModel extends Document implements AuthUser {
   })
   public email!: string;
 
-  @Factory((faker, ctx) => ctx.firstName ||  faker.person.firstName())
+  @Factory((faker, ctx) => ctx.firstName || faker.person.firstName())
   @Prop({
     required: true,
-    minlength: User.Firstname.Min,
-    maxlength: User.Firstname.Max,
+    minlength: User.FirstName.Min,
+    maxlength: User.FirstName.Max,
   })
-  public firstname!: string;
+  public firstName!: string;
 
   @Factory((faker, ctx) => ctx.passwordHash || faker.person.firstName())
   @Prop({
