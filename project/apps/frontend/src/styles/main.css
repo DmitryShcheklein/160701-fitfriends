@@ -1733,14 +1733,16 @@ input:active + .custom-textarea__text {
 .custom-select__text br {
   display: none;
 }
-
+.custom-select__dropdown-indicator {
+  padding: 0!important;
+}
 .custom-select__icon {
   -ms-flex-negative: 0;
   flex-shrink: 0;
   margin-left: auto;
   color: rgba(51, 51, 51, 0.2);
 }
-
+.custom-select__icon svg {display: block;}
 .custom-select__button:disabled ~ .custom-select__icon,
 .is-disabled .custom-select__icon {
   color: rgba(51, 51, 51, 0.2);

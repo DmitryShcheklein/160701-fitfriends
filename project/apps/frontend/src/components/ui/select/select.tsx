@@ -1,12 +1,12 @@
 import Select, { components, Props } from 'react-select';
-import { customStyles } from './styles';
 import classNames from 'classnames';
+import { customStyles } from './styles';
 
 interface CustomSelectProps extends Props {
   label?: string;
 }
 const CustomSelect = (props: CustomSelectProps) => {
-  const { value, label, className } = props;
+  const { label, className } = props;
 
   return (
     <div className={classNames('custom-select', className)}>
