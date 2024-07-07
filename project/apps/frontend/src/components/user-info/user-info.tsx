@@ -104,7 +104,7 @@ const UserProfileInfo: React.FC = () => {
 
       setTrainingConfigData({
         level: trainingConfig?.level,
-        specialisation: trainingConfig?.specialisation,
+        specialisation: trainingConfig?.specialisation || [],
         trainingReadiness: trainingConfig?.trainingReadiness,
       });
     }
@@ -131,19 +131,29 @@ const UserProfileInfo: React.FC = () => {
     }));
   };
 
-  const handleSpecializationChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleSpecializationChange = async (
+    evt: ChangeEvent<HTMLInputElement>
+  ) => {
     const { value, checked, readOnly } = evt.target;
-    if (!readOnly) {
-      setTrainingConfigData((prev) => {
-        const currentSpecialisation = prev.specialisation;
 
-        return {
-          ...prev,
-          specialisation: checked
-            ? currentSpecialisation?.concat([value] as WorkoutType[])
-            : currentSpecialisation?.filter((item) => item !== value),
-        };
-      });
+    if (!readOnly) {
+      const currentSpecialisation = [...trainingConfigData.specialisation];
+      const newData = checked
+        ? currentSpecialisation?.concat([value] as WorkoutType[])
+        : currentSpecialisation?.filter((item) => item !== value);
+
+      try {
+        await updateConfig({
+          specialisation: newData,
+        }).unwrap();
+
+        setTrainingConfigData({
+          ...trainingConfigData,
+          specialisation: newData,
+        });
+      } catch (err: any) {
+        toast.error(err.data.message.join(''));
+      }
     }
   };
   const handleTrainingReadinessChange: React.ChangeEventHandler<
@@ -151,12 +161,16 @@ const UserProfileInfo: React.FC = () => {
   > = async (evt) => {
     const value = evt.target.checked;
 
-    setTrainingConfigData({
-      ...trainingConfigData,
-      trainingReadiness: value,
-    });
+    try {
+      await updateConfig({ trainingReadiness: value }).unwrap();
 
-    await updateConfig({ trainingReadiness: value }).unwrap();
+      setTrainingConfigData({
+        ...trainingConfigData,
+        trainingReadiness: value,
+      });
+    } catch (err: any) {
+      toast.error(err.data.message.join(''));
+    }
   };
 
   const handleEditBtn = () => {
@@ -189,7 +203,7 @@ const UserProfileInfo: React.FC = () => {
       setIsEditable(!isEditable);
       toast.success('Данные успешно сохранены!');
     } catch (err: any) {
-      console.error('Failed to register: ', err);
+      console.error('Failed to submit: ', err);
       toast.error(err.data.message.join(''));
     }
   };
@@ -331,7 +345,6 @@ const UserProfileInfo: React.FC = () => {
                   trainingConfigData.specialisation?.includes(option.value)
                 )}
                 onChange={handleSpecializationChange}
-                readOnly={!isEditable}
                 size="small"
               />
             ))}
