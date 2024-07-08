@@ -27,13 +27,6 @@
         "command": "NODE_ENV=production node ./seeder.js",
         "cwd": "dist/apps/backend/"
       }
-    },
-    "db:refresh": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "NODE_ENV=production node ./seeder.js --refresh",
-        "cwd": "dist/apps/backend/"
-      }
     }
   }
 }

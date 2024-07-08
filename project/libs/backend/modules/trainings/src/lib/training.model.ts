@@ -8,6 +8,8 @@ import {
   UserGender,
 } from '@project/enums';
 import { TrainingValidation } from '@project/validation';
+import { Factory } from 'nestjs-seeder';
+import { fakerRU } from '@faker-js/faker';
 
 @Schema({
   collection: 'trainings',
@@ -16,6 +18,7 @@ import { TrainingValidation } from '@project/validation';
   toObject: { virtuals: true },
 })
 export class TrainingModel extends Document implements Training {
+  @Factory((faker) => faker.helpers.enumValue(WorkoutType))
   @Prop({
     required: true,
     minlength: TrainingValidation.Name.Min,
@@ -23,11 +26,18 @@ export class TrainingModel extends Document implements Training {
   })
   public name!: string;
 
+  @Factory(
+    (faker, ctx) =>
+      `${ctx.mockImagePath}trainings/${faker.helpers.arrayElement(
+        Array.from({length:4}, (el, idx)=>`training-${++idx}@2x.png`)
+      )}`
+  )
   @Prop({
     required: true,
   })
   public backgroundImage!: string;
 
+  @Factory((faker) => faker.helpers.enumValue(FitnessLevel))
   @Prop({
     enum: FitnessLevel,
     required: true,
@@ -35,6 +45,7 @@ export class TrainingModel extends Document implements Training {
   })
   public level!: FitnessLevel;
 
+  @Factory((_, ctx) => ctx.name)
   @Prop({
     enum: WorkoutType,
     required: true,
@@ -42,6 +53,7 @@ export class TrainingModel extends Document implements Training {
   })
   public trainingType!: WorkoutType;
 
+  @Factory((faker) => faker.helpers.enumValue(WorkoutDuration))
   @Prop({
     enum: WorkoutDuration,
     required: true,
@@ -49,6 +61,9 @@ export class TrainingModel extends Document implements Training {
   })
   public duration!: WorkoutDuration;
 
+  @Factory((faker) =>
+    faker.commerce.price({ min: TrainingValidation.Price.Min, max: 100_000 })
+  )
   @Prop({
     required: true,
     min: TrainingValidation.Price.Min,
@@ -57,6 +72,12 @@ export class TrainingModel extends Document implements Training {
   })
   public price!: number;
 
+  @Factory((faker) =>
+    faker.number.int({
+      min: TrainingValidation.Calories.Min,
+      max: TrainingValidation.Calories.Max,
+    })
+  )
   @Prop({
     required: true,
     min: TrainingValidation.Calories.Min,
@@ -65,6 +86,9 @@ export class TrainingModel extends Document implements Training {
   })
   public calories!: number;
 
+  @Factory(() =>
+    fakerRU.lorem.sentence().substring(0, TrainingValidation.Description.Max)
+  )
   @Prop({
     required: true,
     minlength: TrainingValidation.Description.Min,
@@ -72,6 +96,7 @@ export class TrainingModel extends Document implements Training {
   })
   public description!: string;
 
+  @Factory((faker) => faker.helpers.enumValue(UserGender))
   @Prop({
     enum: UserGender,
     required: true,
@@ -79,11 +104,20 @@ export class TrainingModel extends Document implements Training {
   })
   public gender!: UserGender;
 
+  @Factory((faker) =>
+    faker.helpers.arrayElement(['example1.mov', 'example2.avi', 'example3.mp4'])
+  )
   @Prop({
     required: true,
   })
   public video!: string;
 
+  @Factory((faker) =>
+    faker.number.int({
+      min: TrainingValidation.Rating.Min,
+      max: TrainingValidation.Rating.Max,
+    })
+  )
   @Prop({
     default: 0,
     type: Number,
@@ -92,6 +126,9 @@ export class TrainingModel extends Document implements Training {
   })
   public rating!: number;
 
+  @Factory(() =>
+    fakerRU.person.firstName().substring(0, TrainingValidation.Coach.Max)
+  )
   @Prop({
     required: true,
     minlength: TrainingValidation.Coach.Min,
@@ -99,6 +136,7 @@ export class TrainingModel extends Document implements Training {
   })
   public coach!: string;
 
+  @Factory((faker) => faker.datatype.boolean())
   @Prop({
     default: false,
   })

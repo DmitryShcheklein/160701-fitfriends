@@ -21,6 +21,7 @@ export class UsersSeeder implements Seeder {
   ) {}
 
   async seed() {
+    await this.drop();
     const adminUserData: MockUser = {
       email: 'admin@admin.ru',
       firstName: 'Admin',
@@ -32,7 +33,7 @@ export class UsersSeeder implements Seeder {
       adminUserData
     );
 
-    const MOCK_USERS_COUNT = 10;
+    const MOCK_USERS_COUNT = 5;
 
     const users = DataFactory.createForClass(UserModel).generate(
       MOCK_USERS_COUNT,
