@@ -7,10 +7,10 @@ export interface TrainingsFilter {
     min: PriceAggregationResult['minPrice'];
     max: PriceAggregationResult['maxPrice'];
   };
-  trainingType: WorkoutType[];
-  level: FitnessLevel[];
-  duration: WorkoutDuration[];
-  sortBy: typeof DefaultSort.BY;
-  sortDirection: typeof DefaultSort.DIRECTION;
+  trainingType?: WorkoutType[];
+  level?: FitnessLevel[];
+  duration?: WorkoutDuration[];
+  sortBy?: typeof DefaultSort.BY;
+  sortDirection?: typeof DefaultSort.DIRECTION;
   defaultSort: typeof DefaultSort;
 }

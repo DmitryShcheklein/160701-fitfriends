@@ -87,6 +87,8 @@ export class TrainingController {
     type: TrainingsWithPaginationRdo,
     status: HttpStatus.OK,
   })
+  @ApiBearerAuth(AuthKeyName)
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   public async showAll(@Query() query: TrainingsQuery) {
     const trainingsWithPagination = await this.trainingService.getAllTrainings(

@@ -19,6 +19,7 @@ export class SwaggerService {
       .setVersion('1.0')
       .addTag('auth', 'Аутентификация и Регистрация')
       .addTag('user', 'Пользователь')
+      .addTag('trainings', 'Тренировки')
       .addBearerAuth(
         {
           name: 'Authorization',

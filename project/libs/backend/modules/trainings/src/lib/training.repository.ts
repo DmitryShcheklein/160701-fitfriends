@@ -69,7 +69,7 @@ export class TrainingRepository extends BaseMongoRepository<
         },
       ]);
 
-    const { minPrice, maxPrice } = aggregationResult[0];
+    const { minPrice, maxPrice } = aggregationResult[0] || {};
     const trainingsCount = await this.model.countDocuments(filter);
 
     return {
@@ -80,11 +80,6 @@ export class TrainingRepository extends BaseMongoRepository<
       totalItems: trainingsCount,
       filters: {
         price: { min: minPrice, max: maxPrice },
-        trainingType: TrainingsQuery.availableTrainingTypes,
-        level: TrainingsQuery.availableLevels,
-        duration: TrainingsQuery.availableDurations,
-        sortBy: SortBy,
-        sortDirection: SortDirection,
         defaultSort: {
           BY: DefaultSort.BY,
           DIRECTION: DefaultSort.DIRECTION,

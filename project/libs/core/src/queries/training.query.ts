@@ -9,7 +9,7 @@ import {
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  DefaultProducts,
+  DefaultTrainings,
   DefaultSort,
   DEFAULT_PAGE_COUNT,
 } from '../const/product.const';
@@ -34,15 +34,15 @@ export class TrainingsQuery {
 
   @ApiProperty({
     description: 'The maximum number of products to return',
-    default: DefaultProducts.COUNT_LIMIT,
+    default: DefaultTrainings.COUNT_LIMIT,
     type: Number,
     required: false,
   })
-  @Transform(({ value }) => Number(value) || DefaultProducts.COUNT_LIMIT)
+  @Transform(({ value }) => Number(value) || DefaultTrainings.COUNT_LIMIT)
   @IsNumber()
-  @Max(DefaultProducts.MAX_COUNT_LIMIT)
+  @Max(DefaultTrainings.MAX_COUNT_LIMIT)
   @IsOptional()
-  public limit?: number = DefaultProducts.COUNT_LIMIT;
+  public limit?: number = DefaultTrainings.COUNT_LIMIT;
 
   @ApiProperty({
     description: 'The direction in which to sort the products',
@@ -78,10 +78,11 @@ export class TrainingsQuery {
     description: 'The type of training',
     enum: WorkoutType,
     required: false,
+    isArray: true,
   })
-  @IsEnum(WorkoutType)
+  @IsEnum(WorkoutType, { each: true })
   @IsOptional()
-  public trainingType?: WorkoutType;
+  public trainingType?: WorkoutType[];
 
   @ApiProperty({
     description: 'The fitness level of the training',
@@ -96,17 +97,9 @@ export class TrainingsQuery {
     description: 'The duration of the training',
     enum: WorkoutDuration,
     required: false,
+    isArray: true,
   })
-  @IsEnum(WorkoutDuration)
+  @IsEnum(WorkoutDuration, { each: true })
   @IsOptional()
-  public duration?: WorkoutDuration;
-
-  @ApiProperty({
-    description: 'The gender for which the training is targeted',
-    enum: UserGender,
-    required: false,
-  })
-  @IsEnum(UserGender)
-  @IsOptional()
-  public gender?: UserGender;
+  public duration?: WorkoutDuration[];
 }
