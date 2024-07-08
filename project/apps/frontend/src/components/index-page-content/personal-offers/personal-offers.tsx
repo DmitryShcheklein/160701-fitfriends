@@ -20,7 +20,7 @@ export const PersonalOffers = () => {
       id="special-for-you"
       options={{ slidesPerView: 3 }}
       title="Специально подобрано для вас"
-      slides={specialData?.map((el) => (
+      slides={specialData.map((el) => (
         <SpecialSlide training={el} />
       ))}
       classNamesMap={{ wrapper: 'special-for-you__wrapper' }}

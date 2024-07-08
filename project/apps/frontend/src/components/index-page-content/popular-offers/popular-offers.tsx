@@ -7,8 +7,9 @@ import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
 
 export const PopularOffers = () => {
   const { data } = useGetTrainingsQuery({});
+  const items = data?.entities;
 
-  if (!data?.entities.length) {
+  if (!items?.length) {
     return <EmptyBlock />;
   }
 
@@ -17,7 +18,7 @@ export const PopularOffers = () => {
       id="popular-trainings"
       options={{ slidesPerView: 4 }}
       title="Популярные тренировки"
-      slides={data?.entities.map((el) => (
+      slides={items.map((el) => (
         <TrainingSlide training={el} />
       ))}
       extraButton={

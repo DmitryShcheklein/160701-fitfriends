@@ -9,16 +9,16 @@ export const CatalogSidebar = () => {
       <h1 className="visually-hidden">Мои тренировки</h1>
       <div className="my-training-form">
         <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
-        <div className="">
-          <Link
-            to={AppRoute.Index}
-            className="btn-flat btn-flat--underlined my-training-form__btnback"
-          >
-            <svg width="14" height="10" aria-hidden="true">
-              <use xlinkHref="#arrow-left" />
-            </svg>
-            <span>Назад</span>
-          </Link>
+        <Link
+          to={AppRoute.Index}
+          className="btn-flat btn-flat--underlined my-training-form__btnback"
+        >
+          <svg width="14" height="10" aria-hidden="true">
+            <use xlinkHref="#arrow-left" />
+          </svg>
+          <span>Назад</span>
+        </Link>
+        <form style={{ opacity: 0.5 }}>
           <h3 className="my-training-form__title">фильтры</h3>
           <form className="my-training-form__form">
             <SliderFilter
@@ -61,7 +61,7 @@ export const CatalogSidebar = () => {
               </ul>
             </div>
           </form>
-        </div>
+        </form>
       </div>
     </div>
   );
