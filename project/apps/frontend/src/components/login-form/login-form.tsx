@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/const';
 import Popup from '../ui/popup/popup';
 import Input from '../ui/input/input';
+import { toast } from 'react-toastify';
 
 const FormFieldName = {
   Email: 'email',
@@ -36,8 +37,9 @@ const LoginForm: FC = () => {
     try {
       const userData = await login(formData).unwrap();
       dispatch(setCredentials(userData));
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to log in: ', err);
+      toast.error(err.data.message.toString());
     }
   };
 
