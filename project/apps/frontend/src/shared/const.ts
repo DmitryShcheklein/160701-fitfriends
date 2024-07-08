@@ -7,6 +7,7 @@ const AppRoute = {
   Friends: '/friends',
   Questionnaire: '/questionnaire',
   Catalog: '/catalog',
+  TrainingPage: '/training',
   ErrorPage: '/page404',
 } as const;
 

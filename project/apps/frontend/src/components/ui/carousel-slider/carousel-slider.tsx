@@ -10,7 +10,7 @@ import EmptyBlock from '../../empty-block/empty-block';
 interface SliderProps {
   id: string;
   title: string;
-  slides: React.ReactNode[];
+  slides?: React.ReactNode[];
   extraButton?: React.ReactNode;
   options?: SwiperOptions;
   classNamesMap?: {
@@ -30,7 +30,7 @@ const CarouselSlider = ({
   const nextButtonClass = `${id}-next`;
   const { wrapper } = classNamesMap;
 
-  if (1) {
+  if (!slides?.length) {
     return <EmptyBlock className={wrapper} />;
   }
 

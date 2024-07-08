@@ -18,7 +18,7 @@ export class TrainingsSeeder implements Seeder {
   async seed() {
     await this.drop();
 
-    const MOCK_TRAININGS_COUNT = 5;
+    const MOCK_TRAININGS_COUNT = 15;
 
     const trainings = DataFactory.createForClass(TrainingModel).generate(
       MOCK_TRAININGS_COUNT,
