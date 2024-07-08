@@ -4,9 +4,13 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import './single-slider.css';
-import { slidesData } from '../../special-offers/special-offers.data';
+import { TrainingRdo } from '@project/rdo';
 
-const SingleSlider = () => {
+interface SingleSliderProps {
+  items: TrainingRdo[];
+}
+
+const SingleSlider = ({ items }: SingleSliderProps) => {
   return (
     <div className="special-offers__list">
       <Swiper
@@ -17,33 +21,31 @@ const SingleSlider = () => {
         slidesPerView={1}
         effect="fade"
       >
-        {slidesData.map((slide, index) => (
+        {items.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className="promo-slider">
               <div className="promo-slider__overlay"></div>
               <div className="promo-slider__image">
                 <img
-                  src={slide.image.src}
-                  srcSet={slide.image.srcSet}
-                  alt={slide.image.alt}
+                  src={slide.backgroundImage}
+                  alt={slide.name}
                   width="1040"
                   height="469"
                 />
               </div>
               <div className="promo-slider__header">
-                <h3 className="promo-slider__title">{slide.title}</h3>
+                <h3 className="promo-slider__title">{slide.name}</h3>
                 <div className="promo-slider__logo">
                   <svg width="74" height="74" aria-hidden="true">
-                    <use xlinkHref={slide.logo}></use>
+                    <use xlinkHref="#logotype"></use>
                   </svg>
                 </div>
               </div>
-              <span className="promo-slider__text">{slide.text}</span>
+              <span className="promo-slider__text">{slide.description}</span>
               <div className="promo-slider__bottom-container">
                 <div className="promo-slider__price-container">
-                  <p className="promo-slider__price">{slide.price}</p>
+                  <p className="promo-slider__price">{slide.price} ₽</p>
                   <p className="promo-slider__sup">за занятие</p>
-                  <p className="promo-slider__old-price">{slide.oldPrice}</p>
                 </div>
               </div>
             </div>

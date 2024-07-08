@@ -5,6 +5,7 @@ import { SwiperOptions } from 'swiper/types';
 import classNames from 'classnames';
 import 'swiper/css';
 import './carousel-slider.css';
+import EmptyBlock from '../../empty-block/empty-block';
 
 interface SliderProps {
   id: string;
@@ -28,6 +29,10 @@ const CarouselSlider = ({
   const prevButtonClass = `${id}-prev`;
   const nextButtonClass = `${id}-next`;
   const { wrapper } = classNamesMap;
+
+  if (1) {
+    return <EmptyBlock className={wrapper} />;
+  }
 
   return (
     <section className="slider-section">

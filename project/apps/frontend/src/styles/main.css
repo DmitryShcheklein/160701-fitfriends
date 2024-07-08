@@ -5496,6 +5496,7 @@ input:active + .custom-textarea__text {
   flex-direction: column;
   width: 1042px;
   min-height: 471px;
+  height: 100%;
   padding: 21px 23px 24px 19px;
   border: 1px solid #c5ec2a;
   border-radius: 20px;
