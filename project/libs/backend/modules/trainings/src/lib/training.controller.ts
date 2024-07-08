@@ -90,7 +90,6 @@ export class TrainingController {
     const trainingsWithPagination = await this.trainingService.getAllTrainings(
       query
     );
-    console.log(trainingsWithPagination);
 
     const result = {
       ...trainingsWithPagination,
