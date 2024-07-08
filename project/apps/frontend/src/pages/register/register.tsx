@@ -9,9 +9,9 @@ import RegisterForm from '../../components/register-form/register-form';
 const RegisterPage = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
 
-  // if (authStatus === AuthStatus.Auth) {
-  //   return <Navigate to={AppRoute.Index} />;
-  // }
+  if (authStatus === AuthStatus.Auth) {
+    return <Navigate to={AppRoute.Index} />;
+  }
 
   return (
     <>

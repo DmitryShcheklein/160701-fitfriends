@@ -16,30 +16,6 @@ const Header: React.FC = () => {
         </Link>
 
         <MainNav items={navItems} />
-
-        <div className="search" style={{ visibility: 'hidden' }}>
-          <form action="#" method="get">
-            <label>
-              <span className="search__label">Поиск</span>
-              <input type="search" name="search" />
-              <svg
-                className="search__icon"
-                width="20"
-                height="20"
-                aria-hidden="true"
-              >
-                <use xlinkHref="#icon-search"></use>
-              </svg>
-            </label>
-            <ul className="search__list">
-              <li className="search__item">
-                <a className="search__link" href="#">
-                  Бокс
-                </a>
-              </li>
-            </ul>
-          </form>
-        </div>
       </div>
     </header>
   );
