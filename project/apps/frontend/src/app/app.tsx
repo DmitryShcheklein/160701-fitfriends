@@ -20,6 +20,7 @@ import { logOut, setCredentials } from '../store/auth-process/auth-process';
 import { AppRoute } from '../shared/const';
 import QuestionnairePage from '../pages/questionnaire/questionnaire';
 import CatalogPage from '../pages/catalog/catalog';
+import TrainingCardPage from '../pages/training-card/training-card';
 
 export function App() {
   const dispatch = useAppDispatch();
@@ -63,6 +64,10 @@ export function App() {
         <Route
           path={AppRoute.Catalog}
           element={PrivateRoute(<CatalogPage />)}
+        />
+        <Route
+          path={`${AppRoute.TrainingCardPage}/:id`}
+          element={PrivateRoute(<TrainingCardPage />)}
         />
       </Route>
     </Routes>

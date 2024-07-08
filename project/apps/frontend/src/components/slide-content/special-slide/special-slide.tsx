@@ -24,7 +24,7 @@ export const SpecialSlide = ({ training }: SpecialSlideProps) => {
           <h3 className="thumbnail-preview__title">{training.name}</h3>
           <div className="thumbnail-preview__button-wrapper">
             <Link
-              to={`${AppRoute.TrainingPage}/${training.id}`}
+              to={`${AppRoute.TrainingCardPage}/${training.id}`}
               className="btn btn--small thumbnail-preview__button"
             >
               Подробнее

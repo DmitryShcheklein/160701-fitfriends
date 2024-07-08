@@ -45,7 +45,7 @@ export const TrainingSlide = ({ training }: TrainingSlideProps) => {
         </div>
         <div className="thumbnail-training__button-wrapper">
           <Link
-            to={`${AppRoute.TrainingPage}/${training.id}`}
+            to={`${AppRoute.TrainingCardPage}/${training.id}`}
             className="btn btn--small thumbnail-training__button-catalog"
           >
             Подробнее
