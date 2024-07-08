@@ -1,5 +1,10 @@
-import { DefaultSort } from '../../const';
-import { FitnessLevel, WorkoutDuration, WorkoutType } from '@project/enums';
+import {
+  FitnessLevel,
+  SortBy,
+  SortDirection,
+  WorkoutDuration,
+  WorkoutType,
+} from '@project/enums';
 import { PriceAggregationResult } from '../base/price-aggregation-result.interface';
 
 export interface TrainingsFilter {
@@ -10,7 +15,6 @@ export interface TrainingsFilter {
   trainingType?: WorkoutType[];
   level?: FitnessLevel[];
   duration?: WorkoutDuration[];
-  sortBy?: typeof DefaultSort.BY;
-  sortDirection?: typeof DefaultSort.DIRECTION;
-  defaultSort: typeof DefaultSort;
+  sortBy?: SortBy;
+  sortDirection?: SortDirection;
 }

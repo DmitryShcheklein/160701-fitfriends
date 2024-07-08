@@ -33,11 +33,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { FileUploaderService } from '@project/file-uploader';
 import { ALLOWED_IMG_MIMETYPES, TrainingValidation } from '@project/validation';
 import { API_BODY } from './training.const';
-// import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
-const { TrainingRdo, TrainingsWithPaginationRdo } = {
-  TrainingRdo: class TrainingRdo {},
-  TrainingsWithPaginationRdo: class TrainingsWithPaginationRdo {},
-};
+import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
 
 @ApiTags('trainings')
 @Controller('trainings')
@@ -94,6 +90,7 @@ export class TrainingController {
     const trainingsWithPagination = await this.trainingService.getAllTrainings(
       query
     );
+    console.log(trainingsWithPagination);
 
     const result = {
       ...trainingsWithPagination,

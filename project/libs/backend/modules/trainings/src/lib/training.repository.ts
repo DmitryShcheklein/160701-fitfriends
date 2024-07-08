@@ -4,7 +4,7 @@ import { TrainingFactory } from './training.factory';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TrainingModel } from './training.model';
-import { BaseMongoRepository, DefaultSort, Training } from '@project/core';
+import { BaseMongoRepository, Training } from '@project/core';
 import {
   PaginationResult,
   PriceAggregationResult,
@@ -12,8 +12,6 @@ import {
   TrainingsQuery,
 } from '@project/core';
 import { DEFAULT_PAGE_COUNT, DefaultProducts } from '@project/core';
-// import { TrainingKeys } from '@project/core';
-import { SortBy, SortDirection } from '@project/enums';
 
 export type TrainingKeys = keyof Training;
 
@@ -80,10 +78,6 @@ export class TrainingRepository extends BaseMongoRepository<
       totalItems: trainingsCount,
       filters: {
         price: { min: minPrice, max: maxPrice },
-        defaultSort: {
-          BY: DefaultSort.BY,
-          DIRECTION: DefaultSort.DIRECTION,
-        },
       },
     };
   }
