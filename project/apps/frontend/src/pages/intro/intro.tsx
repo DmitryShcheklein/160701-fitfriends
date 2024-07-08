@@ -2,6 +2,8 @@ import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../shared/const';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/auth-process/selectors';
+import { Helmet } from 'react-helmet-async';
+import { PageTitles } from '../../shared/const';
 
 const IntroPage = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -12,6 +14,9 @@ const IntroPage = () => {
 
   return (
     <div className="wrapper">
+      <Helmet>
+        <title>{PageTitles.Intro}</title>
+      </Helmet>
       <main>
         <div className="intro">
           <div className="intro__background">
