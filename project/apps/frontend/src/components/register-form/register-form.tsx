@@ -11,11 +11,12 @@ import RadioInput from '../ui/radio-input/radio-input';
 import RoleSelector from '../role-selector/role-selector';
 import CustomSelect from '../ui/select/select';
 import { roleOptions, locationOptions } from './register.data';
-import { UserGender } from '@project/enums';
+import { UserGender, UserRole } from '@project/enums';
 import { toast } from 'react-toastify';
+import { groupErrors } from '../../shared/helpers/groupErrors';
 
 const FormFieldName = {
-  FirstName: 'firstname',
+  firstName: 'firstName',
   Email: 'email',
   Password: 'password',
   DateOfBirth: 'dateOfBirth',
@@ -35,12 +36,12 @@ const RegisterForm = () => {
   const [register, { isLoading }] = useRegisterMutation();
 
   const [formData, setFormData] = useState<TState>({
-    firstname: '',
+    firstName: '',
     email: '',
     password: '',
     dateOfBirth: undefined,
     gender: undefined,
-    role: undefined,
+    role: UserRole.User,
     location: undefined,
     avatar: undefined,
     isAgreements: false,
@@ -48,7 +49,7 @@ const RegisterForm = () => {
 
   const [avatarPreview, setAvatarPreview] = useState<string>();
   const {
-    firstname,
+    firstName,
     email,
     password,
     dateOfBirth,
@@ -58,12 +59,6 @@ const RegisterForm = () => {
     location,
   } = formData;
 
-  const isValid = Object.entries(formData)
-    .filter(
-      ([key]) =>
-        key !== FormFieldName.Avatar && key !== FormFieldName.DateOfBirth
-    )
-    .every(([_, value]) => Boolean(value));
   const onChange: ChangeEventHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked, type, files } = evt.target;
     const isCheckbox = type === 'checkbox';
@@ -103,9 +98,20 @@ const RegisterForm = () => {
       dispatch(setCredentials(userData));
       toast.success('Вы успешно зарегистрированы!');
       navigate(AppRoute.Questionnaire);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to register: ', err);
-      toast.error(err.data.message.toString());
+      if (Array.isArray(err.data.message)) {
+        const groupedErrors = groupErrors(err.data.message);
+        Object.keys(groupedErrors).forEach((key) => {
+          const errorMessage = groupedErrors[key].join('\n');
+          toast.error(errorMessage, {
+            style: { whiteSpace: 'pre-line' },
+            autoClose: 10_000,
+          });
+        });
+      } else {
+        toast.error(err.data.message);
+      }
     }
   };
 
@@ -147,8 +153,8 @@ const RegisterForm = () => {
             <div className="sign-up__data">
               <Input
                 label="Имя"
-                name={FormFieldName.FirstName}
-                value={firstname}
+                name={FormFieldName.firstName}
+                value={firstName}
                 onChange={onChange}
               />
               <Input
@@ -244,7 +250,7 @@ const RegisterForm = () => {
             </div>
 
             <button
-              disabled={!isValid || isLoading}
+              disabled={isLoading}
               className="btn sign-up__button"
               type="submit"
             >
