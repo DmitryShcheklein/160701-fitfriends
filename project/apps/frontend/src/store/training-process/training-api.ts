@@ -25,6 +25,12 @@ export const trainingApi = createApi({
       }),
       providesTags: [NameSpace.TrainingApi],
     }),
+    getSpecialTrainings: builder.query<TrainingRdo[], unknown>({
+      query: () => ({
+        url: '/special',
+        method: 'GET',
+      }),
+    }),
     getTrainingById: builder.query<TrainingRdo, string>({
       query: (id) => ({
         url: `/${id}`,
@@ -56,6 +62,7 @@ export const trainingApi = createApi({
 export const {
   useCreateTrainingMutation,
   useGetTrainingsQuery,
+  useGetSpecialTrainingsQuery,
   useGetTrainingByIdQuery,
   useUpdateTrainingMutation,
   useDeleteTrainingMutation,

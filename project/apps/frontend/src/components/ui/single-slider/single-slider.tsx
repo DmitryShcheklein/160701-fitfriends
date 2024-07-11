@@ -5,9 +5,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import './single-slider.css';
 import { TrainingRdo } from '@project/rdo';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../shared/const';
 
 interface SingleSliderProps {
-  items: TrainingRdo[];
+  items: (TrainingRdo & { oldPrice: number })[];
 }
 
 const SingleSlider = ({ items }: SingleSliderProps) => {
@@ -23,7 +25,10 @@ const SingleSlider = ({ items }: SingleSliderProps) => {
       >
         {items.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="promo-slider">
+            <Link
+              to={`${AppRoute.TrainingCardPage}/${slide.id}`}
+              className="promo-slider"
+            >
               <div className="promo-slider__overlay"></div>
               <div className="promo-slider__image">
                 <img
@@ -46,9 +51,12 @@ const SingleSlider = ({ items }: SingleSliderProps) => {
                 <div className="promo-slider__price-container">
                   <p className="promo-slider__price">{slide.price} ₽</p>
                   <p className="promo-slider__sup">за занятие</p>
+                  {slide.oldPrice ? (
+                    <p className="promo-slider__old-price">{slide.oldPrice}</p>
+                  ) : null}
                 </div>
               </div>
-            </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

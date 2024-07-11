@@ -27,6 +27,12 @@ export class TrainingRepository extends BaseMongoRepository<
     super(entityFactory, trainingModel);
   }
 
+  public async findSpecialOffers() {
+    const trainings = await this.model.find({ specialOffer: true });
+
+    return trainings.map((el) => this.createEntityFromDocument(el));
+  }
+
   public async find(
     query: TrainingsQuery
   ): Promise<PaginationResult<TrainingEntity, TrainingsFilter>> {

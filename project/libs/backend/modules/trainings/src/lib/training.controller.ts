@@ -102,6 +102,26 @@ export class TrainingController {
   }
 
   @ApiOperation({
+    summary: 'Получить специальные тренинги',
+  })
+  @ApiResponse({
+    isArray: true,
+    type: TrainingRdo,
+    status: HttpStatus.OK,
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @UseGuards(JwtAuthGuard)
+  @Get('/special')
+  public async showSpecialOffers() {
+    const trainings = await this.trainingService.getSpecialTrainings();
+
+    return fillDto(
+      TrainingRdo,
+      trainings.map((el) => el.toPOJO())
+    );
+  }
+
+  @ApiOperation({
     summary: 'Получить тренинг по id',
   })
   @ApiOkResponse({

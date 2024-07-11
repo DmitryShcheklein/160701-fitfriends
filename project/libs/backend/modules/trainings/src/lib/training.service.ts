@@ -36,6 +36,10 @@ export class TrainingService {
     return this.trainingRepository.find(query);
   }
 
+  public async getSpecialTrainings() {
+    return this.trainingRepository.findSpecialOffers();
+  }
+
   public async updateById(id: string, dto: UpdateTrainingDto) {
     const entity = await this.findById(id);
     const newEntity = this.trainingFactory.create({
