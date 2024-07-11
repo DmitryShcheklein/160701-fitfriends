@@ -37,7 +37,11 @@ export class TrainingService {
   }
 
   public async getSpecialTrainings() {
-    return this.trainingRepository.findSpecialOffers();
+    return this.trainingRepository.findSpecialTrainings();
+  }
+
+  public async getPopularTrainings() {
+    return this.trainingRepository.findPopularTrainings();
   }
 
   public async updateById(id: string, dto: UpdateTrainingDto) {

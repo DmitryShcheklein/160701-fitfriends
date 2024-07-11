@@ -1,5 +1,5 @@
 export {
   DEFAULT_PAGE_COUNT,
-  DefaultTrainings as DefaultProducts,
+  DefaultTrainings,
   DefaultSort,
-} from './product.const';
+} from './training.const';

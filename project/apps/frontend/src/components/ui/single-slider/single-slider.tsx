@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
 
 interface SingleSliderProps {
-  items: (TrainingRdo & { oldPrice: number })[];
+  items: (TrainingRdo & { oldPrice?: number })[];
 }
 
 const SingleSlider = ({ items }: SingleSliderProps) => {

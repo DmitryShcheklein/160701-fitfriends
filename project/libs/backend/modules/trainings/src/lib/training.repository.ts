@@ -4,14 +4,15 @@ import { TrainingFactory } from './training.factory';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TrainingModel } from './training.model';
-import { BaseMongoRepository, Training } from '@project/core';
+import { BaseMongoRepository, DefaultSort, Training } from '@project/core';
 import {
   PaginationResult,
   PriceAggregationResult,
   TrainingsFilter,
   TrainingsQuery,
 } from '@project/core';
-import { DEFAULT_PAGE_COUNT, DefaultProducts } from '@project/core';
+import { DEFAULT_PAGE_COUNT, DefaultTrainings } from '@project/core';
+import { SortBy, SortDirection } from '@project/enums';
 
 export type TrainingKeys = keyof Training;
 
@@ -27,10 +28,25 @@ export class TrainingRepository extends BaseMongoRepository<
     super(entityFactory, trainingModel);
   }
 
-  public async findSpecialOffers() {
-    const trainings = await this.model.find({ specialOffer: true });
+  public async findSpecialTrainings() {
+    const trainings = await this.find({
+      limit: DefaultTrainings.COUNT_LIMIT,
+      specialOffer: true,
+      sortBy: DefaultSort.BY,
+      sortDirection: DefaultSort.DIRECTION,
+    });
 
-    return trainings.map((el) => this.createEntityFromDocument(el));
+    return trainings.entities;
+  }
+
+  public async findPopularTrainings() {
+    const trainings = await this.find({
+      limit: DefaultTrainings.COUNT_LIMIT,
+      sortBy: SortBy.rating,
+      sortDirection: SortDirection.Desc,
+    });
+
+    return trainings.entities;
   }
 
   public async find(
@@ -38,7 +54,7 @@ export class TrainingRepository extends BaseMongoRepository<
   ): Promise<PaginationResult<TrainingEntity, TrainingsFilter>> {
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
-    const take = query?.limit || DefaultProducts.COUNT_LIMIT;
+    const take = query?.limit || DefaultTrainings.COUNT_LIMIT;
     const currentPage = Number(query?.page) || DEFAULT_PAGE_COUNT;
     const filter: Partial<Record<TrainingKeys, unknown>> = {};
 
@@ -50,6 +66,9 @@ export class TrainingRepository extends BaseMongoRepository<
     }
     if (query.duration) {
       filter.duration = query.duration;
+    }
+    if (query.specialOffer) {
+      filter.specialOffer = query.specialOffer;
     }
 
     const trainings = await this.model.find(

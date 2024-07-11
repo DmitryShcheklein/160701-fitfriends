@@ -12,7 +12,7 @@ import {
   DefaultTrainings,
   DefaultSort,
   DEFAULT_PAGE_COUNT,
-} from '../const/product.const';
+} from '../const/training.const';
 import {
   FitnessLevel,
   SortBy,
@@ -102,4 +102,12 @@ export class TrainingsQuery {
   @IsEnum(WorkoutDuration, { each: true })
   @IsOptional()
   public duration?: WorkoutDuration[];
+
+  @ApiProperty({
+    description: 'Special training',
+    required: false,
+    example: true,
+  })
+  @IsOptional()
+  public specialOffer?: boolean;
 }

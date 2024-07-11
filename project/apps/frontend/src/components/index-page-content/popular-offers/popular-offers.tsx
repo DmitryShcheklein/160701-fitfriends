@@ -1,13 +1,12 @@
 import EmptyBlock from '../../empty-block/empty-block';
-import { useGetTrainingsQuery } from '../../../store/training-process/training-api';
+import { useGetPopularTrainingsQuery } from '../../../store/training-process/training-api';
 import { AppRoute } from '../../../shared/const';
 import { Link } from 'react-router-dom';
 import { TrainingSlide } from '../../slide-content/training-slide/training-slide';
 import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
 
 export const PopularOffers = () => {
-  const { data } = useGetTrainingsQuery({});
-  const items = data?.entities;
+  const { data: items } = useGetPopularTrainingsQuery({});
 
   if (!items?.length) {
     return <EmptyBlock />;

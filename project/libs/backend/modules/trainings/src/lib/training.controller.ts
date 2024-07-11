@@ -122,6 +122,26 @@ export class TrainingController {
   }
 
   @ApiOperation({
+    summary: 'Получить популярные тренинги',
+  })
+  @ApiResponse({
+    isArray: true,
+    type: TrainingRdo,
+    status: HttpStatus.OK,
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @UseGuards(JwtAuthGuard)
+  @Get('/popular')
+  public async showPopularOffers() {
+    const trainings = await this.trainingService.getPopularTrainings();
+
+    return fillDto(
+      TrainingRdo,
+      trainings.map((el) => el.toPOJO())
+    );
+  }
+
+  @ApiOperation({
     summary: 'Получить тренинг по id',
   })
   @ApiOkResponse({

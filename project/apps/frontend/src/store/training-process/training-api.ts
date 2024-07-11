@@ -31,6 +31,12 @@ export const trainingApi = createApi({
         method: 'GET',
       }),
     }),
+    getPopularTrainings: builder.query<TrainingRdo[], unknown>({
+      query: () => ({
+        url: '/popular',
+        method: 'GET',
+      }),
+    }),
     getTrainingById: builder.query<TrainingRdo, string>({
       query: (id) => ({
         url: `/${id}`,
@@ -63,6 +69,7 @@ export const {
   useCreateTrainingMutation,
   useGetTrainingsQuery,
   useGetSpecialTrainingsQuery,
+  useGetPopularTrainingsQuery,
   useGetTrainingByIdQuery,
   useUpdateTrainingMutation,
   useDeleteTrainingMutation,
