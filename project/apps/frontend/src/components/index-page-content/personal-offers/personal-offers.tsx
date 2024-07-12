@@ -1,4 +1,4 @@
-import { useGetTrainingsQuery } from '../../../store/training-process/training-api';
+import { useGetRecommendedTrainingsQuery } from '../../../store/training-process/training-api';
 import EmptyBlock from '../../empty-block/empty-block';
 import { SpecialSlide } from '../../slide-content/special-slide/special-slide';
 import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
@@ -6,9 +6,9 @@ import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
 const MAX_SLIDE_COUNT = 9;
 
 export const PersonalOffers = () => {
-  const { data } = useGetTrainingsQuery({ limit: 50 });
-  const specialData = data?.entities
-    .filter((el) => el.specialOffer)
+  const { data } = useGetRecommendedTrainingsQuery({});
+  const specialData = data
+    ?.filter((el) => el.specialOffer)
     .slice(0, MAX_SLIDE_COUNT);
 
   if (!specialData?.length) {
