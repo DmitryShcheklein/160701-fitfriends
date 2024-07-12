@@ -110,4 +110,13 @@ export class TrainingsQuery {
   })
   @IsOptional()
   public specialOffer?: boolean;
+
+  @ApiProperty({
+    description: 'The gender for which the training is targeted',
+    enum: UserGender,
+    required: false,
+  })
+  @IsEnum(UserGender)
+  @IsOptional()
+  public gender?: UserGender[];
 }

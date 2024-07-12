@@ -6,6 +6,7 @@ import {
   IsBoolean,
   IsEnum,
   IsNumber,
+  IsOptional,
   Max,
   Min,
 } from 'class-validator';
@@ -67,5 +68,6 @@ export class CreateUserConfigDto implements UserTrainingConfig {
   })
   @IsBoolean()
   @Transform(({ value }) => value === true)
-  public trainingReadiness: boolean;
+  @IsOptional()
+  public trainingReadiness?: boolean;
 }

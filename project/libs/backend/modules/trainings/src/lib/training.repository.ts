@@ -4,7 +4,12 @@ import { TrainingFactory } from './training.factory';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TrainingModel } from './training.model';
-import { BaseMongoRepository, DefaultSort, Training } from '@project/core';
+import {
+  AuthUser,
+  BaseMongoRepository,
+  DefaultSort,
+  Training,
+} from '@project/core';
 import {
   PaginationResult,
   PriceAggregationResult,
@@ -26,6 +31,27 @@ export class TrainingRepository extends BaseMongoRepository<
     @InjectModel(TrainingModel.name) trainingModel: Model<TrainingModel>
   ) {
     super(entityFactory, trainingModel);
+  }
+
+  public async findRecommendedTrainings(user: AuthUser) {
+    const trainings = await this.model.find(
+      {},
+      {},
+      { limit: DefaultTrainings.MAX_COUNT_LIMIT }
+    );
+
+    const rankedTrainings = trainings
+      .map((training) => ({
+        training,
+        score: this.rankTraining(user, this.createEntityFromDocument(training)),
+      }))
+      .sort((a, b) => b.score - a.score)
+      .map((item) => item.training)
+      .slice(0, DefaultTrainings.MAX_RECOMMENDED_COUNT_LIMIT);
+
+    return rankedTrainings.map((document) =>
+      this.createEntityFromDocument(document)
+    );
   }
 
   public async findSpecialTrainings() {
@@ -66,6 +92,9 @@ export class TrainingRepository extends BaseMongoRepository<
     }
     if (query.duration) {
       filter.duration = query.duration;
+    }
+    if (query.gender) {
+      filter.gender = query.gender;
     }
     if (query.specialOffer) {
       filter.specialOffer = query.specialOffer;
@@ -109,5 +138,22 @@ export class TrainingRepository extends BaseMongoRepository<
 
   private calculateTrainingsPage(totalCount: number, limit: number): number {
     return Math.ceil(totalCount / limit);
+  }
+
+  private rankTraining(user: AuthUser, training: TrainingEntity) {
+    const { trainingConfig } = user;
+    let score = 0;
+
+    trainingConfig.specialisation.forEach((el) => {
+      if (el === training.trainingType) {
+        score += 1;
+      }
+    });
+
+    if (training.level === trainingConfig.level) score += 1;
+    if (training.duration === trainingConfig.duration) score += 1;
+    if (training.gender === user.gender) score += 1;
+
+    return score;
   }
 }

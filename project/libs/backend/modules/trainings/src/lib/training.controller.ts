@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -23,7 +24,10 @@ import {
   ApiBody,
   ApiConsumes,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@project/core';
+import {
+  JwtAuthGuard,
+  RequestWithTokenPayload,
+} from '@project/core';
 import { TrainingService } from './training.service';
 import { CreateTrainingDto, UpdateTrainingDto } from '@project/dto';
 import { AuthKeyName } from '@project/config';
@@ -99,6 +103,28 @@ export class TrainingController {
     };
 
     return fillDto(TrainingsWithPaginationRdo, result);
+  }
+
+  @ApiOperation({
+    summary: 'Получить рекоммендованные тренинги',
+  })
+  @ApiResponse({
+    isArray: true,
+    type: TrainingRdo,
+    status: HttpStatus.OK,
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @UseGuards(JwtAuthGuard)
+  @Get('/recommended')
+  public async showRecommendedOffers(@Req() { user }: RequestWithTokenPayload) {
+    const trainings = await this.trainingService.getRecommendedTrainings(
+      user.email
+    );
+
+    return fillDto(
+      TrainingRdo,
+      trainings.map((el) => el.toPOJO())
+    );
   }
 
   @ApiOperation({
