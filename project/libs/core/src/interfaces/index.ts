@@ -17,6 +17,7 @@ export { TrainingsFilter } from './trainings/training-filter.interface';
 export { User } from './users/user.interface';
 export { AuthUser } from './users/auth-user.interface';
 export { UserTrainingConfig } from './users/user-training-config.interface';
+export { RequestWithUser } from './users/tokens/request-with-user.interface';
 // Tokens
 export { Token } from './users/tokens/token.interface';
 export { TokenPayload } from './users/tokens/token-payload.interface';

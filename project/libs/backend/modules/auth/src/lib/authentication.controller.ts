@@ -24,8 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { ResponseMessage } from './authentication.constant';
 import { ResponseMessage as UserResponseMessage } from '@project/user-module';
-import { RequestWithUser } from './request-with-user.interface';
-import { JwtRefreshGuard, LocalAuthGuard, JwtAuthGuard } from '@project/core';
+import { JwtRefreshGuard, LocalAuthGuard, JwtAuthGuard, RequestWithUser } from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
 import { CreateUserDto, LoginUserDto } from '@project/dto';

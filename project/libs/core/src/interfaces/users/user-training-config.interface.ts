@@ -1,5 +1,4 @@
-import { FitnessLevel, WorkoutType, WorkoutDuration } from "@project/enums";
-
+import { FitnessLevel, WorkoutType, WorkoutDuration } from '@project/enums';
 
 export interface UserTrainingConfig {
   level: FitnessLevel;
@@ -7,5 +6,5 @@ export interface UserTrainingConfig {
   duration: WorkoutDuration;
   caloriesPerDay: number;
   caloriesWantLost: number;
-  trainingReadiness: boolean;
+  trainingReadiness?: boolean;
 }
