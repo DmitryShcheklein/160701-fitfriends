@@ -147,11 +147,12 @@ const TrainingCardPage = () => {
               </form>
             </div>
           </div>
-          <div className="training-video" style={{ display: 'none' }}>
+          <div className="training-video">
             <h2 className="training-video__title">Видео</h2>
             <div className="training-video__video">
               <div className="training-video__thumbnail">
-                <picture>
+                <video src={training?.video} controls loop></video>
+                {/* <picture>
                   <source
                     type="image/webp"
                     srcSet="img/content/training-video/video-thumbnail.webp, img/content/training-video/video-thumbnail@2x.webp 2x"
@@ -163,7 +164,7 @@ const TrainingCardPage = () => {
                     height="566"
                     alt="Обложка видео"
                   />
-                </picture>
+                </picture> */}
               </div>
               <button className="training-video__play-button btn-reset">
                 <svg width="18" height="30" aria-hidden="true">
