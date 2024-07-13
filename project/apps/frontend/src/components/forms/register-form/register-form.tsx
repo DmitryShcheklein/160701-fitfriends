@@ -1,19 +1,19 @@
 import { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../shared/const';
-import { useRegisterMutation } from '../../store/auth-process/auth-api';
-import { setCredentials } from '../../store/auth-process/auth-process';
-import { useAppDispatch } from '../../hooks';
-import Popup from '../ui/popup/popup';
-import Input from '../ui/input/input';
-import RadioInput from '../ui/radio-input/radio-input';
-import RoleSelector from '../role-selector/role-selector';
-import CustomSelect from '../ui/select/select';
+import { AppRoute } from '../../../shared/const';
+import { useRegisterMutation } from '../../../store/auth-process/auth-api';
+import { setCredentials } from '../../../store/auth-process/auth-process';
+import { useAppDispatch } from '../../../hooks';
+import Popup from '../../ui/popup/popup';
+import Input from '../../ui/input/input';
+import RadioInput from '../../ui/radio-input/radio-input';
+import RoleSelector from '../../ui/role-selector/role-selector';
+import CustomSelect from '../../ui/select/select';
 import { roleOptions, locationOptions } from './register.data';
 import { UserGender, UserRole } from '@project/enums';
 import { toast } from 'react-toastify';
-import { groupErrors } from '../../shared/helpers/groupErrors';
+import { groupErrors } from '../../../shared/helpers/groupErrors';
 
 const FormFieldName = {
   firstName: 'firstName',

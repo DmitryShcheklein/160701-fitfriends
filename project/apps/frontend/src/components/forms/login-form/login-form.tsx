@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLoginMutation } from '../../store/auth-process/auth-api';
-import { setCredentials } from '../../store/auth-process/auth-process';
+import { useLoginMutation } from '../../../store/auth-process/auth-api';
+import { setCredentials } from '../../../store/auth-process/auth-process';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../shared/const';
-import Popup from '../ui/popup/popup';
-import Input from '../ui/input/input';
+import { AppRoute } from '../../../shared/const';
+import Popup from '../../ui/popup/popup';
+import Input from '../../ui/input/input';
 import { toast } from 'react-toastify';
 
 const FormFieldName = {

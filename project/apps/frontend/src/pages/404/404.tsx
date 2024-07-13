@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { PageTitles } from '../../shared/const';
-import ErrorScreen from '../../components/error-screen/error-screen';
+import ErrorScreen from '../../components/base/error-screen/error-screen';
 
 const Page404 = () => (
   <>

@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { PageTitles } from '../../shared/const';
-import { Sidebar } from '../../components/sidebar/sidebar';
+import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { CatalogSidebar } from '../../components/catalog-sidebar/catalog-sidebar';
 import { useGetTrainingsQuery } from '../../store/training-process/training-api';
-import EmptyBlock from '../../components/empty-block/empty-block';
+import EmptyBlock from '../../components/base/empty-block/empty-block';
 import { TrainingSlide } from '../../components/slide-content/training-slide/training-slide';
 
 export const CatalogPage = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import MainNav from '../main-nav/main-nav';
 import { navItems } from '../main-nav/main-nav.data';
-import { AppRoute } from '../../shared/const';
+import { AppRoute } from '../../../shared/const';
 import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {

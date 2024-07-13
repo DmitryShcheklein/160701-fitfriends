@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../components/header/header';
-import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
+import Header from '../components/base/header/header';
+import ScrollToTop from '../components/base/scroll-to-top/scroll-to-top';
 
 const MainLayout = () => {
   return (

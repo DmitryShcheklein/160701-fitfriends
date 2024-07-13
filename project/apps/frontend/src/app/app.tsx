@@ -8,7 +8,7 @@ import IntroLayout from '../layouts/intro';
 import MainLayout from '../layouts/main';
 import IndexPage from '../pages/index';
 import ProfilePage from '../pages/profile/profile';
-import PrivateRoute from '../components/private-route/private-route';
+import PrivateRoute from '../components/base/private-route/private-route';
 import {
   getAccessToken,
   getRefreshToken,

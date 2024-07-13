@@ -1,5 +1,5 @@
 import { useGetRecommendedTrainingsQuery } from '../../../store/training-process/training-api';
-import EmptyBlock from '../../empty-block/empty-block';
+import EmptyBlock from '../../base/empty-block/empty-block';
 import { SpecialSlide } from '../../slide-content/special-slide/special-slide';
 import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
 

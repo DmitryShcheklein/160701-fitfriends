@@ -1,20 +1,20 @@
-import Popup from '../../ui/popup/popup';
+import Popup from '../../../ui/popup/popup';
 import {
   fitnessLevelOptions,
   specializationOptions,
   workoutDurationOptions,
 } from '../../user-info/user-info.data';
-import Tag from '../../ui/tag/tag';
-import RadioInput from '../../ui/radio-input/radio-input';
+import Tag from '../../../ui/tag/tag';
+import RadioInput from '../../../ui/radio-input/radio-input';
 import {
   useCreateTrainingConfigMutation,
   useTrainingConfigQuery,
-} from '../../../store/user-process/user-api';
+} from '../../../../store/user-process/user-api';
 import { toast } from 'react-toastify';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../../shared/const';
-import { groupErrors } from '../../../shared/helpers/groupErrors';
+import { AppRoute } from '../../../../shared/const';
+import { groupErrors } from '../../../../shared/helpers/groupErrors';
 import { WorkoutType } from '@project/enums';
 
 const FieldName = {

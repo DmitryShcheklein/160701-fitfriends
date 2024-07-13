@@ -1,13 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { AppRoute, AuthStatus } from '../../shared/const';
-import { useAppSelector } from '../../hooks';
+import { AppRoute, AuthStatus } from '../../../shared/const';
+import { useAppSelector } from '../../../hooks';
 import {
   getAccessToken,
   getAuthorizationStatus,
-} from '../../store/auth-process/selectors';
-import { LoaderPage } from '../loaders/loader-page/loader-page';
-import { useCheckAuthQuery } from '../../store/auth-process/auth-api';
+} from '../../../store/auth-process/selectors';
+import { LoaderPage } from '../../loaders/loader-page/loader-page';
+import { useCheckAuthQuery } from '../../../store/auth-process/auth-api';
 
 type TPrivateRoute = JSX.Element;
 

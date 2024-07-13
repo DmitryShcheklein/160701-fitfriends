@@ -1,4 +1,4 @@
-import EmptyBlock from '../../empty-block/empty-block';
+import EmptyBlock from '../../base/empty-block/empty-block';
 import { useGetPopularTrainingsQuery } from '../../../store/training-process/training-api';
 import { AppRoute } from '../../../shared/const';
 import { Link } from 'react-router-dom';

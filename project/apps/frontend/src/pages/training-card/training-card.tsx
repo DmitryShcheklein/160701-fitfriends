@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { AppRoute, PageTitles } from '../../shared/const';
-import { Sidebar } from '../../components/sidebar/sidebar';
+import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { Link, useParams } from 'react-router-dom';
 import { useGetTrainingByIdQuery } from '../../store/training-process/training-api';
 import { LoaderPage } from '../../components/loaders/loader-page/loader-page';

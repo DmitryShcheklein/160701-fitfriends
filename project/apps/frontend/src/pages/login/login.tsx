@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus, PageTitles } from '../../shared/const';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/auth-process/selectors';
-import LoginForm from '../../components/login-form/login-form';
+import LoginForm from '../../components/forms/login-form/login-form';
 
 const LoginPage = () => {
   const authStatus = useAppSelector(getAuthorizationStatus);

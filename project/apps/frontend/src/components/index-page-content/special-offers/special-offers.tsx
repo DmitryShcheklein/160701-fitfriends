@@ -1,5 +1,5 @@
 import SingleSlider from '../../ui/single-slider/single-slider';
-import EmptyBlock from '../../empty-block/empty-block';
+import EmptyBlock from '../../base/empty-block/empty-block';
 import { useGetSpecialTrainingsQuery } from '../../../store/training-process/training-api';
 
 const MAX_SLIDE_COUNT = 3;

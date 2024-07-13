@@ -5,7 +5,7 @@ import { SwiperOptions } from 'swiper/types';
 import classNames from 'classnames';
 import 'swiper/css';
 import './carousel-slider.css';
-import EmptyBlock from '../../empty-block/empty-block';
+import EmptyBlock from '../../base/empty-block/empty-block';
 
 interface SliderProps {
   id: string;
