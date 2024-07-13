@@ -4,12 +4,27 @@ import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { Link, useParams } from 'react-router-dom';
 import { useGetTrainingByIdQuery } from '../../store/training-process/training-api';
 import { LoaderPage } from '../../components/loaders/loader-page/loader-page';
+import {
+  specializationOptions,
+  genderOptions,
+  workoutDurationOptions,
+} from '../../components/forms/user-info/user-info.data';
 
 const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: training, isLoading } = useGetTrainingByIdQuery(String(id));
 
   if (isLoading) return <LoaderPage />;
+  const trainingType = specializationOptions
+    .find((el) => el.value === training?.trainingType)
+    ?.label?.toLowerCase();
+  const genderType = genderOptions
+    .find((el) => el.value === training?.gender)
+    ?.label?.toLowerCase();
+  const workoutDuration = workoutDurationOptions
+    .find((el) => el.value === training?.duration)
+    ?.label.replace('-', '_')
+    .replace(' мин', 'минут');
 
   return (
     <>
@@ -91,6 +106,28 @@ const TrainingCardPage = () => {
                         />
                       </label>
                     </div>
+                    <ul className="training-info__list">
+                      <li className="training-info__item">
+                        <div className="hashtag hashtag--white">
+                          <span>#{trainingType}</span>
+                        </div>
+                      </li>
+                      <li className="training-info__item">
+                        <div className="hashtag hashtag--white">
+                          <span>#{genderType}</span>
+                        </div>
+                      </li>
+                      <li className="training-info__item">
+                        <div className="hashtag hashtag--white">
+                          <span>#{training?.calories}ккал</span>
+                        </div>
+                      </li>
+                      <li className="training-info__item">
+                        <div className="hashtag hashtag--white">
+                          <span>#{workoutDuration}</span>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                   <div className="training-info__price-wrapper">
                     <div className="training-info__input training-info__input--price">
