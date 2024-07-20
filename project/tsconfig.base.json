@@ -17,6 +17,9 @@
     "paths": {
       "@project/auth-module": ["libs/backend/modules/auth/src/index.ts"],
       "@project/backend-helpers": ["libs/backend/helpers/src/index.ts"],
+      "@project/comments-module": [
+        "libs/backend/modules/comments/src/index.ts"
+      ],
       "@project/config": ["libs/config/src/index.ts"],
       "@project/core": ["libs/core/src/index.ts"],
       "@project/dto": ["libs/dto/src/index.ts"],
@@ -32,7 +35,6 @@
       "@project/refresh-token": [
         "libs/backend/modules/refresh-token/src/index.ts"
       ],
-      "@project/reviews-module": ["libs/backend/modules/reviews/src/index.ts"],
       "@project/trainings-module": [
         "libs/backend/modules/trainings/src/index.ts"
       ],
