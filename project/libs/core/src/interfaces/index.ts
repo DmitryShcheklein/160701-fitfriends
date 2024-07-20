@@ -10,6 +10,8 @@ export { StoredFile } from './file-vault/stored-file.interface';
 
 // Notify
 export { Subscriber } from './notify/subscriber.interface';
+// Comment
+export { Comment } from './comment/comment.interface';
 // Training
 export { Training } from './trainings/training.interface';
 export { TrainingsFilter } from './trainings/training-filter.interface';

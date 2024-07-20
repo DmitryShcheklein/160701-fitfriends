@@ -7,3 +7,5 @@ export { RegisteredUserRdo } from './lib/authentication/registered-user.rdo';
 
 export { TrainingRdo } from './lib/training/training.rdo';
 export { TrainingsWithPaginationRdo } from './lib/training/trainings-with-pagination.rdo';
+
+export { CommentRdo } from './lib/comment/comment.rdo';

@@ -9,3 +9,6 @@ export { UpdateUserConfigDto } from './lib/user/config/update-user-config.dto';
 export { CreateTrainingDto } from './lib/training/create-training.dto';
 export { UpdateTrainingDto } from './lib/training/update-training.dto';
 export { PriceQueryDto } from './lib/training/price.query.dto';
+
+export { CreateCommentDto } from './lib/comments/create-comment.dto';
+export { UpdateCommentDto } from './lib/comments/update-comment.dto';

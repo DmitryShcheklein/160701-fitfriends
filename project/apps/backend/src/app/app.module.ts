@@ -5,6 +5,7 @@ import { SwaggerService } from './services/swagger.service';
 import { AuthenticationModule } from '@project/auth-module';
 import { FileUploaderModule } from '@project/file-uploader';
 import { TrainingModule } from '@project/trainings-module';
+import { CommentsModule } from '@project/comments-module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { TrainingModule } from '@project/trainings-module';
     AuthenticationModule,
     FileUploaderModule,
     TrainingModule,
+    CommentsModule,
   ],
   controllers: [],
   providers: [SwaggerService],
