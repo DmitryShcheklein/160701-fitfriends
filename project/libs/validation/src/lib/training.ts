@@ -21,7 +21,6 @@ export const TrainingValidation = {
     Min: 10,
     Max: 140,
   },
-
   Video: {
     Type: ALLOWED_VIDEO_MIMETYPES,
     FileMaxSize: 100 * MB,

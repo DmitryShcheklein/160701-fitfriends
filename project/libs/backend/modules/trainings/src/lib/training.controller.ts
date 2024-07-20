@@ -24,10 +24,7 @@ import {
   ApiBody,
   ApiConsumes,
 } from '@nestjs/swagger';
-import {
-  JwtAuthGuard,
-  RequestWithTokenPayload,
-} from '@project/core';
+import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { TrainingService } from './training.service';
 import { CreateTrainingDto, UpdateTrainingDto } from '@project/dto';
 import { AuthKeyName } from '@project/config';
@@ -41,6 +38,8 @@ import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
 
 @ApiTags('trainings')
 @Controller('trainings')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth(AuthKeyName)
 export class TrainingController {
   constructor(
     private readonly trainingService: TrainingService,
@@ -54,8 +53,6 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Создать тренинг',
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @ApiBody(API_BODY.CreateTraining)
   @UseInterceptors(FileInterceptor('video'))
@@ -87,8 +84,6 @@ export class TrainingController {
     type: TrainingsWithPaginationRdo,
     status: HttpStatus.OK,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @Get('/')
   public async showAll(@Query() query: TrainingsQuery) {
     const trainingsWithPagination = await this.trainingService.getAllTrainings(
@@ -113,8 +108,6 @@ export class TrainingController {
     type: TrainingRdo,
     status: HttpStatus.OK,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @Get('/recommended')
   public async showRecommendedOffers(@Req() { user }: RequestWithTokenPayload) {
     const trainings = await this.trainingService.getRecommendedTrainings(
@@ -135,8 +128,6 @@ export class TrainingController {
     type: TrainingRdo,
     status: HttpStatus.OK,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @Get('/special')
   public async showSpecialOffers() {
     const trainings = await this.trainingService.getSpecialTrainings();
@@ -155,8 +146,6 @@ export class TrainingController {
     type: TrainingRdo,
     status: HttpStatus.OK,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @Get('/popular')
   public async showPopularOffers() {
     const trainings = await this.trainingService.getPopularTrainings();
@@ -173,8 +162,6 @@ export class TrainingController {
   @ApiOkResponse({
     type: TrainingRdo,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @Get(':trainingId')
   public async show(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string
@@ -190,8 +177,6 @@ export class TrainingController {
   @ApiOkResponse({
     type: TrainingRdo,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @ApiConsumes('multipart/form-data')
   @ApiBody(API_BODY.UpdateTraining)
   @UseInterceptors(FileInterceptor('video'))
@@ -220,8 +205,6 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Удалить тренинг по id',
   })
-  @ApiBearerAuth(AuthKeyName)
-  @UseGuards(JwtAuthGuard)
   @Delete(':trainingId')
   public async delete(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string
