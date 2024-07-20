@@ -1,9 +1,0 @@
-{
-  "name": "reviews-module",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/backend/modules/reviews/src",
-  "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project reviews-module --web",
-  "targets": {}
-}
