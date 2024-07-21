@@ -4,8 +4,8 @@ import { Expose, Transform } from 'class-transformer';
 import { UserConfigRdo } from './user-config.rdo';
 import { UserGender, UserLocation } from '@project/enums';
 
-export class UserRdo implements Omit<User, 'email' | 'role'> {
-  @Expose()
+export class UserRdo implements Omit<User, 'role'> {
+  @Expose({ name: '_id' })
   @ApiProperty({
     description: 'The uniq user ID',
     example: 'df191215-1f3c-407d-96b2-390bdfae1961',
