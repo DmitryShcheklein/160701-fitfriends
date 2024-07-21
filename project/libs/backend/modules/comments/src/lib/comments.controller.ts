@@ -25,7 +25,7 @@ import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { MongoIdValidationPipe } from '@project/pipes';
 
 @ApiTags('comments')
-@Controller('trainings/:trainingId/comments')
+@Controller()
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth(AuthKeyName)
 export class CommentsController {
@@ -40,7 +40,7 @@ export class CommentsController {
     summary: 'Создать комментарий',
     description: 'Create comment',
   })
-  @Post()
+  @Post('trainings/:trainingId/comments')
   public async create(
     @Req() { user }: RequestWithTokenPayload,
     @Param('trainingId', MongoIdValidationPipe) trainingId: string,
@@ -70,11 +70,31 @@ export class CommentsController {
     summary: 'Получить комментарий по id',
     description: 'Find comment by Id',
   })
-  @Get(':commentId')
+  @Get('comments/:commentId')
   public async findOne(@Param('commentId') commentId: string) {
     const existComment = await this.commentsService.findOne(commentId);
 
     return fillDto(CommentRdo, existComment.toPOJO());
+  }
+
+  @ApiResponse({
+    isArray: true,
+    type: CommentRdo,
+    status: HttpStatus.OK,
+    description: 'Find comments',
+  })
+  @ApiOperation({
+    summary: 'Получить все комментарии',
+    description: 'Find all comments ',
+  })
+  @Get('comments')
+  public async findAll() {
+    const existComments = await this.commentsService.findAll();
+
+    return fillDto(
+      CommentRdo,
+      existComments.map((el) => el.toPOJO())
+    );
   }
 
   @ApiResponse({
@@ -87,7 +107,7 @@ export class CommentsController {
     summary: 'Получить все комментарии к тренировке по id',
     description: 'Find all comments by trainingId',
   })
-  @Get()
+  @Get('trainings/:trainingId/comments')
   public async findBytrainingId(@Param('trainingId') trainingId: string) {
     const existComments = await this.commentsService.findByTrainingId(
       trainingId
@@ -118,7 +138,7 @@ export class CommentsController {
     summary: 'Изменить комментарий',
     description: 'Fix comment by commentId',
   })
-  @Patch(':commentId')
+  @Patch('comments/:commentId')
   public async update(
     @Req() { user }: RequestWithTokenPayload,
     @Param('commentId') commentId: string,
@@ -147,7 +167,7 @@ export class CommentsController {
     summary: 'Удалить комментарий',
     description: 'Remove comment',
   })
-  @Delete(':commentId')
+  @Delete('comments/:commentId')
   public async remove(@Param('commentId') commentId: string) {
     return this.commentsService.remove(commentId);
   }
