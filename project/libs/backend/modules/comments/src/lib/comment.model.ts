@@ -28,7 +28,12 @@ export class CommentModel extends Document implements Comment {
   public rating!: number;
 
   @Factory(() =>
-    fakerRU.lorem.sentence().substring(0, CommentValidator.Message.Max)
+    fakerRU.lorem
+      .sentence({
+        min: CommentValidator.Message.Min,
+        max: CommentValidator.Message.Max,
+      })
+      .substring(0, CommentValidator.Message.Min)
   )
   @Prop({
     required: true,
@@ -38,12 +43,14 @@ export class CommentModel extends Document implements Comment {
   })
   public message: string;
 
+  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.trainingIds))
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     required: true,
   })
   public trainingId: string;
 
+  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.userIds))
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: UserModel.name,
