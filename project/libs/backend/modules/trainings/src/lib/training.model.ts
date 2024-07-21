@@ -62,7 +62,7 @@ export class TrainingModel extends Document implements Training {
   public duration!: WorkoutDuration;
 
   @Factory((faker) =>
-    faker.commerce.price({ min: TrainingValidation.Price.Min, max: 100_000 })
+    faker.commerce.price({ min: TrainingValidation.Price.Min, max: 3_000 })
   )
   @Prop({
     required: true,

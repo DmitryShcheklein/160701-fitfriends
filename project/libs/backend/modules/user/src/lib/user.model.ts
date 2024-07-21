@@ -34,7 +34,34 @@ export class UserModel extends Document implements AuthUser {
   })
   public passwordHash!: string;
 
-  @Factory((_, ctx) => ctx.avatarPath || null)
+  @Factory((faker) => faker.helpers.enumValue(UserGender))
+  @Prop({
+    required: true,
+    type: String,
+    enum: UserGender,
+  })
+  public gender: UserGender;
+
+  @Factory((_, ctx) => {
+    if (Array.isArray(ctx.avatarPaths)) {
+      if (ctx.gender === UserGender.Male) {
+        const maleUsers = ctx.avatarPaths.filter((path: string) =>
+          path.includes(UserGender.Male.toLowerCase())
+        );
+        return fakerRU.helpers.arrayElement(maleUsers);
+      }
+      if (ctx.gender === UserGender.Female) {
+        const femaleUsers = ctx.avatarPaths.filter((path: string) =>
+          path.includes(UserGender.Female.toLowerCase())
+        );
+        return fakerRU.helpers.arrayElement(femaleUsers);
+      }
+
+      return null;
+    }
+
+    return ctx.avatarPath || null;
+  })
   @Prop({
     default: null,
   })
@@ -71,14 +98,6 @@ export class UserModel extends Document implements AuthUser {
     enum: UserLocation,
   })
   public location: UserLocation;
-
-  @Factory((faker) => faker.helpers.enumValue(UserGender))
-  @Prop({
-    required: true,
-    type: String,
-    enum: UserGender,
-  })
-  public gender: UserGender;
 
   @Prop({ required: false, type: Object, default: {} })
   public trainingConfig!: UserTrainingConfig;
