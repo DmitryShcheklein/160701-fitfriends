@@ -4,6 +4,7 @@ import { rootReducer } from './root-reducer';
 import { authApi } from './auth-process/auth-api';
 import { userApi } from './user-process/user-api';
 import { trainingApi } from './training-process/training-api';
+import { commentsApi } from './comments-process/comments-api';
 
 const store = configureStore({
   reducer: rootReducer,
@@ -12,7 +13,8 @@ const store = configureStore({
       .concat(redirect)
       .concat(authApi.middleware)
       .concat(userApi.middleware)
-      .concat(trainingApi.middleware),
+      .concat(trainingApi.middleware)
+      .concat(commentsApi.middleware),
 });
 
 export { store };

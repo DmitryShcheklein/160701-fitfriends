@@ -3,6 +3,7 @@ import { AppRoute, PageTitles } from '../../shared/const';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { Link, useParams } from 'react-router-dom';
 import { useGetTrainingByIdQuery } from '../../store/training-process/training-api';
+import { useGetCommentsByTrainingIdQuery } from '../../store/comments-process/comments-api';
 import { LoaderPage } from '../../components/loaders/loader-page/loader-page';
 import {
   specializationOptions,
@@ -12,6 +13,9 @@ import {
 
 const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
+  const { data: comments } = useGetCommentsByTrainingIdQuery(String(id));
+  console.log(comments);
+
   const { data: training, isLoading } = useGetTrainingByIdQuery(String(id));
 
   if (isLoading) return <LoaderPage />;
@@ -44,6 +48,43 @@ const TrainingCardPage = () => {
             </svg>
             <span>Назад</span>
           </Link>
+          {comments?.length ? (
+            <>
+              <h2 className="reviews-side-bar__title">Отзывы</h2>
+              <ul className="reviews-side-bar__list">
+                {comments.map(({ id, message, rating, user }) => {
+                  return (
+                    <li className="reviews-side-bar__item" key={id}>
+                      <div className="review">
+                        <div className="review__user-info">
+                          <div className="review__user-photo">
+                            <picture>
+                              <img
+                                src={user.avatarPath ?? ''}
+                                width="64"
+                                height="64"
+                                alt="Изображение пользователя"
+                              />
+                            </picture>
+                          </div>
+                          <span className="review__user-name">
+                            {user.firstName}
+                          </span>
+                          <div className="review__rating">
+                            <svg width="16" height="16" aria-hidden="true">
+                              <use xlinkHref="#icon-star"></use>
+                            </svg>
+                            <span>{rating}</span>
+                          </div>
+                        </div>
+                        <p className="review__comment">{message}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          ) : null}
         </Sidebar>
         <div className="training-card">
           <div className="training-info">
