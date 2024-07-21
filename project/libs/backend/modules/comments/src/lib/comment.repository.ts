@@ -14,9 +14,9 @@ export class CommentRepository extends BaseMongoRepository<
 > {
   constructor(
     entityFactory: CommentFactory,
-    @InjectModel(CommentModel.name) userModel: Model<CommentModel>
+    @InjectModel(CommentModel.name) commentModel: Model<CommentModel>
   ) {
-    super(entityFactory, userModel);
+    super(entityFactory, commentModel);
   }
 
   public async find(query?: {
@@ -24,6 +24,7 @@ export class CommentRepository extends BaseMongoRepository<
   }): Promise<CommentEntity[] | null> {
     const document = await this.model
       .find(query, {}, { limit: MAX_COMMENT_LIMIT })
+      .populate('userId')
       .exec();
 
     if (!document) return null;

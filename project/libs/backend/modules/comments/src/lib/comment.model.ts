@@ -4,6 +4,7 @@ import { Comment } from '@project/core';
 import { CommentValidator } from '@project/validation';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
+import { UserModel } from '@project/user-module';
 
 @Schema({
   collection: 'comments',
@@ -39,12 +40,15 @@ export class CommentModel extends Document implements Comment {
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: 'trainings',
     required: true,
   })
   public trainingId: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'users', required: true })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: UserModel.name,
+    required: true,
+  })
   public userId: string;
 }
 

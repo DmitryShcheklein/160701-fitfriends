@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Comment } from '@project/core';
 import { Expose } from 'class-transformer';
+import { UserRdo } from '../user/user.rdo';
 
-export class CommentRdo implements Comment {
+export class CommentRdo implements Omit<Comment, 'userId'> {
   @Expose()
   @ApiProperty({
     description: 'The uniq comment ID',
@@ -24,12 +25,13 @@ export class CommentRdo implements Comment {
   })
   public trainingId!: string;
 
-  @Expose()
+  @Expose({ name: 'userId' })
   @ApiProperty({
     description: 'The uniq user ID',
     example: '65b80a917f56bfcfe7cb8729',
+    type: UserRdo,
   })
-  public userId!: string;
+  public user!: UserRdo;
 
   @Expose()
   @ApiProperty({
