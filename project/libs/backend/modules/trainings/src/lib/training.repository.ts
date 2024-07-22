@@ -34,16 +34,20 @@ export class TrainingRepository extends BaseMongoRepository<
   }
 
   public async findRecommendedTrainings(user: AuthUser) {
+    if (!user.trainingConfig) return [];
+
     const trainings = await this.model.find(
       {},
       {},
       { limit: DefaultTrainings.MAX_COUNT_LIMIT }
     );
-
     const rankedTrainings = trainings
       .map((training) => ({
         training,
-        score: this.rankTraining(user, this.createEntityFromDocument(training)),
+        score: this.rankTraining(
+          user,
+          this.createEntityFromDocument(training).toPOJO()
+        ),
       }))
       .sort((a, b) => b.score - a.score)
       .map((item) => item.training)
@@ -140,9 +144,11 @@ export class TrainingRepository extends BaseMongoRepository<
     return Math.ceil(totalCount / limit);
   }
 
-  private rankTraining(user: AuthUser, training: TrainingEntity) {
+  private rankTraining(user: AuthUser, training: Training) {
     const { trainingConfig } = user;
     let score = 0;
+
+    if (!trainingConfig) return score;
 
     trainingConfig.specialisation.forEach((el) => {
       if (el === training.trainingType) {
