@@ -10,15 +10,15 @@ import {
   genderOptions,
   workoutDurationOptions,
 } from '../../components/forms/user-info/user-info.data';
+import Popup from '../../components/ui/popup/popup';
+import { useState } from 'react';
+import ReviewForm from '../../components/forms/review-form/review-form';
 
 const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: comments } = useGetCommentsByTrainingIdQuery(String(id));
-  console.log(comments);
-
   const { data: training, isLoading } = useGetTrainingByIdQuery(String(id));
 
-  if (isLoading) return <LoaderPage />;
   const trainingType = specializationOptions
     .find((el) => el.value === training?.trainingType)
     ?.label?.toLowerCase();
@@ -29,6 +29,10 @@ const TrainingCardPage = () => {
     .find((el) => el.value === training?.duration)
     ?.label.replace('-', '_')
     .replace(' мин', 'минут');
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+
+  if (isLoading) return <LoaderPage />;
 
   return (
     <>
@@ -85,6 +89,23 @@ const TrainingCardPage = () => {
               </ul>
             </>
           ) : null}
+
+          <button
+            className="btn btn--medium reviews-side-bar__button"
+            type="button"
+            onClick={() => setShowReviewModal(true)}
+          >
+            Оставить отзыв
+          </button>
+          <Popup
+            className="popup-form--feedback"
+            isOpen={showReviewModal}
+            title="Оставить отзыв"
+            showCloseButton
+            onClose={() => setShowReviewModal(false)}
+          >
+            <ReviewForm />
+          </Popup>
         </Sidebar>
         <div className="training-card">
           <div className="training-info">
