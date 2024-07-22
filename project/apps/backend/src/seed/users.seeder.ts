@@ -31,7 +31,7 @@ export class UsersSeeder implements Seeder {
       email: 'admin@admin.ru',
       firstName: 'Admin',
       passwordHash: await this.hasherService.generatePasswordHash('adminnew'),
-      avatarPath: `${this.defaultPath}/default-avatar.jpg`,
+      avatarPath: `${this.defaultPath}/admin-avatar.jpg`,
     };
     const userAdmin = DataFactory.createForClass(UserModel).generate(
       1,
@@ -39,23 +39,25 @@ export class UsersSeeder implements Seeder {
     );
 
     const MOCK_USERS_COUNT = 5;
-    const MOCK_FEMALE_FILENAMES = Array.from(
-      { length: 3 },
-      (el, idx) => `/${UserGender.Female.toLowerCase()}/photo-${idx + 1}.png`
-    );
-    const MOCK_MALE_FILENAMES = Array.from(
-      { length: 2 },
-      (el, idx) => `/${UserGender.Male.toLowerCase()}/photo-${idx + 1}.png`
-    );
+    const MOCK_FEMALE_AVATARS = Array.from({ length: 3 }, (_, idx) => ({
+      gender: UserGender.Female,
+      path: `${UserGender.Female}/photo-${idx + 1}.png`,
+    }));
+    const MOCK_MALE_AVATARS = Array.from({ length: 2 }, (_, idx) => ({
+      gender: UserGender.Male,
+      path: `${UserGender.Male}/photo-${idx + 1}.png`,
+    }));
     const MOCK_USERS_AVATARS_PATH = [
-      ...MOCK_FEMALE_FILENAMES,
-      ...MOCK_MALE_FILENAMES,
-    ].map((fileName) => `${this.defaultPath}/${fileName}`);
+      ...MOCK_FEMALE_AVATARS,
+      ...MOCK_MALE_AVATARS,
+    ].map((obj) => ({ ...obj, path: `${this.defaultPath}/${obj.path}` }));
+
     const users = DataFactory.createForClass(UserModel).generate(
       MOCK_USERS_COUNT,
       {
         passwordHash: await this.hasherService.generatePasswordHash('123456'),
         avatarPaths: MOCK_USERS_AVATARS_PATH,
+        defaultAvatar: `${this.defaultPath}/default-avatar.png`,
       } as MockUser
     );
 

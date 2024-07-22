@@ -20,14 +20,6 @@ export class UserModel extends Document implements AuthUser {
   })
   public email!: string;
 
-  @Factory((_, ctx) => ctx.firstName || fakerRU.person.firstName())
-  @Prop({
-    required: true,
-    minlength: User.FirstName.Min,
-    maxlength: User.FirstName.Max,
-  })
-  public firstName!: string;
-
   @Factory((_, ctx) => ctx.passwordHash)
   @Prop({
     required: true,
@@ -43,21 +35,35 @@ export class UserModel extends Document implements AuthUser {
   public gender: UserGender;
 
   @Factory((_, ctx) => {
-    if (Array.isArray(ctx.avatarPaths)) {
-      if (ctx.gender === UserGender.Male) {
-        const maleUsers = ctx.avatarPaths.filter((path: string) =>
-          path.includes(UserGender.Male.toLowerCase())
-        );
-        return fakerRU.helpers.arrayElement(maleUsers);
-      }
-      if (ctx.gender === UserGender.Female) {
-        const femaleUsers = ctx.avatarPaths.filter((path: string) =>
-          path.includes(UserGender.Female.toLowerCase())
-        );
-        return fakerRU.helpers.arrayElement(femaleUsers);
-      }
+    if (ctx.firstName) {
+      return ctx.firstName;
+    }
+    if (ctx.gender === UserGender.Male || ctx.gender === UserGender.Female) {
+      return fakerRU.person.firstName(ctx.gender);
+    }
 
-      return null;
+    return fakerRU.person.firstName();
+  })
+  @Prop({
+    required: true,
+    minlength: User.FirstName.Min,
+    maxlength: User.FirstName.Max,
+  })
+  public firstName!: string;
+
+  @Factory((_, ctx) => {
+    if (Array.isArray(ctx.avatarPaths)) {
+      if (ctx.gender === UserGender.Male || ctx.gender === UserGender.Female) {
+        const avatarPaths = ctx.avatarPaths
+          .filter((obj) => obj.gender === ctx.gender)
+          .map((el) => el.path);
+
+        return fakerRU.helpers.arrayElement(avatarPaths);
+      }
+    }
+
+    if (ctx.gender === UserGender.Any) {
+      return ctx.defaultAvatar;
     }
 
     return ctx.avatarPath || null;
