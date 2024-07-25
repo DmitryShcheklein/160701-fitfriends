@@ -1,4 +1,4 @@
-import { ALLOWED_IMG_MIMETYPES, ALLOWED_VIDEO_MIMETYPES, MB } from './const';
+import { AllowedMimetypes, MB } from './const';
 
 export const TrainingValidation = {
   Name: {
@@ -6,7 +6,7 @@ export const TrainingValidation = {
     Max: 15,
   },
   BackgroundImage: {
-    Type: ALLOWED_IMG_MIMETYPES,
+    Type: AllowedMimetypes.Img,
     FileMaxSize: 5 * MB,
   },
   Price: {
@@ -22,7 +22,7 @@ export const TrainingValidation = {
     Max: 140,
   },
   Video: {
-    Type: ALLOWED_VIDEO_MIMETYPES,
+    Type: AllowedMimetypes.Video,
     FileMaxSize: 100 * MB,
   },
   Coach: {

@@ -1,4 +1,4 @@
-import { ALLOWED_IMG_MIMETYPES, MB } from './const';
+import { AllowedMimetypes, MB } from './const';
 
 export const User = {
   FirstName: {
@@ -14,11 +14,11 @@ export const User = {
     Max: 140,
   },
   Avatar: {
-    Type: ALLOWED_IMG_MIMETYPES,
+    Type: AllowedMimetypes.Img,
     FileMaxSize: 1 * MB,
   },
   PageBackground: {
-    Type: ALLOWED_IMG_MIMETYPES,
+    Type: AllowedMimetypes.Img,
     FileMaxSize: 1 * MB,
   },
   TrainingConfig: {

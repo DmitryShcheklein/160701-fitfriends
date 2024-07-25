@@ -24,13 +24,18 @@ import {
 } from '@nestjs/swagger';
 import { ResponseMessage } from './authentication.constant';
 import { ResponseMessage as UserResponseMessage } from '@project/user-module';
-import { JwtRefreshGuard, LocalAuthGuard, JwtAuthGuard, RequestWithUser } from '@project/core';
+import {
+  JwtRefreshGuard,
+  LocalAuthGuard,
+  JwtAuthGuard,
+  RequestWithUser,
+} from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { RequestWithTokenPayload } from '@project/core';
 import { CreateUserDto, LoginUserDto } from '@project/dto';
 import { AuthenticationService } from './authentication.service';
 import { LoggedUserRdo, RefreshUserRdo, RegisteredUserRdo } from '@project/rdo';
-import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
+import { AllowedMimetypes, User } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -65,7 +70,7 @@ export class AuthenticationController {
     @UploadedFile(
       new FileValidationPipe(
         User.Avatar.FileMaxSize,
-        ALLOWED_IMG_MIMETYPES,
+        AllowedMimetypes.Img,
         true
       )
     )

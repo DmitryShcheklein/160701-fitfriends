@@ -32,7 +32,7 @@ import { TrainingsQuery } from '@project/core';
 import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileUploaderService } from '@project/file-uploader';
-import { ALLOWED_IMG_MIMETYPES, TrainingValidation } from '@project/validation';
+import { AllowedMimetypes, TrainingValidation } from '@project/validation';
 import { API_BODY } from './training.const';
 import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
 
@@ -62,7 +62,7 @@ export class TrainingController {
     @UploadedFile(
       new FileValidationPipe(
         TrainingValidation.Video.FileMaxSize,
-        ALLOWED_IMG_MIMETYPES,
+        AllowedMimetypes.Img,
         true
       )
     )
@@ -187,7 +187,7 @@ export class TrainingController {
     @UploadedFile(
       new FileValidationPipe(
         TrainingValidation.Video.FileMaxSize,
-        ALLOWED_IMG_MIMETYPES,
+        AllowedMimetypes.Img,
         true
       )
     )

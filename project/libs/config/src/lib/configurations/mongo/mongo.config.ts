@@ -3,8 +3,10 @@ import { FromEnv } from '../../lib/from-env.decorator';
 import { configEnvValidator } from '../../lib/config-env-validator';
 import { IsNumber, IsString, Max, Min } from 'class-validator';
 
-export const MIN_PORT = 0;
-export const MAX_PORT = 65535;
+const Port = {
+  Min: 0,
+  Max: 65535,
+};
 
 export class MongoDto {
   @IsString()
@@ -12,8 +14,8 @@ export class MongoDto {
   host!: string;
 
   @IsNumber()
-  @Min(MIN_PORT)
-  @Max(MAX_PORT)
+  @Min(Port.Min)
+  @Max(Port.Max)
   @FromEnv('MONGO_PORT')
   port!: number;
 

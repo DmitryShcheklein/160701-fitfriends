@@ -28,7 +28,7 @@ import {
   UpdateUserDto,
 } from '@project/dto';
 import { UserConfigRdo, UserRdo } from '@project/rdo';
-import { ALLOWED_IMG_MIMETYPES, User } from '@project/validation';
+import { AllowedMimetypes, User } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
@@ -79,7 +79,7 @@ export class UserController {
     @UploadedFile(
       new FileValidationPipe(
         User.Avatar.FileMaxSize,
-        ALLOWED_IMG_MIMETYPES,
+        AllowedMimetypes.Img,
         true
       )
     )
