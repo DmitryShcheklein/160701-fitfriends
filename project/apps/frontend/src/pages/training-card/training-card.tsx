@@ -16,8 +16,9 @@ import ReviewForm from '../../components/forms/review-form/review-form';
 
 const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: comments } = useGetCommentsByTrainingIdQuery(String(id));
-  const { data: training, isLoading } = useGetTrainingByIdQuery(String(id));
+  const trainingId = String(id);
+  const { data: comments } = useGetCommentsByTrainingIdQuery(trainingId);
+  const { data: training, isLoading } = useGetTrainingByIdQuery(trainingId);
 
   const trainingType = specializationOptions
     .find((el) => el.value === training?.trainingType)
@@ -61,16 +62,18 @@ const TrainingCardPage = () => {
                     <li className="reviews-side-bar__item" key={id}>
                       <div className="review">
                         <div className="review__user-info">
-                          <div className="review__user-photo">
-                            <picture>
-                              <img
-                                src={user.avatarPath ?? ''}
-                                width="64"
-                                height="64"
-                                alt="Изображение пользователя"
-                              />
-                            </picture>
-                          </div>
+                          {user.avatarPath ? (
+                            <div className="review__user-photo">
+                              <picture>
+                                <img
+                                  src={user.avatarPath}
+                                  width="64"
+                                  height="64"
+                                  alt="Изображение пользователя"
+                                />
+                              </picture>
+                            </div>
+                          ) : null}
                           <span className="review__user-name">
                             {user.firstName}
                           </span>
@@ -98,13 +101,15 @@ const TrainingCardPage = () => {
             Оставить отзыв
           </button>
           <Popup
-            className="popup-form--feedback"
             isOpen={showReviewModal}
             title="Оставить отзыв"
             showCloseButton
             onClose={() => setShowReviewModal(false)}
           >
-            <ReviewForm />
+            <ReviewForm
+              id={trainingId}
+              onSuccess={() => setShowReviewModal(false)}
+            />
           </Popup>
         </Sidebar>
         <div className="training-card">

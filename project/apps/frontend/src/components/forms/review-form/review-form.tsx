@@ -1,50 +1,75 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { CommentValidator } from '@project/validation';
+import { toast } from 'react-toastify';
+import { useCreateCommentMutation } from '../../../store/comments-process/comments-api';
 
-const ReviewForm: React.FC = () => {
-  const [rating, setRating] = useState<number>(5);
-  const [description, setDescription] = useState<string>('');
+const FieldName = {
+  Rating: 'rating',
+  Message: 'message',
+} as const;
 
-  const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRating(Number(event.target.value));
-  };
+type FieldName = (typeof FieldName)[keyof typeof FieldName];
+type TState = Record<FieldName, any>;
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
+interface ReviewFormProps {
+  id: string;
+  onSuccess: () => void;
+}
+const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
+  const [formData, setFormData] = useState<TState>({
+    rating: '',
+    message: '',
+  });
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setDescription(event.target.value);
-  };
+    const { name, value } = e.target;
 
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const [createComment, { isLoading }] = useCreateCommentMutation();
+  const handleSubmitForm = async (evt: FormEvent) => {
+    evt.preventDefault();
+
+    try {
+      await createComment({
+        id,
+        rating: Number(formData.rating),
+        message: formData.message,
+      }).unwrap();
+
+      toast.success('Данные успешно сохранены!');
+      onSuccess();
+    } catch (err: any) {
+      console.error('Failed to send: ', err);
+    }
+  };
+  const ratings = Array.from(
+    { length: CommentValidator.Rating.Max },
+    (_, idx) => `${(idx += 1)}`
+  );
   return (
-    // <div className="popup-form popup-form--feedback">
-    //   <section className="popup">
-    //     <div className="popup__wrapper">
-    //       <div className="popup-head">
-    //         <h2 className="popup-head__header">Оставить отзыв</h2>
-    //         <button
-    //           className="btn-icon btn-icon--outlined btn-icon--big"
-    //           type="button"
-    //           aria-label="close"
-    //         >
-    //           <svg width="20" height="20" aria-hidden="true">
-    //             <use xlinkHref="#icon-cross"></use>
-    //           </svg>
-    //         </button>
-    //       </div>
-    <div className="popup__content popup__content--feedback">
+    <form
+      onSubmit={handleSubmitForm}
+      className="popup__content popup__content--feedback"
+    >
       <h3 className="popup__feedback-title">Оцените тренировку</h3>
       <ul className="popup__rate-list">
-        {[1, 2, 3, 4, 5].map((rate) => (
+        {ratings.map((rate) => (
           <li className="popup__rate-item" key={rate}>
             <div className="popup__rate-item-wrap">
               <label>
                 <input
                   type="radio"
-                  name="оценка тренировки"
+                  name={FieldName.Rating}
                   aria-label={`оценка ${rate}.`}
                   value={rate}
-                  checked={rating === rate}
-                  onChange={handleRatingChange}
+                  checked={formData.rating === rate}
+                  onChange={handleInputChange}
                 />
                 <span className="popup__rate-number">{rate}</span>
               </label>
@@ -60,24 +85,20 @@ const ReviewForm: React.FC = () => {
           <div className="custom-textarea">
             <label>
               <textarea
-                name="description"
-                placeholder=" "
-                value={description}
-                onChange={handleDescriptionChange}
+                name={FieldName.Message}
+                value={formData.message}
+                onChange={handleInputChange}
               ></textarea>
             </label>
           </div>
         </div>
       </div>
       <div className="popup__button">
-        <button className="btn" type="button">
+        <button className="btn" type="submit" disabled={isLoading}>
           Продолжить
         </button>
       </div>
-    </div>
-    //     </div>
-    //   </section>
-    // </div>
+    </form>
   );
 };
 
