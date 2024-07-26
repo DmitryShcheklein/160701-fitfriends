@@ -3385,14 +3385,15 @@ input:active + .custom-textarea__text {
 }
 
 .reviews-side-bar__list {
-  position: relative;
-  height: 100%;
+  position: relative;  
   max-height: 976px;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   list-style: none;
+  flex-grow: 1;
+  margin-bottom: 30px;
 }
 
 .reviews-side-bar__list::before {
@@ -3427,10 +3428,6 @@ input:active + .custom-textarea__text {
 
 .reviews-side-bar__item:last-child {
   margin-bottom: 0;
-}
-
-.reviews-side-bar__button {
-  margin-top: 30px;
 }
 
 .review {
@@ -7260,7 +7257,6 @@ input:active + .custom-textarea__text {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background: rgba(24, 24, 24, 0.9);
   z-index: 100;
   -ms-flex-negative: 0;
   flex-shrink: 0;
