@@ -43,12 +43,12 @@ const Popup: FC<PopupProps> = ({
 
   return ReactDOM.createPortal(
     <div className={classNames('popup-form', className)}>
-      {!isStatic ? <PopupOverlay onClick={onClose} /> : null}
-      <div className="popup-form__wrapper">
-        <div className="popup-form__content">
+      <section className="popup">
+        {!isStatic ? <PopupOverlay onClick={onClose} /> : null}
+        <div className="popup__wrapper">
           {showHead && (
-            <div className="popup-form__title-wrapper">
-              <h1 className="popup-form__title">{title}</h1>
+            <div className="popup-head">
+              <h1 className="popup-head__header">{title}</h1>
               {showCloseButton && (
                 <button
                   className="btn-icon btn-icon--outlined btn-icon--big"
@@ -63,9 +63,9 @@ const Popup: FC<PopupProps> = ({
               )}
             </div>
           )}
-          <div className="popup-form__body">{children}</div>
+          {children}
         </div>
-      </div>
+      </section>
     </div>,
     document.body
   );

@@ -1,0 +1,10 @@
+.bg {
+    all: unset;
+    position: absolute;
+    inset: 0;
+
+
+    background-color: #181818;
+    opacity: .9;
+    cursor: pointer;
+}
