@@ -45,8 +45,8 @@ const LoginForm: FC = () => {
 
   return (
     <Popup isStatic className="popup-form--sign-in" title="Вход">
-      <div className="popup-form__form">
-        <form onSubmit={handleFormSubmit}>
+      <div className="popup-form__content">
+        <form className="popup-form__form" onSubmit={handleFormSubmit}>
           <div className="sign-in">
             <Input
               className="sign-in__input"

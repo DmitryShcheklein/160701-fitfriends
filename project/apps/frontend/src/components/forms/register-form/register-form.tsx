@@ -117,8 +117,12 @@ const RegisterForm = () => {
 
   return (
     <Popup isStatic title="Регистрация" className="popup-form--sign-up">
-      <div className="popup-form__form">
-        <form onSubmit={handleFormSubmit} autoComplete="off">
+      <div className="popup-form__content">
+        <form
+          className="popup-form__form"
+          onSubmit={handleFormSubmit}
+          autoComplete="off"
+        >
           <div className="sign-up">
             <div className="sign-up__load-photo">
               <label className="input-load-avatar">
