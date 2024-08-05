@@ -29,7 +29,7 @@ export class TrainingModel extends Document implements Training {
   @Factory(
     (faker, ctx) =>
       `${ctx.mockImagePath}trainings/${faker.helpers.arrayElement(
-        Array.from({length:4}, (el, idx)=>`training-${++idx}@2x.png`)
+        Array.from({ length: 4 }, (el, idx) => `training-${++idx}@2x.png`)
       )}`
   )
   @Prop({
@@ -105,7 +105,13 @@ export class TrainingModel extends Document implements Training {
   public gender!: UserGender;
 
   @Factory((faker) =>
-    faker.helpers.arrayElement(['example1.mov', 'example2.avi', 'example3.mp4'])
+    faker.helpers.arrayElement([
+      'https://videos.pexels.com/video-files/2025457/2025457-hd_1280_720_30fps.mp4',
+      'https://videos.pexels.com/video-files/4065388/4065388-uhd_2560_1440_30fps.mp4',
+      'https://videos.pexels.com/video-files/3196218/3196218-uhd_2560_1440_25fps.mp4',
+      'https://videos.pexels.com/video-files/2790138/2790138-uhd_2560_1440_25fps.mp4',
+      'https://videos.pexels.com/video-files/4761711/4761711-uhd_2732_1440_25fps.mp4',
+    ])
   )
   @Prop({
     required: true,
