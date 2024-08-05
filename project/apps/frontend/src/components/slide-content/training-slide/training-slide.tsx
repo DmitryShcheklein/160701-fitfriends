@@ -1,14 +1,17 @@
 import { TrainingRdo } from '@project/rdo';
 import { AppRoute } from '../../../shared/const';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+import { HTMLAttributes } from 'react';
 
-interface TrainingSlideProps {
+interface TrainingSlideProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   training: TrainingRdo;
 }
 
-export const TrainingSlide = ({ training }: TrainingSlideProps) => {
+export const TrainingThumb = ({ training, className }: TrainingSlideProps) => {
   return (
-    <div className="thumbnail-training">
+    <div className={classNames('thumbnail-training', className)}>
       <div className="thumbnail-training__inner">
         <div className="thumbnail-training__image">
           <picture>
