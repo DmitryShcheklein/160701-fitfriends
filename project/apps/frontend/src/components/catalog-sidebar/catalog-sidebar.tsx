@@ -6,7 +6,7 @@ import CheckboxInput from '../ui/checkbox-input/checkbox-input';
 export const CatalogSidebar = () => {
   return (
     <div>
-      <h1 className="visually-hidden">Мои тренировки</h1>
+      <h1 className="visually-hidden">Каталог тренировок — FitFriends</h1>
       <div className="my-training-form">
         <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
         <Link
@@ -18,7 +18,7 @@ export const CatalogSidebar = () => {
           </svg>
           <span>Назад</span>
         </Link>
-        <form style={{ opacity: 0.5 }}>
+        <div style={{ opacity: 0.5 }}>
           <h3 className="my-training-form__title">фильтры</h3>
           <form className="my-training-form__form">
             <SliderFilter
@@ -61,7 +61,7 @@ export const CatalogSidebar = () => {
               </ul>
             </div>
           </form>
-        </form>
+        </div>
       </div>
     </div>
   );
