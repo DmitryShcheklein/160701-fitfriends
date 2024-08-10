@@ -10,6 +10,7 @@ interface FilterProps extends Omit<NouisliderProps, 'start' | 'onChange'> {
   onChange?: (values: [number, number]) => void;
   withInputs?: boolean;
   range: { min: number; max: number };
+  hidden?: boolean;
 }
 
 const InputFieldName = {
@@ -26,6 +27,7 @@ const SliderFilter = ({
   step = 1,
   tooltips = false,
   onChange,
+  hidden,
 }: FilterProps) => {
   const startValues = start.map(String);
   const [inputValues, setInputValues] = useState(startValues);
@@ -58,6 +60,10 @@ const SliderFilter = ({
   const [inputMinId, inputMaxId] = Object.values(InputFieldName).map(
     (fieldName) => `${label}-${fieldName}`
   );
+
+  if (hidden) {
+    return null;
+  }
 
   return (
     <div className={classNames(className)}>

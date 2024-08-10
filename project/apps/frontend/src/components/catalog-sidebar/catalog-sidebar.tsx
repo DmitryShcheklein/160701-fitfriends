@@ -2,8 +2,25 @@ import { Link } from 'react-router-dom';
 import SliderFilter from '../ui/slider-filter/slider-filter';
 import { AppRoute } from '../../shared/const';
 import CheckboxInput from '../ui/checkbox-input/checkbox-input';
+import { TrainingsWithPaginationRdo } from '@project/rdo';
+import { specializationOptions } from '../forms/user-info/user-info.data';
+import { useState } from 'react';
 
-export const CatalogSidebar = () => {
+interface CatalogSidebarProps {
+  filters?: TrainingsWithPaginationRdo['filters'];
+}
+
+export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
+  const [selectedSort, setSelectedSort] = useState<string>('cheap');
+  if (!filters) return null;
+
+  const { price } = filters;
+  const { min: minPrice, max: maxPrice } = price;
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedSort(event.target.value);
+  };
+
   return (
     <div>
       <h1 className="visually-hidden">Каталог тренировок — FitFriends</h1>
@@ -18,13 +35,13 @@ export const CatalogSidebar = () => {
           </svg>
           <span>Назад</span>
         </Link>
-        <div style={{ opacity: 0.5 }}>
+        <div>
           <h3 className="my-training-form__title">фильтры</h3>
           <form className="my-training-form__form">
             <SliderFilter
               label="Цена, ₽"
-              start={[0, 100]}
-              range={{ min: 0, max: 100 }}
+              start={[minPrice, maxPrice]}
+              range={{ min: minPrice, max: maxPrice }}
               className="my-training-form__block--price"
               onChange={(values) => {
                 console.log(values);
@@ -38,6 +55,7 @@ export const CatalogSidebar = () => {
               onChange={(values) => {
                 console.log(values);
               }}
+              hidden
             />
             <SliderFilter
               label="Рейтинг"
@@ -49,16 +67,57 @@ export const CatalogSidebar = () => {
               onChange={(values) => {
                 console.log(values);
               }}
+              hidden
             />
 
-            <div className="my-training-form__block my-training-form__block--duration">
-              <h4 className="my-training-form__block-title">Длительность</h4>
-              <ul className="my-training-form__check-list">
-                <CheckboxInput
-                  className="my-training-form__check-list-item"
-                  label="10 мин - 30 мин"
-                />
+            <div className="gym-catalog-form__block gym-catalog-form__block--type">
+              <h4 className="gym-catalog-form__block-title">Тип</h4>
+              <ul className="gym-catalog-form__check-list">
+                {specializationOptions.map(({ label }) => (
+                  <CheckboxInput
+                    className="gym-catalog-form__check-list-item"
+                    label={label}
+                  />
+                ))}
               </ul>
+            </div>
+
+            <div className="gym-catalog-form__block gym-catalog-form__block--sort">
+              <h4 className="gym-catalog-form__title gym-catalog-form__title--sort">
+                Сортировка
+              </h4>
+              <div className="btn-radio-sort gym-catalog-form__radio">
+                <label>
+                  <input
+                    type="radio"
+                    name="sort"
+                    value="cheap"
+                    checked={selectedSort === 'cheap'}
+                    onChange={handleSortChange}
+                  />
+                  <span className="btn-radio-sort__label">Дешевле</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="sort"
+                    value="expensive"
+                    checked={selectedSort === 'expensive'}
+                    onChange={handleSortChange}
+                  />
+                  <span className="btn-radio-sort__label">Дороже</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="sort"
+                    value="free"
+                    checked={selectedSort === 'free'}
+                    onChange={handleSortChange}
+                  />
+                  <span className="btn-radio-sort__label">Бесплатные</span>
+                </label>
+              </div>
             </div>
           </form>
         </div>

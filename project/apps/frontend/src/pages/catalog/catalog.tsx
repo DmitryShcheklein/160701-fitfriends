@@ -43,7 +43,7 @@ export const CatalogPage = () => {
       <div className="inner-page__wrapper">
         <h1 className="visually-hidden">Каталог тренировок</h1>
         <Sidebar>
-          <CatalogSidebar />
+          <CatalogSidebar filters={data?.filters} />
         </Sidebar>
         <div className="training-catalog">
           {!allTrainings?.length && !isFetching ? (
