@@ -7,20 +7,24 @@ import EmptyBlock from '../../components/base/empty-block/empty-block';
 import { TrainingThumb } from '../../components/slide-content/training-slide/training-slide';
 import { useEffect, useState } from 'react';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
+import { TrainingsQuery } from '@project/core';
 
 export const CatalogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState<TrainingsQuery>({});
   const { data, isFetching } = useGetTrainingsQuery({
     limit: 6,
     page: currentPage,
+    ...filter,
   });
   const [allTrainings, setAllTrainings] = useState<
     TrainingsWithPaginationRdo['entities']
   >([]);
+  console.log(data?.entities.length);
 
   useEffect(() => {
     if (data?.entities) {
-      setAllTrainings((prevTrainings) => [...prevTrainings, ...data.entities]);
+      setAllTrainings((prevTrainings) => [...data.entities]);
     }
   }, [data]);
 
@@ -43,7 +47,7 @@ export const CatalogPage = () => {
       <div className="inner-page__wrapper">
         <h1 className="visually-hidden">Каталог тренировок</h1>
         <Sidebar>
-          <CatalogSidebar filters={data?.filters} />
+          <CatalogSidebar filters={data?.filters} setFilter={setFilter} />
         </Sidebar>
         <div className="training-catalog">
           {!allTrainings?.length && !isFetching ? (

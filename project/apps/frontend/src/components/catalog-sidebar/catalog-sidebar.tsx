@@ -5,13 +5,16 @@ import CheckboxInput from '../ui/checkbox-input/checkbox-input';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
 import { specializationOptions } from '../forms/user-info/user-info.data';
 import { useState } from 'react';
+import { TrainingsQuery } from '@project/core';
+import { SortBy, WorkoutType } from '@project/enums';
 
 interface CatalogSidebarProps {
   filters?: TrainingsWithPaginationRdo['filters'];
+  setFilter: React.Dispatch<React.SetStateAction<TrainingsQuery>>;
 }
 
-export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
-  const [selectedSort, setSelectedSort] = useState<string>('cheap');
+export const CatalogSidebar = ({ filters, setFilter }: CatalogSidebarProps) => {
+  const [selectedSort, setSelectedSort] = useState('');
   if (!filters) return null;
 
   const { price } = filters;
@@ -44,7 +47,7 @@ export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
               range={{ min: minPrice, max: maxPrice }}
               className="my-training-form__block--price"
               onChange={(values) => {
-                console.log(values);
+                // console.log(values);
               }}
             />
             <SliderFilter
@@ -53,7 +56,7 @@ export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
               range={{ min: 0, max: 100 }}
               className="my-training-form__block--price"
               onChange={(values) => {
-                console.log(values);
+                // console.log(values);
               }}
               hidden
             />
@@ -65,7 +68,7 @@ export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
               withInputs={false}
               tooltips
               onChange={(values) => {
-                console.log(values);
+                // console.log(values);
               }}
               hidden
             />
@@ -73,10 +76,29 @@ export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
             <div className="gym-catalog-form__block gym-catalog-form__block--type">
               <h4 className="gym-catalog-form__block-title">Тип</h4>
               <ul className="gym-catalog-form__check-list">
-                {specializationOptions.map(({ label }) => (
+                {specializationOptions.map(({ label, value }) => (
                   <CheckboxInput
                     className="gym-catalog-form__check-list-item"
                     label={label}
+                    value={value}
+                    onChange={(evt) => {
+                      const input = evt.target;
+                      const isChecked = evt.target.checked;
+                      console.log(isChecked);
+
+                      const value = input.value as WorkoutType;
+
+                      setFilter((prev) => {
+                        return {
+                          ...prev,
+                          trainingType: prev.trainingType
+                            ? isChecked
+                              ? undefined
+                              : [value]
+                            : [value],
+                        };
+                      });
+                    }}
                   />
                 ))}
               </ul>
@@ -91,7 +113,7 @@ export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
                   <input
                     type="radio"
                     name="sort"
-                    value="cheap"
+                    value={SortBy.price}
                     checked={selectedSort === 'cheap'}
                     onChange={handleSortChange}
                   />
@@ -114,6 +136,7 @@ export const CatalogSidebar = ({ filters }: CatalogSidebarProps) => {
                     value="free"
                     checked={selectedSort === 'free'}
                     onChange={handleSortChange}
+                    disabled
                   />
                   <span className="btn-radio-sort__label">Бесплатные</span>
                 </label>
