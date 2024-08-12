@@ -11,7 +11,7 @@ const FieldName = {
 type FieldName = (typeof FieldName)[keyof typeof FieldName];
 type TState = Record<FieldName, number>;
 
-const PersonalAccountUser: React.FC = () => {
+const PersonalAccountUser = () => {
   const [updateConfig] = useUpdateTrainingConfigMutation();
   const { data: trainingConfig } = useTrainingConfigQuery();
 
