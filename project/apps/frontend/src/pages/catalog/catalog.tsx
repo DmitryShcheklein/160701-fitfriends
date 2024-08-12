@@ -20,7 +20,6 @@ export const CatalogPage = () => {
   const [allTrainings, setAllTrainings] = useState<
     TrainingsWithPaginationRdo['entities']
   >([]);
-  console.log(data?.entities.length);
 
   useEffect(() => {
     if (data?.entities) {
