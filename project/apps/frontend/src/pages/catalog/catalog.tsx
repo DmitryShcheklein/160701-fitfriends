@@ -24,7 +24,7 @@ export const CatalogPage = () => {
 
   useEffect(() => {
     if (data?.entities) {
-      setAllTrainings((prevTrainings) => [...data.entities]);
+      setAllTrainings((prevTrainings) => [...prevTrainings, ...data.entities]);
     }
   }, [data]);
 

@@ -84,18 +84,20 @@ export const CatalogSidebar = ({ filters, setFilter }: CatalogSidebarProps) => {
                     onChange={(evt) => {
                       const input = evt.target;
                       const isChecked = evt.target.checked;
-                      console.log(isChecked);
 
                       const value = input.value as WorkoutType;
 
                       setFilter((prev) => {
+                        const newTrainings = isChecked
+                          ? [...(prev.trainingType || []), value]
+                          : prev.trainingType?.filter((elem) => elem !== value);
+                        if (!newTrainings?.length) {
+                          const { trainingType, ...rest } = prev;
+                          return rest;
+                        }
                         return {
                           ...prev,
-                          trainingType: prev.trainingType
-                            ? isChecked
-                              ? undefined
-                              : [value]
-                            : [value],
+                          trainingType: newTrainings,
                         };
                       });
                     }}
