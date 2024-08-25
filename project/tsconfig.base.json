@@ -30,6 +30,7 @@
       "@project/guards": ["libs/backend/guards/src/index.ts"],
       "@project/hasher-module": ["libs/backend/modules/hasher/src/index.ts"],
       "@project/mail-module": ["libs/backend/modules/mail/src/index.ts"],
+      "@project/orders-module": ["libs/backend/modules/orders/src/index.ts"],
       "@project/pipes": ["libs/backend/pipes/src/index.ts"],
       "@project/rdo": ["libs/rdo/src/index.ts"],
       "@project/refresh-token": [
