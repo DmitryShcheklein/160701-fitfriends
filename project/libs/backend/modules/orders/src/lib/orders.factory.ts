@@ -1,7 +1,6 @@
-import {Injectable} from "@nestjs/common";
-import {EntityFactory, Order} from "@project/core";
-import {OrdersEntity} from "./orders.entity";
-
+import { Injectable } from '@nestjs/common';
+import { EntityFactory, Order } from '@project/core';
+import { OrdersEntity } from './orders.entity';
 
 @Injectable()
 export class OrdersFactory implements EntityFactory<OrdersEntity> {

@@ -6,7 +6,7 @@ import { AuthenticationModule } from '@project/auth-module';
 import { FileUploaderModule } from '@project/file-uploader';
 import { TrainingModule } from '@project/trainings-module';
 import { CommentsModule } from '@project/comments-module';
-import {OrdersModule} from "@project/orders-module";
+import { OrdersModule } from '@project/orders-module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import {OrdersModule} from "@project/orders-module";
     FileUploaderModule,
     TrainingModule,
     CommentsModule,
-    OrdersModule
+    OrdersModule,
   ],
   controllers: [],
   providers: [SwaggerService],

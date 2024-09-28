@@ -6,9 +6,11 @@ import { OrdersModel, OrdersSchema } from './orders.model';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { UserModule } from '@project/user-module';
+import { TrainingModule } from '@project/trainings-module';
 
 @Module({
   imports: [
+    TrainingModule,
     UserModule,
     MongooseModule.forFeature([
       { name: OrdersModel.name, schema: OrdersSchema },

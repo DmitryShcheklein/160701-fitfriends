@@ -9,3 +9,5 @@ export { TrainingRdo } from './lib/training/training.rdo';
 export { TrainingsWithPaginationRdo } from './lib/training/trainings-with-pagination.rdo';
 
 export { CommentRdo } from './lib/comment/comment.rdo';
+
+export { OrderRdo } from './lib/orders/order.rdo';
