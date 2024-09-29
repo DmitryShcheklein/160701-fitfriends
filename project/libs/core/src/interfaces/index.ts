@@ -7,8 +7,10 @@ export { PriceAggregationResult } from './base/price-aggregation-result.interfac
 // FileVault
 export { File } from './file-vault/file.interface';
 export { StoredFile } from './file-vault/stored-file.interface';
+// Balance
+export { Balance } from './balance/balance.interface';
 // Order
-export {Order} from './orders/orders.interface'
+export { Order } from './orders/orders.interface';
 // Notify
 export { Subscriber } from './notify/subscriber.interface';
 // Comment

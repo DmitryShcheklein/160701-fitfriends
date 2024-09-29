@@ -7,6 +7,7 @@ import { FileUploaderModule } from '@project/file-uploader';
 import { TrainingModule } from '@project/trainings-module';
 import { CommentsModule } from '@project/comments-module';
 import { OrdersModule } from '@project/orders-module';
+import { BalanceModule } from '@project/balance-module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { OrdersModule } from '@project/orders-module';
     TrainingModule,
     CommentsModule,
     OrdersModule,
+    BalanceModule,
   ],
   controllers: [],
   providers: [SwaggerService],

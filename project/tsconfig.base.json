@@ -17,6 +17,7 @@
     "paths": {
       "@project/auth-module": ["libs/backend/modules/auth/src/index.ts"],
       "@project/backend-helpers": ["libs/backend/helpers/src/index.ts"],
+      "@project/balance-module": ["libs/backend/modules/balance/src/index.ts"],
       "@project/comments-module": [
         "libs/backend/modules/comments/src/index.ts"
       ],
