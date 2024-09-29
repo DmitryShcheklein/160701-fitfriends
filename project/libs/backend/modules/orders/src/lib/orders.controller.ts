@@ -1,10 +1,11 @@
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { CreateOrderDto } from '@project/dto';
@@ -36,5 +37,26 @@ export class OrdersController {
     const newOrder = await this.ordersService.create(dto, userId);
 
     return fillDto(OrderRdo, newOrder.toPOJO());
+  }
+
+  @ApiOkResponse({
+    isArray: true,
+    type: OrderRdo,
+    description: 'Orders by user',
+  })
+  @ApiOperation({
+    summary: 'Получить заказы пользователя',
+    description: 'Get user orders',
+  })
+  @Get()
+  public async findAllByUserId(@Req() { user }: RequestWithTokenPayload) {
+    const userId = user.sub;
+
+    const orders = await this.ordersService.findByUserId(userId);
+
+    return fillDto(
+      OrderRdo,
+      orders.map((order) => order.toPOJO())
+    );
   }
 }

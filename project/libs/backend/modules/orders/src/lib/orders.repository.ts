@@ -17,4 +17,10 @@ export class OrdersRepository extends BaseMongoRepository<
   ) {
     super(entityFactory, OrdersModel);
   }
+
+  public async findByUserId(userId: string): Promise<OrdersEntity[]> {
+    const document = await this.model.find({ userId }).exec();
+
+    return document.map((document) => this.createEntityFromDocument(document));
+  }
 }

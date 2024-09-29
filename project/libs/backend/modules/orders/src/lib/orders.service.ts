@@ -29,4 +29,8 @@ export class OrdersService {
 
     return this.ordersRepository.save(newOrderEntity);
   }
+
+  public async findByUserId(userId: string) {
+    return this.ordersRepository.findByUserId(userId);
+  }
 }

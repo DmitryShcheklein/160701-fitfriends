@@ -8,6 +8,6 @@ export interface Order {
   trainingId: string;
   trainingPrice: number;
   quantity: number;
-  totalSum:number;
+  totalSum: number;
   paymentType: string;
 }
