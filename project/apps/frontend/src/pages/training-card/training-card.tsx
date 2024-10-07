@@ -13,6 +13,7 @@ import {
 import Popup from '../../components/ui/popup/popup';
 import { useState } from 'react';
 import ReviewForm from '../../components/forms/review-form/review-form';
+import { BuyForm } from '../../components/forms/buy-form/buy-form';
 
 const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,7 +33,10 @@ const TrainingCardPage = () => {
     .replace(' мин', 'минут');
 
   const [showReviewModal, setShowReviewModal] = useState(false);
-
+  const [showBuyModal, setShowBuyModal] = useState(false);
+  const onButtonBuyClick = () => {
+    setShowBuyModal(!showBuyModal);
+  };
   if (isLoading) return <LoaderPage />;
 
   return (
@@ -209,6 +213,21 @@ const TrainingCardPage = () => {
                       </label>
                       <div className="training-info__error">Введите число</div>
                     </div>
+                    <button
+                      onClick={onButtonBuyClick}
+                      className="btn training-info__buy"
+                      type="button"
+                    >
+                      Купить
+                    </button>
+                    <Popup
+                      isOpen={showBuyModal}
+                      title="Купить тренировку"
+                      showCloseButton
+                      onClose={() => setShowBuyModal(false)}
+                    >
+                      <BuyForm />
+                    </Popup>
                   </div>
                 </div>
               </form>
