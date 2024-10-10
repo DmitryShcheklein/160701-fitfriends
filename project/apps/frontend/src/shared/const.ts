@@ -2,7 +2,7 @@ const AppRoute = {
   Intro: '/intro',
   Index: '/',
   Login: '/login',
-  Register: '/regiser',
+  Register: '/register',
   Profile: '/profile',
   Friends: '/friends',
   Questionnaire: '/questionnaire',

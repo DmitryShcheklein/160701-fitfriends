@@ -50,8 +50,9 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
   };
   const ratings = Array.from(
     { length: CommentValidator.Rating.Max },
-    (_, idx) => `${(idx += 1)}`
+    (_, idx) => (idx += 1)
   );
+
   return (
     <form
       onSubmit={handleSubmitForm}

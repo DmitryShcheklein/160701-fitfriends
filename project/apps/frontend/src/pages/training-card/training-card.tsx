@@ -226,7 +226,10 @@ const TrainingCardPage = () => {
                       showCloseButton
                       onClose={() => setShowBuyModal(false)}
                     >
-                      <BuyForm />
+                      <BuyForm
+                        training={training}
+                        onSuccess={() => setShowBuyModal(false)}
+                      />
                     </Popup>
                   </div>
                 </div>
