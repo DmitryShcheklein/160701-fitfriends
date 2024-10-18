@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { NameSpace } from '../name-space.enum';
 import { baseQueryWithReauth } from '../../services/api';
-import { CommentRdo, OrderRdo } from '@project/rdo';
+import { OrderRdo } from '@project/rdo';
 import { CreateOrderDto } from '@project/dto';
 
 export const ordersApi = createApi({
@@ -24,7 +24,7 @@ export const ordersApi = createApi({
       }),
       invalidatesTags: [NameSpace.OrdersApi],
     }),
-    getOrders: builder.query<CommentRdo[], void>({
+    getOrders: builder.query<OrderRdo[], void>({
       query: () => ({
         url: ``,
         method: 'GET',

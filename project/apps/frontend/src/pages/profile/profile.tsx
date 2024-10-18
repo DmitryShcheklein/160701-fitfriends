@@ -5,7 +5,7 @@ import { PageTitles } from '../../shared/const';
 import { useUserQuery } from '../../store/user-process/user-api';
 import { LoaderPage } from '../../components/loaders/loader-page/loader-page';
 
-const ProfilePage: React.FC = () => {
+const ProfilePage = () => {
   const { isLoading } = useUserQuery();
 
   return (
