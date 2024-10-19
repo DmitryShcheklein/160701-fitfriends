@@ -130,7 +130,7 @@ const PersonalAccountUser = () => {
             </div>
           </div>
           <Link
-            to={AppRoute.Orders}
+            to={AppRoute.Purchases}
             className="thumbnail-link thumbnail-link--theme-light"
           >
             <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">

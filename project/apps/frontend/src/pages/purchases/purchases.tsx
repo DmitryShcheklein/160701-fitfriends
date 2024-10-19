@@ -3,20 +3,20 @@ import { PageTitles } from '../../shared/const';
 import React from 'react';
 import { LoaderPage } from '../../components/loaders/loader-page/loader-page';
 import { useGetOrdersQuery } from '../../store/orders-process/orders-api';
-import { Orders } from '../../components/orders/orders';
+import { Purchases } from '../../components/purchases/purchases';
 
-const OrdersPage = () => {
+const PurchasesPage = () => {
   const { data, isLoading } = useGetOrdersQuery();
   console.log(data);
 
   return (
     <>
       <Helmet>
-        <title>{PageTitles.Orders}</title>
+        <title>{PageTitles.Purchases}</title>
       </Helmet>
-      {isLoading ? <LoaderPage /> : <Orders />}
+      {isLoading ? <LoaderPage /> : <Purchases />}
     </>
   );
 };
 
-export default OrdersPage;
+export default PurchasesPage;

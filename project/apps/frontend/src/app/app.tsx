@@ -21,7 +21,7 @@ import { AppRoute } from '../shared/const';
 import QuestionnairePage from '../pages/questionnaire/questionnaire';
 import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
-import OrdersPage from '../pages/orders/orders';
+import PurchasesPage from '../pages/purchases/purchases';
 
 export function App() {
   const dispatch = useAppDispatch();
@@ -62,7 +62,10 @@ export function App() {
           path={AppRoute.Profile}
           element={PrivateRoute(<ProfilePage />)}
         />
-        <Route path={AppRoute.Orders} element={PrivateRoute(<OrdersPage />)} />
+        <Route
+          path={AppRoute.Purchases}
+          element={PrivateRoute(<PurchasesPage />)}
+        />
         <Route
           path={AppRoute.Catalog}
           element={PrivateRoute(<CatalogPage />)}
