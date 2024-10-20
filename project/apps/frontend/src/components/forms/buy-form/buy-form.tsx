@@ -22,7 +22,7 @@ interface BuyFormProps {
 export const BuyForm = ({ training, onSuccess }: BuyFormProps) => {
   const [formData, setFormData] = useState<TState>({
     quantity: 1,
-    paymentType: PaymentVariant.Visa,
+    paymentType: undefined,
   });
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -175,7 +175,11 @@ export const BuyForm = ({ training, onSuccess }: BuyFormProps) => {
           </p>
         </div>
         <div className="popup__button">
-          <button className="btn" type="submit" disabled={isLoading}>
+          <button
+            className="btn"
+            type="submit"
+            disabled={isLoading || !formData.quantity || !formData.paymentType}
+          >
             Купить
           </button>
         </div>
