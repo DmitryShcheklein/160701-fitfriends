@@ -7,9 +7,11 @@ import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { UserModule } from '@project/user-module';
 import { TrainingModule } from '@project/trainings-module';
+import { BalanceModule } from '@project/balance-module';
 
 @Module({
   imports: [
+    BalanceModule,
     TrainingModule,
     UserModule,
     MongooseModule.forFeature([

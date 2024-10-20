@@ -18,4 +18,20 @@ export class CreateBalanceDto {
   })
   @IsNumber()
   quantity: number;
+
+  @ApiProperty({
+    required: true,
+    description: 'User id',
+    example: '66b1236d1cbda17bfc97b45e',
+  })
+  @IsMongoId()
+  userId: string;
+
+  @ApiProperty({
+    required: true,
+    description: 'Order id',
+    example: '66b1236d1cbda17bfc97b45e',
+  })
+  @IsMongoId()
+  orderId: string;
 }

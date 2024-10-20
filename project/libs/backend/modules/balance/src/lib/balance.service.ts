@@ -1,5 +1,4 @@
 import { BalanceRepository } from './balance.repository';
-import { TrainingService } from '@project/trainings-module';
 import { Injectable } from '@nestjs/common';
 import { BalanceFactory } from './balance.factory';
 import { CreateBalanceDto } from '@project/dto';
@@ -8,28 +7,16 @@ import { CreateBalanceDto } from '@project/dto';
 export class BalanceService {
   constructor(
     private readonly balanceFactory: BalanceFactory,
-    private readonly balanceRepository: BalanceRepository,
-    private readonly trainingService: TrainingService
+    private readonly balanceRepository: BalanceRepository
   ) {}
 
-  public async create({
-    dto,
-    userId,
-    orderId,
-  }: {
-    dto: CreateBalanceDto;
-    userId: string;
-    orderId: string;
-  }) {
-    const training = (
-      await this.trainingService.findById(dto.trainingId)
-    ).toPOJO();
-
+  public async create(dto: CreateBalanceDto) {
+    const { userId, orderId, trainingId } = dto;
     const balanceEntity = this.balanceFactory.create({
       userId,
       orderId,
+      trainingId,
       isActive: true,
-      trainingId: training.id,
       availableTrainings: Array.from({ length: dto.quantity }, () => ({
         isFinished: false,
         isStarted: false,

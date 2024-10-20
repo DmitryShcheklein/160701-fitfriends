@@ -4,7 +4,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
 import { UserModel } from '@project/user-module';
-import { OrdersModel } from '@project/orders-module';
 
 @Schema({
   collection: 'balance',
@@ -36,7 +35,6 @@ export class BalanceModel extends Document implements Balance {
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: OrdersModel.name,
     required: true,
   })
   public orderId: string;

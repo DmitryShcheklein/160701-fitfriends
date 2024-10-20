@@ -4,13 +4,15 @@ import { OrdersFactory } from './orders.factory';
 import { CreateOrderDto } from '@project/dto';
 import { Order } from '@project/core';
 import { TrainingService } from '@project/trainings-module';
+import { BalanceService } from '@project/balance-module';
 
 @Injectable()
 export class OrdersService {
   constructor(
     private readonly ordersRepository: OrdersRepository,
     private readonly ordersFactory: OrdersFactory,
-    private readonly trainingService: TrainingService
+    private readonly trainingService: TrainingService,
+    private readonly balanceService: BalanceService
   ) {}
 
   public async create(dto: CreateOrderDto, userId: string) {
@@ -18,16 +20,25 @@ export class OrdersService {
       await this.trainingService.findById(dto.trainingId)
     ).toPOJO();
 
-    const newOrder: Order = {
+    const newOrderEntity = this.ordersFactory.create({
       ...dto,
       userId,
       type: 'абонемент',
       trainingPrice: training.price,
       totalSum: dto.quantity * training.price,
-    };
-    const newOrderEntity = this.ordersFactory.create(newOrder);
+    });
 
-    return this.ordersRepository.save(newOrderEntity);
+    const newOrder = await this.ordersRepository.save(newOrderEntity);
+    const orderId = newOrder.toPOJO().id;
+
+    await this.balanceService.create({
+      userId,
+      orderId,
+      trainingId: training.id,
+      quantity: dto.quantity,
+    });
+
+    return newOrder;
   }
 
   public async findByUserId(userId: string) {
