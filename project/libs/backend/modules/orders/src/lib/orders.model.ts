@@ -6,6 +6,7 @@ import { fakerRU } from '@faker-js/faker';
 import { UserModel } from '@project/user-module';
 import { OrderValidator } from '@project/validation';
 import { PaymentVariant } from '@project/enums';
+import { TrainingModel } from '@project/trainings-module';
 
 @Schema({
   collection: 'orders',
@@ -25,6 +26,7 @@ export class OrdersModel extends Document implements Order {
   @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.trainingIds))
   @Prop({
     type: MongooseSchema.Types.ObjectId,
+    ref: TrainingModel.name,
     required: true,
   })
   public trainingId: string;

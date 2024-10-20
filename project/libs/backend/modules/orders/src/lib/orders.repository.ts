@@ -19,7 +19,10 @@ export class OrdersRepository extends BaseMongoRepository<
   }
 
   public async findByUserId(userId: string): Promise<OrdersEntity[]> {
-    const document = await this.model.find({ userId }).exec();
+    const document = await this.model
+      .find({ userId })
+      .populate('trainingId')
+      .exec();
 
     return document.map((document) => this.createEntityFromDocument(document));
   }

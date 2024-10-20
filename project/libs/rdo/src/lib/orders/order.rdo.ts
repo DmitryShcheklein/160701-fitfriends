@@ -1,10 +1,11 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { Order } from '@project/core';
 import { PaymentVariant } from '@project/enums';
 import { OrderValidator, TrainingValidation } from '@project/validation';
+import { TrainingRdo } from '../training/training.rdo';
 
-export class OrderRdo implements Order {
+export class OrderRdo implements Omit<Order, 'trainingId'> {
   @Expose()
   @ApiProperty({
     description: 'Уникальный идентификатор тренировки',
@@ -52,12 +53,12 @@ export class OrderRdo implements Order {
   })
   public trainingPrice!: number;
 
-  @Expose()
+  @Expose({ name: 'trainingId' })
   @ApiProperty({
-    type: String,
-    description: 'Id тренировки',
+    type: TrainingRdo,
+    description: 'Тренировка',
   })
-  public trainingId!: string;
+  public training!: TrainingRdo;
 
   @Expose()
   @ApiProperty({
