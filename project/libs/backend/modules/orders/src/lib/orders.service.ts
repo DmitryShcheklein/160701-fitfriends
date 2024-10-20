@@ -4,6 +4,8 @@ import { OrdersFactory } from './orders.factory';
 import { CreateOrderDto } from '@project/dto';
 import { TrainingService } from '@project/trainings-module';
 import { BalanceService } from '@project/balance-module';
+import { OrdersQuery } from '@project/core';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class OrdersService {
@@ -40,7 +42,23 @@ export class OrdersService {
     return newOrder;
   }
 
-  public async findByUserId(userId: string) {
-    return this.ordersRepository.findByUserId(userId);
+  public async findByUserId(userId: string, query: OrdersQuery) {
+    const activeTrainingsIds = [];
+    if (query.isActive) {
+      const activeBalances =
+        await this.balanceService.findActiveBalancesByUserId(userId);
+
+      activeBalances.forEach((balance) => {
+        const { trainingId } = balance.toPOJO();
+
+        activeTrainingsIds.push(trainingId);
+      });
+    }
+
+    return this.ordersRepository.findByUserId(
+      userId,
+      query,
+      activeTrainingsIds
+    );
   }
 }

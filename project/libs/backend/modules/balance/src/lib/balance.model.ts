@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
 import { UserModel } from '@project/user-module';
+import { Injectable } from '@nestjs/common';
 
 @Schema({
   collection: 'balance',

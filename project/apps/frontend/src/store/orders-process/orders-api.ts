@@ -3,6 +3,8 @@ import { NameSpace } from '../name-space.enum';
 import { baseQueryWithReauth } from '../../services/api';
 import { OrderRdo } from '@project/rdo';
 import { CreateOrderDto } from '@project/dto';
+import { OrdersWithPaginationRdo } from '@project/rdo';
+import { OrdersQuery } from '@project/core';
 
 export const ordersApi = createApi({
   reducerPath: NameSpace.OrdersApi,
@@ -24,10 +26,11 @@ export const ordersApi = createApi({
       }),
       invalidatesTags: [NameSpace.OrdersApi],
     }),
-    getOrders: builder.query<OrderRdo[], void>({
-      query: () => ({
+    getOrders: builder.query<OrdersWithPaginationRdo, OrdersQuery>({
+      query: (params) => ({
         url: ``,
         method: 'GET',
+        params,
       }),
       providesTags: [NameSpace.OrdersApi],
     }),

@@ -58,7 +58,7 @@ export class OrderRdo implements Omit<Order, 'trainingId'> {
     type: TrainingRdo,
     description: 'Тренировка',
   })
-  public training!: TrainingRdo;
+  public trainingId!: TrainingRdo; // TODO: не трасформируется при пагинации, должно быть training
 
   @Expose()
   @ApiProperty({

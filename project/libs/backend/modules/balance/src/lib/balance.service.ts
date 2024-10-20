@@ -17,7 +17,7 @@ export class BalanceService {
       orderId,
       trainingId,
       isActive: true,
-      availableTrainings: Array.from({ length: dto.quantity }, () => ({
+      availableTrainings: Array.from(Array(dto.quantity), () => ({
         isFinished: false,
         isStarted: false,
         dateStart: null,
@@ -26,5 +26,9 @@ export class BalanceService {
     });
 
     return this.balanceRepository.save(balanceEntity);
+  }
+
+  public async findActiveBalancesByUserId(userId: string) {
+    return this.balanceRepository.findActiveBalancesByUserId(userId);
   }
 }

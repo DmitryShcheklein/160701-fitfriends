@@ -17,4 +17,10 @@ export class BalanceRepository extends BaseMongoRepository<
   ) {
     super(entityFactory, BalanceModel);
   }
+
+  public async findActiveBalancesByUserId(userId: string) {
+    const documents = await this.model.find({ userId, isActive: true });
+
+    return documents.map((el) => this.createEntityFromDocument(el));
+  }
 }

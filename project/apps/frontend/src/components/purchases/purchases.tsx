@@ -1,14 +1,23 @@
 import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
-import { OrderRdo } from '@project/rdo';
 import { priceFormatter } from '../../shared/helpers/priceFormatter';
 import { specializationOptions } from '../forms/user-info/user-info.data';
+import { useGetOrdersQuery } from '../../store/orders-process/orders-api';
+import { LoaderPage } from '../loaders/loader-page/loader-page';
+import { useState } from 'react';
 
-interface PurchasesProps {
-  data?: OrderRdo[];
-}
+export const Purchases = () => {
+  const [onlyActive, setOnlyActive] = useState(false);
+  const { data, isLoading } = useGetOrdersQuery({
+    isActive: onlyActive,
+  });
 
-export const Purchases = ({ data }: PurchasesProps) => {
+  const orders = data?.entities;
+
+  if (isLoading) {
+    return <LoaderPage />;
+  }
+
   return (
     <section className="my-purchases">
       <div className="my-purchases__wrapper">
@@ -28,6 +37,7 @@ export const Purchases = ({ data }: PurchasesProps) => {
             >
               <label>
                 <input
+                  onChange={() => setOnlyActive(!onlyActive)}
                   type="checkbox"
                   value="user-agreement-1"
                   name="user-agreement"
@@ -43,7 +53,7 @@ export const Purchases = ({ data }: PurchasesProps) => {
           </div>
         </div>
         <ul className="my-purchases__list">
-          {data?.map(({ id, trainingPrice, training }) => {
+          {orders?.map(({ id, trainingPrice, trainingId }) => {
             return (
               <li className="my-purchases__item" key={id}>
                 <div className="thumbnail-training">
@@ -51,10 +61,10 @@ export const Purchases = ({ data }: PurchasesProps) => {
                     <div className="thumbnail-training__image">
                       <picture>
                         <img
-                          src={training.backgroundImage}
+                          src={trainingId?.backgroundImage}
                           width="330"
                           height="190"
-                          alt={training.name}
+                          alt={trainingId.name}
                         />
                       </picture>
                     </div>
@@ -65,7 +75,7 @@ export const Purchases = ({ data }: PurchasesProps) => {
                       <span>₽</span>
                     </p>
                     <h2 className="thumbnail-training__title">
-                      {training.name}
+                      {trainingId?.name}
                     </h2>
                     <div className="thumbnail-training__info">
                       <ul className="thumbnail-training__hashtags-list">
@@ -75,7 +85,8 @@ export const Purchases = ({ data }: PurchasesProps) => {
                               #
                               {specializationOptions
                                 .find(
-                                  (item) => item.value === training.trainingType
+                                  (item) =>
+                                    item.value === trainingId?.trainingType
                                 )
                                 ?.label.toLowerCase()}
                             </span>
@@ -83,7 +94,7 @@ export const Purchases = ({ data }: PurchasesProps) => {
                         </li>
                         <li className="thumbnail-training__hashtags-item">
                           <div className="hashtag thumbnail-training__hashtag">
-                            <span>#{training.calories}ккал</span>
+                            <span>#{trainingId?.calories}ккал</span>
                           </div>
                         </li>
                       </ul>
@@ -92,18 +103,18 @@ export const Purchases = ({ data }: PurchasesProps) => {
                           <use xlinkHref="#icon-star"></use>
                         </svg>
                         <span className="thumbnail-training__rate-value">
-                          {training.rating}
+                          {trainingId?.rating}
                         </span>
                       </div>
                     </div>
                     <div className="thumbnail-training__text-wrapper">
                       <p className="thumbnail-training__text">
-                        {training.description}
+                        {trainingId?.description}
                       </p>
                     </div>
                     <div className="thumbnail-training__button-wrapper">
                       <Link
-                        to={`${AppRoute.TrainingCardPage}/${training.id}`}
+                        to={`${AppRoute.TrainingCardPage}/${trainingId?.id}`}
                         className="btn btn--small thumbnail-training__button-catalog"
                       >
                         Подробнее

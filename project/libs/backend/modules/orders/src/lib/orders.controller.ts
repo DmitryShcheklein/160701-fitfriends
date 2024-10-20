@@ -5,13 +5,26 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Body, Controller, Post, Get, Req, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Req,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
+import {
+  JwtAuthGuard,
+  RequestWithTokenPayload,
+  OrdersQuery,
+} from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { CreateOrderDto } from '@project/dto';
 import { OrdersService } from './orders.service';
 import { fillDto } from '@project/backend-helpers';
 import { OrderRdo } from '@project/rdo';
+import { OrdersWithPaginationRdo } from '../../../../../rdo/src/lib/orders/orders-with-pagination.rdo';
 
 @ApiTags('orders')
 @Controller('orders')
@@ -49,14 +62,22 @@ export class OrdersController {
     description: 'Get user orders',
   })
   @Get()
-  public async findAllByUserId(@Req() { user }: RequestWithTokenPayload) {
+  public async findAllByUserId(
+    @Req() { user }: RequestWithTokenPayload,
+    @Query() query: OrdersQuery
+  ) {
     const userId = user.sub;
-
-    const orders = await this.ordersService.findByUserId(userId);
-
-    return fillDto(
-      OrderRdo,
-      orders.map((order) => order.toPOJO())
+    const ordersWithPagination = await this.ordersService.findByUserId(
+      userId,
+      query
     );
+    const result = {
+      ...ordersWithPagination,
+      entities: ordersWithPagination.entities.map((training) =>
+        training.toPOJO()
+      ),
+    };
+
+    return fillDto(OrdersWithPaginationRdo, result);
   }
 }
