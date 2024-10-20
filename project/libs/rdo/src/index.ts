@@ -11,3 +11,4 @@ export { TrainingsWithPaginationRdo } from './lib/training/trainings-with-pagina
 export { CommentRdo } from './lib/comment/comment.rdo';
 
 export { OrderRdo } from './lib/orders/order.rdo';
+export { OrdersWithPaginationRdo } from './lib/orders/orders-with-pagination.rdo';

@@ -1,5 +1,2 @@
-export {
-  DEFAULT_PAGE_COUNT,
-  DefaultTrainings,
-  DefaultSort,
-} from './training.const';
+export * from './main.const';
+export * from './training.const';
