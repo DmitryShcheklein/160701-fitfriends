@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { OrdersRepository } from './orders.repository';
 import { OrdersFactory } from './orders.factory';
 import { CreateOrderDto } from '@project/dto';
-import { Order } from '@project/core';
 import { TrainingService } from '@project/trainings-module';
 import { BalanceService } from '@project/balance-module';
 
