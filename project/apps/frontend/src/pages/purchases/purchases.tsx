@@ -7,14 +7,13 @@ import { Purchases } from '../../components/purchases/purchases';
 
 const PurchasesPage = () => {
   const { data, isLoading } = useGetOrdersQuery();
-  console.log(data);
 
   return (
     <>
       <Helmet>
         <title>{PageTitles.Purchases}</title>
       </Helmet>
-      {isLoading ? <LoaderPage /> : <Purchases />}
+      {isLoading ? <LoaderPage /> : <Purchases data={data} />}
     </>
   );
 };
