@@ -23,8 +23,7 @@ import { AuthKeyName } from '@project/config';
 import { CreateOrderDto } from '@project/dto';
 import { OrdersService } from './orders.service';
 import { fillDto } from '@project/backend-helpers';
-import { OrderRdo } from '@project/rdo';
-import { OrdersWithPaginationRdo } from '../../../../../rdo/src/lib/orders/orders-with-pagination.rdo';
+import { OrderRdo, OrdersWithPaginationRdo } from '@project/rdo';
 
 @ApiTags('orders')
 @Controller('orders')
