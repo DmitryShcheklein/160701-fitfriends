@@ -31,4 +31,8 @@ export class BalanceService {
   public async findActiveBalancesByUserId(userId: string) {
     return this.balanceRepository.findActiveBalancesByUserId(userId);
   }
+
+  public async getByTrainingIdandUserId(userId: string, trainingId: string) {
+    return this.balanceRepository.findByTrainingIdAndUserId(userId, trainingId);
+  }
 }

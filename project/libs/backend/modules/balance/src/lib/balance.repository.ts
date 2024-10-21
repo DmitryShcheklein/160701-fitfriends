@@ -23,4 +23,10 @@ export class BalanceRepository extends BaseMongoRepository<
 
     return documents.map((el) => this.createEntityFromDocument(el));
   }
+
+  public async findByTrainingIdAndUserId(userId: string, trainingId: string) {
+    const documents = await this.model.find({ userId, trainingId });
+
+    return documents.map((el) => this.createEntityFromDocument(el));
+  }
 }
