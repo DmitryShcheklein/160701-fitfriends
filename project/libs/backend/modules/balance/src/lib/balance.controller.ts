@@ -38,6 +38,9 @@ export class BalanceController {
       trainingId
     );
 
-    return fillDto(BalanceRdo, trainings);
+    return fillDto(
+      BalanceRdo,
+      trainings.map((el) => el.toPOJO())
+    );
   }
 }

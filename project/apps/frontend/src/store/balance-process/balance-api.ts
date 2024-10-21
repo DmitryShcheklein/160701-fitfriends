@@ -5,7 +5,7 @@ import { BalanceRdo } from '@project/rdo';
 
 export const balanceApi = createApi({
   reducerPath: NameSpace.BalanceApi,
-  baseQuery: baseQueryWithReauth({ baseUrl: '' }),
+  baseQuery: baseQueryWithReauth({ baseUrl: 'balance' }),
   tagTypes: [NameSpace.BalanceApi],
   endpoints: (builder) => ({
     getByTrainingId: builder.query<BalanceRdo[], string>({
@@ -13,6 +13,7 @@ export const balanceApi = createApi({
         url: trainingId,
         method: 'GET',
       }),
+      providesTags: [NameSpace.BalanceApi],
     }),
   }),
 });

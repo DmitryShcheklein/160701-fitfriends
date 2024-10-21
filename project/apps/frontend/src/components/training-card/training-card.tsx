@@ -7,6 +7,7 @@ import {
   workoutDurationOptions,
 } from '../forms/user-info/user-info.data';
 import { useState } from 'react';
+import { useGetByTrainingIdQuery } from '../../store/balance-process/balance-api';
 
 interface TrainingCardProps {
   trainingId: string;
@@ -14,6 +15,10 @@ interface TrainingCardProps {
 
 export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
   const { data: training } = useGetTrainingByIdQuery(trainingId);
+  const { data: balances } = useGetByTrainingIdQuery(trainingId);
+  const isActive = balances?.some((item) => item.isActive);
+  const canBuy = balances?.every((item) => !item.isActive);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const trainingType = specializationOptions
     .find((el) => el.value === training?.trainingType)
@@ -131,6 +136,7 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
                   onClick={onButtonBuyClick}
                   className="btn training-info__buy"
                   type="button"
+                  disabled={!canBuy || isDisabled}
                 >
                   Купить
                 </button>
@@ -142,7 +148,10 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
                 >
                   <BuyForm
                     training={training}
-                    onSuccess={() => setShowBuyModal(false)}
+                    onSuccess={() => {
+                      setShowBuyModal(false);
+                      setIsDisabled(true);
+                    }}
                   />
                 </Popup>
               </div>
@@ -154,7 +163,7 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
         <h2 className="training-video__title">Видео</h2>
         <div className="training-video__video">
           <div className="training-video__thumbnail">
-            <video src={training?.video} controls loop></video>
+            <video src={training?.video} controls={false} loop></video>
           </div>
           <button
             className="training-video__play-button btn-reset"
@@ -169,7 +178,8 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
           <button
             className="btn training-video__button training-video__button--start"
             type="button"
-            disabled
+            disabled={!isActive}
+            onClick={() => alert('Не реализован')}
           >
             Приступить
           </button>

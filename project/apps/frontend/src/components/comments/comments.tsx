@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Popup from '../ui/popup/popup';
 import ReviewForm from '../forms/review-form/review-form';
 import { useGetCommentsByTrainingIdQuery } from '../../store/comments-process/comments-api';
+import { useGetByTrainingIdQuery } from '../../store/balance-process/balance-api';
 
 interface CommentsProps {
   trainingId: string;
@@ -10,6 +11,10 @@ interface CommentsProps {
 export const Comments = ({ trainingId }: CommentsProps) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const { data: comments } = useGetCommentsByTrainingIdQuery(trainingId);
+  const { data: balances } = useGetByTrainingIdQuery(trainingId);
+  const isFinished = balances?.some((el) =>
+    el.availableTrainings.some((el) => el.isFinished)
+  );
 
   return (
     <>
@@ -52,14 +57,15 @@ export const Comments = ({ trainingId }: CommentsProps) => {
           </ul>
         </>
       ) : null}
-
-      <button
-        className="btn btn--medium reviews-side-bar__button"
-        type="button"
-        onClick={() => setShowReviewModal(true)}
-      >
-        Оставить отзыв
-      </button>
+      {balances?.length && isFinished ? (
+        <button
+          className="btn btn--medium reviews-side-bar__button"
+          type="button"
+          onClick={() => setShowReviewModal(true)}
+        >
+          Оставить отзыв
+        </button>
+      ) : null}
       <Popup
         isOpen={showReviewModal}
         title="Оставить отзыв"
