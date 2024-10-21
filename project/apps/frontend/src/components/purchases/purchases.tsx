@@ -51,131 +51,138 @@ export const Purchases = () => {
           </svg>
           <span>Назад</span>
         </Link>
-
         <div className="my-purchases__title-wrapper">
           <h1 className="my-purchases__title">Мои покупки</h1>
-          <div className="my-purchases__controls">
-            <div
-              className="custom-toggle custom-toggle--switch custom-toggle--switch-right my-purchases__switch"
-              data-validate-type="checkbox"
-            >
-              <label>
-                <input
-                  onChange={() => {
-                    setCurrentPage(1);
-                    setItems([]);
-                    setFilter({
-                      isActive: !filter.isActive,
-                    });
-                  }}
-                  type="checkbox"
-                  value="user-agreement-1"
-                  name="user-agreement"
-                />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">Только активные</span>
-              </label>
+
+          {items.length ? (
+            <div className="my-purchases__controls">
+              <div
+                className="custom-toggle custom-toggle--switch custom-toggle--switch-right my-purchases__switch"
+                data-validate-type="checkbox"
+              >
+                <label>
+                  <input
+                    onChange={() => {
+                      setCurrentPage(1);
+                      setItems([]);
+                      setFilter({
+                        isActive: !filter.isActive,
+                      });
+                    }}
+                    type="checkbox"
+                    value="user-agreement-1"
+                    name="user-agreement"
+                  />
+                  <span className="custom-toggle__icon">
+                    <svg width="9" height="6" aria-hidden="true">
+                      <use xlinkHref="#arrow-check"></use>
+                    </svg>
+                  </span>
+                  <span className="custom-toggle__label">Только активные</span>
+                </label>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
-        <ul className="my-purchases__list">
-          {items?.map(({ id, trainingPrice, trainingId }) => {
-            return (
-              <li className="my-purchases__item" key={id} data-id={id}>
-                <div className="thumbnail-training">
-                  <div className="thumbnail-training__inner">
-                    <div className="thumbnail-training__image">
-                      <picture>
-                        <img
-                          src={trainingId?.backgroundImage}
-                          width="330"
-                          height="190"
-                          alt={trainingId.name}
-                        />
-                      </picture>
-                    </div>
-                    <p className="thumbnail-training__price">
-                      <span className="thumbnail-training__price-value">
-                        {priceFormatter(trainingPrice)}
-                      </span>
-                      <span>₽</span>
-                    </p>
-                    <h2 className="thumbnail-training__title">
-                      {trainingId?.name}
-                    </h2>
-                    <div className="thumbnail-training__info">
-                      <ul className="thumbnail-training__hashtags-list">
-                        <li className="thumbnail-training__hashtags-item">
-                          <div className="hashtag thumbnail-training__hashtag">
-                            <span>
-                              #
-                              {specializationOptions
-                                .find(
-                                  (item) =>
-                                    item.value === trainingId?.trainingType
-                                )
-                                ?.label.toLowerCase()}
+        {!items.length ? <h3 className="">Список покупок пуст</h3> : null}
+        {items.length ? (
+          <>
+            <ul className="my-purchases__list">
+              {items?.map(({ id, trainingPrice, trainingId }) => {
+                return (
+                  <li className="my-purchases__item" key={id} data-id={id}>
+                    <div className="thumbnail-training">
+                      <div className="thumbnail-training__inner">
+                        <div className="thumbnail-training__image">
+                          <picture>
+                            <img
+                              src={trainingId?.backgroundImage}
+                              width="330"
+                              height="190"
+                              alt={trainingId?.name}
+                            />
+                          </picture>
+                        </div>
+                        <p className="thumbnail-training__price">
+                          <span className="thumbnail-training__price-value">
+                            {priceFormatter(trainingPrice)}
+                          </span>
+                          <span>₽</span>
+                        </p>
+                        <h2 className="thumbnail-training__title">
+                          {trainingId?.name}
+                        </h2>
+                        <div className="thumbnail-training__info">
+                          <ul className="thumbnail-training__hashtags-list">
+                            <li className="thumbnail-training__hashtags-item">
+                              <div className="hashtag thumbnail-training__hashtag">
+                                <span>
+                                  #
+                                  {specializationOptions
+                                    .find(
+                                      (item) =>
+                                        item.value === trainingId?.trainingType
+                                    )
+                                    ?.label.toLowerCase()}
+                                </span>
+                              </div>
+                            </li>
+                            <li className="thumbnail-training__hashtags-item">
+                              <div className="hashtag thumbnail-training__hashtag">
+                                <span>#{trainingId?.calories}ккал</span>
+                              </div>
+                            </li>
+                          </ul>
+                          <div className="thumbnail-training__rate">
+                            <svg width="16" height="16" aria-hidden="true">
+                              <use xlinkHref="#icon-star"></use>
+                            </svg>
+                            <span className="thumbnail-training__rate-value">
+                              {trainingId?.rating}
                             </span>
                           </div>
-                        </li>
-                        <li className="thumbnail-training__hashtags-item">
-                          <div className="hashtag thumbnail-training__hashtag">
-                            <span>#{trainingId?.calories}ккал</span>
-                          </div>
-                        </li>
-                      </ul>
-                      <div className="thumbnail-training__rate">
-                        <svg width="16" height="16" aria-hidden="true">
-                          <use xlinkHref="#icon-star"></use>
-                        </svg>
-                        <span className="thumbnail-training__rate-value">
-                          {trainingId?.rating}
-                        </span>
+                        </div>
+                        <div className="thumbnail-training__text-wrapper">
+                          <p className="thumbnail-training__text">
+                            {trainingId?.description}
+                          </p>
+                        </div>
+                        <div className="thumbnail-training__button-wrapper">
+                          <Link
+                            to={`${AppRoute.TrainingCardPage}/${trainingId?.id}`}
+                            className="btn btn--small thumbnail-training__button-catalog"
+                          >
+                            Подробнее
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                    <div className="thumbnail-training__text-wrapper">
-                      <p className="thumbnail-training__text">
-                        {trainingId?.description}
-                      </p>
-                    </div>
-                    <div className="thumbnail-training__button-wrapper">
-                      <Link
-                        to={`${AppRoute.TrainingCardPage}/${trainingId?.id}`}
-                        className="btn btn--small thumbnail-training__button-catalog"
-                      >
-                        Подробнее
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        {data?.totalPages !== 1 ? (
-          <div className="show-more my-purchases__show-more">
-            {currentPage < Number(data?.totalPages) ? (
-              <button
-                className="btn show-more__button show-more__button--more"
-                type="button"
-                onClick={handleShowMore}
-              >
-                Показать еще
-              </button>
-            ) : (
-              <button
-                className="btn show-more__button show-more__button--to-top"
-                type="button"
-                onClick={handleToTop}
-              >
-                Вернуться в начало
-              </button>
-            )}
-          </div>
+                  </li>
+                );
+              })}
+            </ul>
+            {data?.totalPages !== 1 ? (
+              <div className="show-more my-purchases__show-more">
+                {currentPage < Number(data?.totalPages) ? (
+                  <button
+                    className="btn show-more__button show-more__button--more"
+                    type="button"
+                    onClick={handleShowMore}
+                  >
+                    Показать еще
+                  </button>
+                ) : (
+                  <button
+                    className="btn show-more__button show-more__button--to-top"
+                    type="button"
+                    onClick={handleToTop}
+                  >
+                    Вернуться в начало
+                  </button>
+                )}
+              </div>
+            ) : null}
+          </>
         ) : null}
       </div>
     </section>
