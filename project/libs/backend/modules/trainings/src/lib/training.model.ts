@@ -106,11 +106,11 @@ export class TrainingModel extends Document implements Training {
 
   @Factory((faker) =>
     faker.helpers.arrayElement([
-      'https://videos.pexels.com/video-files/2025457/2025457-hd_1280_720_30fps.mp4',
-      'https://videos.pexels.com/video-files/4065388/4065388-uhd_2560_1440_30fps.mp4',
-      'https://videos.pexels.com/video-files/3196218/3196218-uhd_2560_1440_25fps.mp4',
-      'https://videos.pexels.com/video-files/2790138/2790138-uhd_2560_1440_25fps.mp4',
-      'https://videos.pexels.com/video-files/4761711/4761711-uhd_2732_1440_25fps.mp4',
+      'https://assets.mixkit.co/videos/44442/44442-720.mp4',
+      'https://assets.mixkit.co/videos/49276/49276-720.mp4',
+      'https://assets.mixkit.co/videos/52092/52092-720.mp4',
+      'https://assets.mixkit.co/videos/44414/44414-720.mp4',
+      'https://assets.mixkit.co/videos/46688/46688-720.mp4',
     ])
   )
   @Prop({
