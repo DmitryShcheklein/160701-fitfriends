@@ -29,7 +29,7 @@ export class TrainingModel extends Document implements Training {
   @Factory(
     (faker, ctx) =>
       `${ctx.mockImagePath}trainings/${faker.helpers.arrayElement(
-        Array.from({ length: 4 }, (el, idx) => `training-${++idx}@2x.png`)
+        Array.from(Array(4), (_, idx) => `training-${++idx}@2x.png`)
       )}`
   )
   @Prop({
