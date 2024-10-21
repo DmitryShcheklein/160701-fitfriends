@@ -5,7 +5,6 @@ import { CreateOrderDto } from '@project/dto';
 import { TrainingService } from '@project/trainings-module';
 import { BalanceService } from '@project/balance-module';
 import { OrdersQuery } from '@project/core';
-import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class OrdersService {
