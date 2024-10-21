@@ -4,15 +4,39 @@ import { priceFormatter } from '../../shared/helpers/priceFormatter';
 import { specializationOptions } from '../forms/user-info/user-info.data';
 import { useGetOrdersQuery } from '../../store/orders-process/orders-api';
 import { LoaderPage } from '../loaders/loader-page/loader-page';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { OrdersQuery } from '@project/core';
+import { OrdersWithPaginationRdo } from '@project/rdo';
 
 export const Purchases = () => {
-  const [onlyActive, setOnlyActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState<OrdersQuery>({
+    isActive: false,
+  });
   const { data, isLoading } = useGetOrdersQuery({
-    isActive: onlyActive,
+    limit: 6,
+    page: currentPage,
+    ...filter,
   });
 
-  const orders = data?.entities;
+  const [items, setItems] = useState<OrdersWithPaginationRdo['entities']>([]);
+
+  useEffect(() => {
+    if (data?.entities) {
+      setItems((prev) => [...prev, ...data.entities]);
+    }
+  }, [data]);
+
+  const handleShowMore = () => {
+    if (currentPage < Number(data?.totalPages)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handleToTop = () => {
+    setCurrentPage(1);
+    setItems([]);
+  };
 
   if (isLoading) {
     return <LoaderPage />;
@@ -37,7 +61,13 @@ export const Purchases = () => {
             >
               <label>
                 <input
-                  onChange={() => setOnlyActive(!onlyActive)}
+                  onChange={() => {
+                    setCurrentPage(1);
+                    setItems([]);
+                    setFilter({
+                      isActive: !filter.isActive,
+                    });
+                  }}
                   type="checkbox"
                   value="user-agreement-1"
                   name="user-agreement"
@@ -53,9 +83,9 @@ export const Purchases = () => {
           </div>
         </div>
         <ul className="my-purchases__list">
-          {orders?.map(({ id, trainingPrice, trainingId }) => {
+          {items?.map(({ id, trainingPrice, trainingId }) => {
             return (
-              <li className="my-purchases__item" key={id}>
+              <li className="my-purchases__item" key={id} data-id={id}>
                 <div className="thumbnail-training">
                   <div className="thumbnail-training__inner">
                     <div className="thumbnail-training__image">
@@ -126,16 +156,27 @@ export const Purchases = () => {
             );
           })}
         </ul>
-        <div className="show-more my-purchases__show-more">
-          {/* className="btn show-more__button show-more__button--to-top" */}
-          <button
-            className="btn show-more__button show-more__button--more"
-            type="button"
-          >
-            Показать еще
-            {/*  Вернуться в начало*/}
-          </button>
-        </div>
+        {data?.totalPages !== 1 ? (
+          <div className="show-more my-purchases__show-more">
+            {currentPage < Number(data?.totalPages) ? (
+              <button
+                className="btn show-more__button show-more__button--more"
+                type="button"
+                onClick={handleShowMore}
+              >
+                Показать еще
+              </button>
+            ) : (
+              <button
+                className="btn show-more__button show-more__button--to-top"
+                type="button"
+                onClick={handleToTop}
+              >
+                Вернуться в начало
+              </button>
+            )}
+          </div>
+        ) : null}
       </div>
     </section>
   );

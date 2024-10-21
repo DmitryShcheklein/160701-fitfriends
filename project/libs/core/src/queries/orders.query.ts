@@ -12,5 +12,5 @@ export class OrdersQuery extends BaseQuery {
   @IsBoolean()
   @Transform(({ value }) => value === 'true')
   @IsOptional()
-  isActive: boolean;
+  isActive?: boolean;
 }
