@@ -1,5 +1,5 @@
 import { BalanceEntity } from './balance.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BaseMongoRepository } from '@project/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { BalanceModel } from './balance.model';
@@ -17,7 +17,11 @@ export class BalanceRepository extends BaseMongoRepository<
   ) {
     super(entityFactory, BalanceModel);
   }
+  public async saveMany(entities: BalanceEntity[]) {
+    const documents = await this.model.insertMany(entities);
 
+    // return documents.map((el) => this.createEntityFromDocument(el));
+  }
   public async findActiveBalancesByUserId(userId: string) {
     const documents = await this.model.find({ userId, isActive: true });
 
@@ -28,5 +32,21 @@ export class BalanceRepository extends BaseMongoRepository<
     const documents = await this.model.find({ userId, trainingId });
 
     return documents.map((el) => this.createEntityFromDocument(el));
+  }
+
+  public async startTraining(userId: string, trainingId: string) {
+    const document = await this.model.findOne({
+      userId,
+      trainingId,
+      dateEnd: null,
+    });
+
+    if (!document) {
+      throw new NotFoundException(`Not found active training 111`);
+    }
+    const entity = this.createEntityFromDocument(document);
+    const balance = entity.toPOJO();
+    console.log(balance);
+    // const balance.availableTrainings.find((training)=>!training.isStarted && !training.isFinished)
   }
 }

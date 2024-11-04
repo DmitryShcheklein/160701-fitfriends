@@ -11,21 +11,16 @@ export class BalanceService {
   ) {}
 
   public async create(dto: CreateBalanceDto) {
-    const { userId, orderId, trainingId } = dto;
-    const balanceEntity = this.balanceFactory.create({
-      userId,
-      orderId,
-      trainingId,
-      isActive: true,
-      availableTrainings: Array.from(Array(dto.quantity), () => ({
-        isFinished: false,
-        isStarted: false,
-        dateStart: null,
-        dateEnd: null,
-      })),
-    });
+    const { userId, orderId, trainingId, quantity } = dto;
 
-    return this.balanceRepository.save(balanceEntity);
+    const balanceEntities = Array.from(Array(quantity), () => {
+      return this.balanceFactory.create({
+        userId,
+        orderId,
+        trainingId,
+      });
+    });
+    return this.balanceRepository.saveMany(balanceEntities);
   }
 
   public async findActiveBalancesByUserId(userId: string) {
@@ -34,5 +29,9 @@ export class BalanceService {
 
   public async getByTrainingIdandUserId(userId: string, trainingId: string) {
     return this.balanceRepository.findByTrainingIdAndUserId(userId, trainingId);
+  }
+
+  public async startTraining(userId: string, trainingId: string) {
+    return this.balanceRepository.startTraining(userId, trainingId);
   }
 }

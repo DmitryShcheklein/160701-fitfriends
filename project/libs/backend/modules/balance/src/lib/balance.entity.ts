@@ -1,9 +1,4 @@
-import {
-  Balance,
-  StorableEntity,
-  Entity,
-  AvailableTraining,
-} from '@project/core';
+import { Balance, StorableEntity, Entity } from '@project/core';
 
 export class BalanceEntity extends Entity implements StorableEntity<Balance> {
   public createdAt?: Date;
@@ -13,8 +8,10 @@ export class BalanceEntity extends Entity implements StorableEntity<Balance> {
   public orderId: string;
   public trainingId: string;
   public isActive: boolean;
-
-  public availableTrainings: AvailableTraining[];
+  public dateStart?: Date;
+  public dateEnd?: Date;
+  public isStarted: boolean;
+  public isFinished: boolean;
 
   constructor(data: Balance) {
     super();
@@ -29,7 +26,10 @@ export class BalanceEntity extends Entity implements StorableEntity<Balance> {
     this.orderId = data.orderId;
     this.trainingId = data.trainingId;
     this.isActive = data.isActive;
-    this.availableTrainings = data.availableTrainings;
+    this.dateStart = data.dateStart;
+    this.dateEnd = data.dateEnd;
+    this.isFinished = data.isFinished;
+    this.isStarted = data.isStarted;
   }
 
   public toPOJO() {
@@ -41,7 +41,10 @@ export class BalanceEntity extends Entity implements StorableEntity<Balance> {
       orderId: this.orderId,
       trainingId: this.trainingId,
       isActive: this.isActive,
-      availableTrainings: this.availableTrainings,
+      dateStart: this.dateStart,
+      dateEnd: this.dateEnd,
+      isStarted: this.isStarted,
+      isFinished: this.isFinished,
     };
   }
 }

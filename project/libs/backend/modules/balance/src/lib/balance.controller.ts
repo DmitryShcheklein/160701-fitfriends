@@ -4,7 +4,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { MongoIdValidationPipe } from '@project/pipes';
@@ -42,5 +42,22 @@ export class BalanceController {
       BalanceRdo,
       trainings.map((el) => el.toPOJO())
     );
+  }
+  @ApiOperation({
+    summary: 'Приступить к тренировке',
+  })
+  @Post(':trainingId')
+  public async startTraining(
+    @Param('trainingId', MongoIdValidationPipe) trainingId: string,
+    @Req() { user }: RequestWithTokenPayload
+  ) {
+    const userId = user.sub;
+
+    const training = await this.balanceService.startTraining(
+      userId,
+      trainingId
+    );
+
+    return fillDto(BalanceRdo, training);
   }
 }

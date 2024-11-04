@@ -1,5 +1,3 @@
-import { AvailableTraining } from './available-training.interface';
-
 export interface Balance {
   id?: string;
   createdAt?: Date;
@@ -8,6 +6,10 @@ export interface Balance {
   userId: string;
   trainingId: string;
   orderId: string;
-  isActive: boolean;
-  availableTrainings: AvailableTraining[];
+  isActive?: boolean;
+
+  dateStart?: Date;
+  dateEnd?: Date;
+  isStarted?: boolean;
+  isFinished?: boolean;
 }

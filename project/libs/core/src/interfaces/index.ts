@@ -9,7 +9,6 @@ export { File } from './file-vault/file.interface';
 export { StoredFile } from './file-vault/stored-file.interface';
 // Balance
 export { Balance } from './balance/balance.interface';
-export { AvailableTraining } from './balance/available-training.interface';
 // Order
 export { Order } from './orders/orders.interface';
 // Notify

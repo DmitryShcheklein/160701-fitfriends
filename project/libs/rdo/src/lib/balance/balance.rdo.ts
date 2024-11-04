@@ -1,5 +1,5 @@
-import { AvailableTraining, Balance } from '@project/core';
 import { Expose } from 'class-transformer';
+import { Balance } from '@project/core';
 
 export class BalanceRdo implements Balance {
   @Expose()
@@ -13,6 +13,8 @@ export class BalanceRdo implements Balance {
   @Expose()
   isActive: boolean;
 
-  @Expose()
-  availableTrainings: AvailableTraining[];
+  dateStart: Date | null;
+  dateEnd: Date | null;
+  isStarted: boolean;
+  isFinished: boolean;
 }

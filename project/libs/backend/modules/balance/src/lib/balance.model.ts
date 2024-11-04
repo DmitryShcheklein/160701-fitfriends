@@ -1,10 +1,9 @@
-import { AvailableTraining, Balance } from '@project/core';
+import { Balance } from '@project/core';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
 import { UserModel } from '@project/user-module';
-import { Injectable } from '@nestjs/common';
 
 @Schema({
   collection: 'balance',
@@ -28,10 +27,7 @@ export class BalanceModel extends Document implements Balance {
   })
   public trainingId: string;
 
-  @Prop({ type: Array, required: true })
-  public availableTrainings: AvailableTraining[];
-
-  @Prop({ type: Boolean, required: true })
+  @Prop({ type: Boolean, default: true })
   public isActive: boolean;
 
   @Prop({
@@ -39,6 +35,18 @@ export class BalanceModel extends Document implements Balance {
     required: true,
   })
   public orderId: string;
+
+  @Prop({ type: Date })
+  public dateStart?: Date;
+
+  @Prop({ type: Date })
+  public dateEnd?: Date;
+
+  @Prop({ type: Boolean, default: false })
+  public isStarted: boolean;
+
+  @Prop({ type: Boolean, default: false })
+  public isFinished: boolean;
 }
 
 export const BalanceSchema = SchemaFactory.createForClass(BalanceModel);
