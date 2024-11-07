@@ -6,7 +6,6 @@ export interface Balance {
   userId: string;
   trainingId: string;
   orderId: string;
-  isActive?: boolean;
 
   dateStart?: Date;
   dateEnd?: Date;

@@ -27,9 +27,6 @@ export class BalanceModel extends Document implements Balance {
   })
   public trainingId: string;
 
-  @Prop({ type: Boolean, default: true })
-  public isActive: boolean;
-
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     required: true,

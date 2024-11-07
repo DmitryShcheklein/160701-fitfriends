@@ -43,10 +43,11 @@ export class BalanceController {
       trainings.map((el) => el.toPOJO())
     );
   }
+
   @ApiOperation({
     summary: 'Приступить к тренировке',
   })
-  @Post(':trainingId')
+  @Post(':trainingId/start')
   public async startTraining(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string,
     @Req() { user }: RequestWithTokenPayload
@@ -54,6 +55,24 @@ export class BalanceController {
     const userId = user.sub;
 
     const training = await this.balanceService.startTraining(
+      userId,
+      trainingId
+    );
+
+    return fillDto(BalanceRdo, training);
+  }
+
+  @ApiOperation({
+    summary: 'Завершить тренировку',
+  })
+  @Post(':trainingId/finish')
+  public async finishTraining(
+    @Param('trainingId', MongoIdValidationPipe) trainingId: string,
+    @Req() { user }: RequestWithTokenPayload
+  ) {
+    const userId = user.sub;
+
+    const training = await this.balanceService.finishTraining(
       userId,
       trainingId
     );

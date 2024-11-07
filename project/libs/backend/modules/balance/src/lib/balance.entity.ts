@@ -7,7 +7,7 @@ export class BalanceEntity extends Entity implements StorableEntity<Balance> {
   public userId: string;
   public orderId: string;
   public trainingId: string;
-  public isActive: boolean;
+
   public dateStart?: Date;
   public dateEnd?: Date;
   public isStarted: boolean;
@@ -25,7 +25,7 @@ export class BalanceEntity extends Entity implements StorableEntity<Balance> {
     this.userId = data.userId;
     this.orderId = data.orderId;
     this.trainingId = data.trainingId;
-    this.isActive = data.isActive;
+
     this.dateStart = data.dateStart;
     this.dateEnd = data.dateEnd;
     this.isFinished = data.isFinished;
@@ -40,7 +40,7 @@ export class BalanceEntity extends Entity implements StorableEntity<Balance> {
       userId: this.userId,
       orderId: this.orderId,
       trainingId: this.trainingId,
-      isActive: this.isActive,
+
       dateStart: this.dateStart,
       dateEnd: this.dateEnd,
       isStarted: this.isStarted,

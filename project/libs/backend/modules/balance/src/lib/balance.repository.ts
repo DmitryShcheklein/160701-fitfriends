@@ -1,5 +1,5 @@
 import { BalanceEntity } from './balance.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {ConflictException, Injectable, NotFoundException} from '@nestjs/common';
 import { BaseMongoRepository } from '@project/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { BalanceModel } from './balance.model';
@@ -18,9 +18,7 @@ export class BalanceRepository extends BaseMongoRepository<
     super(entityFactory, BalanceModel);
   }
   public async saveMany(entities: BalanceEntity[]) {
-    const documents = await this.model.insertMany(entities);
-
-    // return documents.map((el) => this.createEntityFromDocument(el));
+     return this.model.insertMany(entities);
   }
   public async findActiveBalancesByUserId(userId: string) {
     const documents = await this.model.find({ userId, isActive: true });
@@ -35,18 +33,54 @@ export class BalanceRepository extends BaseMongoRepository<
   }
 
   public async startTraining(userId: string, trainingId: string) {
+    const currentStartedTraining = await this.model.findOne({
+      userId,
+      trainingId,
+      isStarted: true,
+      isFinished: false
+    })
+
+    if (currentStartedTraining) {
+      throw new ConflictException(`TrainingId:${trainingId} for UserId:${userId} is already active`);
+    }
+
     const document = await this.model.findOne({
       userId,
       trainingId,
-      dateEnd: null,
+      isStarted: false,
+      isFinished: false
     });
 
     if (!document) {
-      throw new NotFoundException(`Not found active training 111`);
+      throw new NotFoundException(`Not found not started training with TrainingId:${trainingId} for UserId:${userId}`);
     }
-    const entity = this.createEntityFromDocument(document);
-    const balance = entity.toPOJO();
-    console.log(balance);
-    // const balance.availableTrainings.find((training)=>!training.isStarted && !training.isFinished)
+    document.dateStart = new Date();
+    document.isStarted = true;
+
+    await document.save();
+
+
+    return this.createEntityFromDocument(document)
+  }
+
+  public async finishTraining(userId: string, trainingId: string) {
+    const document = await this.model.findOne({
+      userId,
+      trainingId,
+      isStarted: true,
+      isFinished: false
+    });
+
+    if (!document) {
+      throw new NotFoundException(`Not found active training ${trainingId} for ${userId}`);
+    }
+    document.dateEnd = new Date();
+    document.isFinished = true;
+    document.isStarted = false;
+
+    await document.save();
+
+
+    return this.createEntityFromDocument(document)
   }
 }
