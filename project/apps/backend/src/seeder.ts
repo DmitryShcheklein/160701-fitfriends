@@ -10,7 +10,7 @@ import { CommentSeeder } from './seed/comment.seeder';
 import {
   CommentModel,
   CommentSchema,
-} from 'libs/backend/modules/comments/src/lib/comment.model';
+} from '@project/comments-module';
 
 seeder({
   imports: [
