@@ -7,7 +7,12 @@ import {
   workoutDurationOptions,
 } from '../forms/user-info/user-info.data';
 import { useState } from 'react';
-import { useGetByTrainingIdQuery } from '../../store/balance-process/balance-api';
+import {
+  useFinishTrainingMutation,
+  useGetByTrainingIdQuery,
+  useStartTrainingMutation
+} from '../../store/balance-process/balance-api';
+import {toast} from "react-toastify";
 
 interface TrainingCardProps {
   trainingId: string;
@@ -16,8 +21,11 @@ interface TrainingCardProps {
 export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
   const { data: training } = useGetTrainingByIdQuery(trainingId);
   const { data: balances } = useGetByTrainingIdQuery(trainingId);
-  const isActive = balances?.some((item) => item.isActive);
-  const canBuy = balances?.every((item) => !item.isActive);
+  const [startTraining, {isLoading: isLoadingStartTraining}] = useStartTrainingMutation();
+  const [finishTraining, {isLoading: isLoadingFinishTraining}] = useFinishTrainingMutation();
+
+  const isStarted = balances?.some((item) => item.isStarted);
+  const canBuy = balances?.every((item) => item.isFinished);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const trainingType = specializationOptions
@@ -35,6 +43,23 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
   const onButtonBuyClick = () => {
     setShowBuyModal(!showBuyModal);
   };
+
+  const startTrainingHandle = async ()=>{
+    try {
+      await startTraining(trainingId).unwrap();
+    } catch (err: any) {
+      console.error('Failed to start: ', err);
+    }
+  }
+
+  const finishTrainingHandle = async ()=>{
+    try {
+      await finishTraining(trainingId).unwrap();
+    } catch (err: any) {
+      console.error('Failed to send: ', err);
+    }
+  }
+
 
   return (
     <div className="training-card">
@@ -165,30 +190,39 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
           <div className="training-video__thumbnail">
             <video src={training?.video} controls={false} loop></video>
           </div>
-          <button
-            className="training-video__play-button btn-reset"
-            style={{ display: 'none' }}
-          >
-            <svg width="18" height="30" aria-hidden="true">
-              <use xlinkHref="#icon-arrow"></use>
-            </svg>
-          </button>
+
+          {isStarted?(
+            <button
+              className="training-video__play-button btn-reset"
+
+            >
+              <svg width="18" height="30" aria-hidden="true">
+                <use xlinkHref="#icon-arrow"></use>
+              </svg>
+            </button>
+          ):null}
         </div>
         <div className="training-video__buttons-wrapper">
-          <button
-            className="btn training-video__button training-video__button--start"
-            type="button"
-            disabled={!isActive}
-            onClick={() => alert('Не реализован')}
-          >
-            Приступить
-          </button>
-          <button
-            className="btn training-video__button training-video__button--stop"
-            type="button"
-          >
-            Закончить
-          </button>
+          {!isStarted?(
+            <button
+              className="btn training-video__button training-video__button--start"
+              type="button"
+              disabled={isStarted || canBuy || isLoadingStartTraining}
+              onClick={startTrainingHandle}
+            >
+              Приступить
+            </button>
+          ):null}
+
+          {isStarted?(
+            <button
+              className="btn training-video__button training-video__button--stop"
+              type="button"
+              onClick={finishTrainingHandle}
+            >
+              Закончить
+            </button>
+          ):null}
         </div>
       </div>
     </div>

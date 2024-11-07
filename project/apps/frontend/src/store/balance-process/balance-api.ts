@@ -15,7 +15,21 @@ export const balanceApi = createApi({
       }),
       providesTags: [NameSpace.BalanceApi],
     }),
+    startTraining: builder.mutation<BalanceRdo, string>({
+      query: (trainingId)=>({
+        url: `${trainingId}/start`,
+        method: 'POST'
+      }),
+      invalidatesTags: [NameSpace.BalanceApi]
+    }),
+    finishTraining: builder.mutation<BalanceRdo, string>({
+      query: (trainingId)=>({
+        url: `${trainingId}/finish`,
+        method: 'POST'
+      }),
+      invalidatesTags: [NameSpace.BalanceApi]
+    }),
   }),
 });
 
-export const { useGetByTrainingIdQuery } = balanceApi;
+export const { useGetByTrainingIdQuery, useStartTrainingMutation, useFinishTrainingMutation } = balanceApi;
