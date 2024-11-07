@@ -20,7 +20,7 @@ export class BalanceController {
   constructor(private readonly balanceService: BalanceService) {}
 
   @ApiOperation({
-    summary: 'Получить тренинги',
+    summary: 'Получить баланс доступной тренировки по её id',
   })
   @ApiOkResponse({
     isArray: true,
