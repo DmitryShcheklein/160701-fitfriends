@@ -49,7 +49,7 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
     }
   };
   const ratings = Array.from(
-    { length: CommentValidator.Rating.Max },
+    Array(CommentValidator.Rating.Max),
     (_, idx) => (idx += 1)
   );
 
