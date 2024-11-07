@@ -12,9 +12,7 @@ export const Comments = ({ trainingId }: CommentsProps) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const { data: comments } = useGetCommentsByTrainingIdQuery(trainingId);
   const { data: balances } = useGetByTrainingIdQuery(trainingId);
-  const isFinished = balances?.some((el) =>
-    el.availableTrainings.some((el) => el.isFinished)
-  );
+  const isFinished = balances?.some(item=>item.isFinished)
 
   return (
     <>
