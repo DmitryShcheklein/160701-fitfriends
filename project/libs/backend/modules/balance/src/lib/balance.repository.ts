@@ -1,5 +1,9 @@
 import { BalanceEntity } from './balance.entity';
-import {ConflictException, Injectable, NotFoundException} from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { BaseMongoRepository } from '@project/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { BalanceModel } from './balance.model';
@@ -18,7 +22,7 @@ export class BalanceRepository extends BaseMongoRepository<
     super(entityFactory, BalanceModel);
   }
   public async saveMany(entities: BalanceEntity[]) {
-     return this.model.insertMany(entities);
+    return this.model.insertMany(entities);
   }
   public async findActiveBalancesByUserId(userId: string) {
     const documents = await this.model.find({ userId, isActive: true });
@@ -37,30 +41,30 @@ export class BalanceRepository extends BaseMongoRepository<
       userId,
       trainingId,
       isStarted: true,
-      isFinished: false
-    })
+    });
 
     if (currentStartedTraining) {
-      throw new ConflictException(`TrainingId:${trainingId} for UserId:${userId} is already active`);
+      await this.finishTraining(userId, trainingId);
     }
 
     const document = await this.model.findOne({
       userId,
       trainingId,
       isStarted: false,
-      isFinished: false
+      isFinished: false,
     });
 
     if (!document) {
-      throw new NotFoundException(`Not found not started training with TrainingId:${trainingId} for UserId:${userId}`);
+      throw new NotFoundException(
+        `Not found not started training with TrainingId:${trainingId} for UserId:${userId}`
+      );
     }
     document.dateStart = new Date();
     document.isStarted = true;
 
     await document.save();
 
-
-    return this.createEntityFromDocument(document)
+    return this.createEntityFromDocument(document);
   }
 
   public async finishTraining(userId: string, trainingId: string) {
@@ -68,11 +72,13 @@ export class BalanceRepository extends BaseMongoRepository<
       userId,
       trainingId,
       isStarted: true,
-      isFinished: false
+      isFinished: false,
     });
 
     if (!document) {
-      throw new NotFoundException(`Not found active training ${trainingId} for ${userId}`);
+      throw new NotFoundException(
+        `Not found active training ${trainingId} for ${userId}`
+      );
     }
     document.dateEnd = new Date();
     document.isFinished = true;
@@ -80,7 +86,6 @@ export class BalanceRepository extends BaseMongoRepository<
 
     await document.save();
 
-
-    return this.createEntityFromDocument(document)
+    return this.createEntityFromDocument(document);
   }
 }
