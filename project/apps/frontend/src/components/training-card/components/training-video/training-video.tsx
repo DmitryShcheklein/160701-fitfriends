@@ -4,6 +4,7 @@ import {
   useStartTrainingMutation,
 } from '../../../../store/balance-process/balance-api';
 import { TrainingRdo } from '@project/rdo';
+import { useRef } from 'react';
 
 interface TrainingVideoProps {
   trainingId: string;
@@ -30,21 +31,29 @@ export const TrainingVideo = ({ training, trainingId }: TrainingVideoProps) => {
 
   const finishTrainingHandle = async () => {
     try {
+      videoRef.current?.pause();
       await finishTraining(trainingId).unwrap();
     } catch (err: any) {
       console.error('Failed to send: ', err);
     }
+  };
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const playBtnHandler = () => {
+    videoRef.current?.play();
   };
 
   return (
     <>
       <div className="training-video__video">
         <div className="training-video__thumbnail">
-          <video src={training?.video} controls={false} loop></video>
+          <video ref={videoRef} src={training?.video} controls={false}></video>
         </div>
 
         {isStarted ? (
-          <button className="training-video__play-button btn-reset">
+          <button
+            className="training-video__play-button btn-reset"
+            onClick={playBtnHandler}
+          >
             <svg width="18" height="30" aria-hidden="true">
               <use xlinkHref="#icon-arrow"></use>
             </svg>
