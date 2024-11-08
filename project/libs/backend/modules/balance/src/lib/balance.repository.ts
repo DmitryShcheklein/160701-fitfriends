@@ -25,7 +25,7 @@ export class BalanceRepository extends BaseMongoRepository<
     return this.model.insertMany(entities);
   }
   public async findActiveBalancesByUserId(userId: string) {
-    const documents = await this.model.find({ userId, isActive: true });
+    const documents = await this.model.find({ userId, isFinished: false });
 
     return documents.map((el) => this.createEntityFromDocument(el));
   }
