@@ -1,8 +1,7 @@
-import { Order } from '@project/core';
+import { Order, OrderSeeder } from '@project/core';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Factory } from 'nestjs-seeder';
-import { fakerRU } from '@faker-js/faker';
 import { UserModel } from '@project/user-module';
 import { OrderValidator } from '@project/validation';
 import { PaymentVariant } from '@project/enums';
@@ -15,7 +14,7 @@ import { TrainingModel } from '@project/trainings-module';
   toObject: { virtuals: true },
 })
 export class OrdersModel extends Document implements Order {
-  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.userIds))
+  @Factory((_, ctx: OrderSeeder) => ctx.userId)
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: UserModel.name,
@@ -23,7 +22,7 @@ export class OrdersModel extends Document implements Order {
   })
   public userId: string;
 
-  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.trainingIds))
+  @Factory((_, ctx: OrderSeeder) => ctx.training.id)
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: TrainingModel.name,
@@ -31,12 +30,14 @@ export class OrdersModel extends Document implements Order {
   })
   public trainingId: string;
 
+  @Factory((_, ctx: OrderSeeder) => ctx.training.price)
   @Prop({
     required: true,
     type: Number,
   })
   public trainingPrice!: number;
 
+  @Factory((_, ctx: OrderSeeder) => ctx.quantity)
   @Prop({
     required: true,
     type: Number,
@@ -45,18 +46,21 @@ export class OrdersModel extends Document implements Order {
   })
   public quantity!: number;
 
+  @Factory((_, ctx: OrderSeeder) => ctx.totalSum)
   @Prop({
     required: true,
     type: Number,
   })
   public totalSum!: number;
 
+  @Factory((_, ctx: OrderSeeder) => ctx.type)
   @Prop({
     required: true,
     type: String,
   })
   public type!: string;
 
+  @Factory((_, ctx: OrderSeeder) => ctx.paymentType)
   @Prop({
     required: true,
     type: String,

@@ -30,3 +30,6 @@ export { TokenPayload } from './users/tokens/token-payload.interface';
 export { JwtToken } from './users/tokens/jwt-token.interface';
 export { RefreshTokenPayload } from './users/tokens/refresh-token-payload.interface.ts';
 export { RequestWithTokenPayload } from './users/tokens/request-with-token-payload.interface';
+
+// Seeder
+export { OrderSeeder } from './seeder/orders';

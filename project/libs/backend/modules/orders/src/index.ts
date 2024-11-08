@@ -1,2 +1,2 @@
 export { OrdersModule } from './lib/orders.module';
-export { OrdersModel } from './lib/orders.model';
+export { OrdersModel, OrdersSchema } from './lib/orders.model';

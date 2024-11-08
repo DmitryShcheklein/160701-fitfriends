@@ -7,10 +7,9 @@ import { HasherModule } from '@project/hasher-module';
 import { TrainingsSeeder } from './seed/trainings.seeder';
 import { TrainingModel, TrainingSchema } from '@project/trainings-module';
 import { CommentSeeder } from './seed/comment.seeder';
-import {
-  CommentModel,
-  CommentSchema,
-} from '@project/comments-module';
+import { CommentModel, CommentSchema } from '@project/comments-module';
+import { OrdersModel, OrdersSchema } from '@project/orders-module';
+import { OrdersSeeder } from './seed/orders.seeder';
 
 seeder({
   imports: [
@@ -20,7 +19,8 @@ seeder({
       { name: UserModel.name, schema: UserSchema },
       { name: TrainingModel.name, schema: TrainingSchema },
       { name: CommentModel.name, schema: CommentSchema },
+      { name: OrdersModel.name, schema: OrdersSchema },
     ]),
     HasherModule,
   ],
-}).run([UsersSeeder, TrainingsSeeder, CommentSeeder]);
+}).run([UsersSeeder, TrainingsSeeder, CommentSeeder, OrdersSeeder]);
