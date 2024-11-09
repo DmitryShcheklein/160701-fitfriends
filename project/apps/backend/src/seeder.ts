@@ -10,6 +10,8 @@ import { CommentSeeder } from './seed/comment.seeder';
 import { CommentModel, CommentSchema } from '@project/comments-module';
 import { OrdersModel, OrdersSchema } from '@project/orders-module';
 import { OrdersSeeder } from './seed/orders.seeder';
+import { BalanceModel, BalanceSchema } from '@project/balance-module';
+import { BalanceSeeder } from './seed/balance.seeder';
 
 seeder({
   imports: [
@@ -20,7 +22,14 @@ seeder({
       { name: TrainingModel.name, schema: TrainingSchema },
       { name: CommentModel.name, schema: CommentSchema },
       { name: OrdersModel.name, schema: OrdersSchema },
+      { name: BalanceModel.name, schema: BalanceSchema },
     ]),
     HasherModule,
   ],
-}).run([UsersSeeder, TrainingsSeeder, CommentSeeder, OrdersSeeder]);
+}).run([
+  UsersSeeder,
+  TrainingsSeeder,
+  CommentSeeder,
+  OrdersSeeder,
+  BalanceSeeder,
+]);
