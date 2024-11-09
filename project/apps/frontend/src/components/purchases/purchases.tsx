@@ -1,12 +1,12 @@
 import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
-import { priceFormatter } from '../../shared/helpers/priceFormatter';
-import { specializationOptions } from '../forms/user-info/user-info.data';
+
 import { useGetOrdersQuery } from '../../store/orders-process/orders-api';
 import { LoaderPage } from '../loaders/loader-page/loader-page';
 import { useEffect, useState } from 'react';
 import { OrdersQuery } from '@project/core';
 import { OrdersWithPaginationRdo } from '@project/rdo';
+import { TrainingCardMin } from '../training-card-min/training-card-min';
 
 export const Purchases = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,79 +86,15 @@ export const Purchases = () => {
         {items.length ? (
           <>
             <ul className="my-purchases__list">
-              {items?.map(({ id, trainingPrice, trainingId }) => {
-                return (
-                  <li className="my-purchases__item" key={id} data-id={id}>
-                    <div className="thumbnail-training">
-                      <div className="thumbnail-training__inner">
-                        <div className="thumbnail-training__image">
-                          <picture>
-                            <img
-                              src={trainingId?.backgroundImage}
-                              width="330"
-                              height="190"
-                              alt={trainingId?.name}
-                            />
-                          </picture>
-                        </div>
-                        <p className="thumbnail-training__price">
-                          <span className="thumbnail-training__price-value">
-                            {priceFormatter(trainingPrice)}
-                          </span>
-                          <span>₽</span>
-                        </p>
-                        <h2 className="thumbnail-training__title">
-                          {trainingId?.name}
-                        </h2>
-                        <div className="thumbnail-training__info">
-                          <ul className="thumbnail-training__hashtags-list">
-                            <li className="thumbnail-training__hashtags-item">
-                              <div className="hashtag thumbnail-training__hashtag">
-                                <span>
-                                  #
-                                  {specializationOptions
-                                    .find(
-                                      (item) =>
-                                        item.value === trainingId?.trainingType
-                                    )
-                                    ?.label.toLowerCase()}
-                                </span>
-                              </div>
-                            </li>
-                            <li className="thumbnail-training__hashtags-item">
-                              <div className="hashtag thumbnail-training__hashtag">
-                                <span>#{trainingId?.calories}ккал</span>
-                              </div>
-                            </li>
-                          </ul>
-                          <div className="thumbnail-training__rate">
-                            <svg width="16" height="16" aria-hidden="true">
-                              <use xlinkHref="#icon-star"></use>
-                            </svg>
-                            <span className="thumbnail-training__rate-value">
-                              {trainingId?.rating}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="thumbnail-training__text-wrapper">
-                          <p className="thumbnail-training__text">
-                            {trainingId?.description}
-                          </p>
-                        </div>
-                        <div className="thumbnail-training__button-wrapper">
-                          <Link
-                            to={`${AppRoute.TrainingCardPage}/${trainingId?.id}`}
-                            className="btn btn--small thumbnail-training__button-catalog"
-                          >
-                            Подробнее
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
+              {items?.map((item) => (
+                <TrainingCardMin
+                  key={item.trainingId.id}
+                  training={item.trainingId}
+                  className="my-purchases__item"
+                />
+              ))}
             </ul>
+
             {data?.totalPages !== 1 ? (
               <div className="show-more my-purchases__show-more">
                 {currentPage < Number(data?.totalPages) ? (

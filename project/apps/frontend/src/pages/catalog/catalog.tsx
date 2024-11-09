@@ -4,7 +4,7 @@ import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { CatalogSidebar } from '../../components/catalog-sidebar/catalog-sidebar';
 import { useGetTrainingsQuery } from '../../store/training-process/training-api';
 import EmptyBlock from '../../components/base/empty-block/empty-block';
-import { TrainingThumb } from '../../components/slide-content/training-slide/training-slide';
+import { TrainingCardMin } from '../../components/training-card-min/training-card-min';
 import { useEffect, useState } from 'react';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
 import { TrainingsQuery } from '@project/core';
@@ -54,7 +54,7 @@ export const CatalogPage = () => {
           ) : (
             <div className="training-catalog__list">
               {allTrainings?.map((el) => (
-                <TrainingThumb
+                <TrainingCardMin
                   training={el}
                   className="training-catalog__item"
                   key={el.id}

@@ -2,7 +2,7 @@ import EmptyBlock from '../../base/empty-block/empty-block';
 import { useGetPopularTrainingsQuery } from '../../../store/training-process/training-api';
 import { AppRoute } from '../../../shared/const';
 import { Link } from 'react-router-dom';
-import { TrainingThumb } from '../../slide-content/training-slide/training-slide';
+import { TrainingCardMin } from '../../training-card-min/training-card-min';
 import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
 
 export const PopularOffers = () => {
@@ -18,7 +18,7 @@ export const PopularOffers = () => {
       options={{ slidesPerView: 4 }}
       title="Популярные тренировки"
       slides={items.map((el) => (
-        <TrainingThumb training={el} />
+        <TrainingCardMin training={el} />
       ))}
       extraButton={
         <Link

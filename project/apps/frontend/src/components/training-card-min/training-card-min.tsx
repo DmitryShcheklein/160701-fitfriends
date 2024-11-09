@@ -1,15 +1,19 @@
 import { TrainingRdo } from '@project/rdo';
-import { AppRoute } from '../../../shared/const';
+import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { HTMLAttributes } from 'react';
+import { specializationOptions } from '../forms/user-info/user-info.data';
 
-interface TrainingSlideProps
+interface TrainingCardMinProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   training: TrainingRdo;
 }
 
-export const TrainingThumb = ({ training, className }: TrainingSlideProps) => {
+export const TrainingCardMin = ({
+  training,
+  className,
+}: TrainingCardMinProps) => {
   return (
     <div className={classNames('thumbnail-training', className)}>
       <div className="thumbnail-training__inner">
@@ -31,6 +35,23 @@ export const TrainingThumb = ({ training, className }: TrainingSlideProps) => {
         </p>
         <h3 className="thumbnail-training__title">{training.name}</h3>
         <div className="thumbnail-training__info">
+          <ul className="thumbnail-training__hashtags-list">
+            <li className="thumbnail-training__hashtags-item">
+              <div className="hashtag thumbnail-training__hashtag">
+                <span>
+                  #
+                  {specializationOptions
+                    .find((item) => item.value === training.trainingType)
+                    ?.label.toLowerCase()}
+                </span>
+              </div>
+            </li>
+            <li className="thumbnail-training__hashtags-item">
+              <div className="hashtag thumbnail-training__hashtag">
+                <span>#{training?.calories}ккал</span>
+              </div>
+            </li>
+          </ul>
           <div className="thumbnail-training__rate">
             <svg width="16" height="16" aria-hidden="true">
               <use xlinkHref="#icon-star"></use>
