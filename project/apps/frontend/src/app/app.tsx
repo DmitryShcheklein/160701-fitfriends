@@ -15,6 +15,7 @@ import QuestionnairePage from '../pages/questionnaire/questionnaire';
 import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
 import PurchasesPage from '../pages/purchases/purchases';
+import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
 
 export function App() {
   return (
@@ -22,8 +23,11 @@ export function App() {
       <Route path={AppRoute.Intro} element={<IntroPage />} />
 
       <Route element={<IntroLayout />}>
-        <Route path={AppRoute.Login} element={<LoginPage />} />
-        <Route path={AppRoute.Register} element={<RegisterPage />} />
+        <Route path={AppRoute.Login} element={NoAuthRoute(<LoginPage />)} />
+        <Route
+          path={AppRoute.Register}
+          element={NoAuthRoute(<RegisterPage />)}
+        />
         <Route
           path={AppRoute.Questionnaire}
           element={PrivateRoute(<QuestionnairePage />)}
