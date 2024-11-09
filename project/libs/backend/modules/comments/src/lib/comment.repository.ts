@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CommentModel } from './comment.model';
-import { BaseMongoRepository, DefaultSort } from '@project/core';
+import { BaseMongoRepository } from '@project/core';
 import { CommentEntity } from './comment.entity';
 import { CommentFactory } from './comment.factory';
 import { MAX_COMMENT_LIMIT } from './comment.constant';
