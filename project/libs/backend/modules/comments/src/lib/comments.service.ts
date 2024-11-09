@@ -1,18 +1,25 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CommentRepository } from './comment.repository';
-import { CommentEntity } from './comment.entity';
 import { CreateCommentDto, UpdateCommentDto } from '@project/dto';
+import { CommentFactory } from './comment.factory';
 
 @Injectable()
 export class CommentsService {
-  constructor(private readonly commentsRepository: CommentRepository) {}
+  constructor(
+    private readonly commentsRepository: CommentRepository,
+    private readonly commentsFactory: CommentFactory
+  ) {}
 
   public async create(
     trainingId: string,
     userId: string,
     dto: CreateCommentDto
   ) {
-    const commentEntity = new CommentEntity({ ...dto, trainingId, userId });
+    const commentEntity = this.commentsFactory.create({
+      ...dto,
+      trainingId,
+      userId,
+    });
 
     return this.commentsRepository.save(commentEntity);
   }
@@ -25,8 +32,8 @@ export class CommentsService {
     return this.commentsRepository.find();
   }
 
-  public async findOne(id: string) {
-    return this.commentsRepository.findById(id);
+  public async findOne(commentId: string) {
+    return this.commentsRepository.findById(commentId);
   }
 
   public async update({
@@ -45,7 +52,7 @@ export class CommentsService {
       throw new ConflictException('Вы не можете изменять не свой комментарий');
     }
 
-    const newCommentEntity = new CommentEntity({
+    const newCommentEntity = this.commentsFactory.create({
       ...existComment.toPOJO(),
       message: dto.message,
     });
@@ -53,7 +60,7 @@ export class CommentsService {
     return this.commentsRepository.update(newCommentEntity);
   }
 
-  public async remove(id: string) {
-    return this.commentsRepository.deleteById(id);
+  public async remove(commentId: string) {
+    return this.commentsRepository.deleteById(commentId);
   }
 }
