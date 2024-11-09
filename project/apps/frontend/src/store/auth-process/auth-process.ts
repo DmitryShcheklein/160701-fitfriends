@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '@project/core';
+import { TokenPayload, User } from '@project/core';
 import { AuthStatus } from '../../shared/const';
 import { NameSpace } from '../name-space.enum';
 import {
@@ -8,6 +8,7 @@ import {
   setToken,
   TOKEN_KEY_NAME,
 } from '../../services/token';
+import { authApi } from './auth-api';
 
 export type TInitialState = {
   authorizationStatus: AuthStatus;
@@ -27,13 +28,6 @@ const authSlice = createSlice({
   name: NameSpace.Auth,
   initialState,
   reducers: {
-    setAuthorizationStatus: (state, action: PayloadAction<AuthStatus>) => {
-      state.authorizationStatus = action.payload;
-    },
-    setUserData: (state, action: PayloadAction<User | null>) => {
-      state.user = action.payload;
-    },
-
     setCredentials: (state, action) => {
       const { email, accessToken, refreshToken } = action.payload;
       state.accessToken = accessToken;
@@ -54,9 +48,22 @@ const authSlice = createSlice({
       removeToken(TOKEN_KEY_NAME.Refresh);
     },
   },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      authApi.endpoints.checkAuth.matchFulfilled,
+      (state, action: PayloadAction<TokenPayload>) => {
+        const { email } = action.payload;
+
+        state.authorizationStatus = AuthStatus.Auth;
+        state.user = { email };
+      }
+    );
+    builder.addMatcher(authApi.endpoints.checkAuth.matchRejected, (state) =>
+      authSlice.caseReducers.logOut(state)
+    );
+  },
 });
 
-export const { setAuthorizationStatus, setUserData, setCredentials, logOut } =
-  authSlice.actions;
+export const { setCredentials, logOut } = authSlice.actions;
 
 export default authSlice.reducer;

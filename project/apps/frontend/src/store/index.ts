@@ -7,11 +7,13 @@ import { trainingApi } from './training-process/training-api';
 import { commentsApi } from './comments-process/comments-api';
 import { ordersApi } from './orders-process/orders-api';
 import { balanceApi } from './balance-process/balance-api';
+import { apiResetMiddleware } from './middlewares/api-reset';
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
+      .concat(apiResetMiddleware)
       .concat(redirect)
       .concat(authApi.middleware)
       .concat(userApi.middleware)
