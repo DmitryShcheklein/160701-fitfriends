@@ -12,7 +12,7 @@ export const Comments = ({ trainingId }: CommentsProps) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const { data: comments } = useGetCommentsByTrainingIdQuery(trainingId);
   const { data: balances } = useGetByTrainingIdQuery(trainingId);
-  const isFinished = balances?.some(item=>item.isFinished)
+  const isFinished = balances?.some((item) => item.isFinished);
 
   return (
     <>
@@ -55,7 +55,7 @@ export const Comments = ({ trainingId }: CommentsProps) => {
           </ul>
         </>
       ) : null}
-      {balances?.length && isFinished ? (
+      {isFinished ? (
         <button
           className="btn btn--medium reviews-side-bar__button"
           type="button"
