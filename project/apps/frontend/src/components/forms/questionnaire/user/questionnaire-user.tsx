@@ -97,7 +97,7 @@ export const QuestionnaireUser = () => {
         const errorMessage = groupedErrors[key].join('\n');
         toast.error(errorMessage, {
           style: { whiteSpace: 'pre-line' },
-          autoClose: 10_000,
+          autoClose: 5_000,
         });
       });
     }
