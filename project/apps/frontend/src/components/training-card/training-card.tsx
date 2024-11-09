@@ -93,10 +93,8 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
           </form>
         </div>
       </div>
-      <div className="training-video">
-        <h2 className="training-video__title">Видео</h2>
-        <TrainingVideo training={training} trainingId={trainingId} />
-      </div>
+
+      <TrainingVideo training={training} trainingId={trainingId} />
     </div>
   );
 };

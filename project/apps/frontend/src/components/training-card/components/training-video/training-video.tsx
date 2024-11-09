@@ -38,12 +38,17 @@ export const TrainingVideo = ({ training, trainingId }: TrainingVideoProps) => {
     }
   };
   const videoRef = useRef<HTMLVideoElement>(null);
-  const playBtnHandler = () => {
-    videoRef.current?.play();
+  const playBtnHandler = async () => {
+    await videoRef.current?.play();
   };
 
+  if (canBuy) {
+    return null;
+  }
+
   return (
-    <>
+    <div className="training-video">
+      <h2 className="training-video__title">Видео</h2>
       <div className="training-video__video">
         <div className="training-video__thumbnail">
           <video ref={videoRef} src={training?.video} controls={false}></video>
@@ -83,6 +88,6 @@ export const TrainingVideo = ({ training, trainingId }: TrainingVideoProps) => {
           </button>
         ) : null}
       </div>
-    </>
+    </div>
   );
 };
