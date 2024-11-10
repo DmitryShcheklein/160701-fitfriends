@@ -15,6 +15,7 @@ export type TInitialState = {
   user: Pick<User, 'email'> | null;
   accessToken: string | null;
   refreshToken: string | null;
+  isSubmitting: boolean;
 };
 
 export const initialState: TInitialState = {
@@ -22,12 +23,16 @@ export const initialState: TInitialState = {
   user: null,
   accessToken: getToken(TOKEN_KEY_NAME.Access),
   refreshToken: getToken(TOKEN_KEY_NAME.Refresh),
+  isSubmitting: false,
 };
 
 const authSlice = createSlice({
   name: NameSpace.Auth,
   initialState,
   reducers: {
+    setIsSubmiting: (state, action) => {
+      state.isSubmitting = action.payload;
+    },
     setCredentials: (state, action) => {
       const { email, accessToken, refreshToken } = action.payload;
       state.accessToken = accessToken;
@@ -64,6 +69,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setCredentials, logOut, setIsSubmiting } = authSlice.actions;
 
 export default authSlice.reducer;
