@@ -23,9 +23,18 @@ export const CatalogPage = () => {
 
   useEffect(() => {
     if (data?.entities) {
-      setAllTrainings((prevTrainings) => [...prevTrainings, ...data.entities]);
+      if (currentPage === 1) {
+        setAllTrainings(data.entities);
+      } else {
+        setAllTrainings((prevTrainings) => [
+          ...prevTrainings,
+          ...data.entities.filter(
+            (newTraining) => !prevTrainings.some((t) => t.id === newTraining.id)
+          ),
+        ]);
+      }
     }
-  }, [data]);
+  }, [data, currentPage]);
 
   const handleShowMore = () => {
     if (currentPage < Number(data?.totalPages)) {
@@ -35,7 +44,6 @@ export const CatalogPage = () => {
 
   const handleToTop = () => {
     setCurrentPage(1);
-    setAllTrainings([]);
   };
 
   return (
@@ -53,33 +61,39 @@ export const CatalogPage = () => {
             <EmptyBlock />
           ) : (
             <div className="training-catalog__list">
-              {allTrainings?.map((el) => (
-                <TrainingCardMin
-                  training={el}
-                  className="training-catalog__item"
-                  key={el.id}
-                />
+              {allTrainings?.map((el, idx) => (
+                <div key={el.id}>
+                  {++idx}
+                  <TrainingCardMin
+                    training={el}
+                    className="training-catalog__item"
+                  />
+                </div>
               ))}
             </div>
           )}
           <div className="show-more training-catalog__show-more">
-            {currentPage < Number(data?.totalPages) ? (
-              <button
-                className="btn show-more__button show-more__button--more"
-                type="button"
-                onClick={handleShowMore}
-              >
-                Показать еще
-              </button>
-            ) : (
-              <button
-                className="btn show-more__button show-more__button--to-top"
-                type="button"
-                onClick={handleToTop}
-              >
-                Вернуться в начало
-              </button>
-            )}
+            {Number(data?.totalPages) > 1 ? (
+              <>
+                {currentPage < Number(data?.totalPages) ? (
+                  <button
+                    className="btn show-more__button show-more__button--more"
+                    type="button"
+                    onClick={handleShowMore}
+                  >
+                    Показать еще
+                  </button>
+                ) : (
+                  <button
+                    className="btn show-more__button show-more__button--to-top"
+                    type="button"
+                    onClick={handleToTop}
+                  >
+                    Вернуться в начало
+                  </button>
+                )}
+              </>
+            ) : null}
           </div>
         </div>
       </div>

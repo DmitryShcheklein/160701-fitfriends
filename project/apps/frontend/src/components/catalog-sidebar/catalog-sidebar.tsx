@@ -78,6 +78,7 @@ export const CatalogSidebar = ({ filters, setFilter }: CatalogSidebarProps) => {
               <ul className="gym-catalog-form__check-list">
                 {specializationOptions.map(({ label, value }) => (
                   <CheckboxInput
+                    key={label}
                     className="gym-catalog-form__check-list-item"
                     label={label}
                     value={value}
