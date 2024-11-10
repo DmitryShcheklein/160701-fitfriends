@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="fix: refresh jwt" />
+    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="fix: layout">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +15,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
         <option value="package.json" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -53,48 +55,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.backend: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:build.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:db:seed.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:serve-static.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:serve.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:serve:development.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.frontend:build.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.frontend:serve.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;dev.nx.console.toolwindow.cloud_panel_collapse&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/stage-1&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/Dmitry/Документы/GitHub/isp_client&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.backend: Compose Deployment.executor": "Run",
+    "Nx.backend:build.executor": "Run",
+    "Nx.backend:db:seed.executor": "Run",
+    "Nx.backend:serve-static.executor": "Run",
+    "Nx.backend:serve.executor": "Run",
+    "Nx.backend:serve:development.executor": "Run",
+    "Nx.frontend:build.executor": "Run",
+    "Nx.frontend:serve.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dev.nx.console.toolwindow.cloud_panel_collapse": "true",
+    "git-widget-placeholder": "feat/stage-2",
+    "last_opened_file_path": "/home/Dmitry/Документы/GitHub/isp_client",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/node_modules/prettier",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mongo&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mongo"
     ],
-    &quot;dev.nx.console.project_details_files&quot;: [
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/nx/core/project-json&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/nx/core/package.json&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/vite/plugin&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/vite/package.json&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/eslint/plugin&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/eslint/package.json&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/jest/plugin&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/jest/package.json&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/webpack/plugin&quot;,
-      &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/webpack/package.json&quot;
+    "dev.nx.console.project_details_files": [
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/nx/core/project-json",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/nx/core/package.json",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/vite/plugin",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/vite/package.json",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/eslint/plugin",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/eslint/package.json",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/jest/plugin",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/jest/package.json",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/webpack/plugin",
+      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/webpack/package.json"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/project/libs/core/src/const" />
@@ -115,7 +117,7 @@
       <command value="nx generate @nx/node:library --name orders --directory backend/modules" />
     </option>
   </component>
-  <component name="RunManager" selected="Nx.frontend:serve">
+  <component name="RunManager" selected="Nx.backend:serve:development">
     <configuration name="backend:build" type="NxRunConfigurationType">
       <option name="nx-projects" value="backend" />
       <option name="nx-targets" value="build" />
@@ -241,7 +243,7 @@
       <workItem from="1731077206157" duration="4768000" />
       <workItem from="1731083783844" duration="8681000" />
       <workItem from="1731136834911" duration="16381000" />
-      <workItem from="1731226263931" duration="15782000" />
+      <workItem from="1731226263931" duration="18759000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: gitignore">
       <option name="closed" value="true" />
@@ -587,7 +589,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731248719900</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="fix: layout">
+      <option name="closed" value="true" />
+      <created>1731251696633</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1731251696633</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,7 +660,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix: auth api" />
     <MESSAGE value="feat: add balance-api" />
     <MESSAGE value="feat: balance back" />
     <MESSAGE value="fix: orders" />
@@ -675,7 +684,8 @@
     <MESSAGE value="fix: slider-filter.tsx" />
     <MESSAGE value="fix: catalog sidebar" />
     <MESSAGE value="fix: refresh jwt" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: refresh jwt" />
+    <MESSAGE value="fix: layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: layout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
