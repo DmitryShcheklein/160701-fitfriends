@@ -3,13 +3,18 @@ const AppRoute = {
   Index: '/',
   Login: '/login',
   Register: '/register',
+  ErrorPage: '/page404',
+
   Profile: '/profile',
-  Purchases: '/purchases',
-  Friends: '/friends',
-  Questionnaire: '/questionnaire',
   Catalog: '/catalog',
   TrainingCardPage: '/training',
-  ErrorPage: '/page404',
+  Questionnaire: '/questionnaire',
+  Friends: '/friends',
+  Purchases: '/purchases',
+
+  Orders: '/orders',
+  MyTrainings: '/trainings',
+  CreateTraining: '/create-training',
 } as const;
 
 enum AuthStatus {
