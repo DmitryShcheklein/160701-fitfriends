@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 interface FilterProps extends Omit<NouisliderProps, 'start' | 'onChange'> {
   label: string;
-  start: string[] | number[];
+  startValues: (number | string)[];
   onChange?: (values: [number, number]) => void;
   withInputs?: boolean;
   range: { min: number; max: number };
@@ -22,21 +22,21 @@ const SliderFilter = ({
   className,
   withInputs = true,
   range,
-  start,
+  startValues,
   label,
   step = 1,
   tooltips = false,
   onChange,
   hidden,
 }: FilterProps) => {
-  const startValues = start.map(String);
   const [inputValues, setInputValues] = useState(startValues);
   const [inputMin, inputMax] = inputValues;
   const [sliderValues, setSliderValues] = useState(startValues);
 
   useEffect(() => {
-    onChange?.([Number(inputMin), Number(inputMax)]);
-  }, [inputMin, inputMax, onChange]);
+    setInputValues(startValues);
+    setSliderValues(startValues);
+  }, [startValues]);
 
   const handleSliderUpdate = (values: string[]) => {
     const [min, max] = values;
@@ -56,10 +56,16 @@ const SliderFilter = ({
       setInputValues(values);
       setSliderValues(values);
     }
+
+    onChange?.([Number(inputMin), Number(inputMax)]);
   };
   const [inputMinId, inputMaxId] = Object.values(InputFieldName).map(
     (fieldName) => `${label}-${fieldName}`
   );
+
+  if (startValues?.[0] === startValues?.[1]) {
+    return null;
+  }
 
   if (hidden) {
     return null;
@@ -101,7 +107,10 @@ const SliderFilter = ({
         range={{ min: range.min, max: range.max }}
         start={sliderValues}
         step={step}
-        onChange={handleSliderUpdate}
+        onChange={(values: string[]) => {
+          handleSliderUpdate(values);
+          onChange?.([Number(values[0]), Number(values[1])]);
+        }}
         format={{
           from: (value) => Number(value),
           to: (value) => Number(value),
