@@ -20,39 +20,30 @@ import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
 export function App() {
   return (
     <Routes>
-      <Route path={AppRoute.Intro} element={<IntroPage />} />
+      <Route path={AppRoute.Intro} element={NoAuthRoute(<IntroPage />)} />
 
-      <Route element={<IntroLayout />}>
-        <Route path={AppRoute.Login} element={NoAuthRoute(<LoginPage />)} />
-        <Route
-          path={AppRoute.Register}
-          element={NoAuthRoute(<RegisterPage />)}
-        />
-        <Route
-          path={AppRoute.Questionnaire}
-          element={PrivateRoute(<QuestionnairePage />)}
-        />
-        <Route path="*" element={<Page404 />} />
+      <Route element={NoAuthRoute(<IntroLayout />)}>
+        <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route path={AppRoute.Register} element={<RegisterPage />} />
       </Route>
 
-      <Route element={<MainLayout />}>
-        <Route path={AppRoute.Index} element={PrivateRoute(<IndexPage />)} />
-        <Route
-          path={AppRoute.Profile}
-          element={PrivateRoute(<ProfilePage />)}
-        />
-        <Route
-          path={AppRoute.Purchases}
-          element={PrivateRoute(<PurchasesPage />)}
-        />
-        <Route
-          path={AppRoute.Catalog}
-          element={PrivateRoute(<CatalogPage />)}
-        />
+      <Route element={PrivateRoute(<IntroLayout />)}>
+        <Route path={AppRoute.Questionnaire} element={<QuestionnairePage />} />
+      </Route>
+
+      <Route element={PrivateRoute(<MainLayout />)}>
+        <Route path={AppRoute.Index} element={<IndexPage />} />
+        <Route path={AppRoute.Profile} element={<ProfilePage />} />
+        <Route path={AppRoute.Purchases} element={<PurchasesPage />} />
+        <Route path={AppRoute.Catalog} element={<CatalogPage />} />
         <Route
           path={`${AppRoute.TrainingCardPage}/:id`}
-          element={PrivateRoute(<TrainingCardPage />)}
+          element={<TrainingCardPage />}
         />
+      </Route>
+
+      <Route element={<IntroLayout />}>
+        <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>
   );
