@@ -20,14 +20,15 @@ const PrivateRoute = (children: TPrivateRoute) => {
     skip: !accessToken,
   });
 
-  if (!accessToken) {
-    return <Navigate to={AppRoute.Intro} />;
-  }
   if (isLoading || isUnknown) {
     return <LoaderPage />;
   }
 
-  if (!isAuth && !isUnknown) {
+  if (!accessToken) {
+    return <Navigate to={AppRoute.Intro} />;
+  }
+
+  if (!isAuth) {
     toast.warn(
       'You are not logged in or you do not have permission to this page.'
     );
