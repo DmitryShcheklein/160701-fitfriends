@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Popup from '../ui/popup/popup';
-import ReviewForm from '../forms/review-form/review-form';
-import { useGetCommentsByTrainingIdQuery } from '../../store/comments-process/comments-api';
-import { useGetByTrainingIdQuery } from '../../store/balance-process/balance-api';
+import Popup from '../../../ui/popup/popup';
+import ReviewForm from '../../../forms/review-form/review-form';
+import { useGetCommentsByTrainingIdQuery } from '../../../../store/comments-process/comments-api';
+import { useGetByTrainingIdQuery } from '../../../../store/balance-process/balance-api';
 
 interface CommentsProps {
   trainingId: string;

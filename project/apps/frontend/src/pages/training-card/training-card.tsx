@@ -3,8 +3,8 @@ import { AppRoute, PageTitles } from '../../shared/const';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { Link, useParams } from 'react-router-dom';
 import { useGetTrainingByIdQuery } from '../../store/training-process/training-api';
-import { LoaderPage } from '../../components/loaders/loader-page/loader-page';
-import { Comments } from '../../components/comments/comments';
+import { LoaderPage } from '../../components/base/loaders/loader-page/loader-page';
+import { Comments } from '../../components/training-card/components/comments/comments';
 import { TrainingCard } from '../../components/training-card/training-card';
 
 const TrainingCardPage = () => {

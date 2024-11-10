@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { PageTitles } from '../../shared/const';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
-import { CatalogSidebar } from '../../components/catalog-sidebar/catalog-sidebar';
+import { CatalogSidebar } from '../../components/catalog/catalog-sidebar/catalog-sidebar';
 import { useGetTrainingsQuery } from '../../store/training-process/training-api';
 import EmptyBlock from '../../components/base/empty-block/empty-block';
 import { TrainingCardMin } from '../../components/training-card-min/training-card-min';

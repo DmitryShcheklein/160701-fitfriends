@@ -2,7 +2,7 @@ import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
 
 import { useGetOrdersQuery } from '../../store/orders-process/orders-api';
-import { LoaderPage } from '../loaders/loader-page/loader-page';
+import { LoaderPage } from '../base/loaders/loader-page/loader-page';
 import { useEffect, useState } from 'react';
 import { OrdersQuery } from '@project/core';
 import { OrdersWithPaginationRdo } from '@project/rdo';
