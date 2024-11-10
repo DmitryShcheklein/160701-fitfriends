@@ -114,6 +114,7 @@ export class TrainingRepository extends BaseMongoRepository<
 
     const aggregationResult: PriceAggregationResult[] =
       await this.model.aggregate([
+        { $match: filter },
         {
           $group: {
             _id: null,
