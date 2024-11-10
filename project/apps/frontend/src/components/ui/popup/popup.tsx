@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import PopupOverlay from './popup-overlay';
 
-interface PopupProps extends HTMLAttributes<HTMLDivElement> {
+interface PopupProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   isStatic?: boolean;
   isOpen?: boolean;
   title?: string;

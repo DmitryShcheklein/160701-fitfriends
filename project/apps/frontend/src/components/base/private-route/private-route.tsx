@@ -6,7 +6,7 @@ import {
   getAccessToken,
   getAuthorizationStatus,
 } from '../../../store/auth-process/selectors';
-import { LoaderPage } from '../../loaders/loader-page/loader-page';
+import { LoaderPage } from '../loaders/loader-page/loader-page';
 import { useCheckAuthQuery } from '../../../store/auth-process/auth-api';
 
 type TPrivateRoute = JSX.Element;
@@ -20,14 +20,15 @@ const PrivateRoute = (children: TPrivateRoute) => {
     skip: !accessToken,
   });
 
-  if (!accessToken) {
-    return <Navigate to={AppRoute.Intro} />;
-  }
   if (isLoading || isUnknown) {
     return <LoaderPage />;
   }
 
-  if (!isAuth && !isUnknown) {
+  if (!accessToken) {
+    return <Navigate to={AppRoute.Intro} />;
+  }
+
+  if (!isAuth) {
     toast.warn(
       'You are not logged in or you do not have permission to this page.'
     );

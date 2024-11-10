@@ -4,6 +4,8 @@ import {
   useUpdateTrainingConfigMutation,
 } from './../../../store/user-process/user-api';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../shared/const';
 
 const FieldName = {
   CaloriesPerDay: 'caloriesPerDay',
@@ -127,14 +129,17 @@ const PersonalAccountUser = () => {
               </h3>
             </div>
           </div>
-          {/* <a className="thumbnail-link thumbnail-link--theme-light" href="#">
+          <Link
+            to={AppRoute.Purchases}
+            className="thumbnail-link thumbnail-link--theme-light"
+          >
             <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">
               <svg width="30" height="26" aria-hidden="true">
                 <use xlinkHref="#icon-shopping-cart" />
               </svg>
             </div>
             <span className="thumbnail-link__text">Мои покупки</span>
-          </a> */}
+          </Link>
         </div>
       </div>
     </div>

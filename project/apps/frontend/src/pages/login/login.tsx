@@ -6,12 +6,6 @@ import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 import LoginForm from '../../components/forms/login-form/login-form';
 
 const LoginPage = () => {
-  const authStatus = useAppSelector(getAuthorizationStatus);
-
-  if (authStatus === AuthStatus.Auth) {
-    return <Navigate to={AppRoute.Index} />;
-  }
-
   return (
     <>
       <Helmet>

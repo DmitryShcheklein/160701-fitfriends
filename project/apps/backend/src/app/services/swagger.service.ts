@@ -21,6 +21,8 @@ export class SwaggerService {
       .addTag('user', 'Пользователь')
       .addTag('trainings', 'Тренировки')
       .addTag('comments', 'Отзывы')
+      .addTag('orders', 'Заказы')
+      .addTag('balance', 'Баланс')
       .addBearerAuth(
         {
           name: 'Authorization',

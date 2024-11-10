@@ -7,12 +7,6 @@ import { getAuthorizationStatus } from '../../store/auth-process/selectors';
 import RegisterForm from '../../components/forms/register-form/register-form';
 
 const RegisterPage = () => {
-  const authStatus = useAppSelector(getAuthorizationStatus);
-
-  if (authStatus === AuthStatus.Auth) {
-    return <Navigate to={AppRoute.Index} />;
-  }
-
   return (
     <>
       <Helmet>

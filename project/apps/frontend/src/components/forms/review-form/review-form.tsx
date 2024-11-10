@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { CommentValidator } from '@project/validation';
 import { toast } from 'react-toastify';
 import { useCreateCommentMutation } from '../../../store/comments-process/comments-api';
+import { CreateCommentDto } from '@project/dto';
+import { groupErrors } from '../../../shared/helpers/groupErrors';
 
 const FieldName = {
   Rating: 'rating',
@@ -17,7 +19,7 @@ interface ReviewFormProps {
 }
 const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
   const [formData, setFormData] = useState<TState>({
-    rating: '',
+    rating: undefined,
     message: '',
   });
 
@@ -46,12 +48,22 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
       onSuccess();
     } catch (err: any) {
       console.error('Failed to send: ', err);
+
+      const groupedErrors = groupErrors(err.data.message);
+      Object.keys(groupedErrors).forEach((key) => {
+        const errorMessage = groupedErrors[key].join('\n');
+        toast.error(errorMessage, {
+          style: { whiteSpace: 'pre-line' },
+          autoClose: 5_000,
+        });
+      });
     }
   };
   const ratings = Array.from(
-    { length: CommentValidator.Rating.Max },
-    (_, idx) => `${(idx += 1)}`
+    Array(CommentValidator.Rating.Max),
+    (_, idx) => (idx += 1)
   );
+
   return (
     <form
       onSubmit={handleSubmitForm}
@@ -68,8 +80,9 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
                   name={FieldName.Rating}
                   aria-label={`оценка ${rate}.`}
                   value={rate}
-                  checked={formData.rating === rate}
+                  checked={formData.rating === String(rate)}
                   onChange={handleInputChange}
+                  required
                 />
                 <span className="popup__rate-number">{rate}</span>
               </label>
@@ -88,6 +101,8 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
                 name={FieldName.Message}
                 value={formData.message}
                 onChange={handleInputChange}
+                minLength={CommentValidator.Message.Min}
+                maxLength={CommentValidator.Message.Max}
               ></textarea>
             </label>
           </div>

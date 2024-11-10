@@ -16,6 +16,6 @@ import { UserModule } from '@project/user-module';
   ],
   controllers: [TrainingController],
   providers: [TrainingFactory, TrainingRepository, TrainingService],
-  exports: [TrainingRepository],
+  exports: [TrainingRepository, TrainingService],
 })
 export class TrainingModule {}

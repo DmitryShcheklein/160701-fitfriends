@@ -24,6 +24,12 @@ const createBaseQuery = (baseUrl: string) => {
   });
 };
 
+const createRefreshQuery = (baseUrl: string) => {
+  return fetchBaseQuery({
+    baseUrl: `${BACKEND_URL}/${baseUrl}`,
+  });
+};
+
 export const baseQueryWithReauth =
   ({
     baseUrl,
@@ -38,14 +44,15 @@ export const baseQueryWithReauth =
   > =>
   async (args, api, extraOptions) => {
     const baseQuery = createBaseQuery(baseUrl);
+    const refreshQuery = createRefreshQuery(baseUrl);
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === StatusCodes.UNAUTHORIZED) {
       const refreshToken = (api.getState() as TState).auth.refreshToken;
       if (refreshToken) {
-        const refreshResult = await baseQuery(
+        const refreshResult = await refreshQuery(
           {
-            url: `${baseUrl}/refresh`,
+            url: `${BACKEND_URL}/auth/refresh`,
             method: 'POST',
             headers: {
               Authorization: `Bearer ${refreshToken}`,

@@ -4,9 +4,9 @@ import { UserProfile } from '../../components/profile/user-profile/user-profile'
 import { TrenerProfile } from '../../components/profile/trener-profile/trener-profile';
 import { PageTitles } from '../../shared/const';
 import { useUserQuery } from '../../store/user-process/user-api';
-import { LoaderPage } from '../../components/loaders/loader-page/loader-page';
+import { LoaderPage } from '../../components/base/loaders/loader-page/loader-page';
 
-const ProfilePage: React.FC = () => {
+const ProfilePage = () => {
   const { isLoading } = useUserQuery();
 
   return (

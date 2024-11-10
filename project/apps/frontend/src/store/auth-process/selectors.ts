@@ -8,3 +8,5 @@ export const getAccessToken = (state: TState) =>
   state[NameSpace.Auth].accessToken;
 export const getRefreshToken = (state: TState) =>
   state[NameSpace.Auth].refreshToken;
+export const getIsSubmiting = (state: TState) =>
+  state[NameSpace.Auth].isSubmitting;

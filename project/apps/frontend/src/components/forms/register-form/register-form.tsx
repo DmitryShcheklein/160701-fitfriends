@@ -1,9 +1,12 @@
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useEffect } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
 import { useRegisterMutation } from '../../../store/auth-process/auth-api';
-import { setCredentials } from '../../../store/auth-process/auth-process';
+import {
+  setCredentials,
+  setIsSubmiting,
+} from '../../../store/auth-process/auth-process';
 import { useAppDispatch } from '../../../hooks';
 import Popup from '../../ui/popup/popup';
 import Input from '../../ui/input/input';
@@ -96,10 +99,17 @@ const RegisterForm = () => {
 
       const userData = await register(form).unwrap();
       dispatch(setCredentials(userData));
-      toast.success('Вы успешно зарегистрированы!');
+
+      dispatch(setIsSubmiting(true));
+
       navigate(AppRoute.Questionnaire);
+      // dispatch(setIsSubmiting(false));
+      toast.success('Вы успешно зарегистрированы!');
     } catch (err: any) {
+      dispatch(setIsSubmiting(false));
+
       console.error('Failed to register: ', err);
+
       if (Array.isArray(err.data.message)) {
         const groupedErrors = groupErrors(err.data.message);
         Object.keys(groupedErrors).forEach((key) => {
@@ -114,7 +124,7 @@ const RegisterForm = () => {
       }
     }
   };
-
+  useEffect(() => {}, []);
   return (
     <Popup isStatic title="Регистрация" className="popup-form--sign-up">
       <div className="popup-form__content">

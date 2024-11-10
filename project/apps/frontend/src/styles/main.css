@@ -3385,7 +3385,7 @@ input:active + .custom-textarea__text {
 }
 
 .reviews-side-bar__list {
-  position: relative;  
+  position: relative;
   max-height: 976px;
   margin: 0;
   padding: 0;
@@ -3504,6 +3504,12 @@ input:active + .custom-textarea__text {
   font-size: 16px;
   line-height: 19px;
   color: #464646;
+  word-break: break-all;
+}
+
+.training-card:has(.training-video) .training-info{
+  border-bottom: 0;
+  border-radius: 19px 19px 0 0;
 }
 
 .training-info {
@@ -3511,8 +3517,7 @@ input:active + .custom-textarea__text {
   max-width: 1040px;
   padding: 59px;
   border: 1px solid #c5ec2a;
-  border-bottom: 0;
-  border-radius: 19px 19px 0 0;
+  border-radius: 19px ;
   background-color: #333333;
 }
 
@@ -4029,10 +4034,6 @@ input:active + .custom-textarea__text {
 
 .training-video__button {
   max-width: 256px;
-}
-
-.training-video__button--stop {
-  display: none;
 }
 
 .training-video__drop-files {
@@ -5929,6 +5930,7 @@ input:active + .custom-textarea__text {
   border-radius: 20px;
   -webkit-box-shadow: 0 10px 30px rgba(51, 51, 51, 0.1);
   box-shadow: 0 10px 30px rgba(51, 51, 51, 0.1);
+  height: max-content;
 }
 
 .training-card--edit .training-info__edit--edit {

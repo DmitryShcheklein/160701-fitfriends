@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserModel } from '@project/user-module';
 import { Seeder, DataFactory } from 'nestjs-seeder';
-import { CommentModel } from 'libs/backend/modules/comments/src/lib/comment.model';
+import { CommentModel } from '@project/comments-module';
 import { TrainingModel } from '@project/trainings-module';
 
 @Injectable()

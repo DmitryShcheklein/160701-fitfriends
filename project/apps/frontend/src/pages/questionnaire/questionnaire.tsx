@@ -6,7 +6,7 @@ const QuestionnairePage = () => {
   return (
     <>
       <Helmet>
-        <title>{PageTitles.Register}</title>
+        <title>{PageTitles.Questionnaire}</title>
       </Helmet>
       <QuestionnaireUser />
     </>

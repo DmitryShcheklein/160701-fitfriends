@@ -20,7 +20,7 @@ export const commentsApi = createApi({
       }),
       invalidatesTags: [NameSpace.CommentsApi],
     }),
-    getCommentsByTrainingId: builder.query<CommentRdo[], void>({
+    getCommentsByTrainingId: builder.query<CommentRdo[], string>({
       query: (trainingId) => ({
         url: `trainings/${trainingId}/comments`,
         method: 'GET',
