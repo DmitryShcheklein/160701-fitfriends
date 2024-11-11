@@ -18,6 +18,7 @@ import PurchasesPage from '../pages/my-purchases/my-purchases';
 import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
 import { MyOrdersPage } from '../pages/my-orders/my-orders';
 import { MyTrainingsPage } from '../pages/my-trainings/my-trainings';
+import { CreateTrainingPage } from '../pages/create-training/create-training';
 
 export function App() {
   return (
@@ -47,6 +48,10 @@ export function App() {
 
         <Route path={AppRoute.MyOrders} element={<MyOrdersPage />} />
         <Route path={AppRoute.MyTrainings} element={<MyTrainingsPage />} />
+        <Route
+          path={AppRoute.CreateTraining}
+          element={<CreateTrainingPage />}
+        />
       </Route>
 
       <Route element={<IntroLayout />}>
