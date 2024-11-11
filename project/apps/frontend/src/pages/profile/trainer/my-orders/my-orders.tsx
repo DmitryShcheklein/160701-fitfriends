@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
-import { getPageTitle } from '../../shared/const';
-import { MyOrders } from '../../components/my-orders/my-orders';
+import { getPageTitle } from '../../../../shared/const';
+import { MyOrders } from '../../../../components/my-orders/my-orders';
 
 export const MyOrdersPage = () => {
   return (

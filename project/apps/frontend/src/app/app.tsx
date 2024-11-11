@@ -14,10 +14,10 @@ import { AppRoute } from '../shared/const';
 import QuestionnairePage from '../pages/questionnaire/questionnaire';
 import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
-import PurchasesPage from '../pages/my-purchases/my-purchases';
+import PurchasesPage from '../pages/profile/user/my-purchases/my-purchases';
 import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
-import { MyOrdersPage } from '../pages/my-orders/my-orders';
-import { MyTrainingsPage } from '../pages/my-trainings/my-trainings';
+import { MyOrdersPage } from '../pages/profile/trainer/my-orders/my-orders';
+import { MyTrainingsPage } from '../pages/profile/trainer/my-trainings/my-trainings';
 import { CreateTrainingPage } from '../pages/create-training/create-training';
 
 export function App() {
