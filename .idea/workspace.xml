@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="fix: layout">
+    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="fix: app route-titles">
+      <change afterPath="$PROJECT_DIR$/project/apps/frontend/src/components/my-orders/my-orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/nx-angular-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nx-angular-config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/app/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/app/app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/components/profile/trener-profile/components/menu/menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/components/profile/trener-profile/components/menu/menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/components/training-card-min/training-card-min.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/components/training-card-min/training-card-min.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-orders/my-orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-orders/my-orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-trainings/my-trainings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-trainings/my-trainings.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +75,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "dev.nx.console.toolwindow.cloud_panel_collapse": "true",
     "git-widget-placeholder": "feat/stage-2",
-    "last_opened_file_path": "/home/Dmitry/Документы/GitHub/isp_client",
+    "last_opened_file_path": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/apps/frontend/src/pages",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -99,6 +106,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/project/apps/frontend/src/pages" />
       <recent name="$PROJECT_DIR$/project/libs/core/src/const" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -117,7 +125,7 @@
       <command value="nx generate @nx/node:library --name orders --directory backend/modules" />
     </option>
   </component>
-  <component name="RunManager" selected="Nx.backend:serve:development">
+  <component name="RunManager" selected="Nx.frontend:serve">
     <configuration name="backend:build" type="NxRunConfigurationType">
       <option name="nx-projects" value="backend" />
       <option name="nx-targets" value="build" />
@@ -244,6 +252,7 @@
       <workItem from="1731083783844" duration="8681000" />
       <workItem from="1731136834911" duration="16381000" />
       <workItem from="1731226263931" duration="18759000" />
+      <workItem from="1731338369653" duration="4061000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: gitignore">
       <option name="closed" value="true" />
@@ -597,7 +606,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731251696633</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="fix: app route-titles">
+      <option name="closed" value="true" />
+      <created>1731344220736</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1731344220736</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,7 +677,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add balance-api" />
     <MESSAGE value="feat: balance back" />
     <MESSAGE value="fix: orders" />
     <MESSAGE value="fix: purchases.tsx layout" />
@@ -685,7 +701,8 @@
     <MESSAGE value="fix: catalog sidebar" />
     <MESSAGE value="fix: refresh jwt" />
     <MESSAGE value="fix: layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: layout" />
+    <MESSAGE value="fix: app route-titles" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: app route-titles" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,19 +730,16 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/project/apps/frontend/src/pages/catalog/catalog.tsx</url>
           <line>25</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/project/apps/frontend/src/components/catalog/catalog-sidebar/catalog-sidebar.tsx</url>
           <line>40</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/project/apps/frontend/src/components/catalog/catalog-sidebar/catalog-sidebar.tsx</url>
           <line>29</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
