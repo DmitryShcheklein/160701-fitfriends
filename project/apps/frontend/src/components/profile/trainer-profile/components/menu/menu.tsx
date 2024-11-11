@@ -12,6 +12,11 @@ const data = [
     name: 'Создать тренировку',
     hrefLink: AppRoute.CreateTraining,
   },
+  {
+    icon: '#icon-friends',
+    name: 'Моя страница',
+    hrefLink: AppRoute.UserCard,
+  },
   // {
   //   icon: '#icon-friends',
   //   name: 'Мои друзья',
