@@ -1,12 +1,13 @@
 import { Helmet } from 'react-helmet-async';
-import { PageTitles } from '../../shared/const';
+import { getPageTitle } from '../../shared/const';
 import { QuestionnaireUser } from '../../components/forms/questionnaire/user/questionnaire-user';
+import React from 'react';
 
 const QuestionnairePage = () => {
   return (
     <>
       <Helmet>
-        <title>{PageTitles.Questionnaire}</title>
+        <title>{getPageTitle('Questionnaire')}</title>
       </Helmet>
       <QuestionnaireUser />
     </>

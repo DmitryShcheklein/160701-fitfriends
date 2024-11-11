@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import { PageTitles } from '../../shared/const';
+import { getPageTitle, PageTitles } from '../../shared/const';
 import { IndexPageContent } from '../../components/index-page-content/index-page-content';
+import React from 'react';
 
 const IndexPage = () => (
   <>
     <Helmet>
-      <title>{PageTitles.Index}</title>
+      <title>{getPageTitle('Index')}</title>
     </Helmet>
 
     <IndexPageContent />

@@ -1,15 +1,15 @@
 import { Helmet } from 'react-helmet-async';
-import { getPageTitle, PageTitles } from '../../shared/const';
+import { getPageTitle } from '../../shared/const';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { CatalogSidebar } from '../../components/catalog/catalog-sidebar/catalog-sidebar';
 import { useGetTrainingsQuery } from '../../store/training-process/training-api';
 import EmptyBlock from '../../components/base/empty-block/empty-block';
 import { TrainingCardMin } from '../../components/training-card-min/training-card-min';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
 import { TrainingsQuery } from '@project/core';
 
-export const CatalogPage = () => {
+export const MyOrders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState<TrainingsQuery>({});
   const { data, isFetching } = useGetTrainingsQuery({
@@ -49,13 +49,9 @@ export const CatalogPage = () => {
   return (
     <>
       <Helmet>
-        <title>{getPageTitle('Catalog')}</title>
+        <title>{getPageTitle('MyOrders')}</title>
       </Helmet>
       <div className="inner-page__wrapper">
-        <h1 className="visually-hidden">Каталог тренировок</h1>
-        <Sidebar>
-          <CatalogSidebar filters={data?.filters} setFilter={setFilter} />
-        </Sidebar>
         <div className="training-catalog">
           {!allTrainings?.length && !isFetching ? (
             <EmptyBlock />
@@ -101,4 +97,4 @@ export const CatalogPage = () => {
   );
 };
 
-export default CatalogPage;
+export default MyOrders;

@@ -1,39 +1,49 @@
-const AppRoute = {
-  Intro: '/intro',
-  Index: '/',
-  Login: '/login',
-  Register: '/register',
-  ErrorPage: '/page404',
-
-  Profile: '/profile',
-  Catalog: '/catalog',
-  TrainingCardPage: '/training',
-  Questionnaire: '/questionnaire',
-  Friends: '/friends',
-  Purchases: '/purchases',
-
-  Orders: '/orders',
-  MyTrainings: '/trainings',
-  CreateTraining: '/create-training',
-} as const;
-
 enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
-enum PageTitles {
-  Intro = 'Разводящая — FitFriends',
-  Index = 'Главная — FitFriends',
-  Login = 'Войти — FitFriends',
-  Register = 'Регистрация — FitFriends',
-  Page404 = 'Страница 404 — FitFriends',
-  Profile = 'Личный кабинет — FitFriends',
-  Purchases = 'Мои покупки — FitFriends',
-  Questionnaire = 'Опросник — FitFriends',
-  Catalog = 'Мои тренировки — FitFriends',
-  TrainingCardPage = 'Карточка тренировки — FitFriends',
+const AppRoute = {
+  Intro: '/intro',
+  Index: '/',
+  Login: '/login',
+  Register: '/register',
+  Page404: '/page404',
+
+  Profile: '/profile',
+  Catalog: '/catalog',
+  TrainingCardPage: '/training',
+  Questionnaire: '/questionnaire',
+  Friends: '/friends',
+  MyPurchases: '/my-purchases',
+
+  MyOrders: '/orders',
+  MyTrainings: '/trainings',
+  CreateTraining: '/create-training',
+} as const;
+
+const PageTitles: Record<keyof typeof AppRoute, string> = {
+  Intro: 'Разводящая',
+  Index: 'Главная',
+  Login: 'Войти',
+  Register: 'Регистрация',
+  Page404: 'Страница 404',
+
+  Profile: 'Личный кабинет',
+  Catalog: 'Мои тренировки',
+  TrainingCardPage: 'Карточка тренировки',
+  Questionnaire: 'Опросник',
+  Friends: 'Список друзей',
+  MyPurchases: 'Мои покупки',
+
+  MyOrders: 'Мои заказы',
+  MyTrainings: 'Мои тренировки',
+  CreateTraining: 'Создать тренировку',
+};
+
+function getPageTitle(route: keyof typeof AppRoute): string {
+  return `${PageTitles[route]}  — FitFriends`;
 }
 
-export { AppRoute, AuthStatus, PageTitles };
+export { AppRoute, AuthStatus, PageTitles, getPageTitle };

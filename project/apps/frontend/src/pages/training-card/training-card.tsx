@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import { AppRoute, PageTitles } from '../../shared/const';
+import { AppRoute, getPageTitle } from '../../shared/const';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { Link, useParams } from 'react-router-dom';
 import { useGetTrainingByIdQuery } from '../../store/training-process/training-api';
 import { LoaderPage } from '../../components/base/loaders/loader-page/loader-page';
 import { Comments } from '../../components/training-card/components/comments/comments';
 import { TrainingCard } from '../../components/training-card/training-card';
+import React from 'react';
 
 const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +19,7 @@ const TrainingCardPage = () => {
   return (
     <>
       <Helmet>
-        <title>{PageTitles.TrainingCardPage}</title>
+        <title>{getPageTitle('TrainingCardPage')}</title>
       </Helmet>
 
       <div className="inner-page__wrapper">

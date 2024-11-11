@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../shared/const';
+import { AppRoute, getPageTitle } from '../../shared/const';
 import { Helmet } from 'react-helmet-async';
-import { PageTitles } from '../../shared/const';
+import React from 'react';
 
 const IntroPage = () => {
   return (
     <div className="wrapper">
       <Helmet>
-        <title>{PageTitles.Intro}</title>
+        <title>{getPageTitle('Intro')}</title>
       </Helmet>
       <main>
         <div className="intro">

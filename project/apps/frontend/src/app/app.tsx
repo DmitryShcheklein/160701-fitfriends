@@ -14,7 +14,7 @@ import { AppRoute } from '../shared/const';
 import QuestionnairePage from '../pages/questionnaire/questionnaire';
 import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
-import PurchasesPage from '../pages/purchases/purchases';
+import PurchasesPage from '../pages/my-purchases/my-purchases';
 import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
 
 export function App() {
@@ -34,12 +34,14 @@ export function App() {
       <Route element={PrivateRoute(<MainLayout />)}>
         <Route path={AppRoute.Index} element={<IndexPage />} />
         <Route path={AppRoute.Profile} element={<ProfilePage />} />
-        <Route path={AppRoute.Purchases} element={<PurchasesPage />} />
+        <Route path={AppRoute.MyPurchases} element={<PurchasesPage />} />
         <Route path={AppRoute.Catalog} element={<CatalogPage />} />
         <Route
           path={`${AppRoute.TrainingCardPage}/:id`}
           element={<TrainingCardPage />}
         />
+
+        <Route path={AppRoute.Catalog} element={<CatalogPage />} />
       </Route>
 
       <Route element={<IntroLayout />}>
