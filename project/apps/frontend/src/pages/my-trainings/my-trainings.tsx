@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
 import { TrainingsQuery } from '@project/core';
 
-export const MyTrainings = () => {
+export const MyTrainingsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState<TrainingsQuery>({});
   const { data, isFetching } = useGetTrainingsQuery({

@@ -6,13 +6,14 @@ import { HTMLAttributes } from 'react';
 import { specializationOptions } from '../forms/user-info/user-info.data';
 
 interface TrainingCardMinProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   training: TrainingRdo;
 }
 
 export const TrainingCardMin = ({
   training,
   className,
+  children,
 }: TrainingCardMinProps) => {
   return (
     <div className={classNames('thumbnail-training', className)}>
@@ -76,6 +77,7 @@ export const TrainingCardMin = ({
           </Link>
         </div>
       </div>
+      {children}
     </div>
   );
 };

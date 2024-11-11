@@ -16,6 +16,8 @@ import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
 import PurchasesPage from '../pages/my-purchases/my-purchases';
 import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
+import { MyOrdersPage } from '../pages/my-orders/my-orders';
+import { MyTrainingsPage } from '../pages/my-trainings/my-trainings';
 
 export function App() {
   return (
@@ -34,14 +36,17 @@ export function App() {
       <Route element={PrivateRoute(<MainLayout />)}>
         <Route path={AppRoute.Index} element={<IndexPage />} />
         <Route path={AppRoute.Profile} element={<ProfilePage />} />
-        <Route path={AppRoute.MyPurchases} element={<PurchasesPage />} />
-        <Route path={AppRoute.Catalog} element={<CatalogPage />} />
+
         <Route
           path={`${AppRoute.TrainingCardPage}/:id`}
           element={<TrainingCardPage />}
         />
 
         <Route path={AppRoute.Catalog} element={<CatalogPage />} />
+        <Route path={AppRoute.MyPurchases} element={<PurchasesPage />} />
+
+        <Route path={AppRoute.MyOrders} element={<MyOrdersPage />} />
+        <Route path={AppRoute.MyTrainings} element={<MyTrainingsPage />} />
       </Route>
 
       <Route element={<IntroLayout />}>

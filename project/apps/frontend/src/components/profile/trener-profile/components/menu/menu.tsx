@@ -12,15 +12,15 @@ const data = [
     name: 'Создать тренировку',
     hrefLink: AppRoute.CreateTraining,
   },
-  {
-    icon: '#icon-friends',
-    name: 'Мои друзья',
-    hrefLink: AppRoute.Friends,
-  },
+  // {
+  //   icon: '#icon-friends',
+  //   name: 'Мои друзья',
+  //   hrefLink: AppRoute.Friends,
+  // },
   {
     icon: '#icon-bag',
     name: 'Мои заказы',
-    hrefLink: AppRoute.Orders,
+    hrefLink: AppRoute.MyOrders,
   },
 ];
 
