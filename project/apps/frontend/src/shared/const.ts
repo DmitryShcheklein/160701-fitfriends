@@ -11,6 +11,7 @@ const AppRoute = {
   Register: '/register',
   Page404: '/page404',
 
+  UserCard: '/user-card',
   Profile: '/profile',
   Catalog: '/catalog',
   TrainingCardPage: '/training',
@@ -30,6 +31,7 @@ const PageTitles: Record<keyof typeof AppRoute, string> = {
   Register: 'Регистрация',
   Page404: 'Страница 404',
 
+  UserCard: 'Карточка пользователя',
   Profile: 'Личный кабинет',
   Catalog: 'Мои тренировки',
   TrainingCardPage: 'Карточка тренировки',
