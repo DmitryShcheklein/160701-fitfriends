@@ -117,14 +117,11 @@ export class TrainingRdo implements Training {
   })
   public rating!: number;
 
-  @Expose()
+  @Expose({ name: 'trainerId' })
   @ApiProperty({
-    description: 'Имя тренера, создавшего тренировку',
-    example: 'Иван',
-    minLength: TrainingValidation.Coach.Min,
-    maxLength: TrainingValidation.Coach.Max,
+    description: 'Тренер, создавшего тренировку',
   })
-  public coach!: string;
+  public trainerId!: string;
 
   @Expose()
   @ApiProperty({

@@ -1,6 +1,6 @@
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Training } from '@project/core';
+import { Training, TrainingSeederData } from '@project/core';
 import {
   FitnessLevel,
   WorkoutType,
@@ -10,6 +10,7 @@ import {
 import { TrainingValidation } from '@project/validation';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
+import { UserModel } from '@project/user-module';
 
 @Schema({
   collection: 'trainings',
@@ -27,9 +28,9 @@ export class TrainingModel extends Document implements Training {
   public name!: string;
 
   @Factory(
-    (faker, ctx) =>
+    (faker, ctx: TrainingSeederData) =>
       `${ctx.mockImagePath}trainings/${faker.helpers.arrayElement(
-        Array.from(Array(4), (_, idx) => `training-${++idx}@2x.png`)
+        ctx.backgroundImages
       )}`
   )
   @Prop({
@@ -45,7 +46,7 @@ export class TrainingModel extends Document implements Training {
   })
   public level!: FitnessLevel;
 
-  @Factory((_, ctx) => ctx.name)
+  @Factory((faker) => faker.helpers.enumValue(WorkoutType))
   @Prop({
     enum: WorkoutType,
     required: true,
@@ -104,14 +105,8 @@ export class TrainingModel extends Document implements Training {
   })
   public gender!: UserGender;
 
-  @Factory((faker) =>
-    faker.helpers.arrayElement([
-      'https://assets.mixkit.co/videos/44442/44442-720.mp4',
-      'https://assets.mixkit.co/videos/49276/49276-720.mp4',
-      'https://assets.mixkit.co/videos/52092/52092-720.mp4',
-      'https://assets.mixkit.co/videos/44414/44414-720.mp4',
-      'https://assets.mixkit.co/videos/46688/46688-720.mp4',
-    ])
+  @Factory((faker, ctx: TrainingSeederData) =>
+    faker.helpers.arrayElement(ctx.videoLinks)
   )
   @Prop({
     required: true,
@@ -132,15 +127,15 @@ export class TrainingModel extends Document implements Training {
   })
   public rating!: number;
 
-  @Factory(() =>
-    fakerRU.person.firstName().substring(0, TrainingValidation.Coach.Max)
+  @Factory((faker, ctx: TrainingSeederData) =>
+    faker.helpers.arrayElement(ctx.userIds)
   )
   @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: UserModel.name,
     required: true,
-    minlength: TrainingValidation.Coach.Min,
-    maxlength: TrainingValidation.Coach.Max,
   })
-  public coach!: string;
+  public trainerId!: string;
 
   @Factory((faker) => faker.datatype.boolean())
   @Prop({

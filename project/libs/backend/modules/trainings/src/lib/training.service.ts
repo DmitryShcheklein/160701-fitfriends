@@ -19,9 +19,10 @@ export class TrainingService {
     private readonly userService: UserService
   ) {}
 
-  public async create(dto: CreateTrainingDto) {
+  public async create(dto: CreateTrainingDto, userId: string) {
     const newTraining: Training = {
       ...dto,
+      trainerId: userId,
     };
     const newTrainingEntity = this.trainingFactory.create(newTraining);
 

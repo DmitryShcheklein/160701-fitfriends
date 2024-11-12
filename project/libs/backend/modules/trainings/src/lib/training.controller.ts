@@ -58,6 +58,7 @@ export class TrainingController {
   @UseInterceptors(FileInterceptor('video'))
   @Post()
   public async create(
+    @Req() { user }: RequestWithTokenPayload,
     @Body() dto: CreateTrainingDto,
     @UploadedFile(
       new FileValidationPipe(
@@ -68,11 +69,15 @@ export class TrainingController {
     )
     file: Express.Multer.File
   ) {
+    const userId = user.sub;
     const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
-    const training = await this.trainingService.create({
-      ...dto,
-      video: existFile?.path,
-    });
+    const training = await this.trainingService.create(
+      {
+        ...dto,
+        video: existFile?.path,
+      },
+      userId
+    );
 
     return fillDto(TrainingRdo, training);
   }

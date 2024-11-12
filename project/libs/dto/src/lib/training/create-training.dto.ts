@@ -16,7 +16,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { TrainingValidation } from '@project/validation'; // Assuming the path to your validation constants
+import { TrainingValidation } from '@project/validation';
 
 export class CreateTrainingDto {
   @ApiProperty({
@@ -126,18 +126,6 @@ export class CreateTrainingDto {
   @Max(TrainingValidation.Rating.Max)
   @IsNotEmpty()
   public rating!: number;
-
-  @ApiProperty({
-    description: 'Coach or instructor name',
-    example: 'John Doe',
-    minLength: TrainingValidation.Coach.Min,
-    maxLength: TrainingValidation.Coach.Max,
-  })
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(TrainingValidation.Coach.Min)
-  @MaxLength(TrainingValidation.Coach.Max)
-  public coach!: string;
 
   @ApiProperty({
     description: 'Special offer availability',

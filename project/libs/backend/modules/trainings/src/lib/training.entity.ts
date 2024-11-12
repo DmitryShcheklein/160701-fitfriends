@@ -19,7 +19,7 @@ export class TrainingEntity extends Entity implements StorableEntity<Training> {
   public gender!: UserGender;
   public video!: string;
   public rating: number;
-  public coach!: string;
+  public trainerId!: string;
   public specialOffer: boolean;
 
   constructor(training?: Training) {
@@ -46,7 +46,7 @@ export class TrainingEntity extends Entity implements StorableEntity<Training> {
     this.gender = training.gender;
     this.video = training.video;
     this.rating = training.rating;
-    this.coach = training.coach;
+    this.trainerId = training.trainerId;
     this.specialOffer = training.specialOffer;
   }
 
@@ -66,7 +66,7 @@ export class TrainingEntity extends Entity implements StorableEntity<Training> {
       gender: this.gender,
       video: this.video,
       rating: this.rating,
-      coach: this.coach,
+      trainerId: this.trainerId,
       specialOffer: this.specialOffer,
     };
   }
