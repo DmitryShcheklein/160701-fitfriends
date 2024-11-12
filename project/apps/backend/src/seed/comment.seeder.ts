@@ -8,6 +8,8 @@ import { TrainingModel } from '@project/trainings-module';
 
 @Injectable()
 export class CommentSeeder implements Seeder {
+  private MOCK_COMMENT_COUNT = 50;
+
   constructor(
     @InjectModel(TrainingModel.name)
     private readonly trainingModel: Model<TrainingModel>,
@@ -19,7 +21,6 @@ export class CommentSeeder implements Seeder {
   async seed() {
     await this.drop();
 
-    const MOCK_COMMENT_COUNT = 50;
     const userIds = (await this.userModel.find().select('_id')).map((user) =>
       user._id.toString()
     );
@@ -29,7 +30,7 @@ export class CommentSeeder implements Seeder {
     );
 
     const comments = DataFactory.createForClass(CommentModel).generate(
-      MOCK_COMMENT_COUNT,
+      this.MOCK_COMMENT_COUNT,
       {
         userIds,
         trainingIds,

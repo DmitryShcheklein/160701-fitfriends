@@ -6,14 +6,14 @@ import { Seeder, DataFactory } from 'nestjs-seeder';
 import { Hasher, HasherComponent } from '@project/hasher-module';
 import { appConfig } from '@project/config';
 import { ConfigType } from '@nestjs/config';
-import { AuthUser } from '@project/core';
+import { AuthUser, UsersSeederData } from '@project/core';
 import { UserGender } from '@project/enums';
-
-type MockUser = Partial<AuthUser>;
+import { AdminUser, DEFAULT_AVATAR_FILE_NAME, User } from './seed.const';
 
 @Injectable()
 export class UsersSeeder implements Seeder {
   private defaultPath!: string;
+  private MOCK_USERS_COUNT = 5;
 
   constructor(
     @InjectModel(UserModel.name) private readonly user: Model<UserModel>,
@@ -27,23 +27,25 @@ export class UsersSeeder implements Seeder {
 
   async seed() {
     await this.drop();
-    const adminUserData: MockUser = {
-      email: 'admin@admin.ru',
-      firstName: 'Admin',
-      passwordHash: await this.hasherService.generatePasswordHash('adminnew'),
-      avatarPath: `${this.defaultPath}/admin-avatar.jpg`,
+
+    const adminUserMock: Partial<AuthUser> = {
+      email: AdminUser.email,
+      firstName: AdminUser.firstName,
+      passwordHash: await this.hasherService.generatePasswordHash(
+        AdminUser.password
+      ),
+      avatarPath: `${this.defaultPath}/${AdminUser.avatarFileName}`,
     };
     const userAdmin = DataFactory.createForClass(UserModel).generate(
       1,
-      adminUserData
+      adminUserMock
     );
 
-    const MOCK_USERS_COUNT = 5;
-    const MOCK_FEMALE_AVATARS = Array.from({ length: 3 }, (_, idx) => ({
+    const MOCK_FEMALE_AVATARS = Array.from(Array(3), (_, idx) => ({
       gender: UserGender.Female,
       path: `${UserGender.Female}/photo-${idx + 1}.png`,
     }));
-    const MOCK_MALE_AVATARS = Array.from({ length: 2 }, (_, idx) => ({
+    const MOCK_MALE_AVATARS = Array.from(Array(2), (_, idx) => ({
       gender: UserGender.Male,
       path: `${UserGender.Male}/photo-${idx + 1}.png`,
     }));
@@ -52,13 +54,17 @@ export class UsersSeeder implements Seeder {
       ...MOCK_MALE_AVATARS,
     ].map((obj) => ({ ...obj, path: `${this.defaultPath}/${obj.path}` }));
 
+    const mockData: UsersSeederData = {
+      passwordHash: await this.hasherService.generatePasswordHash(
+        User.password
+      ),
+      avatarPaths: MOCK_USERS_AVATARS_PATH,
+      defaultAvatar: `${this.defaultPath}/${DEFAULT_AVATAR_FILE_NAME}`,
+    };
+
     const users = DataFactory.createForClass(UserModel).generate(
-      MOCK_USERS_COUNT,
-      {
-        passwordHash: await this.hasherService.generatePasswordHash('123456'),
-        avatarPaths: MOCK_USERS_AVATARS_PATH,
-        defaultAvatar: `${this.defaultPath}/default-avatar.png`,
-      } as MockUser
+      this.MOCK_USERS_COUNT,
+      mockData
     );
 
     return this.user.insertMany([...userAdmin, ...users]);

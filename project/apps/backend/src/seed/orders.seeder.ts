@@ -6,7 +6,7 @@ import { DataFactory, Seeder } from 'nestjs-seeder';
 import { OrdersModel } from '@project/orders-module';
 import { Injectable } from '@nestjs/common';
 import { PaymentVariant } from '@project/enums';
-import { OrderSeeder } from '@project/core';
+import { OrderSeederData } from '@project/core';
 
 @Injectable()
 export class OrdersSeeder implements Seeder {
@@ -30,13 +30,13 @@ export class OrdersSeeder implements Seeder {
     );
 
     const orders = userIds.map((userId) => {
-      const quantity = 2;
-      const mockData: OrderSeeder = {
+      const QUANTITY = 2;
+      const mockData: OrderSeederData = {
         userId,
         training: training,
-        quantity,
+        quantity: QUANTITY,
         trainingPrice: training.price,
-        totalSum: training.price * quantity,
+        totalSum: training.price * QUANTITY,
         paymentType: PaymentVariant.Visa,
         type: 'абонемент',
       };
