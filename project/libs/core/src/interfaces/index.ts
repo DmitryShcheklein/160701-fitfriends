@@ -32,4 +32,6 @@ export { RefreshTokenPayload } from './users/tokens/refresh-token-payload.interf
 export { RequestWithTokenPayload } from './users/tokens/request-with-token-payload.interface';
 
 // Seeder
-export { OrderSeeder } from './seeder/orders';
+export { OrderSeederData } from './seeder/orders';
+export { TrainingSeederData } from './seeder/trainings';
+export { UsersSeederData } from './seeder/users';
