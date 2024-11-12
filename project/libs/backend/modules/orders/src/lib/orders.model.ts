@@ -1,4 +1,4 @@
-import { Order, OrderSeeder } from '@project/core';
+import { Order, OrderSeederData } from '@project/core';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Factory } from 'nestjs-seeder';
@@ -14,7 +14,7 @@ import { TrainingModel } from '@project/trainings-module';
   toObject: { virtuals: true },
 })
 export class OrdersModel extends Document implements Order {
-  @Factory((_, ctx: OrderSeeder) => ctx.userId)
+  @Factory((_, ctx: OrderSeederData) => ctx.userId)
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: UserModel.name,
@@ -22,7 +22,7 @@ export class OrdersModel extends Document implements Order {
   })
   public userId: string;
 
-  @Factory((_, ctx: OrderSeeder) => ctx.training.id)
+  @Factory((_, ctx: OrderSeederData) => ctx.training.id)
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: TrainingModel.name,
@@ -30,14 +30,14 @@ export class OrdersModel extends Document implements Order {
   })
   public trainingId: string;
 
-  @Factory((_, ctx: OrderSeeder) => ctx.training.price)
+  @Factory((_, ctx: OrderSeederData) => ctx.training.price)
   @Prop({
     required: true,
     type: Number,
   })
   public trainingPrice!: number;
 
-  @Factory((_, ctx: OrderSeeder) => ctx.quantity)
+  @Factory((_, ctx: OrderSeederData) => ctx.quantity)
   @Prop({
     required: true,
     type: Number,
@@ -46,21 +46,21 @@ export class OrdersModel extends Document implements Order {
   })
   public quantity!: number;
 
-  @Factory((_, ctx: OrderSeeder) => ctx.totalSum)
+  @Factory((_, ctx: OrderSeederData) => ctx.totalSum)
   @Prop({
     required: true,
     type: Number,
   })
   public totalSum!: number;
 
-  @Factory((_, ctx: OrderSeeder) => ctx.type)
+  @Factory((_, ctx: OrderSeederData) => ctx.type)
   @Prop({
     required: true,
     type: String,
   })
   public type!: string;
 
-  @Factory((_, ctx: OrderSeeder) => ctx.paymentType)
+  @Factory((_, ctx: OrderSeederData) => ctx.paymentType)
   @Prop({
     required: true,
     type: String,
