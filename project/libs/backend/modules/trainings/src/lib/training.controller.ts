@@ -38,49 +38,13 @@ import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
 
 @ApiTags('trainings')
 @Controller('trainings')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth(AuthKeyName)
+// @UseGuards(JwtAuthGuard)
+// @ApiBearerAuth(AuthKeyName)
 export class TrainingController {
   constructor(
     private readonly trainingService: TrainingService,
     private readonly fileUploaderService: FileUploaderService
   ) {}
-
-  @ApiCreatedResponse({
-    type: TrainingRdo,
-    description: 'Тренинг создан успешно',
-  })
-  @ApiOperation({
-    summary: 'Создать тренинг',
-  })
-  @ApiConsumes('multipart/form-data')
-  @ApiBody(API_BODY.CreateTraining)
-  @UseInterceptors(FileInterceptor('video'))
-  @Post()
-  public async create(
-    @Req() { user }: RequestWithTokenPayload,
-    @Body() dto: CreateTrainingDto,
-    @UploadedFile(
-      new FileValidationPipe(
-        TrainingValidation.Video.FileMaxSize,
-        AllowedMimetypes.Img,
-        true
-      )
-    )
-    file: Express.Multer.File
-  ) {
-    const userId = user.sub;
-    const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
-    const training = await this.trainingService.create(
-      {
-        ...dto,
-        video: existFile?.path,
-      },
-      userId
-    );
-
-    return fillDto(TrainingRdo, training);
-  }
 
   @ApiOperation({
     summary: 'Получить тренинги',
@@ -159,6 +123,42 @@ export class TrainingController {
       TrainingRdo,
       trainings.map((el) => el.toPOJO())
     );
+  }
+
+  @ApiCreatedResponse({
+    type: TrainingRdo,
+    description: 'Тренинг создан успешно',
+  })
+  @ApiOperation({
+    summary: 'Создать тренинг',
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody(API_BODY.CreateTraining)
+  @UseInterceptors(FileInterceptor('video'))
+  @Post()
+  public async create(
+    @Req() { user }: RequestWithTokenPayload,
+    @Body() dto: CreateTrainingDto,
+    @UploadedFile(
+      new FileValidationPipe(
+        TrainingValidation.Video.FileMaxSize,
+        AllowedMimetypes.Img,
+        true
+      )
+    )
+    file: Express.Multer.File
+  ) {
+    const userId = user.sub;
+    const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
+    const training = await this.trainingService.create(
+      {
+        ...dto,
+        video: existFile?.path,
+      },
+      userId
+    );
+
+    return fillDto(TrainingRdo, training);
   }
 
   @ApiOperation({
