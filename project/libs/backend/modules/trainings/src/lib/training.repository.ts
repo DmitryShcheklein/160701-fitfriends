@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { TrainingEntity } from './training.entity';
 import { TrainingFactory } from './training.factory';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TrainingModel } from './training.model';
 import {
@@ -160,5 +160,17 @@ export class TrainingRepository extends BaseMongoRepository<
     if (training.gender === user.gender) score += 1;
 
     return score;
+  }
+
+  public async findById(id: string) {
+    const document = await this.model.findById(id)
+      .populate('trainerId')
+      .exec();
+
+    if (!document) {
+      throw new NotFoundException(`Entity with id ${id} not found`);
+    }
+
+    return this.createEntityFromDocument(document);
   }
 }
