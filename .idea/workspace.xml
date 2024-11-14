@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="fix: app route-titles">
-      <change afterPath="$PROJECT_DIR$/project/apps/frontend/src/components/my-orders/my-orders.tsx" afterDir="false" />
+    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/nx-angular-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nx-angular-config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/app/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/app/app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/components/profile/trener-profile/components/menu/menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/components/profile/trener-profile/components/menu/menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/components/training-card-min/training-card-min.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/components/training-card-min/training-card-min.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-orders/my-orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-orders/my-orders.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-trainings/my-trainings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/frontend/src/pages/my-trainings/my-trainings.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +16,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="package.json" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -48,6 +42,9 @@
     &quot;accountId&quot;: &quot;3b087c9a-f409-49b4-a0d7-b617afd5941e&quot;
   }
 }</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/project/package.json" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
   </component>
@@ -62,48 +59,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.backend: Compose Deployment.executor": "Run",
-    "Nx.backend:build.executor": "Run",
-    "Nx.backend:db:seed.executor": "Run",
-    "Nx.backend:serve-static.executor": "Run",
-    "Nx.backend:serve.executor": "Run",
-    "Nx.backend:serve:development.executor": "Run",
-    "Nx.frontend:build.executor": "Run",
-    "Nx.frontend:serve.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "dev.nx.console.toolwindow.cloud_panel_collapse": "true",
-    "git-widget-placeholder": "feat/stage-2",
-    "last_opened_file_path": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/apps/frontend/src/pages",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/node_modules/prettier",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.backend: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.backend:build.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.backend:db:seed.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.backend:serve-static.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.backend:serve.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.backend:serve:development.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.frontend:build.executor&quot;: &quot;Run&quot;,
+    &quot;Nx.frontend:serve.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dev.nx.console.toolwindow.cloud_panel_collapse&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/stage-2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/apps/frontend/src/pages&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mongo"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mongo&quot;
     ],
-    "dev.nx.console.project_details_files": [
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/nx/core/project-json",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/nx/core/package.json",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/vite/plugin",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/vite/package.json",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/eslint/plugin",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/eslint/package.json",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/jest/plugin",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/jest/package.json",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/webpack/plugin",
-      "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/@nx/webpack/package.json"
+    &quot;dev.nx.console.project_details_files&quot;: [
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\nx\\core\\project-json&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\nx\\core\\package.json&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\vite\\plugin&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\vite\\package.json&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\eslint\\plugin&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\eslint\\package.json&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\jest\\plugin&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\jest\\package.json&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\webpack\\plugin&quot;,
+      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\webpack\\package.json&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/project/apps/frontend/src/pages" />
@@ -125,7 +122,7 @@
       <command value="nx generate @nx/node:library --name orders --directory backend/modules" />
     </option>
   </component>
-  <component name="RunManager" selected="Nx.frontend:serve">
+  <component name="RunManager" selected="Nx.backend:serve:development">
     <configuration name="backend:build" type="NxRunConfigurationType">
       <option name="nx-projects" value="backend" />
       <option name="nx-targets" value="build" />
@@ -206,7 +203,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-WS-242.20224.342" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-WS-242.21829.149" />
       </set>
     </attachedChunks>
   </component>
@@ -253,14 +250,7 @@
       <workItem from="1731136834911" duration="16381000" />
       <workItem from="1731226263931" duration="18759000" />
       <workItem from="1731338369653" duration="4061000" />
-    </task>
-    <task id="LOCAL-00001" summary="Fix: gitignore">
-      <option name="closed" value="true" />
-      <created>1724578975385</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1724578975385</updated>
+      <workItem from="1731432816437" duration="2785000" />
     </task>
     <task id="LOCAL-00002" summary="Feat: add orders module">
       <option name="closed" value="true" />
@@ -614,7 +604,47 @@
       <option name="project" value="LOCAL" />
       <updated>1731344220736</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="fix: review remove">
+      <option name="closed" value="true" />
+      <created>1731435411250</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1731435411250</updated>
+    </task>
+    <task id="LOCAL-00047" summary="fix: seeder">
+      <option name="closed" value="true" />
+      <created>1731435506653</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1731435506653</updated>
+    </task>
+    <task id="LOCAL-00048" summary="fix: imports">
+      <option name="closed" value="true" />
+      <created>1731435522223</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1731435522223</updated>
+    </task>
+    <task id="LOCAL-00049" summary="fix: orders seeder">
+      <option name="closed" value="true" />
+      <created>1731435545595</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1731435545595</updated>
+    </task>
+    <task id="LOCAL-00050" summary="fix: training types for trainerId">
+      <option name="closed" value="true" />
+      <created>1731435581775</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1731435581777</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -677,14 +707,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: balance back" />
-    <MESSAGE value="fix: orders" />
-    <MESSAGE value="fix: purchases.tsx layout" />
-    <MESSAGE value="feat: training-card.tsx, comments.tsx layout" />
     <MESSAGE value="fix: start training" />
     <MESSAGE value="fix: for create many balances" />
     <MESSAGE value="feat: orders seeder" />
-    <MESSAGE value="fix: imports" />
     <MESSAGE value="fix: app auth" />
     <MESSAGE value="feat: NoAuthRoute" />
     <MESSAGE value="fix: training card" />
@@ -702,7 +727,12 @@
     <MESSAGE value="fix: refresh jwt" />
     <MESSAGE value="fix: layout" />
     <MESSAGE value="fix: app route-titles" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: app route-titles" />
+    <MESSAGE value="fix: review remove" />
+    <MESSAGE value="fix: seeder" />
+    <MESSAGE value="fix: imports" />
+    <MESSAGE value="fix: orders seeder" />
+    <MESSAGE value="fix: training types for trainerId" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: training types for trainerId" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
