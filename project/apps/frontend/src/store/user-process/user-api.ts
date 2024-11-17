@@ -17,14 +17,21 @@ export const userApi = createApi({
       }),
       invalidatesTags: [NameSpace.UserApi],
     }),
-    User: builder.query<UserRdo, void>({
+    getCurrentUser: builder.query<UserRdo, void>({
       query: () => ({
         url: '',
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
-    TrainingConfig: builder.query<UserConfigRdo, void>({
+    getUserById: builder.query<UserRdo, string>({
+      query: (userId) => ({
+        url: `/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: [NameSpace.UserApi],
+    }),
+    getTrainingConfig: builder.query<UserConfigRdo, void>({
       query: () => ({
         url: '/questionnaire-user',
         method: 'GET',
@@ -51,9 +58,10 @@ export const userApi = createApi({
 });
 
 export const {
-  useUserQuery,
+  useGetCurrentUserQuery,
+  useGetUserByIdQuery,
   useUpdateUserMutation,
   useCreateTrainingConfigMutation,
   useUpdateTrainingConfigMutation,
-  useTrainingConfigQuery,
+  useGetTrainingConfigQuery,
 } = userApi;
