@@ -149,25 +149,15 @@ export const UserCard = () => {
                     </button>
                   ) : null}
                 </div>
-                {user?.backgroundPath ? (
+                {user?.backgroundPath || user.avatarPath ? (
                   <div className="user-card-coach__gallary">
                     <ul className="user-card-coach__gallary-list">
                       <li className="user-card-coach__gallary-item">
                         <img
-                          src="img/content/user-coach-photo1.jpg"
-                          srcSet="img/content/user-coach-photo1@2x.jpg 2x"
+                          src={user.backgroundPath || user.avatarPath}
                           width="334"
                           height="573"
                           alt="photo1"
-                        />
-                      </li>
-                      <li className="user-card-coach__gallary-item">
-                        <img
-                          src="img/content/user-coach-photo2.jpg"
-                          srcSet="img/content/user-coach-photo2@2x.jpg 2x"
-                          width="334"
-                          height="573"
-                          alt="photo2"
                         />
                       </li>
                     </ul>
