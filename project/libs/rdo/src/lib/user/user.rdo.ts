@@ -42,6 +42,14 @@ export class UserRdo implements Omit<User, 'role'> {
   @Transform(({ value }) => (value === undefined ? null : value))
   public avatarPath!: string | null;
 
+  @Expose()
+  @ApiProperty({
+    description: 'User background path',
+    example: 'http://localhost:3333/static/bg.png',
+  })
+  @Transform(({ value }) => (value === undefined ? null : value))
+  public backgroundPath?: string | null;
+
   @ApiProperty({
     required: false,
     description: 'User description',
