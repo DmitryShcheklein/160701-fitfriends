@@ -50,9 +50,9 @@ export class UserController {
   @ApiBearerAuth(AuthKeyName)
   @Get()
   public async getUser(@Req() { user }: RequestWithTokenPayload) {
-    const findedUser = await this.userService.getUserById(user.sub);
+    const foundUser = await this.userService.getUserById(user.sub);
 
-    return fillDto(UserRdo, findedUser);
+    return fillDto(UserRdo, foundUser);
   }
 
   @ApiCreatedResponse({

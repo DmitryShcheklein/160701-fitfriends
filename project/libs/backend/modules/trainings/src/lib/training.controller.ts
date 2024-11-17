@@ -38,8 +38,8 @@ import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
 
 @ApiTags('trainings')
 @Controller('trainings')
-// @UseGuards(JwtAuthGuard)
-// @ApiBearerAuth(AuthKeyName)
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth(AuthKeyName)
 export class TrainingController {
   constructor(
     private readonly trainingService: TrainingService,
@@ -49,9 +49,8 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Получить тренинги',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     type: TrainingsWithPaginationRdo,
-    status: HttpStatus.OK,
   })
   @Get('/')
   public async showAll(@Query() query: TrainingsQuery) {
@@ -72,10 +71,9 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Получить рекоммендованные тренинги',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     isArray: true,
     type: TrainingRdo,
-    status: HttpStatus.OK,
   })
   @Get('/recommended')
   public async showRecommendedOffers(@Req() { user }: RequestWithTokenPayload) {
@@ -92,10 +90,9 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Получить специальные тренинги',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     isArray: true,
     type: TrainingRdo,
-    status: HttpStatus.OK,
   })
   @Get('/special')
   public async showSpecialOffers() {
