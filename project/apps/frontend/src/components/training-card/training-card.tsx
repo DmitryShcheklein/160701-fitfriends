@@ -3,6 +3,8 @@ import { useGetTrainingByIdQuery } from '../../store/training-process/training-a
 import { TrainingBuy } from './components/training-buy/training-buy';
 import { TrainingVideo } from './components/training-video/training-video';
 import { TrainingInfoList } from './components/training-info-list/training-info-list';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../shared/const';
 
 interface TrainingCardProps {
   trainingId: string;
@@ -11,17 +13,38 @@ interface TrainingCardProps {
 export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
   const { data: training } = useGetTrainingByIdQuery(trainingId);
 
+  if (!training) {
+    return null;
+  }
+
+  const { trainer } = training;
+
   return (
     <div className="training-card">
       <div className="training-info">
         <h2 className="visually-hidden">Информация о тренировке</h2>
         <div className="training-info__header">
-          <div className="training-info__coach">
+          <Link
+            to={`${AppRoute.UserCard}/${trainer.id}`}
+            className="training-info__coach"
+          >
+            {trainer.avatarPath ? (
+              <div className="training-info__photo">
+                <picture>
+                  <img
+                    src={trainer.avatarPath}
+                    width="64"
+                    height="64"
+                    alt="Изображение тренера"
+                  />
+                </picture>
+              </div>
+            ) : null}
             <div className="training-info__coach-info">
               <span className="training-info__label">Тренер</span>
-              <span className="training-info__name">{training?.coach}</span>
+              <span className="training-info__name">{trainer.firstName}</span>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="training-info__main-content">
           <form action="#" method="get">
@@ -87,14 +110,14 @@ export const TrainingCard = ({ trainingId }: TrainingCardProps) => {
                   <div className="training-info__error">Введите число</div>
                 </div>
 
-                <TrainingBuy training={training} trainingId={trainingId} />
+                {training ? <TrainingBuy training={training} /> : null}
               </div>
             </div>
           </form>
         </div>
       </div>
 
-      <TrainingVideo training={training} trainingId={trainingId} />
+      {training ? <TrainingVideo training={training} /> : null}
     </div>
   );
 };

@@ -8,8 +8,9 @@ import {
 } from '@project/enums';
 import { Expose } from 'class-transformer';
 import { TrainingValidation } from '@project/validation';
+import { UserRdo } from '../user/user.rdo';
 
-export class TrainingRdo implements Training {
+export class TrainingRdo implements Omit<Training, 'trainerId'> {
   @Expose()
   @ApiProperty({
     description: 'Уникальный идентификатор тренировки',
@@ -121,7 +122,7 @@ export class TrainingRdo implements Training {
   @ApiProperty({
     description: 'Тренер, создавшего тренировку',
   })
-  public trainerId!: string;
+  public trainer!: UserRdo;
 
   @Expose()
   @ApiProperty({

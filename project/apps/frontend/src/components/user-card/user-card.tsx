@@ -1,11 +1,11 @@
 import CarouselSlider from '../ui/carousel-slider/carousel-slider';
 import { TrainingCardMin } from '../training-card-min/training-card-min';
 import { useGetPopularTrainingsQuery } from '../../store/training-process/training-api';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../shared/const';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 
 export const UserCard = () => {
+  const navigate = useNavigate();
   const { data: items } = useGetPopularTrainingsQuery({});
   const isTrainer = true;
   const isReady = true;
@@ -23,12 +23,15 @@ export const UserCard = () => {
   return (
     <div className="inner-page inner-page--no-sidebar">
       <div className="inner-page__wrapper">
-        <Link to={AppRoute.Profile} className="btn-flat inner-page__back">
+        <button
+          onClick={() => navigate(-1)}
+          className="btn-flat inner-page__back"
+        >
           <svg width="14" height="10" aria-hidden="true">
             <use xlinkHref="#arrow-left"></use>
           </svg>
           <span>Назад</span>
-        </Link>
+        </button>
         <div className="inner-page__content">
           <section className="user-card-coach">
             <h1 className="visually-hidden">

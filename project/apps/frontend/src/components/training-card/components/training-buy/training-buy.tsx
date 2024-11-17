@@ -3,15 +3,19 @@ import { BuyForm } from '../../../forms/buy-form/buy-form';
 import { useState } from 'react';
 import { useGetByTrainingIdQuery } from '../../../../store/balance-process/balance-api';
 import { TrainingRdo } from '@project/rdo';
+import { useUserQuery } from '../../../../store/user-process/user-api';
 
 interface TrainingBuyProps {
-  training?: TrainingRdo;
-  trainingId: string;
+  training: TrainingRdo;
 }
-export const TrainingBuy = ({ training, trainingId }: TrainingBuyProps) => {
-  const { data: balances, refetch: refetchBalances } =
-    useGetByTrainingIdQuery(trainingId);
+export const TrainingBuy = ({ training }: TrainingBuyProps) => {
+  const { data: balances, refetch: refetchBalances } = useGetByTrainingIdQuery(
+    training.id
+  );
   const canBuy = balances?.every((item) => item.isFinished);
+
+  const { data: userData } = useUserQuery();
+  const isUserTrainingCreator = training.trainer.id === userData?.id;
 
   const [showBuyModal, setShowBuyModal] = useState(false);
   const onButtonBuyClick = () => {
@@ -24,7 +28,7 @@ export const TrainingBuy = ({ training, trainingId }: TrainingBuyProps) => {
         onClick={onButtonBuyClick}
         className="btn training-info__buy"
         type="button"
-        disabled={!canBuy}
+        disabled={!canBuy || isUserTrainingCreator}
       >
         Купить
       </button>

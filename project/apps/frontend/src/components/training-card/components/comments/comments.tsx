@@ -3,16 +3,23 @@ import Popup from '../../../ui/popup/popup';
 import ReviewForm from '../../../forms/review-form/review-form';
 import { useGetCommentsByTrainingIdQuery } from '../../../../store/comments-process/comments-api';
 import { useGetByTrainingIdQuery } from '../../../../store/balance-process/balance-api';
+import { useUserQuery } from '../../../../store/user-process/user-api';
+import { TrainingRdo } from '@project/rdo';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../../shared/const';
 
 interface CommentsProps {
-  trainingId: string;
+  training: TrainingRdo;
 }
 
-export const Comments = ({ trainingId }: CommentsProps) => {
+export const Comments = ({ training }: CommentsProps) => {
+  const { id: trainingId, trainer } = training;
   const [showReviewModal, setShowReviewModal] = useState(false);
   const { data: comments } = useGetCommentsByTrainingIdQuery(trainingId);
   const { data: balances } = useGetByTrainingIdQuery(trainingId);
   const isFinished = balances?.some((item) => item.isFinished);
+  const { data: userData } = useUserQuery();
+  const isUserTrainingCreator = trainer.id === userData?.id;
 
   return (
     <>
@@ -24,7 +31,10 @@ export const Comments = ({ trainingId }: CommentsProps) => {
               return (
                 <li className="reviews-side-bar__item" key={id}>
                   <div className="review">
-                    <div className="review__user-info">
+                    <Link
+                      to={`${AppRoute.UserCard}/${user.id}`}
+                      className="review__user-info"
+                    >
                       {user.avatarPath ? (
                         <div className="review__user-photo">
                           <picture>
@@ -46,7 +56,7 @@ export const Comments = ({ trainingId }: CommentsProps) => {
                         </svg>
                         <span>{rating}</span>
                       </div>
-                    </div>
+                    </Link>
                     <p className="review__comment">{message}</p>
                   </div>
                 </li>
@@ -55,15 +65,16 @@ export const Comments = ({ trainingId }: CommentsProps) => {
           </ul>
         </>
       ) : null}
-      {isFinished ? (
-        <button
-          className="btn btn--medium reviews-side-bar__button"
-          type="button"
-          onClick={() => setShowReviewModal(true)}
-        >
-          Оставить отзыв
-        </button>
-      ) : null}
+
+      <button
+        className="btn btn--medium reviews-side-bar__button"
+        type="button"
+        onClick={() => setShowReviewModal(true)}
+        disabled={!isFinished || isUserTrainingCreator}
+      >
+        Оставить отзыв
+      </button>
+
       <Popup
         isOpen={showReviewModal}
         title="Оставить отзыв"

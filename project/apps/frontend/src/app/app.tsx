@@ -53,7 +53,7 @@ export function App() {
 
         <Route path={AppRoute.MyOrders} element={<MyOrdersPage />} />
         <Route path={AppRoute.MyTrainings} element={<MyTrainingsPage />} />
-        <Route path={AppRoute.UserCard} element={<UserCardPage />} />
+        <Route path={`${AppRoute.UserCard}/:id`} element={<UserCardPage />} />
       </Route>
 
       <Route element={<IntroLayout />}>

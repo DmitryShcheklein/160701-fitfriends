@@ -7,11 +7,11 @@ import { TrainingRdo } from '@project/rdo';
 import { useRef } from 'react';
 
 interface TrainingVideoProps {
-  trainingId: string;
-  training?: TrainingRdo;
+  training: TrainingRdo;
 }
 
-export const TrainingVideo = ({ training, trainingId }: TrainingVideoProps) => {
+export const TrainingVideo = ({ training }: TrainingVideoProps) => {
+  const { id: trainingId } = training;
   const { data: balances } = useGetByTrainingIdQuery(trainingId);
   const isStarted = balances?.some((item) => item.isStarted);
   const canBuy = balances?.every((item) => item.isFinished);

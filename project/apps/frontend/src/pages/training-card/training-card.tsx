@@ -12,7 +12,7 @@ const TrainingCardPage = () => {
   const { id } = useParams<{ id: string }>();
   const trainingId = String(id);
 
-  const { isLoading } = useGetTrainingByIdQuery(trainingId);
+  const { data: training, isLoading } = useGetTrainingByIdQuery(trainingId);
 
   if (isLoading) return <LoaderPage />;
 
@@ -34,7 +34,7 @@ const TrainingCardPage = () => {
             </svg>
             <span>Назад</span>
           </Link>
-          <Comments trainingId={trainingId} />
+          {training ? <Comments training={training} /> : null}
         </Sidebar>
 
         <TrainingCard trainingId={trainingId} />
