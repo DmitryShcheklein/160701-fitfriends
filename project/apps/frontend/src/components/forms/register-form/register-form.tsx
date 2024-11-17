@@ -13,7 +13,7 @@ import Input from '../../ui/input/input';
 import RadioInput from '../../ui/radio-input/radio-input';
 import RoleSelector from '../../ui/role-selector/role-selector';
 import CustomSelect from '../../ui/select/select';
-import { roleOptions, locationOptions } from './register.data';
+import { roleOptions, locationOptions } from '../../../shared/data';
 import { UserGender, UserRole } from '@project/enums';
 import { toast } from 'react-toastify';
 import { groupErrors } from '../../../shared/helpers/groupErrors';

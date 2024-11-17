@@ -2,7 +2,7 @@ import {
   genderOptions,
   specializationOptions,
   workoutDurationOptions,
-} from '../../../forms/user-info/user-info.data';
+} from '../../../../shared/data';
 import { TrainingRdo } from '@project/rdo';
 
 interface TrainingInfoListProps {
@@ -19,29 +19,22 @@ export const TrainingInfoList = ({ training }: TrainingInfoListProps) => {
     .find((el) => el.value === training?.duration)
     ?.label.replace('-', '_')
     .replace(' мин', 'минут');
+  const data = [
+    trainingType,
+    genderType,
+    `${training?.calories}ккал`,
+    workoutDuration,
+  ];
 
   return (
     <ul className="training-info__list">
-      <li className="training-info__item">
-        <div className="hashtag hashtag--white">
-          <span>#{trainingType}</span>
-        </div>
-      </li>
-      <li className="training-info__item">
-        <div className="hashtag hashtag--white">
-          <span>#{genderType}</span>
-        </div>
-      </li>
-      <li className="training-info__item">
-        <div className="hashtag hashtag--white">
-          <span>#{training?.calories}ккал</span>
-        </div>
-      </li>
-      <li className="training-info__item">
-        <div className="hashtag hashtag--white">
-          <span>#{workoutDuration}</span>
-        </div>
-      </li>
+      {data.map((el) => (
+        <li className="training-info__item" key={el}>
+          <div className="hashtag hashtag--white">
+            <span>#{el}</span>
+          </div>
+        </li>
+      ))}
     </ul>
   );
 };
