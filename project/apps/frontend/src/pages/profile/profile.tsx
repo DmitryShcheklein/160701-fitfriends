@@ -3,11 +3,13 @@ import { Helmet } from 'react-helmet-async';
 import { UserProfile } from '../../components/profile/user-profile/user-profile';
 import { TrainerProfile } from '../../components/profile/trainer-profile/trainer-profile';
 import { getPageTitle } from '../../shared/const';
-import { useUserQuery } from '../../store/user-process/user-api';
+import { useGetCurrentUserQuery } from '../../store/user-process/user-api';
 import { LoaderPage } from '../../components/base/loaders/loader-page/loader-page';
+import { Sidebar } from '../../components/base/sidebar/sidebar';
+import UserProfileInfo from '../../components/forms/user-info/user-info';
 
 const ProfilePage = () => {
-  const { isLoading } = useUserQuery();
+  const { isLoading } = useGetCurrentUserQuery();
 
   return (
     <>
@@ -17,7 +19,18 @@ const ProfilePage = () => {
       <div className="inner-page__wrapper">
         <h1 className="visually-hidden">Личный кабинет</h1>
 
-        {isLoading ? <LoaderPage /> : <TrainerProfile />}
+        <Sidebar>
+          <UserProfileInfo />
+        </Sidebar>
+
+        {isLoading ? (
+          <LoaderPage />
+        ) : (
+          <>
+            {/*<UserProfile />*/}
+            <TrainerProfile />
+          </>
+        )}
       </div>
     </>
   );

@@ -1,14 +1,13 @@
-import PersonalAccountTrainer from '../../personal-account/trener/personal-account-trainer';
-import { Sidebar } from '../../base/sidebar/sidebar';
-import UserProfileInfo from '../../forms/user-info/user-info';
+import { Menu } from './components/menu/menu';
+import { Sertificates } from './components/sertificates/sertificates';
 
 export const TrainerProfile = () => {
   return (
-    <>
-      <Sidebar>
-        <UserProfileInfo />
-      </Sidebar>
-      <PersonalAccountTrainer />
-    </>
+    <div className="inner-page__content">
+      <div className="personal-account-coach">
+        <Menu />
+        <Sertificates />
+      </div>
+    </div>
   );
 };
