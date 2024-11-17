@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   Patch,
   Post,
   Req,
@@ -29,7 +30,7 @@ import {
 } from '@project/dto';
 import { UserConfigRdo, UserRdo } from '@project/rdo';
 import { AllowedMimetypes, User } from '@project/validation';
-import { FileValidationPipe } from '@project/pipes';
+import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { UserService } from './user.service';
@@ -42,7 +43,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({
-    summary: 'Получить пользователя',
+    summary: 'Получить текущего пользователя',
   })
   @ApiOkResponse({
     type: UserRdo,
@@ -51,6 +52,22 @@ export class UserController {
   @Get()
   public async getUser(@Req() { user }: RequestWithTokenPayload) {
     const foundUser = await this.userService.getUserById(user.sub);
+
+    return fillDto(UserRdo, foundUser);
+  }
+
+  @ApiOperation({
+    summary: 'Получить текущего пользователя по Id',
+  })
+  @ApiOkResponse({
+    type: UserRdo,
+  })
+  @ApiBearerAuth(AuthKeyName)
+  @Get(':userId')
+  public async getUserById(
+    @Param('userId', MongoIdValidationPipe) userId: string
+  ) {
+    const foundUser = await this.userService.getUserById(userId);
 
     return fillDto(UserRdo, foundUser);
   }
