@@ -3,7 +3,7 @@ import SliderFilter from '../../ui/slider-filter/slider-filter';
 import { AppRoute } from '../../../shared/const';
 import CheckboxInput from '../../ui/checkbox-input/checkbox-input';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
-import { specializationOptions } from '../../forms/user-info/user-info.data';
+import { specializationOptions } from '../../../shared/data';
 import { useState } from 'react';
 import { TrainingsQuery } from '@project/core';
 import { SortBy, WorkoutType } from '@project/enums';

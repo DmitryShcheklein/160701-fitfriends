@@ -2,10 +2,26 @@ import {
   UserGender,
   WorkoutType,
   FitnessLevel,
-  UserLocation,
   WorkoutDuration,
+  UserLocation,
 } from '@project/enums';
 
+export const roleOptions = [
+  {
+    value: 'user',
+    label: 'Я хочу тренироваться',
+    icon: '#icon-weight',
+    isReadonly: true,
+  },
+];
+
+export const locationOptions = [
+  { value: UserLocation.Pionerskaya, label: 'Пионерская' },
+  { value: UserLocation.Petrogradskaya, label: 'Петроградская' },
+  { value: UserLocation.Udelnaya, label: 'Удельная' },
+  { value: UserLocation.Zvezdnaya, label: 'Звёздная' },
+  { value: UserLocation.Sportivnaya, label: 'Спортивная' },
+];
 export const specializationOptions = [
   { value: WorkoutType.Yoga, label: 'Йога' },
   { value: WorkoutType.Running, label: 'Бег' },
@@ -15,14 +31,6 @@ export const specializationOptions = [
   { value: WorkoutType.Pilates, label: 'Пилатес' },
   { value: WorkoutType.Stretching, label: 'Стрейчинг' },
   { value: WorkoutType.CrossFit, label: 'Кроссфит' },
-];
-
-export const locationOptions = [
-  { value: UserLocation.Pionerskaya, label: 'Пионерская' },
-  { value: UserLocation.Petrogradskaya, label: 'Петроградская' },
-  { value: UserLocation.Udelnaya, label: 'Удельная' },
-  { value: UserLocation.Zvezdnaya, label: 'Звёздная' },
-  { value: UserLocation.Sportivnaya, label: 'Спортивная' },
 ];
 
 export const genderOptions = [

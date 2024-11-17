@@ -3,7 +3,7 @@ import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { HTMLAttributes } from 'react';
-import { specializationOptions } from '../forms/user-info/user-info.data';
+import { specializationOptions } from '../../shared/data';
 
 interface TrainingCardMinProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {

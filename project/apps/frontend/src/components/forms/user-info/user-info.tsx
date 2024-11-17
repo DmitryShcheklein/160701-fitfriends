@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import {
-  useUserQuery,
+  useGetCurrentUserQuery,
   useUpdateTrainingConfigMutation,
   useUpdateUserMutation,
 } from '../../../store/user-process/user-api';
@@ -14,7 +14,7 @@ import {
   locationOptions,
   genderOptions,
   fitnessLevelOptions,
-} from './user-info.data';
+} from '../../../shared/data';
 import {
   UserLocation,
   UserGender,
@@ -67,7 +67,7 @@ const UserProfileInfo: React.FC = () => {
   const [updateConfig, { isLoading: isLoadingConfigMutation }] =
     useUpdateTrainingConfigMutation();
 
-  const { data: userData, isLoading } = useUserQuery();
+  const { data: userData, isLoading } = useGetCurrentUserQuery();
   const [trainingConfigData, setTrainingConfigData] = useState<TConfigState>({
     level: userData?.trainingConfig?.level,
     specialisation: userData?.trainingConfig?.specialisation,

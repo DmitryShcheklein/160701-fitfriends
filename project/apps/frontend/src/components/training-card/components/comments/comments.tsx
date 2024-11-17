@@ -3,7 +3,7 @@ import Popup from '../../../ui/popup/popup';
 import ReviewForm from '../../../forms/review-form/review-form';
 import { useGetCommentsByTrainingIdQuery } from '../../../../store/comments-process/comments-api';
 import { useGetByTrainingIdQuery } from '../../../../store/balance-process/balance-api';
-import { useUserQuery } from '../../../../store/user-process/user-api';
+import { useGetCurrentUserQuery } from '../../../../store/user-process/user-api';
 import { TrainingRdo } from '@project/rdo';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../../../shared/const';
@@ -18,7 +18,7 @@ export const Comments = ({ training }: CommentsProps) => {
   const { data: comments } = useGetCommentsByTrainingIdQuery(trainingId);
   const { data: balances } = useGetByTrainingIdQuery(trainingId);
   const isFinished = balances?.some((item) => item.isFinished);
-  const { data: userData } = useUserQuery();
+  const { data: userData } = useGetCurrentUserQuery();
   const isUserTrainingCreator = trainer.id === userData?.id;
 
   return (

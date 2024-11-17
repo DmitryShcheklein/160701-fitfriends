@@ -3,7 +3,7 @@ import { BuyForm } from '../../../forms/buy-form/buy-form';
 import { useState } from 'react';
 import { useGetByTrainingIdQuery } from '../../../../store/balance-process/balance-api';
 import { TrainingRdo } from '@project/rdo';
-import { useUserQuery } from '../../../../store/user-process/user-api';
+import { useGetCurrentUserQuery } from '../../../../store/user-process/user-api';
 
 interface TrainingBuyProps {
   training: TrainingRdo;
@@ -14,7 +14,7 @@ export const TrainingBuy = ({ training }: TrainingBuyProps) => {
   );
   const canBuy = balances?.every((item) => item.isFinished);
 
-  const { data: userData } = useUserQuery();
+  const { data: userData } = useGetCurrentUserQuery();
   const isUserTrainingCreator = training.trainer.id === userData?.id;
 
   const [showBuyModal, setShowBuyModal] = useState(false);

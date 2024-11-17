@@ -4,7 +4,7 @@ import { AppRoute } from '../../../../shared/const';
 import {
   fitnessLevelOptions,
   specializationOptions,
-} from '../../user-info/user-info.data';
+} from '../../../../shared/data';
 import RadioInput from '../../../ui/radio-input/radio-input';
 import Tag from '../../../ui/tag/tag';
 
