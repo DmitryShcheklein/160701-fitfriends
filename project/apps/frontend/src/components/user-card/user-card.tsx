@@ -19,7 +19,10 @@ export const UserCard = () => {
   }
 
   const isUserTrainer = false;
-  const isReady = true;
+  const canAddToFriend = false;
+  const { trainingConfig } = user;
+  const specializations = trainingConfig?.specialisation;
+  const isReady = trainingConfig?.trainingReadiness;
   const TextMap = {
     Trainer: {
       Ready: 'Готов тренировать',
@@ -30,9 +33,6 @@ export const UserCard = () => {
       NotReady: 'Не готов к тренировке',
     },
   };
-  const canAddToFriend = false;
-  const { trainingConfig } = user;
-  const specializations = trainingConfig?.specialisation;
 
   return (
     <div className="inner-page inner-page--no-sidebar">
