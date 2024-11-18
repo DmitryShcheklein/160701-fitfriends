@@ -1,10 +1,8 @@
-import CarouselSlider from '../ui/carousel-slider/carousel-slider';
-import { TrainingCardMin } from '../training-card-min/training-card-min';
-import { useGetPopularTrainingsQuery } from '../../store/training-process/training-api';
 import classNames from 'classnames';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetUserByIdQuery } from '../../store/user-process/user-api';
 import { locationOptions, specializationOptions } from '../../shared/data';
+import { TrainingsSlider } from './trainings-slider/trainings-slider';
 
 export const UserCard = () => {
   const navigate = useNavigate();
@@ -12,13 +10,12 @@ export const UserCard = () => {
   const userId = String(id);
 
   const { data: user } = useGetUserByIdQuery(userId);
-  const { data: items } = useGetPopularTrainingsQuery({});
 
   if (!user) {
     return null;
   }
 
-  const isUserTrainer = false;
+  const isUserTrainer = true;
   const canAddToFriend = false;
   const { trainingConfig } = user;
   const specializations = trainingConfig?.specialisation;
@@ -149,12 +146,12 @@ export const UserCard = () => {
                     </button>
                   ) : null}
                 </div>
-                {user?.backgroundPath || user.avatarPath ? (
+                {user?.backgroundPath ? (
                   <div className="user-card-coach__gallary">
                     <ul className="user-card-coach__gallary-list">
                       <li className="user-card-coach__gallary-item">
                         <img
-                          src={user.backgroundPath || user.avatarPath}
+                          src={user.backgroundPath}
                           width="334"
                           height="573"
                           alt="photo1"
@@ -165,16 +162,7 @@ export const UserCard = () => {
                 ) : null}
               </div>
 
-              {isUserTrainer ? (
-                <CarouselSlider
-                  id="popular-trainings"
-                  options={{ slidesPerView: 4 }}
-                  title="Тренировки"
-                  slides={items?.map((el) => (
-                    <TrainingCardMin training={el} />
-                  ))}
-                />
-              ) : null}
+              {isUserTrainer ? <TrainingsSlider trainerId={userId} /> : null}
 
               <div className="user-card-coach__training-form">
                 {isUserTrainer ? (
