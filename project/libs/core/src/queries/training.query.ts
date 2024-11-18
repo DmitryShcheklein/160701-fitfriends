@@ -1,10 +1,15 @@
-import { IsEnum, IsIn, IsOptional, ValidateNested } from 'class-validator';
+import {
+  IsEnum,
+  IsIn,
+  IsMongoId,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { DefaultSort } from '../const/main.const';
 import {
   FitnessLevel,
   SortBy,
-  SortDirection,
   UserGender,
   WorkoutDuration,
   WorkoutType,
@@ -76,4 +81,12 @@ export class TrainingsQuery extends BaseQuery {
   @IsEnum(UserGender)
   @IsOptional()
   public gender?: UserGender[];
+
+  @ApiProperty({
+    description: 'TrainerId',
+    required: false,
+  })
+  @IsMongoId()
+  @IsOptional()
+  public trainerId?: string;
 }

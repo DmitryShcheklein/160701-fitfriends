@@ -101,6 +101,9 @@ export class TrainingRepository extends BaseMongoRepository<
     if (query.specialOffer) {
       filter.specialOffer = query.specialOffer;
     }
+    if (query.trainerId) {
+      filter.trainerId = query.trainerId;
+    }
 
     const trainings = await this.model.find(
       filter,
@@ -163,9 +166,7 @@ export class TrainingRepository extends BaseMongoRepository<
   }
 
   public async findById(id: string) {
-    const document = await this.model.findById(id)
-      .populate('trainerId')
-      .exec();
+    const document = await this.model.findById(id).populate('trainerId').exec();
 
     if (!document) {
       throw new NotFoundException(`Entity with id ${id} not found`);
