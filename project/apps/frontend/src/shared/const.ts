@@ -1,8 +1,8 @@
-enum AuthStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
-}
+const AuthStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
+} as const;
 
 const AppRoute = {
   Intro: '/intro',
@@ -19,8 +19,8 @@ const AppRoute = {
   Friends: '/friends',
   MyPurchases: '/my-purchases',
 
-  MyOrders: '/orders',
-  MyTrainings: '/trainings',
+  MyOrders: '/my-orders',
+  MyTrainings: '/my-trainings',
   CreateTraining: '/create-training',
 } as const;
 
