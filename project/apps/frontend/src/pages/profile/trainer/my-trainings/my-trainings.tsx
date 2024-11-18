@@ -8,10 +8,15 @@ import { TrainingCardMin } from '../../../../components/training-card-min/traini
 import { useEffect, useState } from 'react';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
 import { TrainingsQuery } from '@project/core';
+import { useGetCurrentUserQuery } from '../../../../store/user-process/user-api';
 
 export const MyTrainingsPage = () => {
+  const { data: currentUser } = useGetCurrentUserQuery();
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState<TrainingsQuery>({});
+  const [filter, setFilter] = useState<TrainingsQuery>({
+    trainerId: currentUser?.id,
+  });
   const { data, isFetching } = useGetTrainingsQuery({
     limit: 6,
     page: currentPage,
@@ -54,7 +59,7 @@ export const MyTrainingsPage = () => {
       <div className="inner-page__wrapper">
         <h1 className="visually-hidden">Мои тренировки</h1>
         <Sidebar>
-          <CatalogSidebar filters={data?.filters} setFilter={setFilter} />
+          {/*<CatalogSidebar filters={data?.filters} setFilter={setFilter} />*/}
         </Sidebar>
         <div className="training-catalog">
           {!allTrainings?.length && !isFetching ? (
@@ -63,7 +68,6 @@ export const MyTrainingsPage = () => {
             <div className="training-catalog__list">
               {allTrainings?.map((el, idx) => (
                 <div key={el.id}>
-                  {++idx}
                   <TrainingCardMin
                     training={el}
                     className="training-catalog__item"
