@@ -32,8 +32,8 @@ export const MyOrders = () => {
                 {
                   name: 'Количеству',
                 },
-              ].map(({ name, icon }) => (
-                <button className="btn-filter-sort" type="button">
+              ].map(({ name }) => (
+                <button className="btn-filter-sort" type="button" key={name}>
                   <span>{name}</span>
                   <svg width="16" height="10" aria-hidden="true">
                     <use xlinkHref="#icon-sort-up"></use>
