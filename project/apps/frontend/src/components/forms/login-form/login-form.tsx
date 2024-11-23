@@ -8,7 +8,6 @@ import { AppRoute } from '../../../shared/const';
 import Popup from '../../ui/popup/popup';
 import Input from '../../ui/input/input';
 import { toast } from 'react-toastify';
-import { MyUser, TrainerUser } from '@project/core';
 
 const FormFieldName = {
   Email: 'email',
@@ -43,40 +42,11 @@ const LoginForm: FC = () => {
       toast.error(err.data.message.toString());
     }
   };
-  const tempBtns = (
-    <div style={{ display: 'flex', gap: 16, marginBottom: 15 }}>
-      <button
-        className="btn btn--small btn--outlined sign-in__button"
-        onClick={() => {
-          setFormData({
-            email: MyUser.email,
-            password: MyUser.password,
-          });
-        }}
-        type={'button'}
-      >
-        Юзер
-      </button>
 
-      <button
-        className="btn btn--small btn--outlined sign-in__button"
-        onClick={() => {
-          setFormData({
-            email: TrainerUser.email,
-            password: TrainerUser.password,
-          });
-        }}
-        type={'button'}
-      >
-        Тренер
-      </button>
-    </div>
-  );
   return (
     <Popup isStatic className="popup-form--sign-in" title="Вход">
       <div className="popup-form__content">
         <form className="popup-form__form" onSubmit={handleFormSubmit}>
-          {tempBtns}
           <div className="sign-in">
             <Input
               className="sign-in__input"
