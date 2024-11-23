@@ -44,7 +44,7 @@ const RegisterForm = () => {
     password: '',
     dateOfBirth: undefined,
     gender: undefined,
-    role: UserRole.User,
+    role: UserRole.Trainer,
     location: undefined,
     avatar: undefined,
     isAgreements: false,
@@ -103,7 +103,7 @@ const RegisterForm = () => {
       dispatch(setIsSubmiting(true));
 
       navigate(AppRoute.Questionnaire);
-      // dispatch(setIsSubmiting(false));
+
       toast.success('Вы успешно зарегистрированы!');
     } catch (err: any) {
       dispatch(setIsSubmiting(false));
@@ -124,7 +124,7 @@ const RegisterForm = () => {
       }
     }
   };
-  useEffect(() => {}, []);
+
   return (
     <Popup isStatic title="Регистрация" className="popup-form--sign-up">
       <div className="popup-form__content">
@@ -264,7 +264,7 @@ const RegisterForm = () => {
             </div>
 
             <button
-              disabled={isLoading}
+              disabled={isLoading || !isAgreements}
               className="btn sign-up__button"
               type="submit"
             >

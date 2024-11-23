@@ -4,14 +4,19 @@ import {
   FitnessLevel,
   WorkoutDuration,
   UserLocation,
+  UserRole,
 } from '@project/enums';
 
 export const roleOptions = [
   {
-    value: 'user',
+    value: UserRole.Trainer,
+    label: 'Я хочу тренировать',
+    icon: '#icon-cup',
+  },
+  {
+    value: UserRole.User,
     label: 'Я хочу тренироваться',
     icon: '#icon-weight',
-    isReadonly: true,
   },
 ];
 
