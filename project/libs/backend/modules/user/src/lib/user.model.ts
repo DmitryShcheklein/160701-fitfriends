@@ -95,7 +95,7 @@ export class UserModel extends Document implements AuthUser {
         min: UserValidation.Description.Min,
         max: UserValidation.Description.Max,
       })
-      .substring(0, UserValidation.Description.Min)
+      .substring(0, UserValidation.Description.Max)
   )
   @Prop({
     type: String,
