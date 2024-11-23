@@ -6,12 +6,11 @@ import {
   getAccessToken,
   getAuthorizationStatus,
 } from '../../../store/auth-process/selectors';
-import { LoaderPage } from '../loaders/loader-page/loader-page';
+import { LoaderPage } from '../../base/loaders/loader-page/loader-page';
 import { useCheckAuthQuery } from '../../../store/auth-process/auth-api';
+import { ReactNode } from 'react';
 
-type TPrivateRoute = JSX.Element;
-
-const PrivateRoute = (children: TPrivateRoute) => {
+export const PrivateRoute = (children: ReactNode) => {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const isAuth = authStatus === AuthStatus.Auth;
   const isUnknown = authStatus === AuthStatus.Unknown;
@@ -36,5 +35,3 @@ const PrivateRoute = (children: TPrivateRoute) => {
 
   return isAuth ? children : null;
 };
-
-export default PrivateRoute;

@@ -1,5 +1,5 @@
 import withProviders from '../providers';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import IntroPage from '../pages/intro/intro';
 import Page404 from '../pages/404/404';
 import LoginPage from '../pages/login/login';
@@ -8,18 +8,21 @@ import IntroLayout from '../layouts/intro';
 import MainLayout from '../layouts/main';
 import IndexPage from '../pages/index';
 import ProfilePage from '../pages/profile/profile';
-import PrivateRoute from '../components/base/private-route/private-route';
+import { PrivateRoute } from '../components/routes-guards/private-route/private-route';
 
 import { AppRoute } from '../shared/const';
 import QuestionnairePage from '../pages/questionnaire/questionnaire';
 import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
 import PurchasesPage from '../pages/profile/user/my-purchases/my-purchases';
-import { NoAuthRoute } from '../components/base/no-auth-route/no-auth-route';
+import { NoAuthRoute } from '../components/routes-guards/no-auth-route/no-auth-route';
 import { MyOrdersPage } from '../pages/profile/trainer/my-orders/my-orders';
 import { MyTrainingsPage } from '../pages/profile/trainer/my-trainings/my-trainings';
 import { CreateTrainingPage } from '../pages/create-training/create-training';
 import { UserCardPage } from '../pages/user-card/user-card';
+import { TrainerRoute } from '../components/routes-guards/trainer-route/trainer-route';
+import Page403 from '../pages/403/403';
+import { UserRoute } from '../components/routes-guards/user-route/user-route';
 
 export function App() {
   return (
@@ -43,20 +46,31 @@ export function App() {
           path={`${AppRoute.TrainingCardPage}/:id`}
           element={<TrainingCardPage />}
         />
+
+        <Route path={AppRoute.Catalog} element={UserRoute(<CatalogPage />)} />
         <Route
-          path={AppRoute.CreateTraining}
-          element={<CreateTrainingPage />}
+          path={AppRoute.MyPurchases}
+          element={UserRoute(<PurchasesPage />)}
         />
 
-        <Route path={AppRoute.Catalog} element={<CatalogPage />} />
-        <Route path={AppRoute.MyPurchases} element={<PurchasesPage />} />
+        <Route
+          path={AppRoute.MyOrders}
+          element={TrainerRoute(<MyOrdersPage />)}
+        />
+        <Route
+          path={AppRoute.MyTrainings}
+          element={TrainerRoute(<MyTrainingsPage />)}
+        />
+        <Route
+          path={AppRoute.CreateTraining}
+          element={TrainerRoute(<CreateTrainingPage />)}
+        />
 
-        <Route path={AppRoute.MyOrders} element={<MyOrdersPage />} />
-        <Route path={AppRoute.MyTrainings} element={<MyTrainingsPage />} />
         <Route path={`${AppRoute.UserCard}/:id`} element={<UserCardPage />} />
       </Route>
 
       <Route element={<IntroLayout />}>
+        <Route path={AppRoute.Page403} element={<Page403 />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>

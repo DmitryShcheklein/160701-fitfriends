@@ -6,15 +6,13 @@ import {
   getIsSubmiting,
 } from '../../../store/auth-process/selectors';
 import { Navigate } from 'react-router-dom';
-import { LoaderPage } from '../loaders/loader-page/loader-page';
+import { LoaderPage } from '../../base/loaders/loader-page/loader-page';
 import { useCheckAuthQuery } from '../../../store/auth-process/auth-api';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { setIsSubmitting } from '../../../store/auth-process/auth-process';
 
-type TNoAuthRoute = JSX.Element;
-
-export const NoAuthRoute = (children: TNoAuthRoute) => {
+export const NoAuthRoute = (children: ReactNode) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isSubmitting = useAppSelector(getIsSubmiting);
