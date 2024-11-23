@@ -26,6 +26,15 @@ export class UserModel extends Document implements AuthUser {
   })
   public passwordHash!: string;
 
+  @Factory((_, ctx) => ctx.role || UserRole.User)
+  @Prop({
+    required: true,
+    type: String,
+    enum: UserRole,
+    default: UserRole.User,
+  })
+  public role: UserRole;
+
   @Factory((faker) => faker.helpers.enumValue(UserGender))
   @Prop({
     required: true,
@@ -60,10 +69,9 @@ export class UserModel extends Document implements AuthUser {
 
         return fakerRU.helpers.arrayElement(avatarPaths);
       }
-    }
-
-    if (ctx.gender === UserGender.Any) {
-      return ctx.defaultAvatar;
+      if (ctx.gender === UserGender.Any) {
+        return ctx.defaultAvatar;
+      }
     }
 
     return ctx.avatarPath || null;
@@ -87,15 +95,6 @@ export class UserModel extends Document implements AuthUser {
     maxlength: User.Description.Max,
   })
   public description: string;
-
-  @Factory((faker) => faker.helpers.enumValue(UserRole))
-  @Prop({
-    required: true,
-    type: String,
-    enum: UserRole,
-    default: UserRole.User,
-  })
-  public role: UserRole;
 
   @Factory((faker) => faker.helpers.enumValue(UserLocation))
   @Prop({
