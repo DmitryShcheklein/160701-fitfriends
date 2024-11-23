@@ -35,7 +35,7 @@ import { RequestWithTokenPayload } from '@project/core';
 import { CreateUserDto, LoginUserDto } from '@project/dto';
 import { AuthenticationService } from './authentication.service';
 import { LoggedUserRdo, RefreshUserRdo, RegisteredUserRdo } from '@project/rdo';
-import { AllowedMimetypes, User } from '@project/validation';
+import { AllowedMimetypes, UserValidation } from '@project/validation';
 import { FileValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -69,7 +69,7 @@ export class AuthenticationController {
     @Body() dto: CreateUserDto,
     @UploadedFile(
       new FileValidationPipe(
-        User.Avatar.FileMaxSize,
+        UserValidation.Avatar.FileMaxSize,
         AllowedMimetypes.Img,
         true
       )

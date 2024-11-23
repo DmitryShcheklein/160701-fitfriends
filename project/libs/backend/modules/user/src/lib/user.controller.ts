@@ -29,7 +29,7 @@ import {
   UpdateUserDto,
 } from '@project/dto';
 import { UserConfigRdo, UserRdo } from '@project/rdo';
-import { AllowedMimetypes, User } from '@project/validation';
+import { AllowedMimetypes, UserValidation } from '@project/validation';
 import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
@@ -95,7 +95,7 @@ export class UserController {
     @Body() dto: UpdateUserDto,
     @UploadedFile(
       new FileValidationPipe(
-        User.Avatar.FileMaxSize,
+        UserValidation.Avatar.FileMaxSize,
         AllowedMimetypes.Img,
         true
       )
@@ -175,7 +175,7 @@ export class UserController {
   })
   @ApiBearerAuth(AuthKeyName)
   @Get('/questionnaire-user')
-  public async getQestionnaireUser(@Req() { user }: RequestWithTokenPayload) {
+  public async getQuestionnaireUser(@Req() { user }: RequestWithTokenPayload) {
     const updatedUser = await this.userService.getUserById(user.sub);
 
     return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);

@@ -1,6 +1,6 @@
 import { UserTrainingConfig } from '@project/core';
 import { ApiProperty } from '@nestjs/swagger';
-import { User as UserValidation } from '@project/validation';
+import { UserValidation } from '@project/validation';
 import {
   ArrayMaxSize,
   IsBoolean,
