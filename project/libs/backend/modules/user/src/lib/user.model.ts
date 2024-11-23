@@ -35,7 +35,9 @@ export class UserModel extends Document implements AuthUser {
   })
   public role: UserRole;
 
-  @Factory((faker) => faker.helpers.enumValue(UserGender))
+  @Factory((faker) =>
+    faker.helpers.arrayElement([UserGender.Male, UserGender.Female])
+  )
   @Prop({
     required: true,
     type: String,
