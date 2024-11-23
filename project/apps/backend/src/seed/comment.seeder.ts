@@ -5,6 +5,7 @@ import { UserModel } from '@project/user-module';
 import { Seeder, DataFactory } from 'nestjs-seeder';
 import { CommentModel } from '@project/comments-module';
 import { TrainingModel } from '@project/trainings-module';
+import { AdminUser, TrainerUser, MyUser } from '@project/core';
 
 @Injectable()
 export class CommentSeeder implements Seeder {
@@ -21,9 +22,15 @@ export class CommentSeeder implements Seeder {
   async seed() {
     await this.drop();
 
-    const userIds = (await this.userModel.find().select('_id')).map((user) =>
-      user._id.toString()
-    );
+    const userIds = (
+      await this.userModel
+        .find({
+          email: {
+            $not: { $in: [AdminUser.email, TrainerUser.email, MyUser.email] },
+          },
+        })
+        .select('_id')
+    ).map((user) => user._id.toString());
 
     const trainingIds = (await this.trainingModel.find().select('_id')).map(
       (training) => training._id.toString()
