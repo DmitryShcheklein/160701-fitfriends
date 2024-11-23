@@ -5,7 +5,7 @@ import { AppRoute } from '../../../shared/const';
 import { useRegisterMutation } from '../../../store/auth-process/auth-api';
 import {
   setCredentials,
-  setIsSubmiting,
+  setIsSubmitting,
 } from '../../../store/auth-process/auth-process';
 import { useAppDispatch } from '../../../hooks';
 import Popup from '../../ui/popup/popup';
@@ -100,13 +100,13 @@ const RegisterForm = () => {
       const userData = await register(form).unwrap();
       dispatch(setCredentials(userData));
 
-      dispatch(setIsSubmiting(true));
+      dispatch(setIsSubmitting(true));
 
       navigate(AppRoute.Questionnaire);
 
       toast.success('Вы успешно зарегистрированы!');
     } catch (err: any) {
-      dispatch(setIsSubmiting(false));
+      dispatch(setIsSubmitting(false));
 
       console.error('Failed to register: ', err);
 

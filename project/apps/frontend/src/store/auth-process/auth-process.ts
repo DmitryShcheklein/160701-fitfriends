@@ -30,7 +30,7 @@ const authSlice = createSlice({
   name: NameSpace.Auth,
   initialState,
   reducers: {
-    setIsSubmiting: (state, action) => {
+    setIsSubmitting: (state, action) => {
       state.isSubmitting = action.payload;
     },
     setCredentials: (state, action) => {
@@ -69,6 +69,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logOut, setIsSubmiting } = authSlice.actions;
+export const { setCredentials, logOut, setIsSubmitting } = authSlice.actions;
 
 export default authSlice.reducer;

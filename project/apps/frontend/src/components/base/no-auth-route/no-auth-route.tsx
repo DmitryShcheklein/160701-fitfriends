@@ -10,7 +10,7 @@ import { LoaderPage } from '../loaders/loader-page/loader-page';
 import { useCheckAuthQuery } from '../../../store/auth-process/auth-api';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { setIsSubmiting } from '../../../store/auth-process/auth-process';
+import { setIsSubmitting } from '../../../store/auth-process/auth-process';
 
 type TNoAuthRoute = JSX.Element;
 
@@ -20,7 +20,7 @@ export const NoAuthRoute = (children: TNoAuthRoute) => {
   const isSubmitting = useAppSelector(getIsSubmiting);
 
   useEffect(() => {
-    dispatch(setIsSubmiting(false));
+    dispatch(setIsSubmitting(false));
   }, [location]);
 
   const authStatus = useAppSelector(getAuthorizationStatus);
