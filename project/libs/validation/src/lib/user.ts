@@ -1,6 +1,6 @@
 import { AllowedMimetypes, MB } from './const';
 
-export const User = {
+export const UserValidation = {
   FirstName: {
     Min: 1,
     Max: 15,

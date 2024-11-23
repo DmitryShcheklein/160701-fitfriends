@@ -9,7 +9,7 @@ import {
   Min,
   Max,
 } from 'class-validator';
-import { CommentValidator } from '@project/validation';
+import { CommentValidation } from '@project/validation';
 
 export class CreateCommentDto
   implements Omit<Comment, 'createdAt' | 'updatedAt' | 'userId' | 'trainingId'>
@@ -20,19 +20,19 @@ export class CreateCommentDto
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(CommentValidator.Message.Min)
-  @MaxLength(CommentValidator.Message.Max)
+  @MinLength(CommentValidation.Message.Min)
+  @MaxLength(CommentValidation.Message.Max)
   public message!: string;
 
   @ApiProperty({
     description: 'Average rating of the training',
     example: 4,
-    minimum: CommentValidator.Rating.Min,
-    maximum: CommentValidator.Rating.Max,
+    minimum: CommentValidation.Rating.Min,
+    maximum: CommentValidation.Rating.Max,
   })
   @IsNumber()
-  @Min(CommentValidator.Rating.Min)
-  @Max(CommentValidator.Rating.Max)
+  @Min(CommentValidation.Rating.Min)
+  @Max(CommentValidation.Rating.Max)
   @IsNotEmpty()
   public rating!: number;
 }

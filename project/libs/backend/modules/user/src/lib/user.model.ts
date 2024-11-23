@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuthUser, UserTrainingConfig } from '@project/core';
-import { User } from '@project/validation';
+import { UserValidation } from '@project/validation';
 import { UserRole, UserLocation, UserGender } from '@project/enums';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
@@ -55,8 +55,8 @@ export class UserModel extends Document implements AuthUser {
   })
   @Prop({
     required: true,
-    minlength: User.FirstName.Min,
-    maxlength: User.FirstName.Max,
+    minlength: UserValidation.FirstName.Min,
+    maxlength: UserValidation.FirstName.Max,
   })
   public firstName!: string;
 
@@ -89,10 +89,18 @@ export class UserModel extends Document implements AuthUser {
   @Prop({ type: Date })
   public dateOfBirth?: Date;
 
+  @Factory(() =>
+    fakerRU.lorem
+      .sentence({
+        min: UserValidation.Description.Min,
+        max: UserValidation.Description.Max,
+      })
+      .substring(0, UserValidation.Description.Min)
+  )
   @Prop({
     type: String,
-    minlength: User.Description.Min,
-    maxlength: User.Description.Max,
+    minlength: UserValidation.Description.Min,
+    maxlength: UserValidation.Description.Max,
   })
   public description: string;
 
