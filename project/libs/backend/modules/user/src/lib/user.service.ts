@@ -1,19 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AuthUser, UserTrainingConfig } from '@project/core';
+import { AuthUser } from '@project/core';
 import { UpdateUserConfigDto, UpdateUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { UserRepository } from './user.repository';
-import { UserEntity } from './user.entity';
-import {
-  FitnessLevel,
-  WorkoutType,
-  WorkoutDuration,
-  UserGender,
-} from '@project/enums';
+import { UserFactory } from './user.factory';
 
 @Injectable()
 export class UserService {
   constructor(
+    private readonly userFactory: UserFactory,
     private readonly userRepository: UserRepository,
     private readonly fileUploaderService: FileUploaderService
   ) {}
@@ -23,7 +18,7 @@ export class UserService {
       ...user,
     };
 
-    const userEntity = new UserEntity(newUser);
+    const userEntity = this.userFactory.create(newUser);
 
     return this.userRepository.save(userEntity);
   }
@@ -73,7 +68,7 @@ export class UserService {
       avatarPath,
     };
 
-    const userEntity = new UserEntity(updatedUser);
+    const userEntity = this.userFactory.create(updatedUser);
 
     return this.userRepository.update(userEntity);
   }
@@ -86,7 +81,7 @@ export class UserService {
       trainingConfig: { ...user.trainingConfig, ...dto },
     };
 
-    const userEntity = new UserEntity(updatedUser);
+    const userEntity = this.userFactory.create(updatedUser);
 
     return this.userRepository.update(userEntity);
   }
