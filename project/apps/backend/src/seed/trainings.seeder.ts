@@ -7,7 +7,7 @@ import { appConfig } from '@project/config';
 import { ConfigType } from '@nestjs/config';
 import { UserModel } from '@project/user-module';
 import { TrainingSeederData } from '@project/core';
-import { AdminUser } from './seed.const';
+import { TrainerUser } from '@project/core';
 
 @Injectable()
 export class TrainingsSeeder implements Seeder {
@@ -25,7 +25,7 @@ export class TrainingsSeeder implements Seeder {
     await this.drop();
 
     const userIds = (
-      await this.userModel.find({ email: AdminUser.email }).select('_id')
+      await this.userModel.find({ email: TrainerUser.email }).select('_id')
     ).map((user) => user._id.toString());
 
     const mockData: TrainingSeederData = {

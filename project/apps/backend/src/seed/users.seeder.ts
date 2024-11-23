@@ -8,7 +8,7 @@ import { appConfig } from '@project/config';
 import { ConfigType } from '@nestjs/config';
 import { AuthUser, UsersSeederData } from '@project/core';
 import { UserGender } from '@project/enums';
-import { AdminUser, MyUser, RandomUser, TrainerUser } from './seed.const';
+import { AdminUser, MyUser, RandomUser, TrainerUser } from '@project/core';
 
 @Injectable()
 export class UsersSeeder implements Seeder {

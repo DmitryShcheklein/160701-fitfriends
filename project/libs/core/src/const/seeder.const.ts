@@ -1,4 +1,4 @@
-import { AuthUser } from '@project/core';
+import { AuthUser } from '../interfaces/users/auth-user.interface';
 import { UserRole } from '@project/enums';
 
 interface SeedUser extends Pick<AuthUser, 'email' | 'firstName' | 'role'> {
