@@ -21,11 +21,11 @@ export const TrainerUser: SeedUser = {
   avatarFileName: 'trainer-avatar.jpg',
   role: UserRole.Trainer,
 };
-export const User: SeedUser = {
+export const MyUser: SeedUser = {
   email: 'user@user.ru',
   password: '123456',
   firstName: 'User',
-  avatarFileName: 'default-avatar.jpg',
+  avatarFileName: 'default-avatar.png',
   role: UserRole.User,
 };
 

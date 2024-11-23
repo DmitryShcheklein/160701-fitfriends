@@ -8,7 +8,7 @@ import { appConfig } from '@project/config';
 import { ConfigType } from '@nestjs/config';
 import { AuthUser, UsersSeederData } from '@project/core';
 import { UserGender } from '@project/enums';
-import { AdminUser, User, RandomUser, TrainerUser } from './seed.const';
+import { AdminUser, MyUser, RandomUser, TrainerUser } from './seed.const';
 
 @Injectable()
 export class UsersSeeder implements Seeder {
@@ -72,7 +72,7 @@ export class UsersSeeder implements Seeder {
   }
 
   private async generateUser() {
-    const { email, firstName, role, avatarFileName, password } = User;
+    const { email, firstName, role, avatarFileName, password } = MyUser;
     const trainerUserMock: Partial<AuthUser> = {
       email,
       firstName,
