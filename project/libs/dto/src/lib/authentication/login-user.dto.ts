@@ -1,19 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
 import { UserValidation } from '@project/validation';
-import { TrainerUser } from '@project/core';
 
 export class LoginUserDto {
   @ApiProperty({
     description: 'User email',
-    example: TrainerUser.email,
+    example: '',
   })
   @IsEmail()
   public email!: string;
 
   @ApiProperty({
     description: 'User password',
-    example: TrainerUser.password,
+    example: '',
     minLength: UserValidation.Password.Min,
     maxLength: UserValidation.Password.Max,
   })
