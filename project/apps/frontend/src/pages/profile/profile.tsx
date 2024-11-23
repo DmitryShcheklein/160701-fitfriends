@@ -7,9 +7,11 @@ import { useGetCurrentUserQuery } from '../../store/user-process/user-api';
 import { LoaderPage } from '../../components/base/loaders/loader-page/loader-page';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
 import UserProfileInfo from '../../components/forms/user-info/user-info';
+import { useAuthRole } from '../../hooks/useAuth';
 
 const ProfilePage = () => {
   const { isLoading } = useGetCurrentUserQuery();
+  const { isUserAuth, isTrainerAuth } = useAuthRole();
 
   return (
     <>
@@ -27,8 +29,8 @@ const ProfilePage = () => {
           <LoaderPage />
         ) : (
           <>
-            {/*<UserProfile />*/}
-            <TrainerProfile />
+            {isUserAuth && <UserProfile />}
+            {isTrainerAuth && <TrainerProfile />}
           </>
         )}
       </div>

@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useEffect } from 'react';
+import { ChangeEventHandler } from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';

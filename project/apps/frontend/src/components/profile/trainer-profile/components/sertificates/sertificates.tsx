@@ -19,6 +19,7 @@ const pdfs = Array.from(
 );
 
 export const Sertificates = () => {
+  return null;
   return (
     <CarouselSlider
       style={{ width: 1042 }}

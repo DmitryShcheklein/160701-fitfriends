@@ -25,19 +25,16 @@ import { UpdateUserDto } from '@project/dto';
 import { UserRdo } from '@project/rdo';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
+import { useAuthRole } from '../../../hooks/useAuth';
 
 export const UserFormFieldName = {
   firstName: 'firstName',
   Description: 'description',
   Gender: 'gender',
   Location: 'location',
-  Role: 'role',
   Avatar: 'avatar',
   AvatarPath: 'avatarPath',
 } as const;
-
-export type UserFormFieldName =
-  (typeof UserFormFieldName)[keyof typeof UserFormFieldName];
 
 type TFormUserDataState = {
   [UserFormFieldName.firstName]: UpdateUserDto['firstName'];
@@ -60,7 +57,7 @@ type TConfigState = Record<TrainingConfigFieldName, any>;
 
 const UserProfileInfo: React.FC = () => {
   const [isEditable, setIsEditable] = useState(false);
-
+  const { isUserAuth } = useAuthRole();
   const [updateUser, { isLoading: isLoadingUserMutation }] =
     useUpdateUserMutation();
 
@@ -323,7 +320,7 @@ const UserProfileInfo: React.FC = () => {
         <div className="user-info__section user-info__section--status">
           <h2 className="user-info__title user-info__title--status">Статус</h2>
           <Toggle
-            label="Готов тренироваться"
+            label={isUserAuth ? 'Готов тренироваться' : 'Готов тренировать'}
             className="user-info__toggle"
             checked={Boolean(trainingConfigData?.trainingReadiness)}
             onChange={handleTrainingReadinessChange}

@@ -3,19 +3,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGetUserByIdQuery } from '../../store/user-process/user-api';
 import { locationOptions, specializationOptions } from '../../shared/data';
 import { TrainingsSlider } from './trainings-slider/trainings-slider';
+import { UserRole } from '@project/enums';
+import { useAuthRole } from '../../hooks/useAuth';
 
 export const UserCard = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const userId = String(id);
-
+  const { isUserAuth } = useAuthRole();
   const { data: user } = useGetUserByIdQuery(userId);
 
   if (!user) {
     return null;
   }
 
-  const isUserTrainer = true;
+  const isUserTrainer = user.role === UserRole.Trainer;
   const canAddToFriend = false;
   const { trainingConfig } = user;
   const specializations = trainingConfig?.specialisation;
@@ -113,6 +115,7 @@ export const UserCard = () => {
                     <button
                       className="btn-flat user-card-coach__sertificate"
                       type="button"
+                      style={{ display: 'none' }}
                     >
                       <svg width="12" height="13" aria-hidden="true">
                         <use xlinkHref="#icon-teacher"></use>
@@ -146,12 +149,12 @@ export const UserCard = () => {
                     </button>
                   ) : null}
                 </div>
-                {user?.backgroundPath ? (
+                {user?.avatarPath ? (
                   <div className="user-card-coach__gallary">
                     <ul className="user-card-coach__gallary-list">
                       <li className="user-card-coach__gallary-item">
                         <img
-                          src={user.backgroundPath}
+                          src={user.avatarPath}
                           width="334"
                           height="573"
                           alt="photo1"
@@ -163,40 +166,41 @@ export const UserCard = () => {
               </div>
 
               {isUserTrainer ? <TrainingsSlider trainerId={userId} /> : null}
+              {isUserAuth ? (
+                <div className="user-card-coach__training-form">
+                  {isUserTrainer ? (
+                    <button
+                      className="btn user-card-coach__btn-training"
+                      type="button"
+                    >
+                      Хочу персональную тренировку
+                    </button>
+                  ) : null}
 
-              <div className="user-card-coach__training-form">
-                {isUserTrainer ? (
-                  <button
-                    className="btn user-card-coach__btn-training"
-                    type="button"
-                  >
-                    Хочу персональную тренировку
-                  </button>
-                ) : null}
-
-                {isUserTrainer ? (
-                  <div className="user-card-coach__training-check">
-                    <div className="custom-toggle custom-toggle--checkbox">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="user-agreement-1"
-                          name="user-agreement"
-                          checked
-                        />
-                        <span className="custom-toggle__icon">
-                          <svg width="9" height="6" aria-hidden="true">
-                            <use xlinkHref="#arrow-check"></use>
-                          </svg>
-                        </span>
-                        <span className="custom-toggle__label">
-                          Получать уведомление на почту о новой тренировке
-                        </span>
-                      </label>
+                  {isUserTrainer ? (
+                    <div className="user-card-coach__training-check">
+                      <div className="custom-toggle custom-toggle--checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            value="user-agreement-1"
+                            name="user-agreement"
+                            checked
+                          />
+                          <span className="custom-toggle__icon">
+                            <svg width="9" height="6" aria-hidden="true">
+                              <use xlinkHref="#arrow-check"></use>
+                            </svg>
+                          </span>
+                          <span className="custom-toggle__label">
+                            Получать уведомление на почту о новой тренировке
+                          </span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ) : null}
-              </div>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </section>
         </div>
