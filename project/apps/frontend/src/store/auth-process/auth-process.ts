@@ -12,7 +12,7 @@ import { authApi } from './auth-api';
 
 export type TInitialState = {
   authorizationStatus: AuthStatus;
-  user: Pick<User, 'email'> | null;
+  user: Pick<User, 'email' | 'role'> | null;
   accessToken: string | null;
   refreshToken: string | null;
   isSubmitting: boolean;
@@ -34,10 +34,10 @@ const authSlice = createSlice({
       state.isSubmitting = action.payload;
     },
     setCredentials: (state, action) => {
-      const { email, accessToken, refreshToken } = action.payload;
+      const { email, role, accessToken, refreshToken } = action.payload;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
-      state.user = { email };
+      state.user = { email, role };
       state.authorizationStatus = AuthStatus.Auth;
 
       setToken(TOKEN_KEY_NAME.Access, accessToken);
@@ -57,10 +57,10 @@ const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.checkAuth.matchFulfilled,
       (state, action: PayloadAction<TokenPayload>) => {
-        const { email } = action.payload;
+        const { email, role } = action.payload;
 
         state.authorizationStatus = AuthStatus.Auth;
-        state.user = { email };
+        state.user = { email, role };
       }
     );
     builder.addMatcher(authApi.endpoints.checkAuth.matchRejected, (state) =>

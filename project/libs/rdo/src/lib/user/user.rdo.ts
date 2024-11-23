@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@project/core';
 import { Expose, Transform } from 'class-transformer';
 import { UserConfigRdo } from './user-config.rdo';
-import { UserGender, UserLocation } from '@project/enums';
+import { UserGender, UserLocation, UserRole } from '@project/enums';
 
-export class UserRdo implements Omit<User, 'role'> {
+export class UserRdo implements User {
   @Expose({ name: '_id' })
   @ApiProperty({
     description: 'The uniq user ID',
@@ -18,6 +18,13 @@ export class UserRdo implements Omit<User, 'role'> {
     example: 'user@user.local',
   })
   public email!: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'User role',
+    example: UserRole.User,
+  })
+  public role!: UserRole;
 
   @Expose()
   @ApiProperty({

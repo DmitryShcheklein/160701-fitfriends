@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { UserRole } from '@project/enums';
 
 export class LoggedUserRdo {
   @Expose()
@@ -15,6 +16,13 @@ export class LoggedUserRdo {
     example: 'user@user.local',
   })
   public email!: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'User role',
+    example: UserRole.User,
+  })
+  public role!: UserRole;
 
   @Expose()
   @ApiProperty({

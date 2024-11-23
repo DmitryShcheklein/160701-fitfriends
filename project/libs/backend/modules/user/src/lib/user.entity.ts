@@ -62,10 +62,4 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       trainingConfig: this.trainingConfig,
     };
   }
-
-  public setPasswordHash(passwordHash: string) {
-    this.passwordHash = passwordHash;
-
-    return this;
-  }
 }

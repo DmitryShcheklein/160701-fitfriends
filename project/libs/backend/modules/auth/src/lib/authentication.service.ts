@@ -51,13 +51,11 @@ export class AuthenticationService {
       await this.fileUploaderService.saveFile(avatar)
     )?.toPOJO();
 
-    const newUser = await this.userService.create({
+    return this.userService.create({
       ...dto,
       passwordHash,
       avatarPath: avatarFile?.path,
     });
-
-    return newUser;
   }
 
   public async verifyUser(dto: LoginUserDto) {
@@ -84,11 +82,13 @@ export class AuthenticationService {
     id,
     email,
     firstName,
+    role,
   }: User): Promise<Token> {
     const accessTokenPayload: TokenPayload = {
       sub: String(id),
       email,
       firstName,
+      role,
     };
     const refreshTokenPayload = {
       ...accessTokenPayload,
