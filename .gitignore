@@ -12,6 +12,7 @@ node_modules
 
 # IDEs and editors
 /.idea
+/.idea/*
 .idea
 .project
 .classpath
@@ -46,4 +47,4 @@ Thumbs.db
 
 # Environments
 *.env
-/.idea
+
