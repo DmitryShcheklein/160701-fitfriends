@@ -1,8 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { CommentValidator } from '@project/validation';
+import { CommentValidation } from '@project/validation';
 import { toast } from 'react-toastify';
 import { useCreateCommentMutation } from '../../../store/comments-process/comments-api';
-import { CreateCommentDto } from '@project/dto';
 import { groupErrors } from '../../../shared/helpers/groupErrors';
 
 const FieldName = {
@@ -60,7 +59,7 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
     }
   };
   const ratings = Array.from(
-    Array(CommentValidator.Rating.Max),
+    Array(CommentValidation.Rating.Max),
     (_, idx) => (idx += 1)
   );
 
@@ -101,8 +100,8 @@ const ReviewForm = ({ id, onSuccess }: ReviewFormProps) => {
                 name={FieldName.Message}
                 value={formData.message}
                 onChange={handleInputChange}
-                minLength={CommentValidator.Message.Min}
-                maxLength={CommentValidator.Message.Max}
+                minLength={CommentValidation.Message.Min}
+                maxLength={CommentValidation.Message.Max}
               ></textarea>
             </label>
           </div>
