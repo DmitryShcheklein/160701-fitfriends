@@ -3,12 +3,13 @@ import { AppRoute, AuthStatus } from '../../../shared/const';
 import Popup from '../../ui/popup/popup';
 import { useAppSelector } from '../../../hooks';
 import { getAuthorizationStatus } from '../../../store/auth-process/selectors';
+import { HttpStatusCode } from 'axios';
 
 type TErrorScreen = {
   redirectMessage?: string;
 };
 
-const ErrorScreen = ({
+export const ErrorScreen = ({
   redirectMessage = 'Перейти на главную',
 }: TErrorScreen) => {
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -17,7 +18,7 @@ const ErrorScreen = ({
   return (
     <Popup
       isStatic
-      title="Ошибка 404"
+      title={`Ошибка ${HttpStatusCode.NotFound}`}
       className="popup-form popup-form--sign-in"
     >
       <div className="popup-form__content">
@@ -39,5 +40,3 @@ const ErrorScreen = ({
     </Popup>
   );
 };
-
-export default ErrorScreen;
