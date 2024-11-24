@@ -113,12 +113,6 @@ export class TrainingModel extends Document implements Training {
   })
   public video!: string;
 
-  @Factory((faker) =>
-    faker.number.int({
-      min: TrainingValidation.Rating.Min,
-      max: TrainingValidation.Rating.Max,
-    })
-  )
   @Prop({
     default: 0,
     type: Number,

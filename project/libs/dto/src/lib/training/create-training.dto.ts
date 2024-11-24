@@ -121,12 +121,6 @@ export class CreateTrainingDto {
     minimum: TrainingValidation.Rating.Min,
     maximum: TrainingValidation.Rating.Max,
   })
-  @IsNumber()
-  @Min(TrainingValidation.Rating.Min)
-  @Max(TrainingValidation.Rating.Max)
-  @IsNotEmpty()
-  public rating!: number;
-
   @ApiProperty({
     description: 'Special offer availability',
     example: true,
