@@ -16,10 +16,13 @@ export const QuestionnaireTrainer = () => {
       className="popup-form--questionnaire-coach"
     >
       <div className="popup-form__form">
-        <form method="get">
+        <form>
           <div className="questionnaire-coach">
             <h1 className="visually-hidden">Опросник</h1>
-            <div className="questionnaire-coach__wrapper">
+            <div
+              style={{ opacity: 0.3, pointerEvents: 'none' }}
+              className="questionnaire-coach__wrapper"
+            >
               <div className="questionnaire-coach__block">
                 <span className="questionnaire-coach__legend">
                   Ваша специализация (тип) тренировок
@@ -109,7 +112,11 @@ export const QuestionnaireTrainer = () => {
                 </div>
               </div>
             </div>
-            <button className="btn questionnaire-coach__button" type="submit">
+            <button
+              disabled
+              className="btn questionnaire-coach__button"
+              type="submit"
+            >
               Продолжить
             </button>
             <Link
