@@ -4,13 +4,7 @@ import Popup from '../../ui/popup/popup';
 import { HttpStatusCode } from 'axios';
 import { useAuthRole } from '../../../hooks/useAuth';
 
-type TErrorScreen = {
-  redirectMessage?: string;
-};
-
-export const PermissionScreen = ({
-  redirectMessage = 'Перейти на главную',
-}: TErrorScreen) => {
+export const PermissionScreen = () => {
   const { isUserAuth } = useAuthRole();
 
   return (
@@ -28,7 +22,7 @@ export const PermissionScreen = ({
               className="btn sign-up__button"
               to={isUserAuth ? AppRoute.Index : AppRoute.Profile}
             >
-              {redirectMessage}
+              {isUserAuth ? 'Перейти на главную' : 'Перейти в профиль'}
             </Link>
           </div>
         </div>
