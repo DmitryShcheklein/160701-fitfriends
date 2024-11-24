@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../../store/auth-process/auth-api';
-import { setCredentials } from '../../../store/auth-process/auth-process';
+import { setCredentials } from '../../../store/auth-process/auth-slice';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
@@ -16,7 +15,7 @@ const FormFieldName = {
 
 type FormFieldName = (typeof FormFieldName)[keyof typeof FormFieldName];
 
-const LoginForm: FC = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
   const [formData, setFormData] = useState<Record<FormFieldName, string>>({

@@ -1,5 +1,5 @@
 import { Middleware } from '@reduxjs/toolkit';
-import { logOut } from '../auth-process/auth-process';
+import { logOut } from '../auth-process/auth-slice';
 import { userApi } from '../user-process/user-api';
 
 export const apiResetMiddleware: Middleware =

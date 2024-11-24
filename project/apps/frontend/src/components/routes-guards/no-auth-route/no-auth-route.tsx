@@ -10,7 +10,7 @@ import { LoaderPage } from '../../base/loaders/loader-page/loader-page';
 import { useCheckAuthQuery } from '../../../store/auth-process/auth-api';
 import { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { setIsSubmitting } from '../../../store/auth-process/auth-process';
+import { setIsSubmitting } from '../../../store/auth-process/auth-slice';
 
 export const NoAuthRoute = (children: ReactNode) => {
   const location = useLocation();

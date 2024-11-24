@@ -6,7 +6,7 @@ import { useRegisterMutation } from '../../../store/auth-process/auth-api';
 import {
   setCredentials,
   setIsSubmitting,
-} from '../../../store/auth-process/auth-process';
+} from '../../../store/auth-process/auth-slice';
 import { useAppDispatch } from '../../../hooks';
 import Popup from '../../ui/popup/popup';
 import Input from '../../ui/input/input';

@@ -7,7 +7,7 @@ import {
 import { BACKEND_URL } from './api.const';
 import { TState } from '../types/state';
 import { StatusCodes } from 'http-status-codes';
-import { logOut, setCredentials } from '../store/auth-process/auth-process';
+import { logOut, setCredentials } from '../store/auth-process/auth-slice';
 
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 

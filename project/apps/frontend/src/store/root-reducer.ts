@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { NameSpace } from './name-space.enum';
-import authReducer from './auth-process/auth-process';
+import authReducer from './auth-process/auth-slice';
 import { authApi } from './auth-process/auth-api';
 import { userApi } from './user-process/user-api';
 import { trainingApi } from './training-process/training-api';

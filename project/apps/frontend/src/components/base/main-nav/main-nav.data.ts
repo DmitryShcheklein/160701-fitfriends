@@ -1,6 +1,6 @@
 import { AppRoute } from '../../../shared/const';
 import { store } from '../../../store';
-import { logOut } from '../../../store/auth-process/auth-process';
+import { logOut } from '../../../store/auth-process/auth-slice';
 
 export const navItems = [
   {
