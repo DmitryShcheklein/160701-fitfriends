@@ -1,5 +1,5 @@
 import withProviders from '../providers';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import IntroPage from '../pages/intro/intro';
 import Page404 from '../pages/404/404';
 import LoginPage from '../pages/login/login';
@@ -11,7 +11,7 @@ import ProfilePage from '../pages/profile/profile';
 import { PrivateRoute } from '../components/routes-guards/private-route/private-route';
 
 import { AppRoute } from '../shared/const';
-import QuestionnairePage from '../pages/questionnaire/questionnaire';
+import { QuestionnaireUserPage } from '../pages/questionnaire/user/questionnaire-user';
 import CatalogPage from '../pages/catalog/catalog';
 import TrainingCardPage from '../pages/training-card/training-card';
 import PurchasesPage from '../pages/profile/user/my-purchases/my-purchases';
@@ -23,6 +23,7 @@ import { UserCardPage } from '../pages/user-card/user-card';
 import { TrainerRoute } from '../components/routes-guards/trainer-route/trainer-route';
 import Page403 from '../pages/403/403';
 import { UserRoute } from '../components/routes-guards/user-route/user-route';
+import { QuestionnaireTrainerPage } from '../pages/questionnaire/trainer/questionnaire-trainer';
 
 export function App() {
   return (
@@ -35,7 +36,14 @@ export function App() {
       </Route>
 
       <Route element={PrivateRoute(<IntroLayout />)}>
-        <Route path={AppRoute.Questionnaire} element={<QuestionnairePage />} />
+        <Route
+          path={AppRoute.QuestionnaireUser}
+          element={UserRoute(<QuestionnaireUserPage />)}
+        />
+        <Route
+          path={AppRoute.QuestionnaireTrainer}
+          element={TrainerRoute(<QuestionnaireTrainerPage />)}
+        />
       </Route>
 
       <Route element={PrivateRoute(<MainLayout />)}>

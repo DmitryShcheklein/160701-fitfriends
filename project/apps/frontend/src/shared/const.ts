@@ -16,7 +16,8 @@ const AppRoute = {
   Profile: '/profile',
   Catalog: '/catalog',
   TrainingCardPage: '/training',
-  Questionnaire: '/questionnaire',
+  QuestionnaireUser: '/questionnaire-user',
+  QuestionnaireTrainer: '/questionnaire-trainer',
   Friends: '/friends',
   MyPurchases: '/my-purchases',
 
@@ -37,7 +38,8 @@ const PageTitles: Record<keyof typeof AppRoute, string> = {
   Profile: 'Личный кабинет',
   Catalog: 'Мои тренировки',
   TrainingCardPage: 'Карточка тренировки',
-  Questionnaire: 'Опросник',
+  QuestionnaireUser: 'Опросник тренер',
+  QuestionnaireTrainer: 'Опросник тренер',
   Friends: 'Список друзей',
   MyPurchases: 'Мои покупки',
 
