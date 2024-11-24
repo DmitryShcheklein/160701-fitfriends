@@ -35,9 +35,12 @@ import { FileUploaderService } from '@project/file-uploader';
 import { AllowedMimetypes, TrainingValidation } from '@project/validation';
 import { API_BODY } from './training.const';
 import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
+import { Roles, RolesGuard } from '@project/guards';
+import { UserRole } from '@project/enums';
 
 @ApiTags('trainings')
 @Controller('trainings')
+@UseGuards(RolesGuard)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth(AuthKeyName)
 export class TrainingController {
@@ -52,6 +55,7 @@ export class TrainingController {
   @ApiOkResponse({
     type: TrainingsWithPaginationRdo,
   })
+  @Roles(UserRole.User)
   @Get('/')
   public async showAll(@Query() query: TrainingsQuery) {
     const trainingsWithPagination = await this.trainingService.getAllTrainings(
@@ -75,6 +79,7 @@ export class TrainingController {
     isArray: true,
     type: TrainingRdo,
   })
+  @Roles(UserRole.User)
   @Get('/recommended')
   public async showRecommendedOffers(@Req() { user }: RequestWithTokenPayload) {
     const trainings = await this.trainingService.getRecommendedTrainings(
@@ -94,6 +99,7 @@ export class TrainingController {
     isArray: true,
     type: TrainingRdo,
   })
+  @Roles(UserRole.User)
   @Get('/special')
   public async showSpecialOffers() {
     const trainings = await this.trainingService.getSpecialTrainings();
@@ -112,6 +118,7 @@ export class TrainingController {
     type: TrainingRdo,
     status: HttpStatus.OK,
   })
+  @Roles(UserRole.User)
   @Get('/popular')
   public async showPopularOffers() {
     const trainings = await this.trainingService.getPopularTrainings();
@@ -130,7 +137,8 @@ export class TrainingController {
     summary: 'Создать тренинг',
   })
   @ApiConsumes('multipart/form-data')
-  @ApiBody(API_BODY.CreateTraining)
+  // @ApiBody(API_BODY.CreateTraining)
+  @Roles(UserRole.Trainer)
   @UseInterceptors(FileInterceptor('video'))
   @Post()
   public async create(
@@ -182,6 +190,7 @@ export class TrainingController {
   @ApiConsumes('multipart/form-data')
   @ApiBody(API_BODY.UpdateTraining)
   @UseInterceptors(FileInterceptor('video'))
+  @Roles(UserRole.Trainer)
   @Patch(':trainingId')
   public async update(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string,
@@ -207,6 +216,7 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Удалить тренинг по id',
   })
+  @Roles(UserRole.Trainer)
   @Delete(':trainingId')
   public async delete(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string

@@ -23,10 +23,13 @@ import { CommentRdo } from '@project/rdo';
 import { AuthKeyName } from '@project/config';
 import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
 import { MongoIdValidationPipe } from '@project/pipes';
+import { Roles, RolesGuard } from '@project/guards';
+import { UserRole } from '@project/enums';
 
 @ApiTags('comments')
 @Controller()
 @UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
 @ApiBearerAuth(AuthKeyName)
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
@@ -40,6 +43,7 @@ export class CommentsController {
     summary: 'Создать комментарий',
     description: 'Create comment',
   })
+  @Roles(UserRole.User)
   @Post('trainings/:trainingId/comments')
   public async create(
     @Req() { user }: RequestWithTokenPayload,
@@ -138,6 +142,7 @@ export class CommentsController {
     summary: 'Изменить комментарий',
     description: 'Fix comment by commentId',
   })
+  @Roles(UserRole.User)
   @Patch('comments/:commentId')
   public async update(
     @Req() { user }: RequestWithTokenPayload,
@@ -167,6 +172,7 @@ export class CommentsController {
     summary: 'Удалить комментарий',
     description: 'Remove comment',
   })
+  @Roles(UserRole.User)
   @Delete('comments/:commentId')
   public async remove(@Param('commentId') commentId: string) {
     return this.commentsService.remove(commentId);
