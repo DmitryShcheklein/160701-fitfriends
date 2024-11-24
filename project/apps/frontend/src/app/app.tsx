@@ -47,7 +47,7 @@ export function App() {
       </Route>
 
       <Route element={PrivateRoute(<MainLayout />)}>
-        <Route path={AppRoute.Index} element={<IndexPage />} />
+        <Route path={AppRoute.Index} element={UserRoute(<IndexPage />)} />
         <Route path={AppRoute.Profile} element={<ProfilePage />} />
 
         <Route
