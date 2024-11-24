@@ -46,7 +46,6 @@ export const CatalogSidebar = ({ filters, setFilter }: CatalogSidebarProps) => {
             range={{ min: minPrice, max: maxPrice }}
             className="my-training-form__block--price"
             onChange={(values) => {
-              console.log(values);
               setFilter((prevState) => {
                 return {
                   ...prevState,
