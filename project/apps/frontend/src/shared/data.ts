@@ -39,9 +39,9 @@ export const specializationOptions = [
 ];
 
 export const genderOptions = [
-  { value: UserGender.Female, label: 'Женский' },
-  { value: UserGender.Male, label: 'Мужской' },
-  { value: UserGender.Any, label: 'Неважно' },
+  { value: UserGender.Female, label: 'Женский', labelV2: 'Женщинам' },
+  { value: UserGender.Male, label: 'Мужской', labelV2: 'Мужчинам' },
+  { value: UserGender.Any, label: 'Неважно', labelV2: 'Всем' },
 ];
 
 export const fitnessLevelOptions = [

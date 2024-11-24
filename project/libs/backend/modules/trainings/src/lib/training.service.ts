@@ -10,19 +10,26 @@ import {
 import { CreateTrainingDto, UpdateTrainingDto } from '@project/dto';
 import { TrainingEntity } from './training.entity';
 import { UserService } from '@project/user-module';
+import { FileUploaderService } from '@project/file-uploader';
 
 @Injectable()
 export class TrainingService {
   constructor(
     private readonly trainingRepository: TrainingRepository,
     private readonly trainingFactory: TrainingFactory,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly fileUploaderService: FileUploaderService
   ) {}
 
   public async create(dto: CreateTrainingDto, userId: string) {
+    const videoFile = (
+      await this.fileUploaderService.saveFile(dto.video)
+    )?.toPOJO();
+    console.log(videoFile);
     const newTraining: Training = {
       ...dto,
       trainerId: userId,
+      video: videoFile.path,
     };
     const newTrainingEntity = this.trainingFactory.create(newTraining);
 
@@ -54,10 +61,14 @@ export class TrainingService {
   }
 
   public async updateById(id: string, dto: UpdateTrainingDto) {
+    const existFile = (
+      await this.fileUploaderService.saveFile(dto.video)
+    )?.toPOJO();
     const entity = await this.findById(id);
     const newEntity = this.trainingFactory.create({
       ...entity.toPOJO(),
       ...dto,
+      video: existFile.path,
     });
 
     return this.trainingRepository.update(newEntity);

@@ -6,10 +6,8 @@ import {
   UserGender,
 } from '@project/enums';
 import {
-  IsBoolean,
+  IsEnum,
   IsNotEmpty,
-  IsNumber,
-  IsOptional,
   IsString,
   Max,
   MaxLength,
@@ -17,11 +15,13 @@ import {
   MinLength,
 } from 'class-validator';
 import { TrainingValidation } from '@project/validation';
+import { Transform } from 'class-transformer';
 
 export class CreateTrainingDto {
   @ApiProperty({
+    required: true,
     description: 'Training name',
-    example: 'Advanced HIIT Workout',
+    example: 'Advanced Workout',
     minLength: TrainingValidation.Name.Min,
     maxLength: TrainingValidation.Name.Max,
   })
@@ -32,19 +32,12 @@ export class CreateTrainingDto {
   public name!: string;
 
   @ApiProperty({
-    description: 'Background image URL',
-    example: 'https://example.com/image.jpg',
-    type: String,
-  })
-  @IsString()
-  @IsNotEmpty()
-  public backgroundImage!: string;
-
-  @ApiProperty({
+    required: true,
     description: 'Fitness level',
     example: FitnessLevel.Amateur,
     enum: FitnessLevel,
   })
+  @IsEnum(FitnessLevel)
   @IsNotEmpty()
   public level!: FitnessLevel;
 
@@ -53,42 +46,47 @@ export class CreateTrainingDto {
     example: WorkoutType.Boxing,
     enum: WorkoutType,
   })
+  @IsEnum(WorkoutType)
   @IsNotEmpty()
   public trainingType!: WorkoutType;
 
   @ApiProperty({
+    required: true,
     description: 'Duration in minutes',
     example: WorkoutDuration.Min10to30,
   })
-  @IsNumber()
+  @IsEnum(WorkoutDuration)
   @IsNotEmpty()
   public duration!: WorkoutDuration;
 
   @ApiProperty({
+    required: true,
     description: 'Price',
     example: 2000,
     minimum: TrainingValidation.Price.Min,
     maximum: TrainingValidation.Price.Max,
   })
-  @IsNumber()
   @Min(TrainingValidation.Price.Min)
   @Max(TrainingValidation.Price.Max)
+  @Transform(({ value }) => Number(value))
   @IsNotEmpty()
   public price!: number;
 
   @ApiProperty({
+    required: true,
     description: 'Calories burned per session',
     example: TrainingValidation.Calories.Min,
     minimum: TrainingValidation.Calories.Min,
     maximum: TrainingValidation.Calories.Max,
   })
-  @IsNumber()
   @Min(TrainingValidation.Calories.Min)
   @Max(TrainingValidation.Calories.Max)
+  @Transform(({ value }) => Number(value))
   @IsNotEmpty()
   public calories!: number;
 
   @ApiProperty({
+    required: true,
     description: 'Training description',
     example: 'A high-intensity workout targeting full-body fitness.',
     maxLength: TrainingValidation.Description.Max,
@@ -99,33 +97,20 @@ export class CreateTrainingDto {
   public description!: string;
 
   @ApiProperty({
+    required: true,
     description: 'Target audience gender',
     example: UserGender.Male,
     enum: UserGender,
   })
+  @IsEnum(UserGender)
   @IsNotEmpty()
   public gender!: UserGender;
 
   @ApiProperty({
-    description: 'Video URL for the training session',
-    example: 'https://example.com/training-video.mp4',
-    type: String,
+    required: true,
+    description: 'Video .mov, .avi, .mp4 file',
+    format: 'binary',
+    enum: ['video/mov', 'video/avi', 'video/mp4'],
   })
-  @IsString()
-  @IsNotEmpty()
-  public video!: string;
-
-  @ApiProperty({
-    description: 'Average rating of the training',
-    example: 4.5,
-    minimum: TrainingValidation.Rating.Min,
-    maximum: TrainingValidation.Rating.Max,
-  })
-  @ApiProperty({
-    description: 'Special offer availability',
-    example: true,
-  })
-  @IsBoolean()
-  @IsOptional()
-  public specialOffer: boolean;
+  public video!: Express.Multer.File;
 }

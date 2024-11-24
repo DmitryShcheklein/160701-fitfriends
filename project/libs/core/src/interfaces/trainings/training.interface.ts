@@ -9,7 +9,7 @@ export interface Training {
   id?: string;
   createdAt?: Date;
   name: string;
-  backgroundImage: string;
+  backgroundImage?: string;
   level: FitnessLevel;
   trainingType: WorkoutType;
   duration: WorkoutDuration;
@@ -20,5 +20,5 @@ export interface Training {
   video: string;
   rating?: number;
   trainerId: string;
-  specialOffer: boolean;
+  specialOffer?: boolean;
 }

@@ -34,9 +34,10 @@ export class TrainingModel extends Document implements Training {
       )}`
   )
   @Prop({
-    required: true,
+    required: false,
+    default: '',
   })
-  public backgroundImage!: string;
+  public backgroundImage?: string;
 
   @Factory((faker) => faker.helpers.enumValue(FitnessLevel))
   @Prop({

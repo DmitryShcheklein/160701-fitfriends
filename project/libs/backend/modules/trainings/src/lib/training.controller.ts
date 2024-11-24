@@ -137,7 +137,6 @@ export class TrainingController {
     summary: 'Создать тренинг',
   })
   @ApiConsumes('multipart/form-data')
-  // @ApiBody(API_BODY.CreateTraining)
   @Roles(UserRole.Trainer)
   @UseInterceptors(FileInterceptor('video'))
   @Post()
@@ -147,19 +146,16 @@ export class TrainingController {
     @UploadedFile(
       new FileValidationPipe(
         TrainingValidation.Video.FileMaxSize,
-        AllowedMimetypes.Img,
+        AllowedMimetypes.Video,
         true
       )
     )
     file: Express.Multer.File
   ) {
     const userId = user.sub;
-    const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
+
     const training = await this.trainingService.create(
-      {
-        ...dto,
-        video: existFile?.path,
-      },
+      { ...dto, video: file },
       userId
     );
 
@@ -198,16 +194,15 @@ export class TrainingController {
     @UploadedFile(
       new FileValidationPipe(
         TrainingValidation.Video.FileMaxSize,
-        AllowedMimetypes.Img,
+        AllowedMimetypes.Video,
         true
       )
     )
     file: Express.Multer.File
   ) {
-    const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
     const updatedTraining = await this.trainingService.updateById(trainingId, {
       ...dto,
-      video: existFile?.path,
+      video: file,
     });
 
     return fillDto(TrainingRdo, updatedTraining);
