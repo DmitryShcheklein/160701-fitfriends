@@ -23,12 +23,8 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
-import {
-  CreateUserConfigDto,
-  UpdateUserConfigDto,
-  UpdateUserDto,
-} from '@project/dto';
-import { UserConfigRdo, UserRdo } from '@project/rdo';
+import { UpdateUserDto } from '@project/dto';
+import { UserRdo } from '@project/rdo';
 import { AllowedMimetypes, UserValidation } from '@project/validation';
 import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -39,6 +35,7 @@ import { ResponseMessage } from './user.constant';
 @ApiTags('user')
 @Controller('user')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth(AuthKeyName)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -48,7 +45,6 @@ export class UserController {
   @ApiOkResponse({
     type: UserRdo,
   })
-  @ApiBearerAuth(AuthKeyName)
   @Get()
   public async getUser(@Req() { user }: RequestWithTokenPayload) {
     const foundUser = await this.userService.getUserById(user.sub);
@@ -57,13 +53,12 @@ export class UserController {
   }
 
   @ApiOperation({
-    summary: 'Получить текущего пользователя по Id',
+    summary: 'Получить данные пользователя по Id',
   })
   @ApiOkResponse({
     type: UserRdo,
   })
-  @ApiBearerAuth(AuthKeyName)
-  @Get(':userId')
+  @Get('/info/:userId')
   public async getUserById(
     @Param('userId', MongoIdValidationPipe) userId: string
   ) {
@@ -88,7 +83,6 @@ export class UserController {
     summary: 'Обновление пользователя',
   })
   @UseInterceptors(FileInterceptor('avatar'))
-  @ApiBearerAuth(AuthKeyName)
   @Patch()
   public async updateUser(
     @Req() { user }: RequestWithTokenPayload,
@@ -108,76 +102,5 @@ export class UserController {
     });
 
     return fillDto(UserRdo, updatedUser);
-  }
-
-  @ApiOperation({
-    summary: 'Создать опросник для пользователя',
-  })
-  @ApiCreatedResponse({
-    type: UserConfigRdo,
-    description: ResponseMessage.UserConfigCreated,
-  })
-  @ApiNotFoundResponse({
-    description: ResponseMessage.UserNotFound,
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request data',
-    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
-  })
-  @ApiBearerAuth(AuthKeyName)
-  @Post('/questionnaire-user')
-  public async createQuestionnaireUser(
-    @Req() { user }: RequestWithTokenPayload,
-    @Body() dto: CreateUserConfigDto
-  ) {
-    const newConfig = await this.userService.updateUserConfig(user.sub, dto);
-
-    return fillDto(UserConfigRdo, newConfig);
-  }
-
-  @ApiOperation({
-    summary: 'Обновить опросник для пользователя',
-  })
-  @ApiCreatedResponse({
-    type: UserConfigRdo,
-    description: ResponseMessage.UserConfigCreated,
-  })
-  @ApiNotFoundResponse({
-    description: ResponseMessage.UserNotFound,
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request data',
-    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
-  })
-  @ApiBearerAuth(AuthKeyName)
-  @Patch('/questionnaire-user')
-  public async updateQuestionnaireUser(
-    @Req() { user }: RequestWithTokenPayload,
-    @Body() dto: UpdateUserConfigDto
-  ) {
-    const updatedUser = await this.userService.updateUserConfig(user.sub, dto);
-
-    return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);
-  }
-
-  @ApiOperation({
-    summary: 'Получить опросник для пользователя',
-  })
-  @ApiOkResponse({
-    type: UserConfigRdo,
-  })
-  @ApiNotFoundResponse({
-    description: ResponseMessage.UserNotFound,
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request data',
-    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
-  })
-  @ApiBearerAuth(AuthKeyName)
-  @Get('/questionnaire-user')
-  public async getQuestionnaireUser(@Req() { user }: RequestWithTokenPayload) {
-    const updatedUser = await this.userService.getUserById(user.sub);
-
-    return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);
   }
 }
