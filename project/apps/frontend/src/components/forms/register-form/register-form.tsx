@@ -13,7 +13,11 @@ import Input from '../../ui/input/input';
 import RadioInput from '../../ui/radio-input/radio-input';
 import RoleSelector from '../../ui/role-selector/role-selector';
 import CustomSelect from '../../ui/select/select';
-import { roleOptions, locationOptions } from '../../../shared/data';
+import {
+  roleOptions,
+  locationOptions,
+  genderOptions,
+} from '../../../shared/data';
 import { UserGender, UserRole } from '@project/enums';
 import { toast } from 'react-toastify';
 import { groupErrors } from '../../../shared/helpers/groupErrors';
@@ -102,7 +106,11 @@ const RegisterForm = () => {
 
       dispatch(setIsSubmitting(true));
 
-      navigate(AppRoute.Questionnaire);
+      navigate(
+        userData.role === UserRole.User
+          ? AppRoute.QuestionnaireUser
+          : AppRoute.QuestionnaireTrainer
+      );
 
       toast.success('Вы успешно зарегистрированы!');
     } catch (err: any) {
@@ -211,27 +219,15 @@ const RegisterForm = () => {
               <div className="sign-up__radio">
                 <span className="sign-up__label">Пол</span>
                 <div className="custom-toggle-radio custom-toggle-radio--big">
-                  <RadioInput
-                    label="Мужской"
-                    name={FormFieldName.Gender}
-                    value={UserGender.Male}
-                    onChange={onChange}
-                    checked={gender === UserGender.Male}
-                  />
-                  <RadioInput
-                    label="Женский"
-                    name={FormFieldName.Gender}
-                    value={UserGender.Female}
-                    onChange={onChange}
-                    checked={gender === UserGender.Female}
-                  />
-                  <RadioInput
-                    label="Неважно"
-                    name={FormFieldName.Gender}
-                    value={UserGender.Any}
-                    onChange={onChange}
-                    checked={gender === UserGender.Any}
-                  />
+                  {genderOptions.map(({ value, label }) => (
+                    <RadioInput
+                      label={label}
+                      name={FormFieldName.Gender}
+                      value={value}
+                      onChange={onChange}
+                      checked={gender === value}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

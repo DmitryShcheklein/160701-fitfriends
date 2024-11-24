@@ -55,7 +55,7 @@ export type TrainingConfigFieldName =
   (typeof TrainingConfigFieldName)[keyof typeof TrainingConfigFieldName];
 type TConfigState = Record<TrainingConfigFieldName, any>;
 
-const UserProfileInfo: React.FC = () => {
+const UserProfileInfo = () => {
   const [isEditable, setIsEditable] = useState(false);
   const { isUserAuth } = useAuthRole();
   const [updateUser, { isLoading: isLoadingUserMutation }] =

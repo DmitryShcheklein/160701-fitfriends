@@ -2,7 +2,7 @@ import React, { TextareaHTMLAttributes } from 'react';
 import classNames from 'classnames';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -23,7 +23,7 @@ const Textarea: React.FC<TextareaProps> = ({
       )}
     >
       <label>
-        <span className="custom-textarea__label">{label}</span>
+        {label ? <span className="custom-textarea__label">{label}</span> : null}
         <textarea
           readOnly={readOnly}
           disabled={disabled}
