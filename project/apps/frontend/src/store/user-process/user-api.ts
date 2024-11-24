@@ -26,21 +26,21 @@ export const userApi = createApi({
     }),
     getUserById: builder.query<UserRdo, string>({
       query: (userId) => ({
-        url: `/${userId}`,
+        url: `/info/${userId}`,
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
     getTrainingConfig: builder.query<UserConfigRdo, void>({
       query: () => ({
-        url: '/questionnaire-user',
+        url: '/questionnaire',
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
     createTrainingConfig: builder.mutation<UserConfigRdo, CreateUserConfigDto>({
       query: (credentials) => ({
-        url: '/questionnaire-user',
+        url: '/questionnaire',
         method: 'POST',
         body: credentials,
       }),
@@ -48,7 +48,7 @@ export const userApi = createApi({
     }),
     updateTrainingConfig: builder.mutation<UserConfigRdo, UpdateUserConfigDto>({
       query: (credentials) => ({
-        url: '/questionnaire-user',
+        url: '/questionnaire',
         method: 'PATCH',
         body: credentials,
       }),
