@@ -25,7 +25,7 @@ export class TrainingService {
     const videoFile = (
       await this.fileUploaderService.saveFile(dto.video)
     )?.toPOJO();
-    console.log(videoFile);
+
     const newTraining: Training = {
       ...dto,
       trainerId: userId,
