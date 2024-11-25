@@ -12,5 +12,3 @@ export const MyOrdersPage = () => {
     </>
   );
 };
-
-export default MyOrders;

@@ -2,11 +2,15 @@ import { TrainingCardMin } from '../training-card-min/training-card-min';
 import { useGetTrainingsQuery } from '../../store/training-process/training-api';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/const';
+import { useGetCurrentUserQuery } from '../../store/user-process/user-api';
 
 export const MyOrders = () => {
+  const { data: user } = useGetCurrentUserQuery();
+
   const { data } = useGetTrainingsQuery({
     limit: 6,
     page: 1,
+    trainerId: user?.id,
   });
   const items = data?.entities;
 
