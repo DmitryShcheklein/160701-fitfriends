@@ -13,6 +13,7 @@ import {
   Req,
   UseGuards,
   Query,
+  ParseArrayPipe,
 } from '@nestjs/common';
 import {
   JwtAuthGuard,
@@ -24,10 +25,12 @@ import { CreateOrderDto } from '@project/dto';
 import { OrdersService } from './orders.service';
 import { fillDto } from '@project/backend-helpers';
 import { OrderRdo, OrdersWithPaginationRdo } from '@project/rdo';
+import { RolesGuard, Roles } from '@project/guards';
+import { UserRole } from '@project/enums';
 
 @ApiTags('orders')
 @Controller('orders')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth(AuthKeyName)
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
@@ -78,5 +81,25 @@ export class OrdersController {
     };
 
     return fillDto(OrdersWithPaginationRdo, result);
+  }
+
+  @ApiOkResponse({
+    isArray: true,
+    type: OrderRdo,
+    description: 'Orders by trainings ids',
+  })
+  @ApiOperation({
+    summary: 'Получить заказы по id тренировок',
+    description: 'Get user orders',
+  })
+  @Roles(UserRole.Trainer)
+  @Get('/trainingsIds')
+  public async findByTrainingsIds(
+    @Query('ids', new ParseArrayPipe({ items: String, separator: ',' }))
+    ids: string[]
+  ) {
+    const orders = await this.ordersService.findByTrainingsIds(ids);
+
+    return fillDto(OrderRdo, orders);
   }
 }

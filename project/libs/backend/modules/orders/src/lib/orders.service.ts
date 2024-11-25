@@ -60,4 +60,8 @@ export class OrdersService {
       activeTrainingsIds
     );
   }
+
+  public async findByTrainingsIds(trainingsIds: string[]) {
+    return this.ordersRepository.findByTrainingsIds(trainingsIds);
+  }
 }

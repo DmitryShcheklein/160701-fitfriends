@@ -6,6 +6,7 @@ import {
   PaginationResult,
   DefaultSort,
   OrdersKeys,
+  DefaultItemsLimit,
 } from '@project/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { OrdersModel } from './orders.model';
@@ -64,6 +65,25 @@ export class OrdersRepository extends BaseMongoRepository<
       itemsPerPage: take,
       totalItems: ordersCount,
     };
+  }
+
+  public async findByTrainingsIds(trainingIds?: string[]) {
+    const filter: Partial<Record<OrdersKeys, unknown>> = {};
+
+    filter.trainingId = { $in: trainingIds };
+
+    const orders = await this.model
+      .find(
+        filter,
+        {},
+        {
+          limit: DefaultItemsLimit.Max,
+          sort: { [DefaultSort.BY]: DefaultSort.DIRECTION },
+        }
+      )
+      .exec();
+
+    return orders.map((el) => this.createEntityFromDocument(el));
   }
 
   private calculateOrdersPage(totalCount: number, limit: number): number {

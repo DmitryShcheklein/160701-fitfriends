@@ -13,4 +13,7 @@ export class OrdersQuery extends BaseQuery {
   @Transform(({ value }) => value === 'true')
   @IsOptional()
   isActive?: boolean;
+
+  @IsOptional()
+  trainingsIds?: string[];
 }
