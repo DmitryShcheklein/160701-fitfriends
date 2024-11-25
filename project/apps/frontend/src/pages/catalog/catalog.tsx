@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { getPageTitle, PageTitles } from '../../shared/const';
+import { getPageTitle } from '../../shared/const';
 import { Sidebar } from '../../components/base/sidebar/sidebar';
 import { CatalogSidebar } from '../../components/catalog/catalog-sidebar/catalog-sidebar';
 import { useGetTrainingsQuery } from '../../store/training-process/training-api';
@@ -63,7 +63,6 @@ export const CatalogPage = () => {
             <div className="training-catalog__list">
               {allTrainings?.map((el, idx) => (
                 <div key={el.id}>
-                  {++idx}
                   <TrainingCardMin
                     training={el}
                     className="training-catalog__item"

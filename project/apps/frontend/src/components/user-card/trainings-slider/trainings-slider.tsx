@@ -1,6 +1,5 @@
 import CarouselSlider from '../../ui/carousel-slider/carousel-slider';
 import { TrainingCardMin } from '../../training-card-min/training-card-min';
-import { TrainingsQuery } from '@project/core';
 import { useGetTrainingsQuery } from '../../../store/training-process/training-api';
 
 interface TrainingsSliderProps {

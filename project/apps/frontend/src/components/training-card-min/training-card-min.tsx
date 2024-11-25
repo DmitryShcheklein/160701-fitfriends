@@ -19,14 +19,16 @@ export const TrainingCardMin = ({
     <div className={classNames('thumbnail-training', className)}>
       <div className="thumbnail-training__inner">
         <div className="thumbnail-training__image">
-          <picture>
-            <img
-              src={training.backgroundImage}
-              width="330"
-              height="190"
-              alt=""
-            />
-          </picture>
+          {training.backgroundImage ? (
+            <picture>
+              <img
+                src={training.backgroundImage}
+                width="330"
+                height="190"
+                alt=""
+              />
+            </picture>
+          ) : null}
         </div>
         <p className="thumbnail-training__price">
           <span className="thumbnail-training__price-value">

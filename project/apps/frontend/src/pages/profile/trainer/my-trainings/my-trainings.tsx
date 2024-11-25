@@ -1,26 +1,22 @@
 import { Helmet } from 'react-helmet-async';
-import { getPageTitle } from '../../../../shared/const';
+import { AppRoute, getPageTitle } from '../../../../shared/const';
 import { Sidebar } from '../../../../components/base/sidebar/sidebar';
-import { CatalogSidebar } from '../../../../components/catalog/catalog-sidebar/catalog-sidebar';
 import { useGetTrainingsQuery } from '../../../../store/training-process/training-api';
 import EmptyBlock from '../../../../components/base/empty-block/empty-block';
 import { TrainingCardMin } from '../../../../components/training-card-min/training-card-min';
 import { useEffect, useState } from 'react';
 import { TrainingsWithPaginationRdo } from '@project/rdo';
-import { TrainingsQuery } from '@project/core';
 import { useGetCurrentUserQuery } from '../../../../store/user-process/user-api';
+import { Link } from 'react-router-dom';
 
 export const MyTrainingsPage = () => {
-  const { data: currentUser } = useGetCurrentUserQuery();
-
+  const { data: user } = useGetCurrentUserQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState<TrainingsQuery>({
-    trainerId: currentUser?.id,
-  });
+
   const { data, isFetching } = useGetTrainingsQuery({
     limit: 6,
     page: currentPage,
-    ...filter,
+    trainerId: user?.id,
   });
   const [allTrainings, setAllTrainings] = useState<
     TrainingsWithPaginationRdo['entities']
@@ -59,7 +55,15 @@ export const MyTrainingsPage = () => {
       <div className="inner-page__wrapper">
         <h1 className="visually-hidden">Мои тренировки</h1>
         <Sidebar>
-          {/*<CatalogSidebar filters={data?.filters} setFilter={setFilter} />*/}
+          <Link
+            to={AppRoute.Profile}
+            className="btn-flat btn-flat--underlined my-training-form__btnback"
+          >
+            <svg width="14" height="10" aria-hidden="true">
+              <use xlinkHref="#arrow-left" />
+            </svg>
+            <span>Назад</span>
+          </Link>
         </Sidebar>
         <div className="training-catalog">
           {!allTrainings?.length && !isFetching ? (
