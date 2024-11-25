@@ -34,7 +34,20 @@ export const ordersApi = createApi({
       }),
       providesTags: [NameSpace.OrdersApi],
     }),
+
+    getOrdersByTrainingsIds: builder.query<OrderRdo[], string[] | undefined>({
+      query: (params) => ({
+        url: `trainingsIds`,
+        method: 'GET',
+        params: { ids: params },
+      }),
+      providesTags: [NameSpace.OrdersApi],
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrdersQuery } = ordersApi;
+export const {
+  useCreateOrderMutation,
+  useGetOrdersQuery,
+  useGetOrdersByTrainingsIdsQuery,
+} = ordersApi;
