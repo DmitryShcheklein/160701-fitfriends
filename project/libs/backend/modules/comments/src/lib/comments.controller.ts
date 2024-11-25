@@ -27,10 +27,9 @@ import { Roles, RolesGuard } from '@project/guards';
 import { UserRole } from '@project/enums';
 
 @ApiTags('comments')
-@Controller()
-@UseGuards(JwtAuthGuard)
-@UseGuards(RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth(AuthKeyName)
+@Controller()
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 

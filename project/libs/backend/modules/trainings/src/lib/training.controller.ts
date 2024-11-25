@@ -40,8 +40,7 @@ import { UserRole } from '@project/enums';
 
 @ApiTags('trainings')
 @Controller('trainings')
-@UseGuards(RolesGuard)
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth(AuthKeyName)
 export class TrainingController {
   constructor(
