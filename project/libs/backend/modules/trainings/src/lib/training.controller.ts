@@ -50,7 +50,6 @@ export class TrainingController {
   @ApiOkResponse({
     type: TrainingsWithPaginationRdo,
   })
-  @Roles(UserRole.User)
   @Get('/')
   public async showAll(@Query() query: TrainingsQuery) {
     const trainingsWithPagination = await this.trainingService.getAllTrainings(
