@@ -31,7 +31,6 @@ import { AuthKeyName } from '@project/config';
 import { TrainingsQuery } from '@project/core';
 import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileUploaderService } from '@project/file-uploader';
 import { AllowedMimetypes, TrainingValidation } from '@project/validation';
 import { API_BODY } from './training.const';
 import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
@@ -43,10 +42,7 @@ import { UserRole } from '@project/enums';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth(AuthKeyName)
 export class TrainingController {
-  constructor(
-    private readonly trainingService: TrainingService,
-    private readonly fileUploaderService: FileUploaderService
-  ) {}
+  constructor(private readonly trainingService: TrainingService) {}
 
   @ApiOperation({
     summary: 'Получить тренинги',
@@ -146,7 +142,7 @@ export class TrainingController {
       new FileValidationPipe(
         TrainingValidation.Video.FileMaxSize,
         AllowedMimetypes.Video,
-        true
+        false
       )
     )
     file: Express.Multer.File

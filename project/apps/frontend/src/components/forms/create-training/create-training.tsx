@@ -94,6 +94,7 @@ export const CreateTrainingForm = () => {
       [name]: value,
     }));
   };
+
   const handleInputFileChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, files } = evt.target;
 
@@ -102,6 +103,7 @@ export const CreateTrainingForm = () => {
       setFormData((prev) => ({ ...prev, [name]: file }));
     }
   };
+  const isValid = Object.values(formData).every(Boolean);
 
   return (
     <Popup
@@ -262,7 +264,9 @@ export const CreateTrainingForm = () => {
                 <div className="drag-and-drop create-training__drag-and-drop">
                   <label>
                     <span className="drag-and-drop__label" tabIndex={0}>
-                      Загрузите сюда файл формата MOV, AVI или MP4
+                      {formData?.video?.name ||
+                        'Загрузите сюда файл формата MOV, AVI или MP4'}
+
                       <svg width="20" height="20" aria-hidden="true">
                         <use xlinkHref="#icon-import-video"></use>
                       </svg>
@@ -278,13 +282,10 @@ export const CreateTrainingForm = () => {
                 </div>
               </div>
             </div>
-            <pre style={{ maxWidth: 800, overflow: 'scroll' }}>
-              {JSON.stringify(formData)}
-            </pre>
             <button
               className="btn create-training__button"
               type="submit"
-              disabled={isLoadingCreateTraining}
+              disabled={!isValid || isLoadingCreateTraining}
             >
               Опубликовать
             </button>

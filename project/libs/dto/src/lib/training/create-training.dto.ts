@@ -89,8 +89,11 @@ export class CreateTrainingDto {
     required: true,
     description: 'Training description',
     example: 'A high-intensity workout targeting full-body fitness.',
+    minLength: TrainingValidation.Description.Min,
     maxLength: TrainingValidation.Description.Max,
   })
+  @MinLength(TrainingValidation.Description.Min)
+  @MaxLength(TrainingValidation.Description.Max)
   @IsString()
   @IsNotEmpty()
   @MaxLength(TrainingValidation.Description.Max)
