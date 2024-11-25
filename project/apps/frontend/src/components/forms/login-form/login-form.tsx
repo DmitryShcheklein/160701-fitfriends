@@ -1,12 +1,16 @@
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../../store/auth-process/auth-api';
-import { setCredentials } from '../../../store/auth-process/auth-slice';
+import {
+  setCredentials,
+  setIsSubmitting,
+} from '../../../store/auth-process/auth-slice';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
 import Popup from '../../ui/popup/popup';
 import Input from '../../ui/input/input';
 import { toast } from 'react-toastify';
+import { UserRole } from '@project/enums';
 
 const FormFieldName = {
   Email: 'email',
@@ -16,6 +20,7 @@ const FormFieldName = {
 type FormFieldName = (typeof FormFieldName)[keyof typeof FormFieldName];
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
   const [formData, setFormData] = useState<Record<FormFieldName, string>>({
@@ -36,7 +41,15 @@ const LoginForm = () => {
     try {
       const userData = await login(formData).unwrap();
       dispatch(setCredentials(userData));
+
+      dispatch(setIsSubmitting(true));
+
+      navigate(
+        userData.role === UserRole.User ? AppRoute.Index : AppRoute.Profile
+      );
     } catch (err: any) {
+      dispatch(setIsSubmitting(false));
+
       console.error('Failed to log in: ', err);
       toast.error(err.data.message.toString());
     }
