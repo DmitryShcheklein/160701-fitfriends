@@ -4,7 +4,7 @@ import { OrdersFactory } from './orders.factory';
 import { CreateOrderDto } from '@project/dto';
 import { TrainingService } from '@project/trainings-module';
 import { BalanceService } from '@project/balance-module';
-import { OrdersQuery } from '@project/core';
+import { OrdersQuery, OrdersTrainerQuery } from '@project/core';
 
 @Injectable()
 export class OrdersService {
@@ -61,7 +61,7 @@ export class OrdersService {
     );
   }
 
-  public async findByTrainingsIds(trainingsIds: string[]) {
-    return this.ordersRepository.findByTrainingsIds(trainingsIds);
+  public async findByTrainerId(trainerId: string, query: OrdersTrainerQuery) {
+    return this.ordersRepository.findByTrainerId(trainerId, query);
   }
 }

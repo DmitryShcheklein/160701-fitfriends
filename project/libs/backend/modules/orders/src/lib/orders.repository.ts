@@ -6,12 +6,12 @@ import {
   PaginationResult,
   DefaultSort,
   OrdersKeys,
-  DefaultItemsLimit,
+  OrdersTrainerQuery,
 } from '@project/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { OrdersModel } from './orders.model';
 import { OrdersFactory } from './orders.factory';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class OrdersRepository extends BaseMongoRepository<
@@ -67,23 +67,84 @@ export class OrdersRepository extends BaseMongoRepository<
     };
   }
 
-  public async findByTrainingsIds(trainingIds?: string[]) {
-    const filter: Partial<Record<OrdersKeys, unknown>> = {};
+  public async findByTrainerId(trainerId: string, query: OrdersTrainerQuery) {
+    const skip =
+      query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
+    const take = query?.limit;
+    const currentPage = Number(query?.page) || 1;
+    const trainerIdObj = new Types.ObjectId(trainerId);
+    const aggregationPipeline = [
+      // 1. Присоединяем коллекцию тренировок к заказам
+      {
+        $lookup: {
+          from: 'trainings', // имя коллекции тренировок
+          localField: 'trainingId',
+          foreignField: '_id',
+          as: 'training',
+        },
+      },
 
-    filter.trainingId = { $in: trainingIds };
+      // 3. Фильтруем только те заказы, где тренировки созданы нужным тренером
 
-    const orders = await this.model
-      .find(
-        filter,
-        {},
-        {
-          limit: DefaultItemsLimit.Max,
-          sort: { [DefaultSort.BY]: DefaultSort.DIRECTION },
-        }
-      )
+      {
+        $match: {
+          'training.trainerId': trainerIdObj,
+        },
+      },
+
+      {
+        $group: {
+          _id: '$training._id',
+          training: { $first: '$training' },
+          totalSum: { $sum: '$totalSum' },
+          totalCount: { $sum: '$quantity' },
+        },
+      },
+      // 5. Сортируем, если указаны параметры сортировки
+      // ...(query.sortBy
+      //   ? [
+      //       {
+      //         $sort: {
+      //           [query.sortBy]: query.sortDirection === 'desc' ? -1 : 1,
+      //         },
+      //       },
+      //     ]
+      //   : []),
+
+      // 6. Пропускаем и ограничиваем данные для пагинации
+      // { $skip: skip },
+      // ...(take ? [{ $limit: take }] : []),
+    ];
+
+    const result = await this.model.aggregate(aggregationPipeline).exec();
+
+    // Подсчет общего количества записей для пагинации
+    const totalItemsPipeline = [
+      {
+        $lookup: {
+          from: 'trainings',
+          localField: 'trainingId',
+          foreignField: '_id',
+          as: 'training',
+        },
+      },
+      { $unwind: '$training' },
+      { $match: { 'training.trainerId': trainerIdObj } },
+      { $group: { _id: '$trainingId' } }, // Считаем уникальные тренировки
+      { $count: 'total' },
+    ];
+    const totalItemsResult = await this.model
+      .aggregate(totalItemsPipeline)
       .exec();
+    const totalItems = totalItemsResult[0]?.total || 0;
 
-    return orders.map((el) => this.createEntityFromDocument(el));
+    return {
+      entities: result,
+      currentPage,
+      totalPages: this.calculateOrdersPage(totalItems, take),
+      itemsPerPage: take,
+      totalItems,
+    };
   }
 
   private calculateOrdersPage(totalCount: number, limit: number): number {

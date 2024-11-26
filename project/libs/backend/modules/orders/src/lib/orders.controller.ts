@@ -13,12 +13,12 @@ import {
   Req,
   UseGuards,
   Query,
-  ParseArrayPipe,
 } from '@nestjs/common';
 import {
   JwtAuthGuard,
   RequestWithTokenPayload,
   OrdersQuery,
+  OrdersTrainerQuery,
 } from '@project/core';
 import { AuthKeyName } from '@project/config';
 import { CreateOrderDto } from '@project/dto';
@@ -63,7 +63,8 @@ export class OrdersController {
     summary: 'Получить заказы пользователя',
     description: 'Get user orders',
   })
-  @Get()
+  @Roles(UserRole.User)
+  @Get('/user')
   public async findAllByUserId(
     @Req() { user }: RequestWithTokenPayload,
     @Query() query: OrdersQuery
@@ -86,20 +87,31 @@ export class OrdersController {
   @ApiOkResponse({
     isArray: true,
     type: OrderRdo,
-    description: 'Orders by trainings ids',
+    description: 'Orders by trainer id',
   })
   @ApiOperation({
-    summary: 'Получить заказы по id тренировок',
+    summary: 'Получить заказы тренера по его тренировкам',
     description: 'Get user orders',
   })
   @Roles(UserRole.Trainer)
-  @Get('/trainingsIds')
+  @Get('/trainer')
   public async findByTrainingsIds(
-    @Query('ids', new ParseArrayPipe({ items: String, separator: ',' }))
-    ids: string[]
+    @Req() { user }: RequestWithTokenPayload,
+    @Query() query: OrdersTrainerQuery
   ) {
-    const orders = await this.ordersService.findByTrainingsIds(ids);
+    const userId = user.sub;
+    const ordersWithPagination = await this.ordersService.findByTrainerId(
+      userId,
+      query
+    );
 
-    return fillDto(OrderRdo, orders);
+    const result = {
+      ...ordersWithPagination,
+      // entities: ordersWithPagination.entities.map((training) =>
+      //   training.toPOJO()
+      // ),
+    };
+
+    return fillDto(OrdersWithPaginationRdo, result);
   }
 }
