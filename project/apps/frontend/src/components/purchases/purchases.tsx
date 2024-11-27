@@ -1,7 +1,7 @@
 import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
 
-import { useGetOrdersQuery } from '../../store/orders-process/orders-api';
+import { useGetOrdersUserQuery } from '../../store/orders-process/orders-api';
 import { LoaderPage } from '../base/loaders/loader-page/loader-page';
 import { useEffect, useState } from 'react';
 import { OrdersQuery } from '@project/core';
@@ -13,7 +13,7 @@ export const Purchases = () => {
   const [filter, setFilter] = useState<OrdersQuery>({
     isActive: false,
   });
-  const { data, isLoading } = useGetOrdersQuery({
+  const { data, isLoading } = useGetOrdersUserQuery({
     limit: 6,
     page: currentPage,
     ...filter,

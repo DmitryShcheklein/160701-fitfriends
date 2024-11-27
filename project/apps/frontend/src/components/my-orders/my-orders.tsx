@@ -1,23 +1,15 @@
 import { TrainingCardMin } from '../training-card-min/training-card-min';
-import { useGetTrainingsQuery } from '../../store/training-process/training-api';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../shared/const';
-import { useGetCurrentUserQuery } from '../../store/user-process/user-api';
-import { useGetOrdersByTrainingsIdsQuery } from '../../store/orders-process/orders-api';
+import { useGetOrdersByTrainerIdQuery } from '../../store/orders-process/orders-api';
+import { priceFormatter } from '../../shared/helpers/priceFormatter';
 
 export const MyOrders = () => {
-  const { data: user } = useGetCurrentUserQuery();
-
-  const { data } = useGetTrainingsQuery({
+  const { data } = useGetOrdersByTrainerIdQuery({
     limit: 6,
     page: 1,
-    trainerId: user?.id,
   });
-  const items = data?.entities;
-
-  const { data: orders } = useGetOrdersByTrainingsIdsQuery(
-    items?.map((training) => training.id, { skip: !items.length })
-  );
+  const orders = data?.entities;
   console.log(orders);
   return (
     <section className="my-orders">
@@ -54,15 +46,11 @@ export const MyOrders = () => {
           </div>
         </div>
         <ul className="my-orders__list">
-          {items?.map((training) => {
-            const currentTrainings = orders?.filter(
-              (order) => order.trainingId === training.id
-            );
-
+          {orders?.map(({ training, totalCount, totalSum }) => {
             return (
               <TrainingCardMin
-                training={training}
-                key={training.id}
+                training={training[0]}
+                key={training[0]?.id}
                 className="my-orders__item"
               >
                 <div className="thumbnail-training__total-info">
@@ -71,10 +59,7 @@ export const MyOrders = () => {
                       <use xlinkHref="#icon-chart"></use>
                     </svg>
                     <p className="thumbnail-training__total-info-value">
-                      {currentTrainings?.reduce(
-                        (acc, current) => (acc += current.quantity),
-                        0
-                      )}
+                      {totalCount}
                     </p>
                     <p className="thumbnail-training__total-info-text">
                       Куплено тренировок
@@ -85,12 +70,7 @@ export const MyOrders = () => {
                       <use xlinkHref="#icon-wallet"></use>
                     </svg>
                     <p className="thumbnail-training__total-info-value">
-                      {currentTrainings?.reduce(
-                        (acc, current) => (acc += current.totalSum),
-                        0
-                      )}
-
-                      <span>₽</span>
+                      {priceFormatter(totalSum)}
                     </p>
                     <p className="thumbnail-training__total-info-text">
                       Общая сумма

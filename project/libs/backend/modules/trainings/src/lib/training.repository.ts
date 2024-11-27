@@ -70,7 +70,7 @@ export class TrainingRepository extends BaseMongoRepository<
   public async findPopularTrainings() {
     const trainings = await this.find({
       limit: DefaultItemsLimit.Min,
-      sortBy: SortBy.rating,
+      sortBy: SortBy.createdAt,
       sortDirection: SortDirection.Desc,
     });
 

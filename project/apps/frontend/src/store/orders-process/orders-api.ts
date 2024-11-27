@@ -4,42 +4,38 @@ import { baseQueryWithReauth } from '../../services/api';
 import { OrderRdo } from '@project/rdo';
 import { CreateOrderDto } from '@project/dto';
 import { OrdersWithPaginationRdo } from '@project/rdo';
-import { OrdersQuery } from '@project/core';
+import { OrdersQuery, OrdersTrainerQuery } from '@project/core';
+import { OrdersWithPaginationTrainerRdo } from '../../../../../libs/rdo/src/lib/orders/orders-with-pagination-trainer.rdo';
 
 export const ordersApi = createApi({
   reducerPath: NameSpace.OrdersApi,
   baseQuery: baseQueryWithReauth({ baseUrl: 'orders' }),
   tagTypes: [NameSpace.OrdersApi],
   endpoints: (builder) => ({
-    createOrder: builder.mutation<
-      OrderRdo,
-      CreateOrderDto & { trainingId: string }
-    >({
-      query: (credentials) => ({
+    createOrder: builder.mutation<OrderRdo, CreateOrderDto>({
+      query: (data) => ({
         url: ``,
         method: 'POST',
-        body: {
-          trainingId: credentials.trainingId,
-          quantity: credentials.quantity,
-          paymentType: credentials.paymentType,
-        },
+        body: data,
       }),
       invalidatesTags: [NameSpace.OrdersApi],
     }),
-    getOrders: builder.query<OrdersWithPaginationRdo, OrdersQuery>({
+    getOrdersUser: builder.query<OrdersWithPaginationRdo, OrdersQuery>({
       query: (params) => ({
-        url: ``,
+        url: `user`,
         method: 'GET',
         params,
       }),
       providesTags: [NameSpace.OrdersApi],
     }),
 
-    getOrdersByTrainingsIds: builder.query<OrderRdo[], string[] | undefined>({
-      query: (params) => ({
-        url: `trainingsIds`,
+    getOrdersByTrainerId: builder.query<
+      OrdersWithPaginationTrainerRdo,
+      OrdersTrainerQuery
+    >({
+      query: () => ({
+        url: `trainer`,
         method: 'GET',
-        params: { ids: params },
       }),
       providesTags: [NameSpace.OrdersApi],
     }),
@@ -48,6 +44,6 @@ export const ordersApi = createApi({
 
 export const {
   useCreateOrderMutation,
-  useGetOrdersQuery,
-  useGetOrdersByTrainingsIdsQuery,
+  useGetOrdersUserQuery,
+  useGetOrdersByTrainerIdQuery,
 } = ordersApi;
