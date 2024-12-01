@@ -24,7 +24,11 @@ import { AuthKeyName } from '@project/config';
 import { CreateOrderDto } from '@project/dto';
 import { OrdersService } from './orders.service';
 import { fillDto } from '@project/backend-helpers';
-import { OrderRdo, OrdersWithPaginationRdo } from '@project/rdo';
+import {
+  OrderRdo,
+  OrdersWithPaginationRdo,
+  OrdersWithPaginationTrainerRdo,
+} from '@project/rdo';
 import { RolesGuard, Roles } from '@project/guards';
 import { UserRole } from '@project/enums';
 
@@ -105,13 +109,6 @@ export class OrdersController {
       query
     );
 
-    const result = {
-      ...ordersWithPagination,
-      // entities: ordersWithPagination.entities.map((training) =>
-      //   training.toPOJO()
-      // ),
-    };
-
-    return fillDto(OrdersWithPaginationRdo, result);
+    return fillDto(OrdersWithPaginationTrainerRdo, ordersWithPagination);
   }
 }

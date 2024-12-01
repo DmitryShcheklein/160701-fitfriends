@@ -1,4 +1,4 @@
-import { TrainingRdo } from '@project/rdo';
+import { TrainingRdo, TrainingTrainerRdo } from '@project/rdo';
 import { AppRoute } from '../../shared/const';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
@@ -7,7 +7,7 @@ import { specializationOptions } from '../../shared/data';
 
 interface TrainingCardMinProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
-  training: TrainingRdo;
+  training: TrainingRdo | TrainingTrainerRdo;
 }
 
 export const TrainingCardMin = ({
@@ -15,6 +15,8 @@ export const TrainingCardMin = ({
   className,
   children,
 }: TrainingCardMinProps) => {
+  const id = training.id || training._id;
+
   return (
     <div className={classNames('thumbnail-training', className)}>
       <div className="thumbnail-training__inner">
@@ -72,7 +74,7 @@ export const TrainingCardMin = ({
         </div>
         <div className="thumbnail-training__button-wrapper">
           <Link
-            to={`${AppRoute.TrainingCardPage}/${training.id}`}
+            to={`${AppRoute.TrainingCardPage}/${id}`}
             className="btn btn--small thumbnail-training__button-catalog"
           >
             Подробнее

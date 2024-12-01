@@ -10,7 +10,7 @@ export const MyOrders = () => {
     page: 1,
   });
   const orders = data?.entities;
-  console.log(orders);
+
   return (
     <section className="my-orders">
       <div className="my-orders__wrapper">
@@ -49,8 +49,8 @@ export const MyOrders = () => {
           {orders?.map(({ training, totalCount, totalSum }) => {
             return (
               <TrainingCardMin
-                training={training[0]}
-                key={training[0]?.id}
+                training={training}
+                key={training?._id}
                 className="my-orders__item"
               >
                 <div className="thumbnail-training__total-info">

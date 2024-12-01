@@ -12,6 +12,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { OrdersModel } from './orders.model';
 import { OrdersFactory } from './orders.factory';
 import { Model, Types } from 'mongoose';
+import { OrderTrainerRdo } from '@project/rdo';
 
 @Injectable()
 export class OrdersRepository extends BaseMongoRepository<
@@ -33,7 +34,7 @@ export class OrdersRepository extends BaseMongoRepository<
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
     const take = query?.limit;
-    const currentPage = Number(query?.page) || 1;
+    const currentPage = Number(query?.page);
 
     const filter: Partial<Record<OrdersKeys, unknown>> = {
       userId,
@@ -71,7 +72,7 @@ export class OrdersRepository extends BaseMongoRepository<
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
     const take = query?.limit;
-    const currentPage = Number(query?.page) || 1;
+    const currentPage = Number(query?.page);
     const trainerIdObj = new Types.ObjectId(trainerId);
     const aggregationPipeline = [
       // 1. Присоединяем коллекцию тренировок к заказам
@@ -83,9 +84,10 @@ export class OrdersRepository extends BaseMongoRepository<
           as: 'training',
         },
       },
-
+      {
+        $unwind: '$training',
+      },
       // 3. Фильтруем только те заказы, где тренировки созданы нужным тренером
-
       {
         $match: {
           'training.trainerId': trainerIdObj,
@@ -105,18 +107,20 @@ export class OrdersRepository extends BaseMongoRepository<
       //   ? [
       //       {
       //         $sort: {
-      //           [query.sortBy]: query.sortDirection === 'desc' ? -1 : 1,
+      //           ['createdAt']: query.sortDirection === 'asc' ? 1 : -1,
       //         },
       //       },
       //     ]
       //   : []),
 
       // 6. Пропускаем и ограничиваем данные для пагинации
-      // { $skip: skip },
-      // ...(take ? [{ $limit: take }] : []),
+      { $skip: skip },
+      ...(take ? [{ $limit: take }] : []),
     ];
 
-    const result = await this.model.aggregate(aggregationPipeline).exec();
+    const result: OrderTrainerRdo[] = await this.model
+      .aggregate(aggregationPipeline)
+      .exec();
 
     // Подсчет общего количества записей для пагинации
     const totalItemsPipeline = [

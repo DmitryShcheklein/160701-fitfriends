@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsIn, IsNumber, IsOptional, Max } from 'class-validator';
+import { IsIn, IsNumber, IsOptional, Max, Min } from 'class-validator';
 import { DefaultItemsLimit, DefaultSort } from '../const';
 import { SortDirection } from '@project/enums';
 
@@ -8,15 +8,14 @@ export class BaseQuery {
   @ApiProperty({
     description: 'The page number',
     type: Number,
+    example: 1,
     required: false,
   })
-  // @Transform(({ value }) => {
-  //   console.log(value);
-  //
-  //   return Number(value) || DEFAULT_PAGE_NUMBER;
-  // })
+  @Min(1)
+  @IsNumber()
   @IsOptional()
-  public page?: number;
+  @Transform(({ value }) => Number(value))
+  public page?: number = 1;
 
   @ApiProperty({
     description: 'The maximum number of items to return',
@@ -24,7 +23,7 @@ export class BaseQuery {
     type: Number,
     required: false,
   })
-  @Transform(({ value }) => Number(value) || DefaultItemsLimit.Max)
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   @Max(DefaultItemsLimit.Max)
   @IsOptional()

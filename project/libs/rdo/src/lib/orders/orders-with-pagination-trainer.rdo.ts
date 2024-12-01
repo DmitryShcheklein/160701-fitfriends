@@ -1,19 +1,19 @@
 import { PaginationResult } from '@project/core';
 import { PaginationRdo } from '../pagination.rdo';
-import { OrderRdo } from './order.rdo';
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { OrderTrainerRdo } from './order-trainer.rdo';
 
 export class OrdersWithPaginationTrainerRdo
   extends PaginationRdo
-  implements PaginationResult<OrderRdo>
+  implements PaginationResult<OrderTrainerRdo>
 {
   @Expose()
   @ApiProperty({
-    description: 'Список заказов',
-    example: OrderRdo,
+    description: 'Список заказов тренера',
+    example: OrderTrainerRdo,
     isArray: true,
-    type: OrderRdo,
+    type: OrderTrainerRdo,
   })
-  public entities!: OrderRdo[];
+  public entities!: OrderTrainerRdo[];
 }

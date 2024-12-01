@@ -3,9 +3,11 @@ import { NameSpace } from '../name-space.enum';
 import { baseQueryWithReauth } from '../../services/api';
 import { OrderRdo } from '@project/rdo';
 import { CreateOrderDto } from '@project/dto';
-import { OrdersWithPaginationRdo } from '@project/rdo';
+import {
+  OrdersWithPaginationRdo,
+  OrdersWithPaginationTrainerRdo,
+} from '@project/rdo';
 import { OrdersQuery, OrdersTrainerQuery } from '@project/core';
-import { OrdersWithPaginationTrainerRdo } from '../../../../../libs/rdo/src/lib/orders/orders-with-pagination-trainer.rdo';
 
 export const ordersApi = createApi({
   reducerPath: NameSpace.OrdersApi,
@@ -33,9 +35,10 @@ export const ordersApi = createApi({
       OrdersWithPaginationTrainerRdo,
       OrdersTrainerQuery
     >({
-      query: () => ({
+      query: (params) => ({
         url: `trainer`,
         method: 'GET',
+        params,
       }),
       providesTags: [NameSpace.OrdersApi],
     }),

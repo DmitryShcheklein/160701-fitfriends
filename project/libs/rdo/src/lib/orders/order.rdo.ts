@@ -33,7 +33,7 @@ export class OrderRdo implements Omit<Order, 'trainingId'> {
   @ApiProperty({
     type: Number,
     description: 'Общая сумма заказа',
-    example: 1000,
+    example: TrainingValidation.Price.Min,
   })
   public totalSum!: number;
 
