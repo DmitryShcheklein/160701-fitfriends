@@ -24,6 +24,7 @@ import { TrainerRoute } from '../components/routes-guards/trainer-route/trainer-
 import Page403 from '../pages/403/403';
 import { UserRoute } from '../components/routes-guards/user-route/user-route';
 import { QuestionnaireTrainerPage } from '../pages/questionnaire/trainer/questionnaire-trainer';
+import { FriendsListPage } from '../pages/friends-list/friends-list';
 
 export function App() {
   return (
@@ -49,6 +50,7 @@ export function App() {
       <Route element={PrivateRoute(<MainLayout />)}>
         <Route path={AppRoute.Index} element={UserRoute(<IndexPage />)} />
         <Route path={AppRoute.Profile} element={<ProfilePage />} />
+        <Route path={AppRoute.Friends} element={<FriendsListPage />} />
 
         <Route
           path={`${AppRoute.TrainingCardPage}/:id`}
