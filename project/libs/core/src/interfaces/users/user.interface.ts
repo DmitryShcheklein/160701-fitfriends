@@ -14,4 +14,5 @@ export interface User {
   location: UserLocation;
   gender: UserGender;
   trainingConfig?: UserTrainingConfig | null;
+  friends: string[];
 }

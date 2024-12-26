@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuthUser, UserTrainingConfig } from '@project/core';
 import { UserValidation } from '@project/validation';
@@ -116,6 +116,11 @@ export class UserModel extends Document implements AuthUser {
 
   @Prop({ required: false, type: Object, default: {} })
   public trainingConfig!: UserTrainingConfig;
+
+  @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: UserModel.name }],
+  })
+  public friends: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
