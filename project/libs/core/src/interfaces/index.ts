@@ -35,3 +35,7 @@ export { RequestWithTokenPayload } from './users/tokens/request-with-token-paylo
 export { OrderSeederData } from './seeder/orders';
 export { TrainingSeederData } from './seeder/trainings';
 export { UsersSeederData } from './seeder/users';
+
+// Friends
+
+export { Friend } from './friend/friend.interface';

@@ -8,6 +8,7 @@ import { TrainingModule } from '@project/trainings-module';
 import { CommentsModule } from '@project/comments-module';
 import { OrdersModule } from '@project/orders-module';
 import { BalanceModule } from '@project/balance-module';
+import { FriendsModule } from '@project/friends-module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { BalanceModule } from '@project/balance-module';
     CommentsModule,
     OrdersModule,
     BalanceModule,
+    FriendsModule,
   ],
   controllers: [],
   providers: [SwaggerService],

@@ -4,9 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="">
+    <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="feat: friends module">
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friend.entity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friend.factory.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friend.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.repository.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/core/src/interfaces/friend/friend.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/libs/enums/src/lib/friends/friend-request-status.enum.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/nx-angular-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nx-angular-config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/.vscode/extensions.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/.vscode/extensions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/apps/backend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/backend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/libs/core/src/interfaces/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/libs/core/src/interfaces/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/libs/core/src/interfaces/users/user.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/libs/core/src/interfaces/users/user.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/libs/enums/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/libs/enums/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tsconfig.base.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/tsconfig.base.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,48 +74,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.backend: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:build.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:db:seed.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:serve-static.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:serve.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.backend:serve:development.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.frontend:build.executor&quot;: &quot;Run&quot;,
-    &quot;Nx.frontend:serve.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;dev.nx.console.toolwindow.cloud_panel_collapse&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/stage-2&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/Dmitry/Документы/GitHub/160701-fitfriends/project/apps/frontend/src/pages&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\node_modules\\prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.backend: Compose Deployment.executor": "Run",
+    "Nx.backend:build.executor": "Run",
+    "Nx.backend:db:seed.executor": "Run",
+    "Nx.backend:serve-static.executor": "Run",
+    "Nx.backend:serve.executor": "Run",
+    "Nx.backend:serve:development.executor": "Run",
+    "Nx.frontend:build.executor": "Run",
+    "Nx.frontend:serve.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dev.nx.console.toolwindow.cloud_panel_collapse": "true",
+    "git-widget-placeholder": "feat/stage-3",
+    "last_opened_file_path": "/home/Dmitry/Документы/GitHub/160701-fitfriends/project/apps/frontend/src/pages",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mongo&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mongo"
     ],
-    &quot;dev.nx.console.project_details_files&quot;: [
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\nx\\core\\project-json&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\nx\\core\\package.json&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\vite\\plugin&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\vite\\package.json&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\eslint\\plugin&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\eslint\\package.json&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\jest\\plugin&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\jest\\package.json&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\webpack\\plugin&quot;,
-      &quot;C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\webpack\\package.json&quot;
+    "dev.nx.console.project_details_files": [
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\nx\\core\\project-json",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\nx\\core\\package.json",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\vite\\plugin",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\vite\\package.json",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\eslint\\plugin",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\eslint\\package.json",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\jest\\plugin",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\jest\\package.json",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\webpack\\plugin",
+      "C:\\Users\\Дмитрий Щ\\Documents\\GitHub\\160701-fitfriends\\project\\@nx\\webpack\\package.json"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/project/apps/frontend/src/pages" />
@@ -707,7 +722,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix: start training" />
     <MESSAGE value="fix: for create many balances" />
     <MESSAGE value="feat: orders seeder" />
     <MESSAGE value="fix: app auth" />
@@ -732,7 +746,8 @@
     <MESSAGE value="fix: imports" />
     <MESSAGE value="fix: orders seeder" />
     <MESSAGE value="fix: training types for trainerId" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: training types for trainerId" />
+    <MESSAGE value="feat: friends module" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: friends module" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -12,6 +12,7 @@
       <project name="dto" file="file://$PROJECT_DIR$/project/libs/dto/project.json" />
       <project name="enums" file="file://$PROJECT_DIR$/project/libs/enums/project.json" />
       <project name="file-uploader" file="file://$PROJECT_DIR$/project/libs/backend/modules/file-uploader/project.json" />
+      <project name="friends-module" file="file://$PROJECT_DIR$/project/libs/backend/modules/friends/project.json" />
       <project name="frontend" file="file://$PROJECT_DIR$/project/apps/frontend/project.json" />
       <project name="guards" file="file://$PROJECT_DIR$/project/libs/backend/guards/project.json" />
       <project name="hasher-module" file="file://$PROJECT_DIR$/project/libs/backend/modules/hasher/project.json" />
