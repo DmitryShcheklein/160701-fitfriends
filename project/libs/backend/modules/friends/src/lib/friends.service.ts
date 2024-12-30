@@ -13,4 +13,8 @@ export class FriendsService {
   public async getUserFriends(userId: string, query: FriendsQuery) {
     return this.friendsRepository.find(userId, query);
   }
+
+  public async findExistFriend(userId: string, friendId: string) {
+    return this.friendsRepository.findExistFriend(userId, friendId);
+  }
 }

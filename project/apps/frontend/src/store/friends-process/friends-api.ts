@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { NameSpace } from '../name-space.enum';
 import { baseQueryWithReauth } from '../../services/api';
-import { FriendsWithPaginationRdo } from '@project/rdo';
+import { FriendStatusRdo, FriendsWithPaginationRdo } from '@project/rdo';
 import { FriendsQuery } from '@project/core';
 
 export const friendsApi = createApi({
@@ -17,7 +17,13 @@ export const friendsApi = createApi({
       }),
       providesTags: [NameSpace.FriendsApi],
     }),
+    checkExistFriend: builder.query<FriendStatusRdo, string>({
+      query: (friendId) => ({
+        url: `/check/${friendId}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetUserFriendsQuery } = friendsApi;
+export const { useGetUserFriendsQuery, useCheckExistFriendQuery } = friendsApi;

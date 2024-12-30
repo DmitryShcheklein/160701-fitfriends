@@ -10,23 +10,6 @@ import { AppRoute } from '../../shared/const';
 export const FriendsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const baseUsers = [
-    { status: 'pending', isReady: !!1 },
-    { status: 'rejected', isReady: !!1 },
-    {
-      status: 'resolved',
-      isReady: !!1,
-    },
-    {
-      status: 'resolved',
-      isReady: !!0,
-    },
-  ];
-  const mockUsers = baseUsers.map((el) => ({ ...el, role: 'user' }));
-  const mockTrainers = baseUsers.map((el) => ({ ...el, role: 'trainer' }));
-
-  // const friends = [] || [...mockUsers, ...mockTrainers];
-
   const { data, isLoading } = useGetUserFriendsQuery({
     limit: 6,
     page: currentPage,

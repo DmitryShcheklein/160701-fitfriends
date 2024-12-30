@@ -31,7 +31,7 @@ export class FriendsRepository extends BaseMongoRepository<
     const take = query?.limit;
     const currentPage = Number(query?.page) || 1;
     const filter = { userId };
-    console.log(userId);
+
     const friends = await this.model
       .find(
         filter,
@@ -54,6 +54,10 @@ export class FriendsRepository extends BaseMongoRepository<
       itemsPerPage: take,
       totalItems: friendsCount,
     };
+  }
+
+  public async findExistFriend(userId: string, friendId: string) {
+    return this.model.findOne({ userId, friendId }).exec();
   }
 
   private calculateTrainingsPage(totalCount: number, limit: number): number {

@@ -20,3 +20,4 @@ export { BalanceRdo } from './lib/balance/balance.rdo';
 
 export { FriendRdo } from './lib/friends/friend.rdo';
 export { FriendsWithPaginationRdo } from './lib/friends/friends-with-pagination.rdo';
+export { FriendStatusRdo } from './lib/friends/friend-status.rdo';
