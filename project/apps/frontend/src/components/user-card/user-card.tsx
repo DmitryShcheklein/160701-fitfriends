@@ -5,6 +5,7 @@ import { locationOptions, specializationOptions } from '../../shared/data';
 import { TrainingsSlider } from './trainings-slider/trainings-slider';
 import { UserRole } from '@project/enums';
 import { useAuthRole } from '../../hooks/useAuth';
+import { useCheckExistFriendQuery } from '../../store/friends-process/friends-api';
 
 export const UserCard = () => {
   const navigate = useNavigate();
@@ -12,13 +13,19 @@ export const UserCard = () => {
   const userId = String(id);
   const { isUserAuth } = useAuthRole();
   const { data: user } = useGetUserByIdQuery(userId);
+  const { data: { status: isInFriends } = {} } = useCheckExistFriendQuery(
+    String(id),
+    {
+      skip: !id,
+    }
+  );
 
   if (!user) {
     return null;
   }
 
   const isUserTrainer = user.role === UserRole.Trainer;
-  const canAddToFriend = false;
+
   const { trainingConfig } = user;
   const specializations = trainingConfig?.specialisation;
   const isReady = trainingConfig?.trainingReadiness;
@@ -143,11 +150,10 @@ export const UserCard = () => {
                     </ul>
                   ) : null}
 
-                  {canAddToFriend ? (
-                    <button className="btn user-card-coach__btn" type="button">
-                      Добавить в друзья
-                    </button>
-                  ) : null}
+                  <button className="btn user-card-coach__btn" type="button">
+                    {!isInFriends && 'Добавить в друзья'}
+                    {isInFriends && 'Удалить из друзей'}
+                  </button>
                 </div>
                 {user?.avatarPath ? (
                   <div className="user-card-coach__gallary">
