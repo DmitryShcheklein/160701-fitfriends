@@ -8,6 +8,7 @@ import { useAuthRole } from '../../hooks/useAuth';
 import {
   useAddFriendMutation,
   useCheckExistFriendQuery,
+  useDeleteFriendMutation,
 } from '../../store/friends-process/friends-api';
 
 export const UserCard = () => {
@@ -15,7 +16,9 @@ export const UserCard = () => {
   const { id } = useParams<{ id: string }>();
   const userId = String(id);
   const { isUserAuth } = useAuthRole();
-  const [addFriend, { isLoading: isLoadingAdded }] = useAddFriendMutation();
+  const [addFriend, { isLoading: isLoadingAdd }] = useAddFriendMutation();
+  const [deleteFriend, { isLoading: isLoadingDelete }] =
+    useDeleteFriendMutation();
 
   const { data: user } = useGetUserByIdQuery(userId);
   const { data: { status: isInFriends } = {} } = useCheckExistFriendQuery(
@@ -46,11 +49,13 @@ export const UserCard = () => {
   };
 
   const handleFriendBtn = async () => {
-    if (isInFriends) {
-      return;
-    }
-
     try {
+      if (isInFriends) {
+        await deleteFriend(id);
+
+        return;
+      }
+
       await addFriend(id);
     } catch (error) {
       console.error('Failed to add: ', error);
@@ -168,7 +173,7 @@ export const UserCard = () => {
                   ) : null}
 
                   <button
-                    disabled={isLoadingAdded}
+                    disabled={isLoadingAdd || isLoadingDelete}
                     onClick={handleFriendBtn}
                     className="btn user-card-coach__btn"
                     type="button"

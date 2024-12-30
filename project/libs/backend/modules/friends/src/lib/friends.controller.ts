@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -76,13 +77,10 @@ export class FriendsController {
     @Param('friendId', MongoIdValidationPipe) friendId: string
   ) {
     const userId = user.sub;
-    const isExistFriend = await this.friendsService.findExistFriend(
-      userId,
-      friendId
-    );
+    const friend = await this.friendsService.findExistFriend(userId, friendId);
 
     return fillDto(FriendStatusRdo, {
-      status: isExistFriend,
+      status: Boolean(friend),
     });
   }
 
@@ -101,5 +99,20 @@ export class FriendsController {
     const friend = await this.friendsService.addFriend(userId, friendId);
 
     return fillDto(FriendRdo, friend);
+  }
+
+  @ApiOperation({
+    summary: 'Удалить из друзей',
+  })
+  @ApiOkResponse({
+    type: FriendRdo,
+  })
+  @Delete(':friendId')
+  public async deleteFriend(
+    @Req() { user }: RequestWithTokenPayload,
+    @Param('friendId', MongoIdValidationPipe) friendId: string
+  ) {
+    const userId = user.sub;
+    await this.friendsService.deleteFriend(userId, friendId);
   }
 }

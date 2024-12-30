@@ -31,6 +31,13 @@ export const friendsApi = createApi({
       }),
       invalidatesTags: [NameSpace.FriendsApi],
     }),
+    deleteFriend: builder.mutation({
+      query: (friendId) => ({
+        url: `${friendId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [NameSpace.FriendsApi],
+    }),
   }),
 });
 
@@ -38,4 +45,5 @@ export const {
   useGetUserFriendsQuery,
   useCheckExistFriendQuery,
   useAddFriendMutation,
+  useDeleteFriendMutation,
 } = friendsApi;

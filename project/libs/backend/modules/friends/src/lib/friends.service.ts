@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { FriendsRepository } from './friends.repository';
 import { UserService } from '@project/user-module';
 import { FriendsQuery } from '@project/core';
@@ -39,5 +43,15 @@ export class FriendsService {
     });
 
     return this.friendsRepository.save(newFriendEntity);
+  }
+
+  public async deleteFriend(userId: string, friendId: string) {
+    const friend = await this.findExistFriend(userId, friendId);
+
+    if (!friend) {
+      throw new NotFoundException('Пользователь не найден у вас в друзьях');
+    }
+
+    return this.friendsRepository.deleteById(friend.toPOJO().id);
   }
 }
