@@ -19,9 +19,8 @@ import {
   FriendRdo,
   FriendStatusRdo,
   FriendsWithPaginationRdo,
-  UserRdo,
 } from '@project/rdo';
-import { RolesGuard } from '@project/guards';
+import { Roles, RolesGuard } from '@project/guards';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -31,6 +30,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
 import { MongoIdValidationPipe } from '@project/pipes';
+import { UserRole } from '@project/enums';
 
 @ApiTags('friends')
 @Controller('friends')
@@ -51,15 +51,24 @@ export class FriendsController {
     @Query() query: FriendsQuery
   ) {
     const userId = user.sub;
+    const userRole = user.role;
 
     const friendsWithPagination = await this.friendsService.getUserFriends(
+      userRole,
       userId,
       query
     );
 
     const result = {
       ...friendsWithPagination,
-      entities: friendsWithPagination.entities.map((el) => el.toPOJO()),
+      entities: friendsWithPagination.entities.map((el) => {
+        const item = el.toPOJO();
+
+        return {
+          id: item.id,
+          friendId: userRole === UserRole.User ? item.friendId : item.userId,
+        };
+      }),
     };
 
     return fillDto(FriendsWithPaginationRdo, result);
@@ -84,6 +93,7 @@ export class FriendsController {
     });
   }
 
+  @Roles(UserRole.User)
   @ApiOperation({
     summary: 'Добавить в друзья',
   })
@@ -101,6 +111,7 @@ export class FriendsController {
     return fillDto(FriendRdo, friend);
   }
 
+  @Roles(UserRole.User)
   @ApiOperation({
     summary: 'Удалить из друзей',
   })

@@ -14,13 +14,13 @@ import {
 export const UserCard = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const userId = String(id);
+  const userIdCurrentPage = String(id);
   const { isUserAuth } = useAuthRole();
   const [addFriend, { isLoading: isLoadingAdd }] = useAddFriendMutation();
   const [deleteFriend, { isLoading: isLoadingDelete }] =
     useDeleteFriendMutation();
 
-  const { data: user } = useGetUserByIdQuery(userId);
+  const { data: userCurrentPage } = useGetUserByIdQuery(userIdCurrentPage);
   const { data: { status: isInFriends } = {} } = useCheckExistFriendQuery(
     String(id),
     {
@@ -28,13 +28,13 @@ export const UserCard = () => {
     }
   );
 
-  if (!user) {
+  if (!userCurrentPage) {
     return null;
   }
 
-  const isUserTrainer = user.role === UserRole.Trainer;
+  const isCurrentPageUserTrainer = userCurrentPage.role === UserRole.Trainer;
 
-  const { trainingConfig } = user;
+  const { trainingConfig } = userCurrentPage;
   const specializations = trainingConfig?.specialisation;
   const isReady = trainingConfig?.trainingReadiness;
   const TextMap = {
@@ -83,7 +83,9 @@ export const UserCard = () => {
               <div className="user-card-coach__card">
                 <div className="user-card-coach__content">
                   <div className="user-card-coach__head">
-                    <h2 className="user-card-coach__title">{user.firstName}</h2>
+                    <h2 className="user-card-coach__title">
+                      {userCurrentPage.firstName}
+                    </h2>
                   </div>
                   <div className="user-card-coach__label">
                     <svg
@@ -96,13 +98,14 @@ export const UserCard = () => {
                     </svg>
                     <span>
                       {
-                        locationOptions.find((el) => el.value === user.location)
-                          ?.label
+                        locationOptions.find(
+                          (el) => el.value === userCurrentPage.location
+                        )?.label
                       }
                     </span>
                   </div>
                   <div className="user-card-coach__status-container">
-                    {isUserTrainer ? (
+                    {isCurrentPageUserTrainer ? (
                       <div className="user-card-coach__status user-card-coach__status--tag">
                         <svg
                           className="user-card-coach__icon-cup"
@@ -126,21 +129,21 @@ export const UserCard = () => {
                     >
                       <span>
                         {
-                          TextMap[isUserTrainer ? 'Trainer' : 'User'][
-                            isReady ? 'Ready' : 'NotReady'
-                          ]
+                          TextMap[
+                            isCurrentPageUserTrainer ? 'Trainer' : 'User'
+                          ][isReady ? 'Ready' : 'NotReady']
                         }
                       </span>
                     </div>
                   </div>
 
-                  {user.description ? (
+                  {userCurrentPage.description ? (
                     <div className="user-card-coach__text">
-                      <p>{user.description}</p>
+                      <p>{userCurrentPage.description}</p>
                     </div>
                   ) : null}
 
-                  {isUserTrainer ? (
+                  {isCurrentPageUserTrainer ? (
                     <button
                       className="btn-flat user-card-coach__sertificate"
                       type="button"
@@ -172,22 +175,24 @@ export const UserCard = () => {
                     </ul>
                   ) : null}
 
-                  <button
-                    disabled={isLoadingAdd || isLoadingDelete}
-                    onClick={handleFriendBtn}
-                    className="btn user-card-coach__btn"
-                    type="button"
-                  >
-                    {!isInFriends && 'Добавить в друзья'}
-                    {isInFriends && 'Удалить из друзей'}
-                  </button>
+                  {isUserAuth ? (
+                    <button
+                      disabled={isLoadingAdd || isLoadingDelete}
+                      onClick={handleFriendBtn}
+                      className="btn user-card-coach__btn"
+                      type="button"
+                    >
+                      {!isInFriends && 'Добавить в друзья'}
+                      {isInFriends && 'Удалить из друзей'}
+                    </button>
+                  ) : null}
                 </div>
-                {user?.avatarPath ? (
+                {userCurrentPage?.avatarPath ? (
                   <div className="user-card-coach__gallary">
                     <ul className="user-card-coach__gallary-list">
                       <li className="user-card-coach__gallary-item">
                         <img
-                          src={user.avatarPath}
+                          src={userCurrentPage.avatarPath}
                           width="334"
                           height="573"
                           alt="photo1"
@@ -198,10 +203,12 @@ export const UserCard = () => {
                 ) : null}
               </div>
 
-              {isUserTrainer ? <TrainingsSlider trainerId={userId} /> : null}
-              {isUserAuth ? (
+              {isCurrentPageUserTrainer ? (
+                <TrainingsSlider trainerId={userCurrentPage.id} />
+              ) : null}
+              {isUserAuth && isCurrentPageUserTrainer ? (
                 <div className="user-card-coach__training-form">
-                  {isUserTrainer ? (
+                  {isCurrentPageUserTrainer ? (
                     <button
                       className="btn user-card-coach__btn-training"
                       type="button"
@@ -210,7 +217,7 @@ export const UserCard = () => {
                     </button>
                   ) : null}
 
-                  {isUserTrainer ? (
+                  {isCurrentPageUserTrainer ? (
                     <div className="user-card-coach__training-check">
                       <div className="custom-toggle custom-toggle--checkbox">
                         <label>

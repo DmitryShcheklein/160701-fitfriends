@@ -7,6 +7,7 @@ import { FriendsRepository } from './friends.repository';
 import { UserService } from '@project/user-module';
 import { FriendsQuery } from '@project/core';
 import { FriendFactory } from './friend.factory';
+import { UserRole } from '@project/enums';
 
 @Injectable()
 export class FriendsService {
@@ -15,8 +16,12 @@ export class FriendsService {
     private readonly friendsRepository: FriendsRepository
   ) {}
 
-  public async getUserFriends(userId: string, query: FriendsQuery) {
-    return this.friendsRepository.find(userId, query);
+  public async getUserFriends(
+    userRole: UserRole,
+    userId: string,
+    query: FriendsQuery
+  ) {
+    return this.friendsRepository.find(userRole, userId, query);
   }
 
   public async findExistFriend(userId: string, friendId: string) {

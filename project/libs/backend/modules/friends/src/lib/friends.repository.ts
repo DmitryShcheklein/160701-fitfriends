@@ -9,6 +9,7 @@ import { Model } from 'mongoose';
 import { FriendEntity } from './friend.entity';
 import { FriendModel } from './friend.model';
 import { FriendFactory } from './friend.factory';
+import { UserRole } from '@project/enums';
 
 @Injectable()
 export class FriendsRepository extends BaseMongoRepository<
@@ -23,6 +24,7 @@ export class FriendsRepository extends BaseMongoRepository<
   }
 
   public async find(
+    userRole: UserRole,
     userId: string,
     query: FriendsQuery
   ): Promise<PaginationResult<FriendEntity, void>> {
@@ -30,7 +32,9 @@ export class FriendsRepository extends BaseMongoRepository<
       query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
     const take = query?.limit;
     const currentPage = Number(query?.page) || 1;
-    const filter = { userId };
+
+    const isUser = userRole === UserRole.User;
+    const filter = isUser ? { userId } : { friendId: userId };
 
     const friends = await this.model
       .find(
@@ -42,7 +46,7 @@ export class FriendsRepository extends BaseMongoRepository<
           sort: { [query.sortBy]: query.sortDirection },
         }
       )
-      .populate('friendId')
+      .populate(isUser ? 'friendId' : 'userId')
       .exec();
 
     const friendsCount = await this.model.countDocuments(filter);
