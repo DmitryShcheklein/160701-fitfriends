@@ -54,9 +54,15 @@ export const FriendsList = () => {
         {!items.length ? <h3 className="">Список друзей пуст</h3> : null}
         {items.length ? (
           <ul className="friends-list__list">
-            {items.map(({ friend }) => {
-              const { firstName, location, role, avatarPath, trainingConfig } =
-                friend;
+            {items.map(({ friendId: friend }) => {
+              const {
+                id,
+                firstName,
+                location,
+                role,
+                avatarPath,
+                trainingConfig,
+              } = friend;
               const isReady = trainingConfig?.trainingReadiness;
               const isUser = role === 'user';
               const isTrainer = role === 'trainer';
@@ -77,8 +83,11 @@ export const FriendsList = () => {
               );
 
               return (
-                <li className="friends-list__item">
-                  <div className="thumbnail-friend">
+                <li className="friends-list__item" key={id}>
+                  <Link
+                    to={`${AppRoute.UserCard}/${id}`}
+                    className="thumbnail-friend"
+                  >
                     <div
                       className={classNames('thumbnail-friend__info', {
                         ['thumbnail-friend__info--theme-light']: isUser,
@@ -197,7 +206,7 @@ export const FriendsList = () => {
                         ) : null}
                       </div>
                     ) : null}
-                  </div>
+                  </Link>
                 </li>
               );
             })}

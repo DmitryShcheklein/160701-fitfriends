@@ -22,8 +22,20 @@ export const friendsApi = createApi({
         url: `/check/${friendId}`,
         method: 'GET',
       }),
+      providesTags: [NameSpace.FriendsApi],
+    }),
+    addFriend: builder.mutation({
+      query: (friendId) => ({
+        url: `${friendId}`,
+        method: 'POST',
+      }),
+      invalidatesTags: [NameSpace.FriendsApi],
     }),
   }),
 });
 
-export const { useGetUserFriendsQuery, useCheckExistFriendQuery } = friendsApi;
+export const {
+  useGetUserFriendsQuery,
+  useCheckExistFriendQuery,
+  useAddFriendMutation,
+} = friendsApi;

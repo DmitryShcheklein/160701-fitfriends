@@ -5,13 +5,18 @@ import { locationOptions, specializationOptions } from '../../shared/data';
 import { TrainingsSlider } from './trainings-slider/trainings-slider';
 import { UserRole } from '@project/enums';
 import { useAuthRole } from '../../hooks/useAuth';
-import { useCheckExistFriendQuery } from '../../store/friends-process/friends-api';
+import {
+  useAddFriendMutation,
+  useCheckExistFriendQuery,
+} from '../../store/friends-process/friends-api';
 
 export const UserCard = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const userId = String(id);
   const { isUserAuth } = useAuthRole();
+  const [addFriend, { isLoading: isLoadingAdded }] = useAddFriendMutation();
+
   const { data: user } = useGetUserByIdQuery(userId);
   const { data: { status: isInFriends } = {} } = useCheckExistFriendQuery(
     String(id),
@@ -38,6 +43,18 @@ export const UserCard = () => {
       Ready: 'Готов к тренировке',
       NotReady: 'Не готов к тренировке',
     },
+  };
+
+  const handleFriendBtn = async () => {
+    if (isInFriends) {
+      return;
+    }
+
+    try {
+      await addFriend(id);
+    } catch (error) {
+      console.error('Failed to add: ', error);
+    }
   };
 
   return (
@@ -150,7 +167,12 @@ export const UserCard = () => {
                     </ul>
                   ) : null}
 
-                  <button className="btn user-card-coach__btn" type="button">
+                  <button
+                    disabled={isLoadingAdded}
+                    onClick={handleFriendBtn}
+                    className="btn user-card-coach__btn"
+                    type="button"
+                  >
                     {!isInFriends && 'Добавить в друзья'}
                     {isInFriends && 'Удалить из друзей'}
                   </button>

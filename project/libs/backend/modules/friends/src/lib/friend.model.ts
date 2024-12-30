@@ -13,7 +13,7 @@ import { FriendRequestStatus } from '@project/enums';
   toObject: { virtuals: true },
 })
 export class FriendModel extends Document implements Friend {
-  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.senderIds))
+  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.userId))
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: UserModel.name,
@@ -21,20 +21,13 @@ export class FriendModel extends Document implements Friend {
   })
   public userId: string;
 
-  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.recipientIds))
+  @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.friendsIds))
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: UserModel.name,
     required: true,
   })
   public friendId: string;
-
-  @Prop({
-    enum: FriendRequestStatus,
-    required: true,
-    type: String,
-  })
-  public status: FriendRequestStatus;
 }
 
 export const FriendSchema = SchemaFactory.createForClass(FriendModel);

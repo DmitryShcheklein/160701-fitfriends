@@ -4760,6 +4760,7 @@ input:active + .custom-textarea__text {
 }
 
 .thumbnail-friend {
+  display: block;
   min-width: 452px;
   width: -webkit-min-content;
   width: -moz-min-content;

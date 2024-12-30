@@ -80,9 +80,7 @@ export class OrdersController {
     );
     const result = {
       ...ordersWithPagination,
-      entities: ordersWithPagination.entities.map((training) =>
-        training.toPOJO()
-      ),
+      entities: ordersWithPagination.entities.map((el) => el.toPOJO()),
     };
 
     return fillDto(OrdersWithPaginationRdo, result);

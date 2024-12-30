@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import {
   FriendsQuery,
@@ -6,10 +14,16 @@ import {
   RequestWithTokenPayload,
 } from '@project/core';
 import { fillDto } from '@project/backend-helpers';
-import { FriendStatusRdo, FriendsWithPaginationRdo } from '@project/rdo';
+import {
+  FriendRdo,
+  FriendStatusRdo,
+  FriendsWithPaginationRdo,
+  UserRdo,
+} from '@project/rdo';
 import { RolesGuard } from '@project/guards';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -44,9 +58,7 @@ export class FriendsController {
 
     const result = {
       ...friendsWithPagination,
-      entities: friendsWithPagination.entities.map((training) =>
-        training.toPOJO()
-      ),
+      entities: friendsWithPagination.entities.map((el) => el.toPOJO()),
     };
 
     return fillDto(FriendsWithPaginationRdo, result);
@@ -64,10 +76,30 @@ export class FriendsController {
     @Param('friendId', MongoIdValidationPipe) friendId: string
   ) {
     const userId = user.sub;
-    const friend = await this.friendsService.findExistFriend(userId, friendId);
+    const isExistFriend = await this.friendsService.findExistFriend(
+      userId,
+      friendId
+    );
 
     return fillDto(FriendStatusRdo, {
-      status: Boolean(friend),
+      status: isExistFriend,
     });
+  }
+
+  @ApiOperation({
+    summary: 'Добавить в друзья',
+  })
+  @ApiCreatedResponse({
+    type: FriendRdo,
+  })
+  @Post(':friendId')
+  public async addFriend(
+    @Req() { user }: RequestWithTokenPayload,
+    @Param('friendId', MongoIdValidationPipe) friendId: string
+  ) {
+    const userId = user.sub;
+    const friend = await this.friendsService.addFriend(userId, friendId);
+
+    return fillDto(FriendRdo, friend);
   }
 }

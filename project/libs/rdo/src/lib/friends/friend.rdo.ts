@@ -11,9 +11,9 @@ export class FriendRdo implements Omit<Friend, 'friendId' | 'userId'> {
   })
   public id!: string;
 
-  @Expose({ name: 'friendId' })
+  @Expose({ name: 'friend' })
   @ApiProperty({
     description: 'Тренер, создавшего тренировку',
   })
-  public friend!: UserRdo;
+  public friendId!: UserRdo;
 }

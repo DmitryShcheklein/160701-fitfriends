@@ -57,7 +57,9 @@ export class FriendsRepository extends BaseMongoRepository<
   }
 
   public async findExistFriend(userId: string, friendId: string) {
-    return this.model.findOne({ userId, friendId }).exec();
+    const friend = await this.model.findOne({ userId, friendId }).exec();
+
+    return Boolean(friend);
   }
 
   private calculateTrainingsPage(totalCount: number, limit: number): number {
