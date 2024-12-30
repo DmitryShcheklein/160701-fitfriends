@@ -25,6 +25,7 @@ import Page403 from '../pages/403/403';
 import { UserRoute } from '../components/routes-guards/user-route/user-route';
 import { QuestionnaireTrainerPage } from '../pages/questionnaire/trainer/questionnaire-trainer';
 import { FriendsListPage } from '../pages/friends-list/friends-list';
+import { UsersCatalogPage } from '../pages/users-catalog/users-catalog';
 
 export function App() {
   return (
@@ -58,6 +59,8 @@ export function App() {
         />
 
         <Route path={AppRoute.Catalog} element={UserRoute(<CatalogPage />)} />
+        <Route path={AppRoute.UsersCatalog} element={UserRoute(<UsersCatalogPage />)} />
+
         <Route
           path={AppRoute.MyPurchases}
           element={UserRoute(<PurchasesPage />)}

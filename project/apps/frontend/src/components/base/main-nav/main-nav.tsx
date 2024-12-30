@@ -15,7 +15,7 @@ interface MainNavProps {
   items: NavItem[];
 }
 
-const MainNav: React.FC<MainNavProps> = ({ items }) => {
+const MainNav= ({ items }:MainNavProps) => {
   return (
     <nav className="main-nav">
       <ul className="main-nav__list">

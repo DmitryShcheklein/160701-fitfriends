@@ -16,6 +16,12 @@ export const navItems = [
     ariaLabel: 'Личный кабинет',
   },
   {
+    label: 'Friends',
+    href: AppRoute.UsersCatalog,
+    icon: '#icon-friends',
+    ariaLabel: 'Каталог пользователей',
+  },
+  {
     label: 'Выход',
     href: AppRoute.Intro,
     onClick: () => store.dispatch(logOut()),
