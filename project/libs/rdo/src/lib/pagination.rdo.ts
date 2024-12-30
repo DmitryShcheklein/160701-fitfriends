@@ -12,7 +12,7 @@ export class PaginationRdo implements Omit<PaginationResult, 'entities'> {
 
   @Expose()
   @ApiProperty({
-    description: 'Общее количество тренировок',
+    description: 'Общее количество элементов',
     example: 100,
   })
   public totalItems!: number;

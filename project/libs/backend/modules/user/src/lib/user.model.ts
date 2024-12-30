@@ -116,11 +116,6 @@ export class UserModel extends Document implements AuthUser {
 
   @Prop({ required: false, type: Object, default: {} })
   public trainingConfig!: UserTrainingConfig;
-
-  @Prop({
-    type: [{ type: MongooseSchema.Types.ObjectId, ref: UserModel.name }],
-  })
-  public friends: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

@@ -19,7 +19,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public location!: UserLocation;
   public gender!: UserGender;
   public trainingConfig!: UserTrainingConfig;
-  public friends!: string[];
 
   constructor(user?: AuthUser) {
     super();
@@ -44,7 +43,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
     this.location = user.location;
     this.gender = user.gender;
     this.trainingConfig = user.trainingConfig;
-    this.friends = user.friends;
   }
 
   public toPOJO(): AuthUser {
@@ -62,7 +60,6 @@ export class UserEntity extends Entity implements StorableEntity<AuthUser> {
       location: this.location,
       gender: this.gender,
       trainingConfig: this.trainingConfig,
-      friends: this.friends,
     };
   }
 }

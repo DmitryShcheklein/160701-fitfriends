@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { BaseMongoRepository } from '@project/core';
+import {
+  BaseMongoRepository,
+  FriendsQuery,
+  PaginationResult,
+} from '@project/core';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FriendEntity } from './friend.entity';
@@ -16,5 +20,43 @@ export class FriendsRepository extends BaseMongoRepository<
     @InjectModel(FriendModel.name) FriendModel: Model<FriendModel>
   ) {
     super(entityFactory, FriendModel);
+  }
+
+  public async find(
+    userId: string,
+    query: FriendsQuery
+  ): Promise<PaginationResult<FriendEntity, void>> {
+    const skip =
+      query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
+    const take = query?.limit;
+    const currentPage = Number(query?.page) || 1;
+    const filter = { userId };
+    console.log(userId);
+    const friends = await this.model
+      .find(
+        filter,
+        {},
+        {
+          limit: take,
+          skip,
+          sort: { [query.sortBy]: query.sortDirection },
+        }
+      )
+      .populate('friendId')
+      .exec();
+
+    const friendsCount = await this.model.countDocuments(filter);
+
+    return {
+      entities: friends.map((el) => this.createEntityFromDocument(el)),
+      currentPage,
+      totalPages: this.calculateTrainingsPage(friendsCount, take),
+      itemsPerPage: take,
+      totalItems: friendsCount,
+    };
+  }
+
+  private calculateTrainingsPage(totalCount: number, limit: number): number {
+    return Math.ceil(totalCount / limit);
   }
 }

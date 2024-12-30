@@ -1,13 +1,11 @@
 import { Entity, Friend, StorableEntity } from '@project/core';
-import { FriendRequestStatus } from '@project/enums';
 
 export class FriendEntity extends Entity implements StorableEntity<Friend> {
   public createdAt?: Date;
   public updatedAt?: Date;
 
-  public sender: string;
-  public recipient: string;
-  public status: FriendRequestStatus;
+  public userId: string;
+  public friendId: string;
 
   constructor(data: Friend) {
     super();
@@ -18,9 +16,9 @@ export class FriendEntity extends Entity implements StorableEntity<Friend> {
     this.id = data.id;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
-    this.sender = data.sender;
-    this.recipient = data.recipient;
-    this.status = data.status;
+
+    this.userId = data.userId;
+    this.friendId = data.friendId;
   }
 
   public toPOJO() {
@@ -28,9 +26,9 @@ export class FriendEntity extends Entity implements StorableEntity<Friend> {
       id: this.id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      sender: this.sender,
-      recipient: this.recipient,
-      status: this.status,
+
+      userId: this.userId,
+      friendId: this.friendId,
     };
   }
 }

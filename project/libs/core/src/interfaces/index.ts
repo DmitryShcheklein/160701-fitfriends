@@ -38,4 +38,5 @@ export { UsersSeederData } from './seeder/users';
 
 // Friends
 
+export { FriendRequest } from './friend/friend-request.interface';
 export { Friend } from './friend/friend.interface';

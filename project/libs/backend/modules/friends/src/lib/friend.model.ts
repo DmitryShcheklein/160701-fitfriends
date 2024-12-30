@@ -16,9 +16,10 @@ export class FriendModel extends Document implements Friend {
   @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.senderIds))
   @Prop({
     type: MongooseSchema.Types.ObjectId,
+    ref: UserModel.name,
     required: true,
   })
-  public sender: string;
+  public userId: string;
 
   @Factory((_, ctx) => fakerRU.helpers.arrayElement(ctx.recipientIds))
   @Prop({
@@ -26,7 +27,7 @@ export class FriendModel extends Document implements Friend {
     ref: UserModel.name,
     required: true,
   })
-  public recipient: string;
+  public friendId: string;
 
   @Prop({
     enum: FriendRequestStatus,
