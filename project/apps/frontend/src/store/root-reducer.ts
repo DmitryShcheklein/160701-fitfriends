@@ -7,6 +7,7 @@ import { trainingApi } from './training-process/training-api';
 import { commentsApi } from './comments-process/comments-api';
 import { ordersApi } from './orders-process/orders-api';
 import { balanceApi } from './balance-process/balance-api';
+import { friendsApi } from './friends-process/friends-api';
 
 export const rootReducer = combineReducers({
   [NameSpace.Auth]: authReducer,
@@ -16,4 +17,5 @@ export const rootReducer = combineReducers({
   [commentsApi.reducerPath]: commentsApi.reducer,
   [ordersApi.reducerPath]: ordersApi.reducer,
   [balanceApi.reducerPath]: balanceApi.reducer,
+  [friendsApi.reducerPath]: friendsApi.reducer,
 });

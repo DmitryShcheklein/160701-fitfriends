@@ -7,11 +7,11 @@ export const Menu = () => {
   const { data: currentUser } = useGetCurrentUserQuery();
 
   const data = [
-    // {
-    //   icon: '#icon-friends',
-    //   name: 'Мои друзья',
-    //   hrefLink: AppRoute.Friends,
-    // },
+    {
+      icon: '#icon-friends',
+      name: 'Мои друзья',
+      hrefLink: AppRoute.Friends,
+    },
     {
       icon: '#icon-shopping-cart',
       name: 'Мои покупки',
@@ -27,7 +27,6 @@ export const Menu = () => {
   return (
     <div className="personal-account-user">
       <div className="personal-account-user__additional-info">
-        <EmptyBlock />
         {data.map(({ hrefLink, name, icon }) => (
           <Link
             to={hrefLink}

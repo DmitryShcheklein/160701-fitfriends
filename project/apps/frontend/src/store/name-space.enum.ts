@@ -6,4 +6,5 @@ export enum NameSpace {
   CommentsApi = 'commentsApi',
   OrdersApi = 'ordersApi',
   BalanceApi = 'balanceApi',
+  FriendsApi = 'friendsApi',
 }

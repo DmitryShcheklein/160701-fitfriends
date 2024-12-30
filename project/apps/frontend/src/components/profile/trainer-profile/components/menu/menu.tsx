@@ -21,11 +21,11 @@ export const Menu = () => {
       name: 'Моя страница',
       hrefLink: `${AppRoute.UserCard}/${currentUser?.id}`,
     },
-    // {
-    //   icon: '#icon-friends',
-    //   name: 'Мои друзья',
-    //   hrefLink: AppRoute.Friends,
-    // },
+    {
+      icon: '#icon-friends',
+      name: 'Мои друзья',
+      hrefLink: AppRoute.Friends,
+    },
     {
       icon: '#icon-bag',
       name: 'Мои заказы',
