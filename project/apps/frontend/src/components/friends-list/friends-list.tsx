@@ -66,6 +66,7 @@ export const FriendsList = () => {
               const isReady = trainingConfig?.trainingReadiness;
               const isUser = role === 'user';
               const isTrainer = role === 'trainer';
+              const isAdmin = role === 'admin';
 
               const StatusMap = {
                 isPending: false, // request.status === 'Pending',
@@ -90,7 +91,8 @@ export const FriendsList = () => {
                   >
                     <div
                       className={classNames('thumbnail-friend__info', {
-                        ['thumbnail-friend__info--theme-light']: isUser,
+                        ['thumbnail-friend__info--theme-light']:
+                          isUser || isAdmin,
                         ['thumbnail-friend__info--theme-dark']: isTrainer,
                       })}
                     >
@@ -123,6 +125,7 @@ export const FriendsList = () => {
                           </address>
                         </div>
                       </div>
+
                       <ul className="thumbnail-friend__training-types-list">
                         <li>
                           <div className="hashtag thumbnail-friend__hashtag">
