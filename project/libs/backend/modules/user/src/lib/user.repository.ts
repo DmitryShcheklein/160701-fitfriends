@@ -31,6 +31,7 @@ export class UserRepository extends BaseMongoRepository<UserEntity, UserModel> {
   }
 
   public async find(
+    userEmail: string,
     query: UsersQuery
   ): Promise<PaginationResult<UserEntity, void>> {
     const skip =
@@ -38,7 +39,9 @@ export class UserRepository extends BaseMongoRepository<UserEntity, UserModel> {
     const take = query?.limit;
     const currentPage = Number(query?.page) || 1;
 
-    const filter = {};
+    const filter = {
+      email: { $not: { $eq: userEmail } },
+    };
 
     const friends = await this.model
       .find(

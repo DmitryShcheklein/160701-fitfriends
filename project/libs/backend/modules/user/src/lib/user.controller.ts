@@ -107,7 +107,8 @@ export class UserController {
     )
     file: Express.Multer.File | null
   ) {
-    const updatedUser = await this.userService.updateUser(user.sub, {
+    const userId = user.sub;
+    const updatedUser = await this.userService.updateUser(userId, {
       ...dto,
       avatar: file,
     });
@@ -123,8 +124,15 @@ export class UserController {
     summary: 'Получить список пользователей',
   })
   @Get('/all')
-  public async getAllUsers(@Query() query: UsersQuery) {
-    const userWithPagination = await this.userService.getAllUsers(query);
+  public async getAllUsers(
+    @Req() { user }: RequestWithTokenPayload,
+    @Query() query: UsersQuery
+  ) {
+    const userEmail = user.email;
+    const userWithPagination = await this.userService.getAllUsers(
+      userEmail,
+      query
+    );
 
     const result = {
       ...userWithPagination,

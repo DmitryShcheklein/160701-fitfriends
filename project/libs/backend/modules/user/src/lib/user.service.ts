@@ -47,8 +47,8 @@ export class UserService {
     return existUser;
   }
 
-  public async getAllUsers(query: UsersQuery) {
-    return this.userRepository.find(query);
+  public async getAllUsers(userEmail: string, query: UsersQuery) {
+    return this.userRepository.find(userEmail, query);
   }
 
   public async updateUser(id: string, dto: UpdateUserDto) {
