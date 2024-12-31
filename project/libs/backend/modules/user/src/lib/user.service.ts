@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AuthUser } from '@project/core';
+import { AuthUser, UsersQuery } from '@project/core';
 import { UpdateUserConfigDto, UpdateUserDto } from '@project/dto';
 import { FileUploaderService } from '@project/file-uploader';
 import { UserRepository } from './user.repository';
@@ -45,6 +45,10 @@ export class UserService {
     }
 
     return existUser;
+  }
+
+  public async getAllUsers(query: UsersQuery) {
+    return this.userRepository.find(query);
   }
 
   public async updateUser(id: string, dto: UpdateUserDto) {

@@ -5,7 +5,7 @@ import { UserConfigRdo } from './user-config.rdo';
 import { UserGender, UserLocation, UserRole } from '@project/enums';
 
 export class UserRdo implements User {
-  @Expose({ name: '_id' })
+  @Expose({ name: 'id' })
   @ApiProperty({
     description: 'The uniq user ID',
     example: 'df191215-1f3c-407d-96b2-390bdfae1961',

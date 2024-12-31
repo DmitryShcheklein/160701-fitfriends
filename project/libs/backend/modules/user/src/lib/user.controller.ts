@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post,
+  Query,
   Req,
   UploadedFile,
   UseGuards,
@@ -24,17 +24,28 @@ import {
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
 import { UpdateUserDto } from '@project/dto';
-import { UserRdo } from '@project/rdo';
+import {
+  OrdersWithPaginationRdo,
+  UserRdo,
+  UsersWithPaginationRdo,
+} from '@project/rdo';
 import { AllowedMimetypes, UserValidation } from '@project/validation';
 import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
+import {
+  JwtAuthGuard,
+  OrdersTrainerQuery,
+  RequestWithTokenPayload,
+  UsersQuery,
+} from '@project/core';
 import { UserService } from './user.service';
 import { ResponseMessage } from './user.constant';
+import { Roles, RolesGuard } from '@project/guards';
+import { UserRole } from '@project/enums';
 
 @ApiTags('user')
 @Controller('user')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth(AuthKeyName)
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -102,5 +113,26 @@ export class UserController {
     });
 
     return fillDto(UserRdo, updatedUser);
+  }
+
+  @ApiOkResponse({
+    type: UsersWithPaginationRdo,
+  })
+  @Roles(UserRole.User)
+  @ApiOperation({
+    summary: 'Получить список пользователей',
+  })
+  @Get('/all')
+  public async getAllUsers(@Query() query: UsersQuery) {
+    const userWithPagination = await this.userService.getAllUsers(query);
+
+    const result = {
+      ...userWithPagination,
+      entities: userWithPagination.entities.map((el) =>
+        fillDto(UserRdo, el.toPOJO())
+      ),
+    };
+
+    return fillDto(UsersWithPaginationRdo, result);
   }
 }

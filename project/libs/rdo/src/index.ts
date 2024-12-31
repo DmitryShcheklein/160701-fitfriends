@@ -4,6 +4,7 @@ export { RefreshUserRdo } from './lib/authentication/refresh-user.rdo';
 export { UserRdo } from './lib/user/user.rdo';
 export { UserConfigRdo } from './lib/user/user-config.rdo';
 export { RegisteredUserRdo } from './lib/authentication/registered-user.rdo';
+export { UsersWithPaginationRdo } from './lib/user/users-with-pagination.rdo';
 
 export { TrainingTrainerRdo } from './lib/training/training-trainer-order.rdo';
 export { TrainingRdo } from './lib/training/training.rdo';

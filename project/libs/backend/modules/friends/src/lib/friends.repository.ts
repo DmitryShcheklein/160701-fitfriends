@@ -54,7 +54,7 @@ export class FriendsRepository extends BaseMongoRepository<
     return {
       entities: friends.map((el) => this.createEntityFromDocument(el)),
       currentPage,
-      totalPages: this.calculateTrainingsPage(friendsCount, take),
+      totalPages: this.calculatePage(friendsCount, take),
       itemsPerPage: take,
       totalItems: friendsCount,
     };
@@ -70,7 +70,7 @@ export class FriendsRepository extends BaseMongoRepository<
     return this.createEntityFromDocument(friend);
   }
 
-  private calculateTrainingsPage(totalCount: number, limit: number): number {
+  private calculatePage(totalCount: number, limit: number): number {
     return Math.ceil(totalCount / limit);
   }
 }
