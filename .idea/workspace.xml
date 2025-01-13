@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8ef60365-e9d5-4f36-bb6a-c40044512cdb" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2rZAGVPXi82t4T9MsznIYbpJEZH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Nx.backend:db:seed.executor": "Run",
+    "Nx.backend:serve:development.executor": "Run",
+    "Nx.frontend:serve.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "last_opened_file_path": "/home/dmitry/Documents/GitHub/160701-fitfriends/project/apps/backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/home/dmitry/.nvm/versions/node/v20.18.1/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/home/dmitry/Documents/GitHub/160701-fitfriends/project/node_modules/prettier",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/home/dmitry/Documents/GitHub/160701-fitfriends/project/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "dev.nx.console.project_details_files": [
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/nx/core/project-json",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/nx/core/package.json",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/vite/plugin",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/vite/package.json",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/eslint/plugin",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/eslint/package.json",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/jest/plugin",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/jest/package.json",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/webpack/plugin",
+      "/home/dmitry/Documents/GitHub/160701-fitfriends/project/@nx/webpack/package.json"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/project/apps/backend" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Nx.backend:db:seed">
+    <configuration name="backend:db:seed" type="NxRunConfigurationType">
+      <option name="nx-projects" value="backend" />
+      <option name="nx-targets" value="db:seed" />
+      <option name="nx-target-configuration" value="" />
+      <envs />
+      <option name="arguments" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="backend:serve:development" type="NxRunConfigurationType">
+      <option name="nx-projects" value="backend" />
+      <option name="nx-targets" value="serve" />
+      <option name="nx-target-configuration" value="development" />
+      <envs />
+      <option name="arguments" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="frontend:serve" type="NxRunConfigurationType">
+      <option name="nx-projects" value="frontend" />
+      <option name="nx-targets" value="serve" />
+      <option name="nx-target-configuration" value="" />
+      <envs />
+      <option name="arguments" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8ef60365-e9d5-4f36-bb6a-c40044512cdb" name="Changes" comment="" />
+      <created>1736756128193</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736756128193</updated>
+      <workItem from="1736756129402" duration="45000" />
+      <workItem from="1736756254597" duration="248000" />
+      <workItem from="1736756512420" duration="147000" />
+      <workItem from="1736756664386" duration="79000" />
+      <workItem from="1736756748062" duration="35000" />
+      <workItem from="1736756787701" duration="168000" />
+      <workItem from="1736756958689" duration="436000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="temp configs" />
+    <option name="LAST_COMMIT_MESSAGE" value="temp configs" />
+  </component>
+</project>
