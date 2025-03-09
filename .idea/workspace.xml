@@ -5,23 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="542328cb-39a2-4bdc-b35a-3bfff89a2421" name="Changes" comment="feat: friends module">
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friend.entity.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friend.factory.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friend.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.repository.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/backend/modules/friends/src/lib/friends.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/core/src/interfaces/friend/friend.interface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/libs/enums/src/lib/friends/friend-request-status.enum.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/nx-angular-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nx-angular-config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/.vscode/extensions.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/.vscode/extensions.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/apps/backend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/apps/backend/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/libs/core/src/interfaces/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/libs/core/src/interfaces/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/libs/core/src/interfaces/users/user.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/libs/core/src/interfaces/users/user.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/libs/enums/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/project/libs/enums/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/tsconfig.base.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/tsconfig.base.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/project/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/nx.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/nx.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,12 +39,12 @@
     &quot;assignee&quot;: &quot;DmitrySheklein&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/DmitrySheklein/160701-fitfriends.git&quot;,
-    &quot;accountId&quot;: &quot;3b087c9a-f409-49b4-a0d7-b617afd5941e&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/DmitryShcheklein/160701-fitfriends.git",
+    "accountId": "d3cf7d1f-395e-493c-b5db-539daf9aadfc"
   }
-}</component>
+}]]></component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/project/package.json" />
   </component>
@@ -118,6 +106,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/project/apps/backend" />
       <recent name="$PROJECT_DIR$/project/apps/frontend/src/pages" />
       <recent name="$PROJECT_DIR$/project/libs/core/src/const" />
     </key>
@@ -186,6 +175,14 @@
       <option name="arguments" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="frontend:dev" type="NxRunConfigurationType">
+      <option name="nx-projects" value="frontend" />
+      <option name="nx-targets" value="dev" />
+      <option name="nx-target-configuration" value="" />
+      <envs />
+      <option name="arguments" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="frontend:serve" type="NxRunConfigurationType">
       <option name="nx-projects" value="frontend" />
       <option name="nx-targets" value="serve" />
@@ -218,7 +215,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-WS-242.21829.149" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
       </set>
     </attachedChunks>
   </component>
@@ -266,6 +263,7 @@
       <workItem from="1731226263931" duration="18759000" />
       <workItem from="1731338369653" duration="4061000" />
       <workItem from="1731432816437" duration="2785000" />
+      <workItem from="1741291606322" duration="1200000" />
     </task>
     <task id="LOCAL-00002" summary="Feat: add orders module">
       <option name="closed" value="true" />
