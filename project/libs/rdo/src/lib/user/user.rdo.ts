@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@project/core';
 import { Expose, Transform } from 'class-transformer';
 import { UserConfigRdo } from './user-config.rdo';
-import { UserGender, UserLocation } from '@project/enums';
+import { UserGender, UserLocation, UserRole } from '@project/enums';
 
-export class UserRdo implements Omit<User, 'role'> {
-  @Expose({ name: '_id' })
+export class UserRdo implements User {
+  @Expose({ name: 'id' })
   @ApiProperty({
     description: 'The uniq user ID',
     example: 'df191215-1f3c-407d-96b2-390bdfae1961',
@@ -18,6 +18,13 @@ export class UserRdo implements Omit<User, 'role'> {
     example: 'user@user.local',
   })
   public email!: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'User role',
+    example: UserRole.User,
+  })
+  public role!: UserRole;
 
   @Expose()
   @ApiProperty({
@@ -41,6 +48,14 @@ export class UserRdo implements Omit<User, 'role'> {
   })
   @Transform(({ value }) => (value === undefined ? null : value))
   public avatarPath!: string | null;
+
+  @Expose()
+  @ApiProperty({
+    description: 'User background path',
+    example: 'http://localhost:3333/static/bg.png',
+  })
+  @Transform(({ value }) => (value === undefined ? null : value))
+  public backgroundPath?: string | null;
 
   @ApiProperty({
     required: false,

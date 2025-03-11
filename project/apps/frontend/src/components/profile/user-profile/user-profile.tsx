@@ -1,14 +1,13 @@
-import PersonalAccountUser from '../../personal-account/user/personal-account-user';
-import { Sidebar } from '../../base/sidebar/sidebar';
-import UserProfileInfo from '../../forms/user-info/user-info';
+import { Schedule } from './components/schedule/schedule';
+import { Menu } from './components/menu/menu';
 
 export const UserProfile = () => {
   return (
-    <>
-      <Sidebar>
-        <UserProfileInfo />
-      </Sidebar>
-      <PersonalAccountUser />
-    </>
+    <div className="inner-page__content">
+      <div className="personal-account-user">
+        <Schedule />
+        <Menu />
+      </div>
+    </div>
   );
 };

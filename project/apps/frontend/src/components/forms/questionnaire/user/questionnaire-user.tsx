@@ -3,12 +3,12 @@ import {
   fitnessLevelOptions,
   specializationOptions,
   workoutDurationOptions,
-} from '../../user-info/user-info.data';
+} from '../../../../shared/data';
 import Tag from '../../../ui/tag/tag';
 import RadioInput from '../../../ui/radio-input/radio-input';
 import {
   useCreateTrainingConfigMutation,
-  useTrainingConfigQuery,
+  useGetTrainingConfigQuery,
 } from '../../../../store/user-process/user-api';
 import { toast } from 'react-toastify';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ type TState = Record<FieldName, any>;
 
 export const QuestionnaireUser = () => {
   const navigate = useNavigate();
-  const { data: trainingConfig, isLoading } = useTrainingConfigQuery();
+  const { data: trainingConfig, isLoading } = useGetTrainingConfigQuery();
   const [createConfig, { isLoading: isLoadingConfigMutation }] =
     useCreateTrainingConfigMutation();
   const [trainingConfigData, setTrainingConfigData] = useState<TState>({
@@ -97,7 +97,7 @@ export const QuestionnaireUser = () => {
         const errorMessage = groupedErrors[key].join('\n');
         toast.error(errorMessage, {
           style: { whiteSpace: 'pre-line' },
-          autoClose: 10_000,
+          autoClose: 5_000,
         });
       });
     }

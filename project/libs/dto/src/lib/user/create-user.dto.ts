@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@project/core';
 import { UserGender, UserLocation, UserRole } from '@project/enums';
-import { User as UserValidation } from '@project/validation';
+import { UserValidation } from '@project/validation';
 import {
   IsEmail,
   IsEnum,

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import {
-  useUserQuery,
+  useGetCurrentUserQuery,
   useUpdateTrainingConfigMutation,
   useUpdateUserMutation,
 } from '../../../store/user-process/user-api';
@@ -14,7 +14,7 @@ import {
   locationOptions,
   genderOptions,
   fitnessLevelOptions,
-} from './user-info.data';
+} from '../../../shared/data';
 import {
   UserLocation,
   UserGender,
@@ -25,19 +25,16 @@ import { UpdateUserDto } from '@project/dto';
 import { UserRdo } from '@project/rdo';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
+import { useAuthRole } from '../../../hooks/useAuth';
 
 export const UserFormFieldName = {
   firstName: 'firstName',
   Description: 'description',
   Gender: 'gender',
   Location: 'location',
-  Role: 'role',
   Avatar: 'avatar',
   AvatarPath: 'avatarPath',
 } as const;
-
-export type UserFormFieldName =
-  (typeof UserFormFieldName)[keyof typeof UserFormFieldName];
 
 type TFormUserDataState = {
   [UserFormFieldName.firstName]: UpdateUserDto['firstName'];
@@ -58,16 +55,16 @@ export type TrainingConfigFieldName =
   (typeof TrainingConfigFieldName)[keyof typeof TrainingConfigFieldName];
 type TConfigState = Record<TrainingConfigFieldName, any>;
 
-const UserProfileInfo: React.FC = () => {
+const UserProfileInfo = () => {
   const [isEditable, setIsEditable] = useState(false);
-
+  const { isUserAuth } = useAuthRole();
   const [updateUser, { isLoading: isLoadingUserMutation }] =
     useUpdateUserMutation();
 
   const [updateConfig, { isLoading: isLoadingConfigMutation }] =
     useUpdateTrainingConfigMutation();
 
-  const { data: userData, isLoading } = useUserQuery();
+  const { data: userData, isLoading } = useGetCurrentUserQuery();
   const [trainingConfigData, setTrainingConfigData] = useState<TConfigState>({
     level: userData?.trainingConfig?.level,
     specialisation: userData?.trainingConfig?.specialisation,
@@ -323,7 +320,7 @@ const UserProfileInfo: React.FC = () => {
         <div className="user-info__section user-info__section--status">
           <h2 className="user-info__title user-info__title--status">Статус</h2>
           <Toggle
-            label="Готов тренироваться"
+            label={isUserAuth ? 'Готов тренироваться' : 'Готов тренировать'}
             className="user-info__toggle"
             checked={Boolean(trainingConfigData?.trainingReadiness)}
             onChange={handleTrainingReadinessChange}

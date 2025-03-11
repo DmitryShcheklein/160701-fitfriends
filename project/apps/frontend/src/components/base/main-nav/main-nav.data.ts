@@ -1,6 +1,6 @@
 import { AppRoute } from '../../../shared/const';
 import { store } from '../../../store';
-import { logOut } from '../../../store/auth-process/auth-process';
+import { logOut } from '../../../store/auth-process/auth-slice';
 
 export const navItems = [
   {
@@ -14,6 +14,12 @@ export const navItems = [
     href: AppRoute.Profile,
     icon: '#icon-user',
     ariaLabel: 'Личный кабинет',
+  },
+  {
+    label: 'Friends',
+    href: AppRoute.UsersCatalog,
+    icon: '#icon-friends',
+    ariaLabel: 'Каталог пользователей',
   },
   {
     label: 'Выход',

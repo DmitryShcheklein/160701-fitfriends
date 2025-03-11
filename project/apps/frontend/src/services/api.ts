@@ -7,7 +7,7 @@ import {
 import { BACKEND_URL } from './api.const';
 import { TState } from '../types/state';
 import { StatusCodes } from 'http-status-codes';
-import { logOut, setCredentials } from '../store/auth-process/auth-process';
+import { logOut, setCredentials } from '../store/auth-process/auth-slice';
 
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 
@@ -21,6 +21,12 @@ const createBaseQuery = (baseUrl: string) => {
       }
       return headers;
     },
+  });
+};
+
+const createRefreshQuery = (baseUrl: string) => {
+  return fetchBaseQuery({
+    baseUrl: `${BACKEND_URL}/${baseUrl}`,
   });
 };
 
@@ -38,14 +44,15 @@ export const baseQueryWithReauth =
   > =>
   async (args, api, extraOptions) => {
     const baseQuery = createBaseQuery(baseUrl);
+    const refreshQuery = createRefreshQuery(baseUrl);
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === StatusCodes.UNAUTHORIZED) {
       const refreshToken = (api.getState() as TState).auth.refreshToken;
       if (refreshToken) {
-        const refreshResult = await baseQuery(
+        const refreshResult = await refreshQuery(
           {
-            url: `${baseUrl}/refresh`,
+            url: `${BACKEND_URL}/auth/refresh`,
             method: 'POST',
             headers: {
               Authorization: `Bearer ${refreshToken}`,

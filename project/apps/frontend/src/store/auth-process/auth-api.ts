@@ -3,10 +3,12 @@ import { TokenPayload } from '@project/core';
 import { LoggedUserRdo, RegisteredUserRdo } from '@project/rdo';
 import { LoginUserDto } from '@project/dto';
 import { baseQueryWithReauth } from '../../services/api';
+import { NameSpace } from '../name-space.enum';
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
+  reducerPath: NameSpace.AuthApi,
   baseQuery: baseQueryWithReauth({ baseUrl: 'auth' }),
+  tagTypes: [NameSpace.AuthApi],
   endpoints: (builder) => ({
     login: builder.mutation<LoggedUserRdo, LoginUserDto>({
       query: (credentials) => ({

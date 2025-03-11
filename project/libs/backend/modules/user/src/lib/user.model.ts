@@ -1,7 +1,7 @@
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuthUser, UserTrainingConfig } from '@project/core';
-import { User } from '@project/validation';
+import { UserValidation } from '@project/validation';
 import { UserRole, UserLocation, UserGender } from '@project/enums';
 import { Factory } from 'nestjs-seeder';
 import { fakerRU } from '@faker-js/faker';
@@ -26,7 +26,18 @@ export class UserModel extends Document implements AuthUser {
   })
   public passwordHash!: string;
 
-  @Factory((faker) => faker.helpers.enumValue(UserGender))
+  @Factory((_, ctx) => ctx.role || UserRole.User)
+  @Prop({
+    required: true,
+    type: String,
+    enum: UserRole,
+    default: UserRole.User,
+  })
+  public role: UserRole;
+
+  @Factory((faker) =>
+    faker.helpers.arrayElement([UserGender.Male, UserGender.Female])
+  )
   @Prop({
     required: true,
     type: String,
@@ -46,8 +57,8 @@ export class UserModel extends Document implements AuthUser {
   })
   @Prop({
     required: true,
-    minlength: User.FirstName.Min,
-    maxlength: User.FirstName.Max,
+    minlength: UserValidation.FirstName.Min,
+    maxlength: UserValidation.FirstName.Max,
   })
   public firstName!: string;
 
@@ -60,10 +71,9 @@ export class UserModel extends Document implements AuthUser {
 
         return fakerRU.helpers.arrayElement(avatarPaths);
       }
-    }
-
-    if (ctx.gender === UserGender.Any) {
-      return ctx.defaultAvatar;
+      if (ctx.gender === UserGender.Any) {
+        return ctx.defaultAvatar;
+      }
     }
 
     return ctx.avatarPath || null;
@@ -81,21 +91,20 @@ export class UserModel extends Document implements AuthUser {
   @Prop({ type: Date })
   public dateOfBirth?: Date;
 
+  @Factory(() =>
+    fakerRU.lorem
+      .sentence({
+        min: UserValidation.Description.Min,
+        max: UserValidation.Description.Max,
+      })
+      .substring(0, UserValidation.Description.Max)
+  )
   @Prop({
     type: String,
-    minlength: User.Description.Min,
-    maxlength: User.Description.Max,
+    minlength: UserValidation.Description.Min,
+    maxlength: UserValidation.Description.Max,
   })
   public description: string;
-
-  @Factory((faker) => faker.helpers.enumValue(UserRole))
-  @Prop({
-    required: true,
-    type: String,
-    enum: UserRole,
-    default: UserRole.User,
-  })
-  public role: UserRole;
 
   @Factory((faker) => faker.helpers.enumValue(UserLocation))
   @Prop({

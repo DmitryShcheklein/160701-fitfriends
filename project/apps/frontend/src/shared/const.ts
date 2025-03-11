@@ -1,32 +1,57 @@
+const AuthStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
+} as const;
+
 const AppRoute = {
   Intro: '/intro',
   Index: '/',
   Login: '/login',
-  Register: '/regiser',
+  Register: '/register',
+  Page404: '/page404',
+  Page403: '/page403',
+
+  UserCard: '/user-card',
   Profile: '/profile',
-  Friends: '/friends',
-  Questionnaire: '/questionnaire',
   Catalog: '/catalog',
+  UsersCatalog: '/users-catalog',
   TrainingCardPage: '/training',
-  ErrorPage: '/page404',
+  QuestionnaireUser: '/questionnaire-user',
+  QuestionnaireTrainer: '/questionnaire-trainer',
+  Friends: '/friends',
+  MyPurchases: '/my-purchases',
+
+  MyOrders: '/my-orders',
+  MyTrainings: '/my-trainings',
+  CreateTraining: '/create-training',
 } as const;
 
-enum AuthStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
+const PageTitles: Record<keyof typeof AppRoute, string> = {
+  Intro: 'Разводящая',
+  Index: 'Главная',
+  Login: 'Войти',
+  Register: 'Регистрация',
+  Page404: 'Страница 404',
+  Page403: 'Страница 403',
+
+  UserCard: 'Карточка пользователя',
+  Profile: 'Личный кабинет',
+  Catalog: 'Мои тренировки',
+  UsersCatalog: 'Каталог пользователей',
+  TrainingCardPage: 'Карточка тренировки',
+  QuestionnaireUser: 'Опросник тренер',
+  QuestionnaireTrainer: 'Опросник тренер',
+  Friends: 'Список друзей',
+  MyPurchases: 'Мои покупки',
+
+  MyOrders: 'Мои заказы',
+  MyTrainings: 'Мои тренировки',
+  CreateTraining: 'Создать тренировку',
+};
+
+function getPageTitle(route: keyof typeof AppRoute): string {
+  return `${PageTitles[route]}  — FitFriends`;
 }
 
-enum PageTitles {
-  Intro = 'Разводящая — FitFriends',
-  Index = 'Главная — FitFriends',
-  Login = 'Войти — FitFriends',
-  Register = 'Регистрация — FitFriends',
-  Page404 = 'Страница 404 — FitFriends',
-  Profile = 'Личный кабинет — FitFriends',
-  Questionnaire = 'Опросник — FitFriends',
-  Catalog = 'Мои тренировки — FitFriends',
-  TrainingCardPage = 'Карточка тренировки — FitFriends',
-}
-
-export { AppRoute, AuthStatus, PageTitles };
+export { AppRoute, AuthStatus, PageTitles, getPageTitle };

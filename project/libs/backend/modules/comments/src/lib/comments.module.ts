@@ -5,9 +5,11 @@ import { CommentRepository } from './comment.repository';
 import { CommentFactory } from './comment.factory';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommentModel, CommentSchema } from './comment.model';
+import { UserModule } from '@project/user-module';
 
 @Module({
   imports: [
+    UserModule,
     MongooseModule.forFeature([
       { name: CommentModel.name, schema: CommentSchema },
     ]),

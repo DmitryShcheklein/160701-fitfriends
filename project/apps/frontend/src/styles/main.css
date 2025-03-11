@@ -3385,7 +3385,7 @@ input:active + .custom-textarea__text {
 }
 
 .reviews-side-bar__list {
-  position: relative;  
+  position: relative;
   max-height: 976px;
   margin: 0;
   padding: 0;
@@ -3396,31 +3396,31 @@ input:active + .custom-textarea__text {
   margin-bottom: 30px;
 }
 
-.reviews-side-bar__list::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(100% + 42px);
-  height: 40px;
-  margin: 0 -21px;
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
-  background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
-}
+/*.reviews-side-bar__list::before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  width: calc(100% + 42px);*/
+/*  height: 40px;*/
+/*  margin: 0 -21px;*/
+/*  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));*/
+/*  background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);*/
+/*  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);*/
+/*}*/
 
-.reviews-side-bar__list::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: calc(100% + 42px);
-  height: 40px;
-  margin: 0 -21px;
-  background: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
-  background: -o-linear-gradient(bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
-}
+/*.reviews-side-bar__list::after {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  width: calc(100% + 42px);*/
+/*  height: 40px;*/
+/*  margin: 0 -21px;*/
+/*  background: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));*/
+/*  background: -o-linear-gradient(bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);*/
+/*  background: linear-gradient(0deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);*/
+/*}*/
 
 .reviews-side-bar__item {
   margin-bottom: 20px;
@@ -3504,6 +3504,12 @@ input:active + .custom-textarea__text {
   font-size: 16px;
   line-height: 19px;
   color: #464646;
+  word-break: break-all;
+}
+
+.training-card:has(.training-video) .training-info{
+  border-bottom: 0;
+  border-radius: 19px 19px 0 0;
 }
 
 .training-info {
@@ -3511,8 +3517,7 @@ input:active + .custom-textarea__text {
   max-width: 1040px;
   padding: 59px;
   border: 1px solid #c5ec2a;
-  border-bottom: 0;
-  border-radius: 19px 19px 0 0;
+  border-radius: 19px ;
   background-color: #333333;
 }
 
@@ -3937,10 +3942,15 @@ input:active + .custom-textarea__text {
 }
 
 .training-video__thumbnail {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
+  max-height: 560px;
 }
-
+.training-video__thumbnail video {
+  max-height: 100%;
+}
 .training-video__thumbnail img {
   width: 100%;
   height: 100%;
@@ -4029,10 +4039,6 @@ input:active + .custom-textarea__text {
 
 .training-video__button {
   max-width: 256px;
-}
-
-.training-video__button--stop {
-  display: none;
 }
 
 .training-video__drop-files {
@@ -4150,7 +4156,7 @@ input:active + .custom-textarea__text {
 
 .thumbnail-user__image img {
   max-width: 100%;
-  height: auto;
+  height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
 }
@@ -4754,6 +4760,7 @@ input:active + .custom-textarea__text {
 }
 
 .thumbnail-friend {
+  display: block;
   min-width: 452px;
   width: -webkit-min-content;
   width: -moz-min-content;
@@ -4819,7 +4826,7 @@ input:active + .custom-textarea__text {
 
 .thumbnail-friend__image img {
   max-width: 100%;
-  height: auto;
+  height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
 }
@@ -5929,6 +5936,7 @@ input:active + .custom-textarea__text {
   border-radius: 20px;
   -webkit-box-shadow: 0 10px 30px rgba(51, 51, 51, 0.1);
   box-shadow: 0 10px 30px rgba(51, 51, 51, 0.1);
+  height: max-content;
 }
 
 .training-card--edit .training-info__edit--edit {
@@ -7616,6 +7624,7 @@ input:active + .custom-textarea__text {
 .input-load-avatar__avatar img {
   width: 98px;
   height: 98px;
+  object-fit: cover;
 }
 input:disabled + .input-load-avatar__avatar {pointer-events: none;}
 .input-load-avatar__btn {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types';
@@ -7,7 +7,7 @@ import 'swiper/css';
 import './carousel-slider.css';
 import EmptyBlock from '../../base/empty-block/empty-block';
 
-interface SliderProps {
+interface SliderProps extends HTMLAttributes<HTMLDivElement>{
   id: string;
   title: string;
   slides?: React.ReactNode[];
@@ -25,6 +25,7 @@ const CarouselSlider = ({
   options = {},
   id,
   classNamesMap = {},
+  style
 }: SliderProps) => {
   const prevButtonClass = `${id}-prev`;
   const nextButtonClass = `${id}-next`;
@@ -35,7 +36,7 @@ const CarouselSlider = ({
   }
 
   return (
-    <section className="slider-section">
+    <section className="slider-section" style={style}>
       <div className={classNames('slider-wrapper', wrapper)}>
         <div className="slider-title-wrapper">
           <h2 className="slider-title">{title}</h2>

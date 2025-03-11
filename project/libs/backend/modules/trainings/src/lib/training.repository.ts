@@ -1,25 +1,23 @@
 import { Model } from 'mongoose';
 import { TrainingEntity } from './training.entity';
 import { TrainingFactory } from './training.factory';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TrainingModel } from './training.model';
 import {
   AuthUser,
   BaseMongoRepository,
+  DefaultTrainings,
   DefaultSort,
   Training,
-} from '@project/core';
-import {
   PaginationResult,
   PriceAggregationResult,
   TrainingsFilter,
   TrainingsQuery,
+  TrainingKeys,
+  DefaultItemsLimit,
 } from '@project/core';
-import { DEFAULT_PAGE_COUNT, DefaultTrainings } from '@project/core';
 import { SortBy, SortDirection } from '@project/enums';
-
-export type TrainingKeys = keyof Training;
 
 @Injectable()
 export class TrainingRepository extends BaseMongoRepository<
@@ -39,7 +37,7 @@ export class TrainingRepository extends BaseMongoRepository<
     const trainings = await this.model.find(
       {},
       {},
-      { limit: DefaultTrainings.MAX_COUNT_LIMIT }
+      { limit: DefaultItemsLimit.Min }
     );
     const rankedTrainings = trainings
       .map((training) => ({
@@ -60,7 +58,7 @@ export class TrainingRepository extends BaseMongoRepository<
 
   public async findSpecialTrainings() {
     const trainings = await this.find({
-      limit: DefaultTrainings.COUNT_LIMIT,
+      limit: DefaultItemsLimit.Min,
       specialOffer: true,
       sortBy: DefaultSort.BY,
       sortDirection: DefaultSort.DIRECTION,
@@ -71,8 +69,8 @@ export class TrainingRepository extends BaseMongoRepository<
 
   public async findPopularTrainings() {
     const trainings = await this.find({
-      limit: DefaultTrainings.COUNT_LIMIT,
-      sortBy: SortBy.rating,
+      limit: DefaultItemsLimit.Min,
+      sortBy: SortBy.createdAt,
       sortDirection: SortDirection.Desc,
     });
 
@@ -84,8 +82,8 @@ export class TrainingRepository extends BaseMongoRepository<
   ): Promise<PaginationResult<TrainingEntity, TrainingsFilter>> {
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : 0;
-    const take = query?.limit || DefaultTrainings.COUNT_LIMIT;
-    const currentPage = Number(query?.page) || DEFAULT_PAGE_COUNT;
+    const take = query?.limit;
+    const currentPage = Number(query?.page) || 1;
     const filter: Partial<Record<TrainingKeys, unknown>> = {};
 
     if (query.trainingType) {
@@ -103,6 +101,9 @@ export class TrainingRepository extends BaseMongoRepository<
     if (query.specialOffer) {
       filter.specialOffer = query.specialOffer;
     }
+    if (query.trainerId) {
+      filter.trainerId = query.trainerId;
+    }
 
     const trainings = await this.model.find(
       filter,
@@ -116,6 +117,7 @@ export class TrainingRepository extends BaseMongoRepository<
 
     const aggregationResult: PriceAggregationResult[] =
       await this.model.aggregate([
+        { $match: filter },
         {
           $group: {
             _id: null,
@@ -161,5 +163,15 @@ export class TrainingRepository extends BaseMongoRepository<
     if (training.gender === user.gender) score += 1;
 
     return score;
+  }
+
+  public async findById(id: string) {
+    const document = await this.model.findById(id).populate('trainerId').exec();
+
+    if (!document) {
+      throw new NotFoundException(`Entity with id ${id} not found`);
+    }
+
+    return this.createEntityFromDocument(document);
   }
 }

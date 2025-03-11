@@ -1,8 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { UserConfigRdo, UserRdo } from '@project/rdo';
+import { UserConfigRdo, UserRdo, UsersWithPaginationRdo } from '@project/rdo';
 import { baseQueryWithReauth } from '../../services/api';
 import { NameSpace } from '../name-space.enum';
 import { CreateUserConfigDto, UpdateUserConfigDto } from '@project/dto';
+import { UsersQuery } from '@project/core';
 
 export const userApi = createApi({
   reducerPath: NameSpace.UserApi,
@@ -17,23 +18,38 @@ export const userApi = createApi({
       }),
       invalidatesTags: [NameSpace.UserApi],
     }),
-    User: builder.query<UserRdo, void>({
+    getCurrentUser: builder.query<UserRdo, void>({
       query: () => ({
         url: '',
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
-    TrainingConfig: builder.query<UserConfigRdo, void>({
+    getAllUsers: builder.query<UsersWithPaginationRdo, UsersQuery>({
+      query: (params) => ({
+        url: '/all',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [NameSpace.UserApi],
+    }),
+    getUserById: builder.query<UserRdo, string>({
+      query: (userId) => ({
+        url: `/info/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: [NameSpace.UserApi],
+    }),
+    getTrainingConfig: builder.query<UserConfigRdo, void>({
       query: () => ({
-        url: '/questionnaire-user',
+        url: '/questionnaire',
         method: 'GET',
       }),
       providesTags: [NameSpace.UserApi],
     }),
     createTrainingConfig: builder.mutation<UserConfigRdo, CreateUserConfigDto>({
       query: (credentials) => ({
-        url: '/questionnaire-user',
+        url: '/questionnaire',
         method: 'POST',
         body: credentials,
       }),
@@ -41,7 +57,7 @@ export const userApi = createApi({
     }),
     updateTrainingConfig: builder.mutation<UserConfigRdo, UpdateUserConfigDto>({
       query: (credentials) => ({
-        url: '/questionnaire-user',
+        url: '/questionnaire',
         method: 'PATCH',
         body: credentials,
       }),
@@ -51,9 +67,11 @@ export const userApi = createApi({
 });
 
 export const {
-  useUserQuery,
+  useGetCurrentUserQuery,
+  useGetUserByIdQuery,
   useUpdateUserMutation,
   useCreateTrainingConfigMutation,
   useUpdateTrainingConfigMutation,
-  useTrainingConfigQuery,
+  useGetTrainingConfigQuery,
+  useGetAllUsersQuery,
 } = userApi;

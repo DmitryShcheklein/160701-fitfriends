@@ -1,21 +1,13 @@
-import { Link, Navigate } from 'react-router-dom';
-import { AppRoute, AuthStatus } from '../../shared/const';
-import { useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/auth-process/selectors';
+import { Link } from 'react-router-dom';
+import { AppRoute, getPageTitle } from '../../shared/const';
 import { Helmet } from 'react-helmet-async';
-import { PageTitles } from '../../shared/const';
+import React from 'react';
 
 const IntroPage = () => {
-  const authStatus = useAppSelector(getAuthorizationStatus);
-
-  if (authStatus === AuthStatus.Auth) {
-    return <Navigate to={AppRoute.Index} />;
-  }
-
   return (
     <div className="wrapper">
       <Helmet>
-        <title>{PageTitles.Intro}</title>
+        <title>{getPageTitle('Intro')}</title>
       </Helmet>
       <main>
         <div className="intro">

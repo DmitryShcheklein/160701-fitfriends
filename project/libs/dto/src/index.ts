@@ -12,3 +12,7 @@ export { PriceQueryDto } from './lib/training/price.query.dto';
 
 export { CreateCommentDto } from './lib/comments/create-comment.dto';
 export { UpdateCommentDto } from './lib/comments/update-comment.dto';
+
+export { CreateOrderDto } from './lib/orders/create-order.dto';
+
+export { CreateBalanceDto } from './lib/balance/create-balance.dto';

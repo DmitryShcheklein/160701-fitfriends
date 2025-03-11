@@ -72,7 +72,7 @@ export const trainingApi = createApi({
 });
 
 export const {
-  useCreateTrainingMutation,  
+  useCreateTrainingMutation,
   useUpdateTrainingMutation,
   useGetTrainingsQuery,
   useGetTrainingByIdQuery,
@@ -80,6 +80,5 @@ export const {
 
   useGetSpecialTrainingsQuery,
   useGetPopularTrainingsQuery,
-  useGetRecommendedTrainingsQuery
-  
+  useGetRecommendedTrainingsQuery,
 } = trainingApi;

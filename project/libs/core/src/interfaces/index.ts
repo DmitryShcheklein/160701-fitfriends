@@ -7,7 +7,10 @@ export { PriceAggregationResult } from './base/price-aggregation-result.interfac
 // FileVault
 export { File } from './file-vault/file.interface';
 export { StoredFile } from './file-vault/stored-file.interface';
-
+// Balance
+export { Balance } from './balance/balance.interface';
+// Order
+export { Order } from './orders/orders.interface';
 // Notify
 export { Subscriber } from './notify/subscriber.interface';
 // Comment
@@ -27,3 +30,13 @@ export { TokenPayload } from './users/tokens/token-payload.interface';
 export { JwtToken } from './users/tokens/jwt-token.interface';
 export { RefreshTokenPayload } from './users/tokens/refresh-token-payload.interface.ts';
 export { RequestWithTokenPayload } from './users/tokens/request-with-token-payload.interface';
+
+// Seeder
+export { OrderSeederData } from './seeder/orders';
+export { TrainingSeederData } from './seeder/trainings';
+export { UsersSeederData } from './seeder/users';
+
+// Friends
+
+export { FriendRequest } from './friend/friend-request.interface';
+export { Friend } from './friend/friend.interface';

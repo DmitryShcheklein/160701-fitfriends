@@ -6,14 +6,14 @@ import { Seeder, DataFactory } from 'nestjs-seeder';
 import { Hasher, HasherComponent } from '@project/hasher-module';
 import { appConfig } from '@project/config';
 import { ConfigType } from '@nestjs/config';
-import { AuthUser } from '@project/core';
+import { AuthUser, UsersSeederData } from '@project/core';
 import { UserGender } from '@project/enums';
-
-type MockUser = Partial<AuthUser>;
+import { AdminUser, MyUser, RandomUser, TrainerUser } from '@project/core';
 
 @Injectable()
 export class UsersSeeder implements Seeder {
   private defaultPath!: string;
+  private MOCK_USERS_COUNT = 5;
 
   constructor(
     @InjectModel(UserModel.name) private readonly user: Model<UserModel>,
@@ -27,23 +27,69 @@ export class UsersSeeder implements Seeder {
 
   async seed() {
     await this.drop();
-    const adminUserData: MockUser = {
-      email: 'admin@admin.ru',
-      firstName: 'Admin',
-      passwordHash: await this.hasherService.generatePasswordHash('adminnew'),
-      avatarPath: `${this.defaultPath}/admin-avatar.jpg`,
-    };
-    const userAdmin = DataFactory.createForClass(UserModel).generate(
-      1,
-      adminUserData
-    );
 
-    const MOCK_USERS_COUNT = 5;
-    const MOCK_FEMALE_AVATARS = Array.from({ length: 3 }, (_, idx) => ({
+    // Admin
+    const userAdmin = await this.generateAdminUser();
+    // Trainer
+    const trainerUser = await this.generateTrainerUser();
+    // MyUser
+    const myUser = await this.generateUser();
+    // Random Users
+    const users = await this.generateRandomUsers();
+
+    return this.user.insertMany([userAdmin, trainerUser, myUser, users].flat());
+  }
+
+  async drop() {
+    return this.user.deleteMany({});
+  }
+
+  private async generateAdminUser() {
+    const { email, firstName, role, avatarFileName, password } = AdminUser;
+    const adminUserMock: Partial<AuthUser> = {
+      email,
+      firstName,
+      role,
+      passwordHash: await this.hasherService.generatePasswordHash(password),
+      avatarPath: `${this.defaultPath}/${avatarFileName}`,
+    };
+
+    return DataFactory.createForClass(UserModel).generate(1, adminUserMock);
+  }
+
+  private async generateTrainerUser() {
+    const { email, firstName, role, avatarFileName, password } = TrainerUser;
+
+    const trainerUserMock: Partial<AuthUser> = {
+      email,
+      firstName,
+      role,
+      passwordHash: await this.hasherService.generatePasswordHash(password),
+      avatarPath: `${this.defaultPath}/${avatarFileName}`,
+    };
+
+    return DataFactory.createForClass(UserModel).generate(1, trainerUserMock);
+  }
+
+  private async generateUser() {
+    const { email, firstName, role, avatarFileName, password } = MyUser;
+    const trainerUserMock: Partial<AuthUser> = {
+      email,
+      firstName,
+      role,
+      passwordHash: await this.hasherService.generatePasswordHash(password),
+      avatarPath: `${this.defaultPath}/${avatarFileName}`,
+    };
+
+    return DataFactory.createForClass(UserModel).generate(1, trainerUserMock);
+  }
+
+  private async generateRandomUsers() {
+    const MOCK_FEMALE_AVATARS = Array.from(Array(3), (_, idx) => ({
       gender: UserGender.Female,
       path: `${UserGender.Female}/photo-${idx + 1}.png`,
     }));
-    const MOCK_MALE_AVATARS = Array.from({ length: 2 }, (_, idx) => ({
+    const MOCK_MALE_AVATARS = Array.from(Array(2), (_, idx) => ({
       gender: UserGender.Male,
       path: `${UserGender.Male}/photo-${idx + 1}.png`,
     }));
@@ -52,19 +98,16 @@ export class UsersSeeder implements Seeder {
       ...MOCK_MALE_AVATARS,
     ].map((obj) => ({ ...obj, path: `${this.defaultPath}/${obj.path}` }));
 
-    const users = DataFactory.createForClass(UserModel).generate(
-      MOCK_USERS_COUNT,
-      {
-        passwordHash: await this.hasherService.generatePasswordHash('123456'),
-        avatarPaths: MOCK_USERS_AVATARS_PATH,
-        defaultAvatar: `${this.defaultPath}/default-avatar.png`,
-      } as MockUser
+    const { password, avatarFileName } = RandomUser;
+    const mockData: UsersSeederData = {
+      passwordHash: await this.hasherService.generatePasswordHash(password),
+      avatarPaths: MOCK_USERS_AVATARS_PATH,
+      defaultAvatar: `${this.defaultPath}/${avatarFileName}`,
+    };
+
+    return DataFactory.createForClass(UserModel).generate(
+      this.MOCK_USERS_COUNT,
+      mockData
     );
-
-    return this.user.insertMany([...userAdmin, ...users]);
-  }
-
-  async drop() {
-    return this.user.deleteMany({});
   }
 }

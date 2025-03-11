@@ -6,6 +6,7 @@ import { BaseMongoRepository } from '@project/core';
 import { CommentEntity } from './comment.entity';
 import { CommentFactory } from './comment.factory';
 import { MAX_COMMENT_LIMIT } from './comment.constant';
+import { SortBy, SortDirection } from '@project/enums';
 
 @Injectable()
 export class CommentRepository extends BaseMongoRepository<
@@ -19,11 +20,16 @@ export class CommentRepository extends BaseMongoRepository<
     super(entityFactory, commentModel);
   }
 
-  public async find(query?: {
-    trainingId?: string;
-  }): Promise<CommentEntity[] | null> {
+  public async find(query?: { trainingId?: string }) {
     const document = await this.model
-      .find(query, {}, { limit: MAX_COMMENT_LIMIT })
+      .find(
+        query,
+        {},
+        {
+          limit: MAX_COMMENT_LIMIT,
+          sort: { [SortBy.createdAt]: SortDirection.Desc },
+        }
+      )
       .populate('userId')
       .exec();
 

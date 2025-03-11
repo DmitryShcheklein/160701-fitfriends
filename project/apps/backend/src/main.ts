@@ -6,7 +6,6 @@ import { SwaggerService } from './app/services/swagger.service';
 import { ConfigService } from '@nestjs/config';
 
 const GLOBAL_PREFIX = 'api';
-const SWAGGER_PATH_PREFIX = 'spec';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +19,12 @@ async function bootstrap() {
   );
 
   const swaggerService = app.get(SwaggerService);
-  const { config, swaggerCustomOptions } = swaggerService.createConfig();
+  const {
+    config,
+    swaggerCustomOptions,
+    SWAGGER_PATH_PREFIX,
+    SWAGGER_JSON_PREFIX,
+  } = swaggerService.createConfig();
   const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup(SWAGGER_PATH_PREFIX, app, document, swaggerCustomOptions);
@@ -34,6 +38,9 @@ async function bootstrap() {
   );
   Logger.log(
     `🚀 Swagger api is running on: http://localhost:${port}/${SWAGGER_PATH_PREFIX}`
+  );
+  Logger.log(
+    `🚀 Swagger json is running on: http://localhost:${port}/${SWAGGER_JSON_PREFIX}`
   );
 }
 

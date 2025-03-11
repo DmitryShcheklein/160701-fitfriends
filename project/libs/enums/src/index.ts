@@ -8,3 +8,7 @@ export { WorkoutType } from './lib/user/workout-type.enum';
 // Sort
 export { SortBy } from './lib/sort-by';
 export { SortDirection } from './lib/sort-direction';
+// Order
+export { PaymentVariant } from './lib/order/payment-variant.enum';
+// Friends
+export { FriendRequestStatus } from './lib/friends/friend-request-status.enum';

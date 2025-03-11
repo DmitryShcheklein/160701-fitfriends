@@ -31,58 +31,24 @@ import { AuthKeyName } from '@project/config';
 import { TrainingsQuery } from '@project/core';
 import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileUploaderService } from '@project/file-uploader';
 import { AllowedMimetypes, TrainingValidation } from '@project/validation';
 import { API_BODY } from './training.const';
 import { TrainingRdo, TrainingsWithPaginationRdo } from '@project/rdo';
+import { Roles, RolesGuard } from '@project/guards';
+import { UserRole } from '@project/enums';
 
 @ApiTags('trainings')
 @Controller('trainings')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth(AuthKeyName)
 export class TrainingController {
-  constructor(
-    private readonly trainingService: TrainingService,
-    private readonly fileUploaderService: FileUploaderService
-  ) {}
-
-  @ApiCreatedResponse({
-    type: TrainingRdo,
-    description: 'Тренинг создан успешно',
-  })
-  @ApiOperation({
-    summary: 'Создать тренинг',
-  })
-  @ApiConsumes('multipart/form-data')
-  @ApiBody(API_BODY.CreateTraining)
-  @UseInterceptors(FileInterceptor('video'))
-  @Post()
-  public async create(
-    @Body() dto: CreateTrainingDto,
-    @UploadedFile(
-      new FileValidationPipe(
-        TrainingValidation.Video.FileMaxSize,
-        AllowedMimetypes.Img,
-        true
-      )
-    )
-    file: Express.Multer.File
-  ) {
-    const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
-    const training = await this.trainingService.create({
-      ...dto,
-      video: existFile?.path,
-    });
-
-    return fillDto(TrainingRdo, training);
-  }
+  constructor(private readonly trainingService: TrainingService) {}
 
   @ApiOperation({
     summary: 'Получить тренинги',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     type: TrainingsWithPaginationRdo,
-    status: HttpStatus.OK,
   })
   @Get('/')
   public async showAll(@Query() query: TrainingsQuery) {
@@ -103,11 +69,11 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Получить рекоммендованные тренинги',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     isArray: true,
     type: TrainingRdo,
-    status: HttpStatus.OK,
   })
+  @Roles(UserRole.User)
   @Get('/recommended')
   public async showRecommendedOffers(@Req() { user }: RequestWithTokenPayload) {
     const trainings = await this.trainingService.getRecommendedTrainings(
@@ -123,11 +89,11 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Получить специальные тренинги',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     isArray: true,
     type: TrainingRdo,
-    status: HttpStatus.OK,
   })
+  @Roles(UserRole.User)
   @Get('/special')
   public async showSpecialOffers() {
     const trainings = await this.trainingService.getSpecialTrainings();
@@ -146,6 +112,7 @@ export class TrainingController {
     type: TrainingRdo,
     status: HttpStatus.OK,
   })
+  @Roles(UserRole.User)
   @Get('/popular')
   public async showPopularOffers() {
     const trainings = await this.trainingService.getPopularTrainings();
@@ -154,6 +121,39 @@ export class TrainingController {
       TrainingRdo,
       trainings.map((el) => el.toPOJO())
     );
+  }
+
+  @ApiCreatedResponse({
+    type: TrainingRdo,
+    description: 'Тренинг создан успешно',
+  })
+  @ApiOperation({
+    summary: 'Создать тренинг',
+  })
+  @ApiConsumes('multipart/form-data')
+  @Roles(UserRole.Trainer)
+  @UseInterceptors(FileInterceptor('video'))
+  @Post()
+  public async create(
+    @Req() { user }: RequestWithTokenPayload,
+    @Body() dto: CreateTrainingDto,
+    @UploadedFile(
+      new FileValidationPipe(
+        TrainingValidation.Video.FileMaxSize,
+        AllowedMimetypes.Video,
+        false
+      )
+    )
+    file: Express.Multer.File
+  ) {
+    const userId = user.sub;
+
+    const training = await this.trainingService.create(
+      { ...dto, video: file },
+      userId
+    );
+
+    return fillDto(TrainingRdo, training);
   }
 
   @ApiOperation({
@@ -180,6 +180,7 @@ export class TrainingController {
   @ApiConsumes('multipart/form-data')
   @ApiBody(API_BODY.UpdateTraining)
   @UseInterceptors(FileInterceptor('video'))
+  @Roles(UserRole.Trainer)
   @Patch(':trainingId')
   public async update(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string,
@@ -187,16 +188,15 @@ export class TrainingController {
     @UploadedFile(
       new FileValidationPipe(
         TrainingValidation.Video.FileMaxSize,
-        AllowedMimetypes.Img,
+        AllowedMimetypes.Video,
         true
       )
     )
     file: Express.Multer.File
   ) {
-    const existFile = (await this.fileUploaderService.saveFile(file))?.toPOJO();
     const updatedTraining = await this.trainingService.updateById(trainingId, {
       ...dto,
-      video: existFile?.path,
+      video: file,
     });
 
     return fillDto(TrainingRdo, updatedTraining);
@@ -205,6 +205,7 @@ export class TrainingController {
   @ApiOperation({
     summary: 'Удалить тренинг по id',
   })
+  @Roles(UserRole.Trainer)
   @Delete(':trainingId')
   public async delete(
     @Param('trainingId', MongoIdValidationPipe) trainingId: string

@@ -21,10 +21,10 @@
       }
     },
     "db:seed": {
-      "dependsOn": ["build"],
       "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
-        "command": "NODE_ENV=production node ./seeder.js",
+        "command": "cross-env NODE_ENV=development node ./seeder.js",
         "cwd": "dist/apps/backend/"
       }
     }

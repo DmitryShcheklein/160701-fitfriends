@@ -3,8 +3,9 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   Patch,
-  Post,
+  Query,
   Req,
   UploadedFile,
   UseGuards,
@@ -22,37 +23,59 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { AuthKeyName } from '@project/config';
+import { UpdateUserDto } from '@project/dto';
 import {
-  CreateUserConfigDto,
-  UpdateUserConfigDto,
-  UpdateUserDto,
-} from '@project/dto';
-import { UserConfigRdo, UserRdo } from '@project/rdo';
-import { AllowedMimetypes, User } from '@project/validation';
-import { FileValidationPipe } from '@project/pipes';
+  OrdersWithPaginationRdo,
+  UserRdo,
+  UsersWithPaginationRdo,
+} from '@project/rdo';
+import { AllowedMimetypes, UserValidation } from '@project/validation';
+import { FileValidationPipe, MongoIdValidationPipe } from '@project/pipes';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard, RequestWithTokenPayload } from '@project/core';
+import {
+  JwtAuthGuard,
+  OrdersTrainerQuery,
+  RequestWithTokenPayload,
+  UsersQuery,
+} from '@project/core';
 import { UserService } from './user.service';
 import { ResponseMessage } from './user.constant';
+import { Roles, RolesGuard } from '@project/guards';
+import { UserRole } from '@project/enums';
 
 @ApiTags('user')
 @Controller('user')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiBearerAuth(AuthKeyName)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({
-    summary: 'Получить пользователя',
+    summary: 'Получить текущего пользователя',
   })
   @ApiOkResponse({
     type: UserRdo,
   })
-  @ApiBearerAuth(AuthKeyName)
   @Get()
   public async getUser(@Req() { user }: RequestWithTokenPayload) {
-    const findedUser = await this.userService.getUserById(user.sub);
+    const foundUser = await this.userService.getUserById(user.sub);
 
-    return fillDto(UserRdo, findedUser);
+    return fillDto(UserRdo, foundUser);
+  }
+
+  @ApiOperation({
+    summary: 'Получить данные пользователя по Id',
+  })
+  @ApiOkResponse({
+    type: UserRdo,
+  })
+  @Get('/info/:userId')
+  public async getUserById(
+    @Param('userId', MongoIdValidationPipe) userId: string
+  ) {
+    const foundUser = await this.userService.getUserById(userId);
+
+    return fillDto(UserRdo, foundUser);
   }
 
   @ApiCreatedResponse({
@@ -71,21 +94,21 @@ export class UserController {
     summary: 'Обновление пользователя',
   })
   @UseInterceptors(FileInterceptor('avatar'))
-  @ApiBearerAuth(AuthKeyName)
   @Patch()
   public async updateUser(
     @Req() { user }: RequestWithTokenPayload,
     @Body() dto: UpdateUserDto,
     @UploadedFile(
       new FileValidationPipe(
-        User.Avatar.FileMaxSize,
+        UserValidation.Avatar.FileMaxSize,
         AllowedMimetypes.Img,
         true
       )
     )
     file: Express.Multer.File | null
   ) {
-    const updatedUser = await this.userService.updateUser(user.sub, {
+    const userId = user.sub;
+    const updatedUser = await this.userService.updateUser(userId, {
       ...dto,
       avatar: file,
     });
@@ -93,74 +116,31 @@ export class UserController {
     return fillDto(UserRdo, updatedUser);
   }
 
-  @ApiOperation({
-    summary: 'Создать опросник для пользователя',
-  })
-  @ApiCreatedResponse({
-    type: UserConfigRdo,
-    description: ResponseMessage.UserConfigCreated,
-  })
-  @ApiNotFoundResponse({
-    description: ResponseMessage.UserNotFound,
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request data',
-    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
-  })
-  @ApiBearerAuth(AuthKeyName)
-  @Post('/questionnaire-user')
-  public async createQuestionnaireUser(
-    @Req() { user }: RequestWithTokenPayload,
-    @Body() dto: CreateUserConfigDto
-  ) {
-    const newConfig = await this.userService.updateUserConfig(user.sub, dto);
-
-    return fillDto(UserConfigRdo, newConfig);
-  }
-
-  @ApiOperation({
-    summary: 'Обновить опросник для пользователя',
-  })
-  @ApiCreatedResponse({
-    type: UserConfigRdo,
-    description: ResponseMessage.UserConfigCreated,
-  })
-  @ApiNotFoundResponse({
-    description: ResponseMessage.UserNotFound,
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request data',
-    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
-  })
-  @ApiBearerAuth(AuthKeyName)
-  @Patch('/questionnaire-user')
-  public async updateQuestionnaireUser(
-    @Req() { user }: RequestWithTokenPayload,
-    @Body() dto: UpdateUserConfigDto
-  ) {
-    const updatedUser = await this.userService.updateUserConfig(user.sub, dto);
-
-    return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);
-  }
-
-  @ApiOperation({
-    summary: 'Получить опросник для пользователя',
-  })
   @ApiOkResponse({
-    type: UserConfigRdo,
+    type: UsersWithPaginationRdo,
   })
-  @ApiNotFoundResponse({
-    description: ResponseMessage.UserNotFound,
+  @Roles(UserRole.User)
+  @ApiOperation({
+    summary: 'Получить список пользователей',
   })
-  @ApiBadRequestResponse({
-    description: 'Bad request data',
-    schema: generateSchemeApiError('Bad request data', HttpStatus.BAD_REQUEST),
-  })
-  @ApiBearerAuth(AuthKeyName)
-  @Get('/questionnaire-user')
-  public async getQestionnaireUser(@Req() { user }: RequestWithTokenPayload) {
-    const updatedUser = await this.userService.getUserById(user.sub);
+  @Get('/all')
+  public async getAllUsers(
+    @Req() { user }: RequestWithTokenPayload,
+    @Query() query: UsersQuery
+  ) {
+    const userEmail = user.email;
+    const userWithPagination = await this.userService.getAllUsers(
+      userEmail,
+      query
+    );
 
-    return fillDto(UserConfigRdo, updatedUser.toPOJO().trainingConfig);
+    const result = {
+      ...userWithPagination,
+      entities: userWithPagination.entities.map((el) =>
+        fillDto(UserRdo, el.toPOJO())
+      ),
+    };
+
+    return fillDto(UsersWithPaginationRdo, result);
   }
 }

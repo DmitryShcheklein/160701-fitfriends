@@ -3,14 +3,21 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../../shared/const';
 import { useRegisterMutation } from '../../../store/auth-process/auth-api';
-import { setCredentials } from '../../../store/auth-process/auth-process';
+import {
+  setCredentials,
+  setIsSubmitting,
+} from '../../../store/auth-process/auth-slice';
 import { useAppDispatch } from '../../../hooks';
 import Popup from '../../ui/popup/popup';
 import Input from '../../ui/input/input';
 import RadioInput from '../../ui/radio-input/radio-input';
 import RoleSelector from '../../ui/role-selector/role-selector';
 import CustomSelect from '../../ui/select/select';
-import { roleOptions, locationOptions } from './register.data';
+import {
+  roleOptions,
+  locationOptions,
+  genderOptions,
+} from '../../../shared/data';
 import { UserGender, UserRole } from '@project/enums';
 import { toast } from 'react-toastify';
 import { groupErrors } from '../../../shared/helpers/groupErrors';
@@ -41,7 +48,7 @@ const RegisterForm = () => {
     password: '',
     dateOfBirth: undefined,
     gender: undefined,
-    role: UserRole.User,
+    role: UserRole.Trainer,
     location: undefined,
     avatar: undefined,
     isAgreements: false,
@@ -96,10 +103,21 @@ const RegisterForm = () => {
 
       const userData = await register(form).unwrap();
       dispatch(setCredentials(userData));
+
+      dispatch(setIsSubmitting(true));
+
+      navigate(
+        userData.role === UserRole.User
+          ? AppRoute.QuestionnaireUser
+          : AppRoute.QuestionnaireTrainer
+      );
+
       toast.success('Вы успешно зарегистрированы!');
-      navigate(AppRoute.Questionnaire);
     } catch (err: any) {
+      dispatch(setIsSubmitting(false));
+
       console.error('Failed to register: ', err);
+
       if (Array.isArray(err.data.message)) {
         const groupedErrors = groupErrors(err.data.message);
         Object.keys(groupedErrors).forEach((key) => {
@@ -201,27 +219,15 @@ const RegisterForm = () => {
               <div className="sign-up__radio">
                 <span className="sign-up__label">Пол</span>
                 <div className="custom-toggle-radio custom-toggle-radio--big">
-                  <RadioInput
-                    label="Мужской"
-                    name={FormFieldName.Gender}
-                    value={UserGender.Male}
-                    onChange={onChange}
-                    checked={gender === UserGender.Male}
-                  />
-                  <RadioInput
-                    label="Женский"
-                    name={FormFieldName.Gender}
-                    value={UserGender.Female}
-                    onChange={onChange}
-                    checked={gender === UserGender.Female}
-                  />
-                  <RadioInput
-                    label="Неважно"
-                    name={FormFieldName.Gender}
-                    value={UserGender.Any}
-                    onChange={onChange}
-                    checked={gender === UserGender.Any}
-                  />
+                  {genderOptions.map(({ value, label }) => (
+                    <RadioInput
+                      label={label}
+                      name={FormFieldName.Gender}
+                      value={value}
+                      onChange={onChange}
+                      checked={gender === value}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -254,7 +260,7 @@ const RegisterForm = () => {
             </div>
 
             <button
-              disabled={isLoading}
+              disabled={isLoading || !isAgreements}
               className="btn sign-up__button"
               type="submit"
             >

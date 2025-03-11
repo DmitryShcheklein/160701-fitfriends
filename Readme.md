@@ -60,6 +60,15 @@ JWT_REFRESH_TOKEN_EXPIRES_IN=7d               # Время жизни JWT-ток
 UPLOAD_DIRECTORY_PATH=apps/backend/uploads   # Путь к директории для загрузки файлов
 SERVE_ROOT=static                            # Корневая директория для обслуживания статических ресурсов
 ```
+## SEED
+
+Во время подготовки тестовых данных автоматически создаются пользователи:
+
+— Админ `admin@admin.ru` с паролем `adminnew`.
+
+— Тренер `trainer@trainer.ru` с паролем `123456`.
+
+— Юзер `user@user.ru` с паролем `123456`.
 
 ## Сценарии
 
@@ -67,18 +76,16 @@ SERVE_ROOT=static                            # Корневая директор
 
 ```json
     "db:seed": {
-      "dependsOn": ["build"],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "NODE_ENV=production node ./seeder.js",
+        "executor": "nx:run-commands",
+        "dependsOn": ["build"],
+        "options": {
+        "command": "cross-env NODE_ENV=development node ./seeder.js",
         "cwd": "dist/apps/backend/"
-      }
+        }
     }
 ```
 
-## SEED
 
-Во время подготовки тестовых данных автоматически создаётся пользователь — `admin@admin.ru` с паролем `adminnew`.
 
 ---
 

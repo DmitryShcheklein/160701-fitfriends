@@ -1,6 +1,6 @@
 import TrainingValidation from './training';
 
-export const CommentValidator = {
+export const CommentValidation = {
   Rating: {
     Min: 1,
     Max: TrainingValidation.Rating.Max,

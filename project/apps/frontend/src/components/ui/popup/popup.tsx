@@ -3,8 +3,10 @@ import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import PopupOverlay from './popup-overlay';
 
-interface PopupProps extends HTMLAttributes<HTMLDivElement> {
+interface PopupProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   isStatic?: boolean;
+  isPortable?: boolean;
   isOpen?: boolean;
   title?: string;
   showCloseButton?: boolean;
@@ -13,6 +15,7 @@ interface PopupProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Popup: FC<PopupProps> = ({
+  isPortable = true,
   isStatic,
   isOpen = isStatic,
   title,
@@ -40,8 +43,7 @@ const Popup: FC<PopupProps> = ({
   if (!isStatic && !isOpen) {
     return null;
   }
-
-  return ReactDOM.createPortal(
+  const result = (
     <div className={classNames('popup-form', className)}>
       <section className="popup">
         {!isStatic ? <PopupOverlay onClick={onClose} /> : null}
@@ -66,9 +68,10 @@ const Popup: FC<PopupProps> = ({
           {children}
         </div>
       </section>
-    </div>,
-    document.body
+    </div>
   );
+
+  return isPortable ? ReactDOM.createPortal(result, document.body) : result;
 };
 
 export default Popup;
