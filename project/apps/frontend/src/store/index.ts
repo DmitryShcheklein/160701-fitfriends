@@ -28,4 +28,4 @@ const store = configureStore({
 
 export { store };
 
-(store.dispatch);
+setupListeners(store.dispatch);
