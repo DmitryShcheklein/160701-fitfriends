@@ -9,6 +9,7 @@ import { ordersApi } from './orders-process/orders-api';
 import { balanceApi } from './balance-process/balance-api';
 import { apiResetMiddleware } from './middlewares/api-reset';
 import { friendsApi } from './friends-process/friends-api';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 const store = configureStore({
   reducer: rootReducer,
@@ -26,3 +27,5 @@ const store = configureStore({
 });
 
 export { store };
+
+(store.dispatch);
