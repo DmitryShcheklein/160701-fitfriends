@@ -4,6 +4,7 @@ import { AppModule } from './app/app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { SwaggerService } from './app/services/swagger.service';
 import { ConfigService } from '@nestjs/config';
+import { apiReference } from '@scalar/nestjs-api-reference';
 
 const GLOBAL_PREFIX = 'api';
 
@@ -27,7 +28,19 @@ async function bootstrap() {
   } = swaggerService.createConfig();
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup(SWAGGER_PATH_PREFIX, app, document, swaggerCustomOptions);
+  SwaggerModule.setup(SWAGGER_PATH_PREFIX, app, document, {
+    ...swaggerCustomOptions,
+    swaggerUiEnabled: false,
+  });
+
+  app.use(
+    `/${SWAGGER_PATH_PREFIX}`,
+    apiReference({
+      spec: {
+        content: document,
+      },
+    })
+  );
 
   const configService = app.get(ConfigService);
   const port = configService.get('application.port');
